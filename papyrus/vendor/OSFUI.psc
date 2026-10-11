@@ -1,0 +1,214 @@
+ScriptName OSFUI Native Hidden
+
+; True when the OSF UI native runtime is available.
+bool Function IsAvailable() Global Native
+
+int Function GetVersion() Global Native
+string Function GetVersionString() Global Native
+
+; This script mirrors the four communication semantics:
+;
+;   JavaScript send()     -> RegisterSend callback
+;   JavaScript request()  -> RegisterRequest callback, then Reply/Reject
+;   JavaScript on()       <- EmitEvent
+;   JavaScript state      <- SetState (retained and replayed)
+;
+; Registrations and reply tokens are session-scoped: they are cleared on every game load and when the game returns to the main menu, so register again after every game load.
+;
+; Scalar values support None, bool, int, float, string, and Form through Papyrus Var; Send/request and event argument lists use Var[] explicitly.
+;
+; The shared JavaScript helper wraps direct send arguments as { args: [...] }.
+
+; =============================================================================
+; Recommended setup: register once per session
+; =============================================================================
+;
+; Registrations are cleared on every game load and on return to the main menu. Put the bridge on a quest that starts with the game, register in OnInit, and register again from OnPlayerLoadGame:
+;
+;   ScriptName MyMod:Bridge extends Quest
+;
+;   Event OnInit()
+;       RegisterForRemoteEvent(Game.GetPlayer(), "OnPlayerLoadGame")
+;       RegisterBridge()
+;   EndEvent
+;
+;   Event Actor.OnPlayerLoadGame(Actor akSender)
+;       RegisterBridge()
+;   EndEvent
+;
+;   Function RegisterBridge()
+;       int sendResult = OSFUI.RegisterSend(self, "mymod", "equip")
+;       int requestResult = OSFUI.RegisterRequest(self, "mymod", "getCount")
+;       If sendResult <= 0 || requestResult <= 0
+;           Debug.Trace("MyMod: OSFUI registration failed: " + sendResult + " / " + requestResult)
+;       EndIf
+;   EndFunction
+;
+;   Function OnOSFUISend(string asName, Var[] akArgs, string asSourceViewId)
+;       ; see "JavaScript -> Papyrus: send"
+;   EndFunction
+;
+;   Function OnOSFUIRequest(string asName, Var[] akArgs, string asSourceViewId, string asReplyToken)
+;       ; see "JavaScript -> Papyrus: request"
+;   EndFunction
+;
+; A ReferenceAlias filled with the player can use its own Event OnPlayerLoadGame() instead of the remote event.
+;
+; Registration results (RegisterSend, RegisterSendStatic, RegisterRequest, RegisterRequestStatic):
+;    1    registered for this session
+;   -1    akReceiver is None or not a live script object, or asScript is empty or names no script the VM can load
+;   -2    asModId is not a valid OSF mod id
+;   -3    asName is reserved or malformed, or "<asModId>.<asName>" exceeds 128 characters
+;   -4    the endpoint belongs to a native plugin or another script, or has the other kind (send vs request)
+;   -5    registration table full
+;
+
+; =============================================================================
+; JavaScript -> Papyrus: send
+; =============================================================================
+; Use RegisterSend for a one-way command when JavaScript does not need a result.
+;
+; A view owned by asModId uses the short local name; other views use the fully-qualified "<asModId>.<asName>" address.
+; The owning namespace wins over global endpoints, across native and Papyrus handlers.
+;
+; JavaScript
+;   osfui.send("equip", 2)
+;   osfui.send("equip", 2, 3, 4)
+;   osfui.send("acme.inventory.equip", 2) ; cross-mod caller
+;
+; Receiver callback example:
+;   Function OnOSFUISend(string asName, Var[] akArgs, string asSourceViewId)
+;       If asName == "equip" && akArgs.Length > 0
+;           int slot = akArgs[0] as int
+;           Debug.Trace("equip slot " + slot + " from " + asSourceViewId)
+;       EndIf
+;   EndFunction
+;
+; Returns 1 when registered, or a negative code (see "Registration results" above).
+int Function RegisterSend(ScriptObject akReceiver, string asModId, string asName) Global Native
+; GLOBAL-function variant. asScript must name a script the VM can load; it still must be registered again after game load.
+int Function RegisterSendStatic(string asScript, string asModId, string asName) Global Native
+
+
+; =============================================================================
+; JavaScript -> Papyrus: request
+; =============================================================================
+
+; Use RegisterRequest when JavaScript must await a value or a structured error.
+; A name cannot simultaneously be a send and request endpoint; registering the other kind returns -4.
+;
+; JavaScript
+;   const count = await osfui.request("getCount")
+;   const total = await osfui.request("sum", 2, 3, 4)
+;   const count = await osfui.request("acme.inventory.getCount") ; cross-mod caller
+;
+; Receiver callback example:
+;   Function OnOSFUIRequest(string asName, Var[] akArgs, string asSourceViewId, string asReplyToken)
+;       If asName == "getCount"
+;           OSFUI.Reply(asReplyToken, 3)
+;       Else
+;           OSFUI.Reject(asReplyToken, "unknown-request", asName)
+;       EndIf
+;   EndFunction
+;
+; Reply resolves the JavaScript promise to the raw bridge value (3 above).
+; Reject rejects it with asCode/asMessage. Settle every request exactly once on every path; otherwise JavaScript waits until timeout.
+;
+; Returns 1 when registered, or a negative code (see "Registration results" above).
+int Function RegisterRequest(ScriptObject akReceiver, string asModId, string asName) Global Native
+; GLOBAL-function variant. asScript must name a script the VM can load; it still must be registered again after game load.
+int Function RegisterRequestStatic(string asScript, string asModId, string asName) Global Native
+
+; Resolve a request with one scalar bridge value.
+bool Function Reply(string asReplyToken, Var aValue = None) Global Native
+
+; Array replies are the same operation; separate names are required because Papyrus cannot pass a typed array as Var.
+bool Function ReplyBools(string asReplyToken, bool[] abValues) Global Native
+bool Function ReplyInts(string asReplyToken, int[] aiValues) Global Native
+bool Function ReplyFloats(string asReplyToken, float[] afValues) Global Native
+bool Function ReplyStrings(string asReplyToken, string[] asValues) Global Native
+bool Function ReplyForms(string asReplyToken, Form[] akForms) Global Native
+
+; Reject with a stable machine-readable code and optional human-readable text.
+bool Function Reject(string asReplyToken, string asCode, string asMessage = "") Global Native
+
+
+; =============================================================================
+; Papyrus -> JavaScript: retained state
+; =============================================================================
+
+; Replace the complete retained value for (asModId, asKey).
+;
+; JavaScript:
+;   osfui.state.on(asKey, handler)
+;   osfui.state.get(asKey)
+;
+; State is replayed to every fresh document belonging to asModId. The cache is session-scoped; publish again after game load.
+bool Function SetState(string asModId, string asKey, Var aValue) Global Native
+
+bool Function SetStateBools(string asModId, string asKey, bool[] abValues) Global Native
+bool Function SetStateInts(string asModId, string asKey, int[] aiValues) Global Native
+bool Function SetStateFloats(string asModId, string asKey, float[] afValues) Global Native
+bool Function SetStateStrings(string asModId, string asKey, string[] asValues) Global Native
+bool Function SetStateForms(string asModId, string asKey, Form[] akForms) Global Native
+
+
+; =============================================================================
+; Papyrus -> JavaScript: transient events
+; =============================================================================
+
+; Emit to the currently live views belonging to asModId.
+;
+; JavaScript:
+;   osfui.on(asName, handler)
+;
+; The handler receives { args: [...] }. Events are delivered at most once and never retained or replayed. Use SetState for reload-safe data.
+; Event names emitted to JavaScript are ASCII lowercase, independent of Papyrus string interning.
+bool Function EmitEvent(string asModId, string asName, Var[] akArgs = None) Global Native
+
+
+; =============================================================================
+; View presentation
+; =============================================================================
+
+; View ids are always qualified "<modId>/<viewName>". Menu and HUD views are both supported.
+bool Function Open(string asViewId) Global Native
+bool Function Close(string asViewId) Global Native
+
+; OSF UI 1.6 aliases retained for compiled consumer scripts.
+bool Function OpenMenu(string asViewId = "osfui/settings") Global Native
+bool Function CloseMenu(string asViewId = "osfui/settings") Global Native
+
+; Frozen v1 compatibility. Registrations/state expire on game load; scripts re-register.
+; SetView* is void; ReplyView* and Unregister return false for stale/duplicate tokens.
+; Hotkeys use the existing OSF Settings key setting, with gameplay/capture gates.
+int Function RegisterForHotkey(ScriptObject akReceiver, string asFn, string asModId, string asKey = "") Global Native
+int Function RegisterForHotkeyStatic(string asScript, string asFn, string asModId, string asKey = "") Global Native
+Function SetViewBool(string asModId, string asKey, bool abValue) Global Native
+Function SetViewInt(string asModId, string asKey, int aiValue) Global Native
+Function SetViewFloat(string asModId, string asKey, float afValue) Global Native
+Function SetViewString(string asModId, string asKey, string asValue) Global Native
+Function SetViewBools(string asModId, string asKey, bool[] abValues) Global Native
+Function SetViewInts(string asModId, string asKey, int[] aiValues) Global Native
+Function SetViewFloats(string asModId, string asKey, float[] afValues) Global Native
+Function SetViewStrings(string asModId, string asKey, string[] asValues) Global Native
+Function SetViewForms(string asModId, string asKey, Form[] akForms) Global Native
+int Function RegisterForViewActions(ScriptObject akReceiver, string asFn, string asModId) Global Native
+int Function RegisterForViewActionsStatic(string asScript, string asFn, string asModId) Global Native
+int Function RegisterForViewActionsArgs(ScriptObject akReceiver, string asFn, string asModId) Global Native
+int Function RegisterForViewActionsArgsStatic(string asScript, string asFn, string asModId) Global Native
+int Function ListenForViewActions(ScriptObject akReceiver, string asModId) Global Native
+int Function ListenForViewActionsStatic(string asScript, string asModId) Global Native
+int Function ListenForViewRequests(ScriptObject akReceiver, string asModId) Global Native
+int Function ListenForViewRequestsStatic(string asScript, string asModId) Global Native
+bool Function ReplyViewBool(string asReplyToken, bool abValue) Global Native
+bool Function ReplyViewInt(string asReplyToken, int aiValue) Global Native
+bool Function ReplyViewFloat(string asReplyToken, float afValue) Global Native
+bool Function ReplyViewString(string asReplyToken, string asValue) Global Native
+bool Function ReplyViewBools(string asReplyToken, bool[] abValues) Global Native
+bool Function ReplyViewInts(string asReplyToken, int[] aiValues) Global Native
+bool Function ReplyViewFloats(string asReplyToken, float[] afValues) Global Native
+bool Function ReplyViewStrings(string asReplyToken, string[] asValues) Global Native
+bool Function ReplyViewForms(string asReplyToken, Form[] akForms) Global Native
+bool Function RejectViewRequest(string asReplyToken, string asCode, string asMessage = "") Global Native
+bool Function Unregister(int aiToken) Global Native

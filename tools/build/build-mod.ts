@@ -2,13 +2,14 @@
 //   build/mod/StarfieldCompletionist.esm             one start-game-enabled quest running our script
 //   build/papyrus/Completionist/QuestData.psc        generated quest table (compiled with papyrus/Source)
 //   build/mod/Scripts/Completionist/*.pex            compiled scripts (needs the Starfield Creation Kit)
+//   build/mod/SFSE/Plugins/OSF/...                   the OSF UI menu view and OSF Settings hotkey schema
 //
 //   npm run build:mod [-- --install] [-- --game <Starfield folder>]
 //
 // --install copies the .esm and scripts into <game>/Data and activates the plugin in Plugins.txt.
 
 import { spawnSync } from "node:child_process";
-import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
@@ -35,7 +36,7 @@ interface Condition {
 
 interface Collection {
   places?: Array<{ id: string; name: string; parent?: string }>;
-  quests: Array<{ name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null }>;
+  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null }>;
 }
 
 /** Stages from a questStage / anyOf-of-questStage condition. */
@@ -74,6 +75,7 @@ for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort(
     const args = [
       Number.parseInt(hex, 16),
       papyrusString(plugin),
+      papyrusString(quest.id),
       papyrusString(quest.name),
       papyrusString(describe(quest.start.place)),
       papyrusString(places.get(quest.start.place)?.name ?? "Anywhere"),
@@ -100,6 +102,7 @@ ScriptName Completionist:QuestData Const Hidden
 
 Struct Entry
   Quest questForm
+  String id ; quest id from data/quests, shared with the menu
   String name
   String place
   String hub ; first part of place, e.g. "Neon"
@@ -126,11 +129,12 @@ ${pageBlocks}
   Return entries
 EndFunction
 
-Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asName, String asPlace, String asHub, Bool abActivity, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
+Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
   Quest found = Game.GetFormFromFile(aiFormID, asPlugin) as Quest
   If found
     Entry entry = new Entry
     entry.questForm = found
+    entry.id = asId
     entry.name = asName
     entry.place = asPlace
     entry.hub = asHub
@@ -156,7 +160,7 @@ writeFileSync(join(papyrusDir, "QuestData.psc"), questData);
 const OWN = 0x01000000;
 const trackerQuest = record("QUST", OWN | 0x800, [
   subrecord("EDID", zstringData("Completionist_QuestTracker")),
-  subrecord("VMAD", vmadData(["Completionist:QuestTracker"])),
+  subrecord("VMAD", vmadData(["Completionist:QuestTracker", "Completionist:MenuBridge"])),
   subrecord("DNAM", Buffer.from("110100000000000000000000", "hex")), // start game enabled, like SQ_ShipVendors
   subrecord("NEXT"),
   subrecord("ANAM", uint32Data(0)),
@@ -174,6 +178,74 @@ writeFileSync(join(modDir, PLUGIN_NAME), esm);
 
 console.log(`QuestData.psc: ${count} quests`);
 console.log(`${PLUGIN_NAME}: ${esm.length} bytes`);
+
+// ---------------------------------------------------------------- menu (OSF UI view)
+
+// Static data for the menu: quests, places and questlines. Papyrus only sends statuses.
+// Places are keyed by their LCTN FormID key so the same city merges across collections.
+interface MenuPlace {
+  name: string;
+  kind: string;
+  parent?: string;
+  loc?: string;
+}
+const menuPlaces: Record<string, MenuPlace> = {};
+const menuQuests: object[] = [];
+const menuLines = new Map<string, { id: string; name: string; group: string; quests: Array<{ id: string; order: number; file: number }> }>();
+const collectionFiles = readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort((a, b) => (a === "vanilla.json" ? -1 : b === "vanilla.json" ? 1 : a.localeCompare(b)));
+collectionFiles.forEach((file, fileIndex) => {
+  const collection = JSON.parse(readFileSync(join(dataDir, file), "utf8")) as {
+    title?: string;
+    places?: Array<{ id: string; name: string; kind: string; parent?: string; location?: string }>;
+    questlines?: Array<{ id: string; name: string }>;
+    quests: Array<{ id: string; name: string; type: string; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string } }>;
+  };
+  const keyOf = new Map((collection.places ?? []).map((p) => [p.id, p.location ?? `${file}:${p.id}`]));
+  for (const place of collection.places ?? []) {
+    const key = keyOf.get(place.id)!;
+    menuPlaces[key] ??= { name: place.name, kind: place.kind, parent: place.parent ? keyOf.get(place.parent) : undefined, loc: place.location };
+  }
+  for (const line of collection.questlines ?? []) {
+    if (!menuLines.has(line.id)) menuLines.set(line.id, { id: line.id, name: line.name, group: collection.title ?? "", quests: [] });
+  }
+  for (const quest of collection.quests) {
+    menuQuests.push({
+      id: quest.id,
+      name: quest.name,
+      type: quest.type,
+      faction: quest.faction,
+      activity: quest.type === "activity",
+      giver: quest.start.giver,
+      place: keyOf.get(quest.start.place) ?? null,
+    });
+    if (quest.questline) {
+      menuLines.get(quest.questline.id)?.quests.push({ id: quest.id, order: quest.questline.order, file: fileIndex });
+    }
+  }
+});
+const menuData = {
+  places: menuPlaces,
+  quests: menuQuests,
+  questlines: [...menuLines.values()].map((line) => ({
+    id: line.id,
+    name: line.name,
+    group: line.group,
+    quests: line.quests.sort((a, b) => a.file - b.file || a.order - b.order).map((q) => q.id),
+  })),
+};
+
+// Layout under Data/: SFSE/Plugins/OSF/UI/views/<mod>/<view>/ and SFSE/Plugins/OSF/Settings/schemas/<mod>.json
+const viewDir = join(modDir, "SFSE/Plugins/OSF/UI/views/completionist/menu");
+rmSync(viewDir, { recursive: true, force: true });
+cpSync(join(repo, "ui/menu"), viewDir, { recursive: true });
+writeFileSync(
+  join(viewDir, "data.js"),
+  `// GENERATED by tools/build/build-mod.ts from data/quests/*.json. Do not edit.\nwindow.COMPLETIONIST_DATA = ${JSON.stringify(menuData)};\n`,
+);
+const schemaDir = join(modDir, "SFSE/Plugins/OSF/Settings/schemas");
+mkdirSync(schemaDir, { recursive: true });
+copyFileSync(join(repo, "settings/completionist.json"), join(schemaDir, "completionist.json"));
+console.log(`Menu view: ${menuQuests.length} quests, ${Object.keys(menuPlaces).length} places, ${menuLines.size} questlines`);
 
 // ---------------------------------------------------------------- compile
 
@@ -199,8 +271,8 @@ if (!existsSync(join(baseScripts, "Quest.psc"))) {
 }
 
 const scriptsOut = join(modDir, "Scripts");
-const imports = [join(repo, "papyrus/Source"), join(repo, "build/papyrus"), baseScripts].join(";");
-for (const script of ["Completionist:QuestData", "Completionist:QuestTracker"]) {
+const imports = [join(repo, "papyrus/Source"), join(repo, "papyrus/vendor"), join(repo, "build/papyrus"), baseScripts].join(";");
+for (const script of ["Completionist:QuestData", "Completionist:QuestTracker", "Completionist:MenuBridge"]) {
   const result = spawnSync(
     compiler,
     [script, `-f=${join(baseScripts, "Starfield_Papyrus_Flags.flg")}`, `-i=${imports}`, `-o=${scriptsOut}`],
@@ -232,5 +304,7 @@ if (args.install) {
     lines.push(`*${PLUGIN_NAME}`);
     writeFileSync(pluginsTxt, `${lines.join("\r\n")}\r\n`);
   }
+  // The OSF UI view and OSF Settings schema (used only when those mods are installed).
+  cpSync(join(modDir, "SFSE"), join(data, "SFSE"), { recursive: true });
   console.log(`Installed into ${data} and activated in ${pluginsTxt}`);
 }

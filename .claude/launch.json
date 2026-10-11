@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "menu-preview",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["tools/dev/serve-menu.ts"],
+      "port": 5173
+    }
+  ]
+}

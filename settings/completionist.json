@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "completionist",
+  "title": "Completionist",
+  "groups": {},
+  "hotkeys": {
+    "open": { "label": "Open Completionist", "default": "F7" }
+  }
+}

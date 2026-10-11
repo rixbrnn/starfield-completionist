@@ -15,6 +15,9 @@ String Property LogName = "Completionist" AutoReadOnly
 ; Papyrus arrays hold at most 128 elements, so the quest table comes in pages.
 ; Keep the number of page variables in sync with MAX_PAGES in tools/build/build-mod.ts.
 Int Property MaxPages = 4 AutoReadOnly
+
+; Sent after every refresh and whenever a status changes, for listeners such as Completionist:MenuBridge.
+CustomEvent StatusChanged
 Completionist:QuestData:Entry[] page0
 Completionist:QuestData:Entry[] page1
 Completionist:QuestData:Entry[] page2
@@ -74,6 +77,7 @@ Function Refresh()
   EndWhile
 
   Report()
+  SendCustomEvent("StatusChanged")
   StartTimer(CheckInterval, kCheckTimer)
 EndFunction
 
@@ -86,6 +90,7 @@ EndFunction
 
 ; Looks for status changes since the last check and announces completions.
 Function Check()
+  Bool changed = False
   Int p = 0
   While p < MaxPages
     Completionist:QuestData:Entry[] entries = GetPage(p)
@@ -95,6 +100,7 @@ Function Check()
       If status != entries[i].status
         Debug.TraceUser(LogName, entries[i].name + ": " + StatusName(entries[i].status) + " -> " + StatusName(status) + " [" + entries[i].place + "]")
         entries[i].status = status
+        changed = True
         If status == kCompleted
           String prefix = "Completed: "
           If entries[i].activity
@@ -107,6 +113,9 @@ Function Check()
     EndWhile
     p += 1
   EndWhile
+  If changed
+    SendCustomEvent("StatusChanged")
+  EndIf
 EndFunction
 
 Int Function StatusOf(Completionist:QuestData:Entry akEntry)
