@@ -51,16 +51,25 @@ EndEvent
 Event Actor.OnPlayerLoadGame(Actor akSender)
   ; Flags saved mid-refresh belong to the previous session.
   refreshing = False
-  ready = False
+  ; The statuses saved with the game are current for this save: the menu can show them right
+  ; away while Refresh re-reads everything in the background.
+  ready = page0 != None && page0.Length > 0
+  If ready
+    SendCustomEvent("StatusChanged")
+  EndIf
   Refresh()
 EndEvent
 
 Event OnTimer(Int aiTimerID)
   If aiTimerID == kCheckTimer
-    If ready
+    If refreshing
+      If Utility.GetCurrentRealTime() - refreshStarted > RefreshTimeout
+        refreshing = False
+        Refresh()
+      EndIf
+    ElseIf ready
       Check()
-    ElseIf !refreshing || Utility.GetCurrentRealTime() - refreshStarted > RefreshTimeout
-      refreshing = False
+    Else
       Refresh()
     EndIf
     StartTimer(CheckInterval, kCheckTimer)
@@ -81,13 +90,13 @@ Completionist:QuestData:Entry[] Function GetPage(Int aiPage)
 EndFunction
 
 ; Reloads the quest table (plugins or data may have changed), sets every status
-; without announcing, and logs a full report.
+; without announcing, and logs a summary. The new table is built aside and swapped in at
+; the end, so the menu keeps the saved statuses meanwhile.
 Function Refresh()
   If refreshing
     Return
   EndIf
   refreshing = True
-  ready = False
   refreshStarted = Utility.GetCurrentRealTime()
   Debug.OpenUserLog(LogName)
   Int pages = Completionist:QuestData.PageCount()
@@ -96,11 +105,20 @@ Function Refresh()
   EndIf
   ActorValue unityTimes = Game.GetFormFromFile(0x219529, "Starfield.esm") as ActorValue
   unityEntered = unityTimes && Game.GetPlayer().GetValue(unityTimes) >= 1
-  page0 = LoadPage(0, pages)
-  page1 = LoadPage(1, pages)
-  page2 = LoadPage(2, pages)
-  page3 = LoadPage(3, pages)
+  Completionist:QuestData:Entry[] new0 = LoadPage(0, pages)
+  Completionist:QuestData:Entry[] new1 = LoadPage(1, pages)
+  Completionist:QuestData:Entry[] new2 = LoadPage(2, pages)
+  Completionist:QuestData:Entry[] new3 = LoadPage(3, pages)
+  ReadQuests(new0, True)
+  ReadQuests(new1, True)
+  ReadQuests(new2, True)
+  ReadQuests(new3, True)
+  page0 = new0
+  page1 = new1
+  page2 = new2
+  page3 = new3
 
+  ; Overrides, equivalents and choices only look at the raw statuses just read: no game calls.
   Int p = 0
   While p < MaxPages
     Completionist:QuestData:Entry[] entries = GetPage(p)
@@ -130,10 +148,31 @@ Completionist:QuestData:Entry[] Function LoadPage(Int aiPage, Int aiPageCount)
   Return new Completionist:QuestData:Entry[0]
 EndFunction
 
+; Asks the game about every quest once (StatusOf) and keeps the answer in raw. With abSetStatus
+; (a fresh table), status starts out as raw until Resolve runs.
+Function ReadQuests(Completionist:QuestData:Entry[] akEntries, Bool abSetStatus)
+  Int i = 0
+  While i < akEntries.Length
+    akEntries[i].raw = StatusOf(akEntries[i])
+    If abSetStatus
+      akEntries[i].status = akEntries[i].raw
+    EndIf
+    i += 1
+  EndWhile
+EndFunction
+
 ; Looks for status changes since the last check and announces completions.
 Function Check()
-  Bool changed = False
+  If refreshing
+    Return
+  EndIf
   Int p = 0
+  While p < MaxPages
+    ReadQuests(GetPage(p), False)
+    p += 1
+  EndWhile
+  Bool changed = False
+  p = 0
   While p < MaxPages
     Completionist:QuestData:Entry[] entries = GetPage(p)
     Int i = 0
@@ -168,7 +207,7 @@ Int Function Resolve(Completionist:QuestData:Entry akEntry)
   ElseIf override == kOverrideNotDone
     Return kNotStarted
   EndIf
-  Int status = StatusOf(akEntry)
+  Int status = akEntry.raw
   If status != kCompleted && akEntry.equivalent != "" && EquivalentCompleted(akEntry)
     Return kCompleted
   EndIf
@@ -186,7 +225,7 @@ Bool Function EquivalentCompleted(Completionist:QuestData:Entry akEntry)
     Completionist:QuestData:Entry[] entries = GetPage(p)
     Int i = 0
     While i < entries.Length
-      If entries[i] != akEntry && entries[i].equivalent == akEntry.equivalent && StatusOf(entries[i]) == kCompleted
+      If entries[i] != akEntry && entries[i].equivalent == akEntry.equivalent && entries[i].raw == kCompleted
         Return True
       EndIf
       i += 1
@@ -207,7 +246,7 @@ Bool Function LockedByChoice(Completionist:QuestData:Entry akEntry)
       Completionist:QuestData:Entry other = entries[i]
       If other != akEntry && other.choice1Group != ""
         If OnOtherSide(other, akEntry.choice1Group, akEntry.choice1Side) || (akEntry.choice2Group != "" && OnOtherSide(other, akEntry.choice2Group, akEntry.choice2Side))
-          If StatusOf(other) == kCompleted
+          If other.raw == kCompleted
             Return True
           EndIf
         EndIf
@@ -231,6 +270,14 @@ EndFunction
 
 Bool Function IsUnityEntered()
   Return unityEntered
+EndFunction
+
+; Ids of quests with a manual override (never None).
+String[] Function GetOverrideIds()
+  If overrideIds == None
+    Return new String[0]
+  EndIf
+  Return overrideIds
 EndFunction
 
 Int Function OverrideOf(String asId)
@@ -288,13 +335,23 @@ Bool Function IsDone(Int aiStatus)
   Return aiStatus == kCompleted || aiStatus == kLockedOut
 EndFunction
 
+; Each call here waits for the game, so the common case (never started) is settled with as
+; few as possible: no stage set and not running means no stage can be done. No tracked
+; quest completes or fails at stage 0.
 Int Function StatusOf(Completionist:QuestData:Entry akEntry)
   Quest q = akEntry.questForm
+  Bool running = q.IsRunning()
+  If !running && q.GetStage() == 0
+    If q.IsCompleted()
+      Return kCompleted
+    EndIf
+    Return kNotStarted
+  EndIf
   If AnyStageDone(q, akEntry.fail1, akEntry.fail2, -1, -1)
     Return kFailed
   ElseIf q.IsCompleted() || AnyStageDone(q, akEntry.complete1, akEntry.complete2, akEntry.complete3, akEntry.complete4)
     Return kCompleted
-  ElseIf q.IsRunning() && HasOpenObjective(akEntry)
+  ElseIf running && HasOpenObjective(akEntry)
     Return kInProgress
   EndIf
   Return kNotStarted
@@ -354,28 +411,8 @@ String Function PlaceProgress(String asPlace, String asHub)
   Return asHub + " " + done + "/" + total
 EndFunction
 
-; True if an entry before (aiPage, aiIndex) has the same place, so each place is reported once.
-Bool Function PlaceSeenBefore(String asPlace, Int aiPage, Int aiIndex)
-  Int p = 0
-  While p <= aiPage
-    Completionist:QuestData:Entry[] entries = GetPage(p)
-    Int last = entries.Length
-    If p == aiPage
-      last = aiIndex
-    EndIf
-    Int i = 0
-    While i < last
-      If entries[i].place == asPlace
-        Return True
-      EndIf
-      i += 1
-    EndWhile
-    p += 1
-  EndWhile
-  Return False
-EndFunction
 
-; Logs overall progress and one line per place.
+; Logs overall progress.
 Function Report()
   Int quests = 0
   Int questsDone = 0
@@ -408,44 +445,6 @@ Function Report()
   Debug.TraceUser(LogName, "Progress: " + summary)
   ; The game's own counters (stats screen), for comparison: they include every small activity and repeatable job.
   Debug.TraceUser(LogName, "Game stats: " + Game.QueryStat("Quests Completed") + " quests completed, " + Game.QueryStat("Activities Completed") + " activities completed")
-
-  p = 0
-  While p < MaxPages
-    Completionist:QuestData:Entry[] entries = GetPage(p)
-    Int i = 0
-    While i < entries.Length
-      If Counted(entries[i]) && !PlaceSeenBefore(entries[i].place, p, i)
-        ReportPlace(entries[i].place)
-      EndIf
-      i += 1
-    EndWhile
-    p += 1
-  EndWhile
-
   Debug.Notification("Completionist: " + summary)
 EndFunction
 
-; Logs "done/total, active" for one place.
-Function ReportPlace(String asPlace)
-  Int total = 0
-  Int done = 0
-  Int active = 0
-  Int p = 0
-  While p < MaxPages
-    Completionist:QuestData:Entry[] entries = GetPage(p)
-    Int i = 0
-    While i < entries.Length
-      If entries[i].place == asPlace && Counted(entries[i])
-        total += 1
-        If IsDone(entries[i].status)
-          done += 1
-        ElseIf entries[i].status == kInProgress
-          active += 1
-        EndIf
-      EndIf
-      i += 1
-    EndWhile
-    p += 1
-  EndWhile
-  Debug.TraceUser(LogName, "  " + done + "/" + total + " done, " + active + " active: " + asPlace)
-EndFunction

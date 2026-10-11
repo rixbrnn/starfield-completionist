@@ -162,6 +162,7 @@ Struct Entry
   Int fail1 = -1
   Int fail2 = -1
   Int status = 0 ; set by QuestTracker
+  Int raw = 0 ; status from the quest itself, before overrides, equivalents and choices (QuestTracker)
 EndStruct
 
 ; Papyrus arrays hold at most 128 elements, so quests come in pages of up to ${PAGE_SIZE}.

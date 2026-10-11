@@ -160,8 +160,9 @@ EndFunction
 Function PublishStatus()
   Completionist:QuestTracker tracker = Tracker()
   Int pages = tracker.MaxPages
-  OSFUI.SetState(ModId, "pages", pages)
   OSFUI.SetState(ModId, "unityEntered", tracker.IsUnityEntered())
+  ; Fetched once: calls into the tracker script per quest would each wait for it.
+  String[] overridden = tracker.GetOverrideIds()
   ; The game's own activity counter (it also counts small errands the menu leaves out).
   OSFUI.SetState(ModId, "gameActivities", Game.QueryStat("Activities Completed"))
   Int p = 0
@@ -174,7 +175,7 @@ Function PublishStatus()
       ids.Add(entries[i].id)
       ; +10 flags a manual override so the menu can show it.
       Int status = entries[i].status
-      If tracker.OverrideOf(entries[i].id) != tracker.kOverrideNone
+      If overridden.Find(entries[i].id) >= 0
         status += 10
       EndIf
       statuses.Add(status)
@@ -184,6 +185,8 @@ Function PublishStatus()
     OSFUI.SetStateInts(ModId, "status" + p, statuses)
     p += 1
   EndWhile
+  ; Last, so the menu reads complete pages.
+  OSFUI.SetState(ModId, "pages", pages)
 EndFunction
 
 ; Publishes the FormIDs of the player's location and all its parents (most specific first),
