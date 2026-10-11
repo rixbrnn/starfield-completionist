@@ -144,14 +144,26 @@ EndFunction
 ; so the menu's Here tab can find the hub, planet and system.
 Function PublishLocation(Location akLocation)
   Int[] ids = new Int[0]
-  If akLocation
-    ids.Add(akLocation.GetFormID())
-    Location[] parents = akLocation.GetParentLocations()
-    Int i = 0
-    While i < parents.Length && ids.Length < 120
-      ids.Add(parents[i].GetFormID())
-      i += 1
-    EndWhile
+  AddLocationChain(ids, akLocation)
+  ; Aboard a ship in space, the player's location is the ship's own interior, which isn't
+  ; part of the system's location tree. Add where the ship is (orbit / system) after it,
+  ; so the player's own location still wins when it's a tracked place.
+  SpaceshipReference ship = Game.GetPlayerHomeSpaceShip()
+  If ship
+    AddLocationChain(ids, ship.GetCurrentLocation())
   EndIf
   OSFUI.SetStateInts(ModId, "location", ids)
+EndFunction
+
+Function AddLocationChain(Int[] aiIds, Location akLocation)
+  If !akLocation
+    Return
+  EndIf
+  aiIds.Add(akLocation.GetFormID())
+  Location[] parents = akLocation.GetParentLocations()
+  Int i = 0
+  While i < parents.Length && aiIds.Length < 120
+    aiIds.Add(parents[i].GetFormID())
+    i += 1
+  EndWhile
 EndFunction
