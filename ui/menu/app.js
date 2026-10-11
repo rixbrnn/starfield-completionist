@@ -33,7 +33,11 @@
     selected: { locations: null, questlines: null, activities: "all" },
     filter: "all",
     spoilers: readSetting("spoilers", false), // true = hide names of quests you haven't started
+    focus: "list", // "side" (place / questline list) or "list" (quests); the Here tab only has "list"
+    row: 0, // selected quest row when focus is "list"
+    input: "keyboard", // "gamepad" after a controller button, so prompts show controller buttons
   };
+  let shownQuests = []; // quests in the detail list, in display order (for selection and actions)
   let statuses = new Map(); // quest id -> status; quests missing here aren't in the player's load order
   let locationChain = []; // FormIDs, most specific first
 
@@ -277,7 +281,7 @@
       const t = tally(row.quests);
       const selected = view.selected[view.tab] === row.key;
       const pct = t.total ? Math.round((t.done / t.total) * 100) : 0;
-      return el("button", { class: "item" + (selected ? " selected" : ""), "aria-pressed": selected ? "true" : "false", onclick: () => select(row.key) },
+      return el("button", { class: "item" + (selected ? " selected" : "") + (selected && view.focus === "list" ? " inactive" : ""), "aria-pressed": selected ? "true" : "false", onclick: () => select(row.key) },
         el("span", { class: "item-head" }, el("span", { class: "item-name", text: row.label }), el("span", { class: "item-frac", text: t.done + " / " + t.total })),
         el("span", { class: "track" }, el("span", { class: "fill", style: "width: " + pct + "%" })));
     }));
@@ -320,19 +324,50 @@
     children.push(el("div", { class: "filters", role: "tablist", "aria-label": "Filter" },
       FILTERS.map((f) => el("button", { role: "tab", "aria-selected": view.filter === f.id ? "true" : "false", text: f.label + " " + counts[f.id], onclick: () => setFilter(f.id) }))));
 
+    shownQuests = shown;
+    view.row = Math.min(view.row, Math.max(0, shown.length - 1));
     const list = el("div", { class: "list" });
     if (shown.length === 0) list.append(el("div", { class: "empty", text: "Nothing here for this filter." }));
-    for (const q of shown) {
+    shown.forEach((q, index) => {
       const s = statusOf(q);
       const hide = view.spoilers && s === NOT_STARTED;
-      list.append(el("div", { class: "row" },
-        statusIcon(s, false),
+      const selected = view.focus === "list" && index === view.row;
+      const actions = selected ? actionsFor(q) : [];
+      list.append(el("div", { class: "row" + (selected ? " selected" : ""), onclick: () => selectRow(index) },
+        statusIcon(s, selected),
         el("span", { class: "row-name" + (hide ? " hidden" : ""), text: hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name }),
         el("span", { class: "row-tag" + (q.activity ? " activity" : ""), text: tagFor(q) }),
-        el("span", { class: "row-meta", text: hide ? "" : s === LOCKED_OUT ? "Other branch chosen" : options.meta ? options.meta(q) : q.giver || "" })));
-    }
+        el("span", { class: "row-meta", text: hide ? "" : s === LOCKED_OUT ? "Other branch chosen" : options.meta ? options.meta(q) : q.giver || "" }),
+        actions.length
+          ? el("span", { class: "row-actions" }, actions.map((a) => el("button", { text: a.label, onclick: (e) => { e.stopPropagation(); a.run(); } })))
+          : null));
+    });
     children.push(list);
     document.getElementById("detail").replaceChildren(...children);
+    const current = document.querySelector(".row.selected");
+    if (current) current.scrollIntoView({ block: "nearest" });
+  }
+
+  // ------------------------------------------------------------------ actions (handled by Completionist:MenuBridge)
+
+  const hasStartLocation = (q) => placeChain(q.place).some((p) => p.loc);
+
+  // "Track" sets a started quest as the active mission; "Show on map" plots a course to where it starts.
+  function actionsFor(q) {
+    const s = statusOf(q);
+    const actions = [];
+    if (s === IN_PROGRESS) actions.push({ id: "track", label: "TRACK", run: () => send("track", q) });
+    if (!isDone(s) && hasStartLocation(q)) actions.push({ id: "plot", label: "SHOW ON MAP", run: () => send("plot", q) });
+    return actions;
+  }
+
+  function send(action, q) {
+    if (bridge) bridge.send(action, q.id);
+    else console.log("[preview] " + action + " " + q.id);
+  }
+
+  function selectedQuest() {
+    return view.focus === "list" ? shownQuests[view.row] : undefined;
   }
 
   function hubName(q) {
@@ -341,6 +376,12 @@
   }
 
   function render() {
+    if (view.tab === "here") view.focus = "list";
+    renderBody();
+    renderKeys();
+  }
+
+  function renderBody() {
     renderHeader();
     const rows = sideRows();
     if (view.tab !== "here") {
@@ -348,7 +389,6 @@
       if (!items.some((r) => r.key === view.selected[view.tab]) && items.length) view.selected[view.tab] = items[0].key;
     }
     renderSide(rows);
-    renderKeys();
 
     if (view.tab === "here") {
       const key = herePlace();
@@ -370,54 +410,153 @@
     }
   }
 
+  // Footer prompts follow the last input device, like the game's own menus.
   function renderKeys() {
+    const pad = view.input === "gamepad";
     const key = (k, label, end) => el("span", { class: end ? "end" : "" }, el("kbd", { text: k }), label);
+    const q = selectedQuest();
+    const primary = view.focus === "side" ? "OPEN" : q ? (actionsFor(q)[0] || {}).label : null;
+    const canPlot = q && actionsFor(q).some((a) => a.id === "plot");
     const keys = [
-      key("Q / E", "SWITCH TAB"),
-      view.tab === "here" ? null : key("↑ / ↓", "SELECT"),
-      key("F", "FILTER"),
-      key("X", "SPOILERS: " + (view.spoilers ? "HIDDEN" : "SHOWN")),
-      key("ESC", "CLOSE", true),
+      key(pad ? "LB / RB" : "Q / E", "SWITCH TAB"),
+      primary ? key(pad ? "A" : "ENTER", primary) : null,
+      canPlot && primary !== "SHOW ON MAP" ? key(pad ? "X" : "R", "SHOW ON MAP") : null,
+      key(pad ? "Y" : "F", "FILTER"),
+      key(pad ? "VIEW" : "X", "SPOILERS: " + (view.spoilers ? "HIDDEN" : "SHOWN")),
+      key(pad ? "B" : "ESC", "CLOSE", true),
     ];
     document.getElementById("keys").replaceChildren(...keys.filter(Boolean));
   }
 
   // ------------------------------------------------------------------ input
 
-  function setTab(id) { view.tab = id; render(); }
-  function select(key) { view.selected[view.tab] = key; render(); }
-  function setFilter(id) { view.filter = id; render(); }
+  function setTab(id) {
+    view.tab = id;
+    view.focus = id === "here" ? "list" : "side";
+    view.row = 0;
+    render();
+  }
+  function select(key) {
+    view.selected[view.tab] = key;
+    view.focus = "side";
+    view.row = 0;
+    render();
+  }
+  function selectRow(index) {
+    view.focus = "list";
+    view.row = index;
+    render();
+  }
+  function setFilter(id) {
+    view.filter = id;
+    view.row = 0;
+    render();
+  }
+  function cycleTab(delta) {
+    const i = TABS.findIndex((t) => t.id === view.tab);
+    setTab(TABS[(i + TABS.length + delta) % TABS.length].id);
+  }
+  function cycleFilter() {
+    const i = FILTERS.findIndex((f) => f.id === view.filter);
+    setFilter(FILTERS[(i + 1) % FILTERS.length].id);
+  }
+  function toggleSpoilers() {
+    view.spoilers = !view.spoilers;
+    writeSetting("spoilers", view.spoilers);
+    render();
+  }
 
-  function moveSelection(delta) {
+  // Up/down moves within the focused column; left/right moves between the columns.
+  function move(delta) {
+    if (view.focus === "list") {
+      if (shownQuests.length) selectRow(Math.min(shownQuests.length - 1, Math.max(0, view.row + delta)));
+      return;
+    }
     const items = sideRows().filter((r) => r.kind === "item");
     if (!items.length) return;
     const at = Math.max(0, items.findIndex((r) => r.key === view.selected[view.tab]));
     select(items[Math.min(items.length - 1, Math.max(0, at + delta))].key);
   }
+  function focusColumn(column) {
+    if (view.tab === "here") return;
+    if (column === "list" && !shownQuests.length) return;
+    view.focus = column;
+    render();
+  }
+
+  // Enter / A: open the selected place, or run the selected quest's main action.
+  function activate() {
+    if (view.focus === "side") return focusColumn("list");
+    const q = selectedQuest();
+    const action = q && actionsFor(q)[0];
+    if (action) action.run();
+  }
+  function plotSelected() {
+    const q = selectedQuest();
+    const action = q && actionsFor(q).find((a) => a.id === "plot");
+    if (action) action.run();
+  }
+
+  // Controller: OSF UI turns the D-pad / left stick into arrow keys and A into Enter, and B closes
+  // the menu. Every button also arrives as a "ui.gamepad" event (XInput button masks), which is
+  // how the shoulder buttons, X, Y and View work here.
+  const PAD = { VIEW: 0x0020, LB: 0x0100, RB: 0x0200, A: 0x1000, X: 0x4000, Y: 0x8000 };
+  if (bridge) {
+    bridge.on("ui.gamepad", (event) => {
+      if (!event || event.kind !== "button" || !event.button || !event.button.down) return;
+      if (view.input !== "gamepad") {
+        view.input = "gamepad";
+        renderKeys();
+      }
+      const id = event.button.id;
+      if (id === PAD.LB) cycleTab(-1);
+      else if (id === PAD.RB) cycleTab(1);
+      else if (id === PAD.X) plotSelected();
+      else if (id === PAD.Y) cycleFilter();
+      else if (id === PAD.VIEW) toggleSpoilers();
+    });
+  }
+  document.addEventListener("mousemove", () => {
+    if (view.input !== "keyboard") {
+      view.input = "keyboard";
+      renderKeys();
+    }
+  });
 
   document.addEventListener("keydown", (event) => {
     const key = event.key.toLowerCase();
-    const tabIndex = TABS.findIndex((t) => t.id === view.tab);
+    // Arrow keys and Enter also come from the controller, so only other keys switch the prompts back.
+    if (!["arrowup", "arrowdown", "arrowleft", "arrowright", "enter"].includes(key) && view.input !== "keyboard") {
+      view.input = "keyboard";
+    }
     if (key === "escape" || key === "tab") {
       event.preventDefault();
       if (bridge) bridge.send("close");
-    } else if (key === "q" || key === "arrowleft") {
-      setTab(TABS[(tabIndex + TABS.length - 1) % TABS.length].id);
-    } else if (key === "e" || key === "arrowright") {
-      setTab(TABS[(tabIndex + 1) % TABS.length].id);
+    } else if (key === "q") {
+      cycleTab(-1);
+    } else if (key === "e") {
+      cycleTab(1);
     } else if (key === "arrowup" || key === "w") {
       event.preventDefault();
-      moveSelection(-1);
+      move(-1);
     } else if (key === "arrowdown" || key === "s") {
       event.preventDefault();
-      moveSelection(1);
+      move(1);
+    } else if (key === "arrowleft" || key === "a") {
+      event.preventDefault();
+      focusColumn("side");
+    } else if (key === "arrowright" || key === "d") {
+      event.preventDefault();
+      focusColumn("list");
+    } else if (key === "enter") {
+      event.preventDefault();
+      activate();
+    } else if (key === "r") {
+      plotSelected();
     } else if (key === "f") {
-      const i = FILTERS.findIndex((f) => f.id === view.filter);
-      setFilter(FILTERS[(i + 1) % FILTERS.length].id);
+      cycleFilter();
     } else if (key === "x") {
-      view.spoilers = !view.spoilers;
-      writeSetting("spoilers", view.spoilers);
-      render();
+      toggleSpoilers();
     }
   });
 

@@ -35,7 +35,7 @@ interface Condition {
 }
 
 interface Collection {
-  places?: Array<{ id: string; name: string; parent?: string }>;
+  places?: Array<{ id: string; name: string; parent?: string; location?: string }>;
   quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null; exclusiveGroup?: string | null }>;
 }
 
@@ -56,6 +56,16 @@ const dataDir = join(repo, "data/quests");
 for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort()) {
   const collection = JSON.parse(readFileSync(join(dataDir, file), "utf8")) as Collection;
   const places = new Map((collection.places ?? []).map((p) => [p.id, p]));
+  // The nearest place with an LCTN record, as (local FormID, plugin) for Game.GetFormFromFile; (0, "") if none.
+  const startLocation = (id: string): [number, string] => {
+    for (let place = places.get(id); place; place = place.parent ? places.get(place.parent) : undefined) {
+      if (place.location) {
+        const [plugin, hex] = place.location.split("|");
+        return [Number.parseInt(hex, 16), papyrusString(plugin)];
+      }
+    }
+    return [0, papyrusString("")];
+  };
   const describe = (id: string) => {
     const names: string[] = [];
     for (let place = places.get(id); place && names.length < 8; place = place.parent ? places.get(place.parent) : undefined) {
@@ -81,6 +91,7 @@ for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort(
       papyrusString(places.get(quest.start.place)?.name ?? "Anywhere"),
       quest.type === "activity" ? "True" : "False",
       papyrusString(quest.exclusiveGroup ?? ""),
+      ...startLocation(quest.start.place),
       ...pad(complete, MAX_COMPLETE_STAGES),
       ...pad(fail, MAX_FAIL_STAGES),
     ];
@@ -109,6 +120,7 @@ Struct Entry
   String hub ; first part of place, e.g. "Neon"
   Bool activity ; one-off activity rather than a quest
   String exclusive ; either/or group: completing one member locks out the others ("" = none)
+  Location startLocation ; where the quest starts, for plotting a course (None if unknown)
   Int complete1 = -1
   Int complete2 = -1
   Int complete3 = -1
@@ -131,7 +143,7 @@ ${pageBlocks}
   Return entries
 EndFunction
 
-Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asExclusive, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
+Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asExclusive, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
   Quest found = Game.GetFormFromFile(aiFormID, asPlugin) as Quest
   If found
     Entry entry = new Entry
@@ -142,6 +154,9 @@ Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, Stri
     entry.hub = asHub
     entry.activity = abActivity
     entry.exclusive = asExclusive
+    If aiLocationID > 0
+      entry.startLocation = Game.GetFormFromFile(aiLocationID, asLocationPlugin) as Location
+    EndIf
     entry.complete1 = aiComplete1
     entry.complete2 = aiComplete2
     entry.complete3 = aiComplete3

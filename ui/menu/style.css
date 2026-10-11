@@ -105,3 +105,16 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .keys span { display: flex; align-items: center; gap: 10px; }
 .keys .end { margin-left: auto; }
 kbd { min-width: 28px; text-align: center; padding: 2px 6px; border: 1px solid var(--muted); font-family: inherit; color: var(--text); }
+
+/* Selection while the quest list has focus: the place stays marked, but dimmed. */
+.item.selected.inactive { background: #2a333d; color: var(--text); }
+.item.selected.inactive .track { background: #3a4651; }
+.item.selected.inactive .fill { background: var(--text); }
+
+/* Selected quest row and its actions (Track / Show on map). */
+.row { cursor: pointer; }
+.row.selected { background: var(--text); color: var(--ink); }
+.row.selected .row-tag, .row.selected .row-meta, .row.selected .row-name.hidden { color: #3a4651; }
+.row-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.row-actions button { padding: 5px 12px; border: 1px solid var(--ink); font-family: var(--condensed); font-size: 15px; letter-spacing: 0.12em; color: var(--ink); }
+.row-actions button:hover { background: var(--ink); color: var(--text); }
