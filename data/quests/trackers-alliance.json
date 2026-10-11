@@ -112,7 +112,8 @@
           }
         ]
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs003-bountyscannerquest00",
@@ -183,7 +184,8 @@
           }
         ]
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs003-bountyscannerquest01",
@@ -254,7 +256,8 @@
           }
         ]
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs003-bountyscannerquest02",
@@ -325,7 +328,8 @@
           }
         ]
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs003-bountyscannerquest03",
@@ -396,7 +400,8 @@
           }
         ]
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs003-miscpointer",
@@ -435,7 +440,8 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfta00",
@@ -548,7 +554,8 @@
         "stage": 2000
       },
       "fail": null,
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     }
   ]
 }

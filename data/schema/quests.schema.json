@@ -296,6 +296,21 @@
               "type": "null"
             }
           ]
+        },
+        "equivalentGroup": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Versions of the same quest (e.g. New Game+ variants): completing any member completes the group."
+        },
+        "hidden": {
+          "type": "boolean",
+          "description": "Tracked only through its equivalentGroup; not listed or counted."
         }
       }
     },

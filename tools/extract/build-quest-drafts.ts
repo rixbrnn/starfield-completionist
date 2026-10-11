@@ -108,11 +108,14 @@ interface Curation {
   exclude: { editorIds: string[]; patterns: string[] };
   exclusiveGroups: Record<string, string[]>;
   names: Record<string, string>;
+  equivalents: Record<string, string[]>;
 }
 const curation = JSON.parse(readFileSync(resolve("data/curation.json"), "utf8")) as Curation;
 const excluded = (q: DumpQuest) =>
   curation.exclude.editorIds.includes(q.editorId) || curation.exclude.patterns.some((p) => new RegExp(p).test(q.editorId));
 const exclusiveGroupOf = new Map(Object.entries(curation.exclusiveGroups).flatMap(([group, ids]) => ids.map((id) => [id, group] as const)));
+// Equivalent groups: the first member is shown, the rest are hidden.
+const equivalentOf = new Map(Object.entries(curation.equivalents).filter(([group]) => !group.startsWith("$")).flatMap(([group, ids]) => ids.map((id, index) => [id, { group, hidden: index > 0 }] as const)));
 const curatedOrder = new Map(Object.values(curation.questlineOrder).flatMap((ids) => ids.map((id, index) => [id, index + 1] as const)));
 
 // Small errands ("Misc Pointer" activities). The game shows them by their first objective,
@@ -376,6 +379,8 @@ for (const [owner, quests] of byOwner) {
       complete: stageCondition(quest.completeStages) ?? { type: "questCompleted" },
       fail: stageCondition(quest.failStages) ?? null,
       exclusiveGroup: exclusiveGroupOf.get(quest.editorId) ?? null,
+      equivalentGroup: equivalentOf.get(quest.editorId)?.group ?? null,
+      ...(equivalentOf.get(quest.editorId)?.hidden ? { hidden: true } : {}),
     };
   });
 

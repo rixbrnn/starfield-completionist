@@ -36,7 +36,7 @@ interface Condition {
 
 interface Collection {
   places?: Array<{ id: string; name: string; parent?: string; location?: string }>;
-  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null; exclusiveGroup?: string | null }>;
+  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null; exclusiveGroup?: string | null; equivalentGroup?: string | null; hidden?: boolean }>;
 }
 
 /** Stages from a questStage / anyOf-of-questStage condition. */
@@ -91,6 +91,8 @@ for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort(
       papyrusString(places.get(quest.start.place)?.name ?? "Anywhere"),
       quest.type === "activity" ? "True" : "False",
       papyrusString(quest.exclusiveGroup ?? ""),
+      papyrusString(quest.equivalentGroup ?? ""),
+      quest.hidden ? "True" : "False",
       ...startLocation(quest.start.place),
       ...pad(complete, MAX_COMPLETE_STAGES),
       ...pad(fail, MAX_FAIL_STAGES),
@@ -120,6 +122,8 @@ Struct Entry
   String hub ; first part of place, e.g. "Neon"
   Bool activity ; one-off activity rather than a quest
   String exclusive ; either/or group: completing one member locks out the others ("" = none)
+  String equivalent ; versions of the same quest: completing any member completes the group ("" = none)
+  Bool hidden ; tracked only through its equivalent group; not listed or counted
   Location startLocation ; where the quest starts, for plotting a course (None if unknown)
   Int complete1 = -1
   Int complete2 = -1
@@ -143,7 +147,7 @@ ${pageBlocks}
   Return entries
 EndFunction
 
-Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asExclusive, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
+Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asExclusive, String asEquivalent, Bool abHidden, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
   Quest found = Game.GetFormFromFile(aiFormID, asPlugin) as Quest
   If found
     Entry entry = new Entry
@@ -154,6 +158,8 @@ Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, Stri
     entry.hub = asHub
     entry.activity = abActivity
     entry.exclusive = asExclusive
+    entry.equivalent = asEquivalent
+    entry.hidden = abHidden
     If aiLocationID > 0
       entry.startLocation = Game.GetFormFromFile(aiLocationID, asLocationPlugin) as Location
     EndIf
@@ -216,7 +222,7 @@ collectionFiles.forEach((file, fileIndex) => {
     title?: string;
     places?: Array<{ id: string; name: string; kind: string; parent?: string; location?: string }>;
     questlines?: Array<{ id: string; name: string }>;
-    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string }; exclusiveGroup?: string | null }>;
+    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string }; exclusiveGroup?: string | null; hidden?: boolean }>;
   };
   const keyOf = new Map((collection.places ?? []).map((p) => [p.id, p.location ?? `${file}:${p.id}`]));
   for (const place of collection.places ?? []) {
@@ -227,6 +233,7 @@ collectionFiles.forEach((file, fileIndex) => {
     if (!menuLines.has(line.id)) menuLines.set(line.id, { id: line.id, name: line.name, group: collection.title ?? "", quests: [] });
   }
   for (const quest of collection.quests) {
+    if (quest.hidden) continue; // tracked through its visible equivalent
     menuQuests.push({
       id: quest.id,
       name: quest.name,

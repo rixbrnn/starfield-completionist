@@ -110,7 +110,7 @@ Function Check()
         Debug.TraceUser(LogName, entries[i].name + ": " + StatusName(entries[i].status) + " -> " + StatusName(status) + " [" + entries[i].place + "]")
         entries[i].status = status
         changed = True
-        If status == kCompleted
+        If status == kCompleted && !entries[i].hidden
           String prefix = "Completed: "
           If entries[i].activity
             prefix = "Activity completed: "
@@ -136,10 +136,31 @@ Int Function Resolve(Completionist:QuestData:Entry akEntry)
     Return kNotStarted
   EndIf
   Int status = StatusOf(akEntry)
+  If status != kCompleted && akEntry.equivalent != "" && EquivalentCompleted(akEntry)
+    Return kCompleted
+  EndIf
   If status != kCompleted && akEntry.exclusive != "" && AlternativeCompleted(akEntry)
     Return kLockedOut
   EndIf
   Return status
+EndFunction
+
+; Equivalent quests are versions of the same content, e.g. the New Game+ variants of
+; One Small Step (MQ401a-j): completing any of them completes the visible entry.
+Bool Function EquivalentCompleted(Completionist:QuestData:Entry akEntry)
+  Int p = 0
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    Int i = 0
+    While i < entries.Length
+      If entries[i] != akEntry && entries[i].equivalent == akEntry.equivalent && StatusOf(entries[i]) == kCompleted
+        Return True
+      EndIf
+      i += 1
+    EndWhile
+    p += 1
+  EndWhile
+  Return False
 EndFunction
 
 Bool Function AlternativeCompleted(Completionist:QuestData:Entry akEntry)
@@ -251,7 +272,7 @@ String Function PlaceProgress(String asPlace, String asHub)
     Completionist:QuestData:Entry[] entries = GetPage(p)
     Int i = 0
     While i < entries.Length
-      If entries[i].place == asPlace
+      If entries[i].place == asPlace && !entries[i].hidden
         total += 1
         If IsDone(entries[i].status)
           done += 1
@@ -297,7 +318,9 @@ Function Report()
     Int i = 0
     While i < entries.Length
       Bool done = IsDone(entries[i].status)
-      If entries[i].activity
+      If entries[i].hidden
+        ; equivalents only: counted through their visible entry
+      ElseIf entries[i].activity
         activities += 1
         If done
           activitiesDone += 1
@@ -322,7 +345,7 @@ Function Report()
     Completionist:QuestData:Entry[] entries = GetPage(p)
     Int i = 0
     While i < entries.Length
-      If !PlaceSeenBefore(entries[i].place, p, i)
+      If !entries[i].hidden && !PlaceSeenBefore(entries[i].place, p, i)
         ReportPlace(entries[i].place)
       EndIf
       i += 1
@@ -343,7 +366,7 @@ Function ReportPlace(String asPlace)
     Completionist:QuestData:Entry[] entries = GetPage(p)
     Int i = 0
     While i < entries.Length
-      If entries[i].place == asPlace
+      If entries[i].place == asPlace && !entries[i].hidden
         total += 1
         If IsDone(entries[i].status)
           done += 1

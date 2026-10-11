@@ -157,7 +157,8 @@
         "type": "questStage",
         "stage": 3000
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-dazraz02",
@@ -195,7 +196,8 @@
         "type": "questStage",
         "stage": 3000
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-dazraz03",
@@ -241,7 +243,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-lc08",
@@ -268,7 +271,8 @@
         "stage": 100
       },
       "fail": null,
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-mq-shell",
@@ -315,7 +319,8 @@
         "stage": 1100
       },
       "fail": null,
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-mq01",
@@ -446,7 +451,8 @@
         "stage": 10000
       },
       "fail": null,
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-mq02",
@@ -538,7 +544,8 @@
         "stage": 2000
       },
       "fail": null,
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-mq03",
@@ -709,7 +716,8 @@
         "stage": 10000
       },
       "fail": null,
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-mq04",
@@ -932,7 +940,8 @@
         "stage": 10000
       },
       "fail": null,
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-mq05",
@@ -1028,7 +1037,8 @@
         "stage": 2000
       },
       "fail": null,
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-mq06",
@@ -1128,7 +1138,8 @@
         "stage": 2000
       },
       "fail": null,
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-mqin",
@@ -1209,7 +1220,8 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-ms01",
@@ -1491,7 +1503,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-ms02",
@@ -1560,7 +1573,8 @@
           }
         ]
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-ms03",
@@ -1640,7 +1654,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-ms04",
@@ -1701,7 +1716,8 @@
         "type": "questStage",
         "stage": 4000
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-ms05",
@@ -1757,7 +1773,8 @@
         "type": "questStage",
         "stage": 4000
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-vkaiz01",
@@ -1795,7 +1812,8 @@
         "type": "questStage",
         "stage": 4000
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-vkaiz02",
@@ -1827,7 +1845,8 @@
         "stage": 2000
       },
       "fail": null,
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-vkaiz03a",
@@ -1904,7 +1923,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001-vkaiz03b",
@@ -1997,7 +2017,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     },
     {
       "id": "sfbgs001lc07-quest01",
@@ -2038,7 +2059,8 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "exclusiveGroup": null
+      "exclusiveGroup": null,
+      "equivalentGroup": null
     }
   ]
 }
