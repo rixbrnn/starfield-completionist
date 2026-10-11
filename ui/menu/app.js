@@ -119,6 +119,11 @@
     }
     bridge.state.on("unityEntered", (value) => { unityEntered = value === true; queueRender(); });
     bridge.state.on("gameActivities", (value) => { gameActivities = typeof value === "number" ? value : null; queueRender(); });
+    bridge.on("tracked", (event) => {
+      const [id, ok] = (event && event.args) || [];
+      const q = questsById.get(String(id).toLowerCase());
+      showToast(q ? (ok ? "Now tracking: " + q.name : "Couldn't track " + q.name + ". The game didn't accept it.") : "Tracking updated");
+    });
     bridge.state.on("inSpace", (value) => { inSpace = value === true; queueRender(); });
     bridge.state.on("survey", (value) => { survey = typeof value === "number" ? value : -1; queueRender(); });
     bridge.state.on("location", (ids) => { locationChain = Array.isArray(ids) ? ids : []; queueRender(); });
@@ -473,7 +478,10 @@
 
   function send(action, q) {
     if (bridge) bridge.send(action, q.id);
-    else console.log("[preview] " + action + " " + q.id);
+    else {
+      console.log("[preview] " + action + " " + q.id);
+      if (action === "track") showToast("Now tracking: " + q.name);
+    }
   }
 
   function selectedQuest() {
@@ -667,6 +675,20 @@
           el("div", { class: "nowhere-list" }, activeRows.length ? activeRows : el("div", { class: "empty", text: "No quests in progress." })))));
     const current = document.querySelector(".next-row.selected, .row.selected");
     if (current) current.scrollIntoView({ block: "nearest" });
+  }
+
+  // Short message above the footer, e.g. the result of Track.
+  let toastTimer = 0;
+  function showToast(text) {
+    let toast = document.getElementById("toast");
+    if (!toast) {
+      toast = el("div", { id: "toast", class: "toast", role: "status" });
+      document.querySelector(".app").append(toast);
+    }
+    toast.textContent = text;
+    toast.classList.add("visible");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("visible"), 3500);
   }
 
   function plotLocation(locKey) {

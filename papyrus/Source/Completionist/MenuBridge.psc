@@ -84,13 +84,19 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
   EndIf
 
   If asName == "track"
-    If entry.questForm.IsRunning() && !entry.questForm.IsCompleted()
-      OSFUI.Close(MenuView)
-      entry.questForm.SetActive(True)
-      Debug.Notification("Tracking: " + entry.name)
-    Else
-      Debug.Notification(entry.name + " isn't in progress, so it can't be tracked")
+    ; Keeps the menu open (the player may want to show it on the map next) and reports
+    ; whether the game actually accepted it, since SetActive can be refused silently.
+    Quest q = entry.questForm
+    Bool wasActive = q.IsActive()
+    If q.IsRunning() && !q.IsCompleted()
+      q.SetActive(True)
     EndIf
+    Bool nowActive = q.IsActive()
+    Debug.TraceUser("Completionist", "Track " + entry.name + " [" + entry.id + "]: running=" + q.IsRunning() + " completed=" + q.IsCompleted() + " active " + wasActive + " -> " + nowActive)
+    Var[] result = new Var[2]
+    result[0] = entry.id
+    result[1] = nowActive
+    OSFUI.EmitEvent(ModId, "tracked", result)
   ElseIf asName == "plot"
     If entry.startLocation
       OSFUI.Close(MenuView)

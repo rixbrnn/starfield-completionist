@@ -159,3 +159,14 @@ kbd { min-width: 28px; text-align: center; padding: 2px 6px; border: 1px solid v
 .row-actions button { display: inline-flex; align-items: center; gap: 8px; }
 .row-actions kbd { min-width: 0; padding: 0 5px; font-size: 13px; border-color: currentColor; color: inherit; }
 .row-actions kbd:empty { display: none; }
+
+/* Rows keep the same height when selected: names don't wrap, action buttons are slim. */
+.row { height: 62px; box-sizing: border-box; padding-top: 0; padding-bottom: 0; }
+.row-name { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-meta { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-actions button { height: 32px; padding: 0 10px; white-space: nowrap; }
+
+/* Toast (e.g. "Now tracking: …"). */
+.app { position: relative; }
+.toast { position: absolute; right: 48px; bottom: 80px; padding: 12px 18px; background: var(--text); color: var(--ink); font-family: var(--condensed); font-size: 18px; letter-spacing: 0.06em; opacity: 0; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
+.toast.visible { opacity: 1; transform: none; }
