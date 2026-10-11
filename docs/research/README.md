@@ -9,6 +9,6 @@ Each spike answers one question before we build on it. See PLAN.md §9.
 | S3 | Location parent chain + keywords for system / planet / hub; player's current location | **offline half answered** | [S3-location-hierarchy.md](S3-location-hierarchy.md) |
 | S4 | Prototype quest → place extraction on ~20 known quests | open | FLTR folder paths are a free hint (see S2) |
 | S5 | CommonLibSF events for quest stage/status and location change | open | |
-| S6 | Do save/load messages carry the save name? | **probe ready** | plugin logs the payload of SFSE messages 4–7 |
+| S6 | Do save/load messages carry the save name? | **answered: no messages at all** | SFSE 0.2.21 never dispatches messages 4–7 (Pre/PostSave, Pre/PostLoad), even though `PluginAPI.h` declares them; tested 2026-10-11. We need our own save/load hook or an event sink. Save files are named `Save13_DA62C98D_52696368617264_010133_<timestamp>_…sfs`: `DA62C98D` looks like a stable character ID and `52696368617264` is the character name in hex ("Richard"), which helps S5 and the NG+ lineage. |
 | S7 | Does a DLL-only mod keep achievements enabled? | open | needs in-game testing |
 | S8 | OSF UI: open a view from C++, push state, controller navigation | open | |

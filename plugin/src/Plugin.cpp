@@ -85,11 +85,46 @@ namespace Completionist::Plugin
 			}
 		}
 
+		// Diagnostics for the quest survey: which form arrays are populated, and can
+		// we reach MQ101 ("One Small Step", Starfield.esm|0x003448) directly?
+		void LogFormArrayDiagnostics()
+		{
+			const auto* dataHandler = RE::TESDataHandler::GetSingleton();
+			if (!dataHandler) {
+				return;
+			}
+
+			std::uint32_t populated = 0;
+			for (std::size_t type = 0; type < std::size(dataHandler->formArrays); ++type) {
+				const auto size = dataHandler->formArrays[type].formArray.size();
+				if (size > 0) {
+					++populated;
+					REX::INFO("  formArrays[{:#04x}]: {}", type, size);
+				}
+			}
+			REX::INFO("Form arrays with entries: {} of {}", populated, std::size(dataHandler->formArrays));
+
+			if (const auto* byId = RE::TESForm::LookupByID(0x00003448)) {
+				const auto* editorID = byId->GetFormEditorID();
+				REX::INFO("LookupByID(0x3448): formType={:#04x} editorID=\"{}\"", std::to_underlying(byId->GetFormType()), editorID ? editorID : "");
+			} else {
+				REX::INFO("LookupByID(0x3448): not found");
+			}
+
+			const auto* byEditorID = RE::TESForm::LookupByEditorID("MQ101");
+			REX::INFO("LookupByEditorID(\"MQ101\"): {}", byEditorID ? std::format("formID={:08X}", byEditorID->GetFormID()) : "not found");
+		}
+
 		void OnMessage(SFSE::MessagingInterface::Message* a_msg) noexcept
 		{
 			switch (a_msg->type) {
 			case SFSE::MessagingInterface::kPostDataLoad:
 				REX::INFO("Game data loaded");
+				LogQuestTypes();
+				LogFormArrayDiagnostics();
+				break;
+			case SFSE::MessagingInterface::kPostPostDataLoad:
+				REX::INFO("Game data loaded (post)");
 				LogQuestTypes();
 				break;
 			case kPreSaveGame:
