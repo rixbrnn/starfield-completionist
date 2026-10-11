@@ -1,60 +1,72 @@
-[center][size=6][b]COMPLETIONIST[/b][/size]
-[size=3]Every quest and activity in Starfield, and what you're still missing in each star system, planet and city.[/size][/center]
+[size=5][b]Description[/b][/size]
+Starfield's mission log only shows quests you've already picked up. [b]Completionist[/b] knows the full list in advance and tracks your progress automatically: every quest and activity in the game, and what you're still missing in each star system, planet and city.
 
-[size=4][b]What it does[/b][/size]
-The game's mission log only shows quests you've already picked up. Completionist knows the full list in advance and tracks your progress automatically:
+It covers [b]251 quests and 94 activities[/b] from the base game, [b]Shattered Space[/b], [b]Terran Armada[/b], the [b]Free Lanes[/b] update and the [b]Trackers Alliance[/b]. Content you don't own is skipped automatically.
 
-[list]
-[*][b]251 quests and 94 activities[/b] from the base game, [b]Shattered Space[/b], [b]Terran Armada[/b], the [b]Free Lanes[/b] update and the [b]Trackers Alliance[/b]. Content you don't own is skipped automatically.
-[*][b]Grouped by place:[/b] see what's left in New Atlantis, Neon, Akila City, Dazra and every other system, planet and city.
-[*][b]Here tab:[/b] what's missing where you are standing right now.
-[*][b]Questlines:[/b] each faction and the main story as a chain, in story order.
-[*][b]Activities:[/b] one-off activities (Earth landmarks, Clinic jobs, space encounters) and the small errands the game counts toward its own Activities stat.
-[*][b]Track[/b] a started quest or [b]show its start on the starmap[/b] (plots a course) straight from the menu.
-[*][b]Branching choices handled:[/b] choose the Crimson Fleet or UC SysDef ending, take Foreknowledge or the regular path, and the paths you didn't take count as resolved, so 100% is always reachable.
-[*][b]New Game+ aware:[/b] the NG+ intro variants count as One Small Step; Among the Stars and Foreknowledge only count once you've entered Unity.
-[*][b]Manual override:[/b] mark any quest done or not done if detection gets it wrong (saved in your save).
-[*][b]Spoiler mode:[/b] hide the names of quests you haven't discovered.
-[*][b]Notifications[/b] when you complete a quest or activity, with that place's progress ("Completed: Superfan (Neon 7/35)").
-[*][b]Controller support.[/b]
+Found a quest that is tracked wrongly or listed in the wrong place? Please report it on [url=https://github.com/rixbrnn/starfield-completionist/issues]GitHub[/url] or in the Bugs tab.
+
+[size=5][b]Installation instructions[/b][/size]
+[list=1]
+[*]Install the requirements below.
+[*]Install Completionist with Vortex or Mod Organizer 2 and make sure [b]StarfieldCompletionist.esm[/b] is enabled.
+[*]Launch the game through SFSE and load your save. Safe to install mid-playthrough: progress is read from your save.
+[*]Press [b]F7[/b] to open the menu, or open it from [b]Pause menu > Mod Settings > Launcher[/b].
+[*][b]Playing with a controller?[/b] The menu is fully controller-supported. Assign a controller binding to [b]Open Completionist[/b] in [b]Pause menu > Mod Settings > Keybindings[/b], for example [b]X + A[/b]. There is no controller binding by default, so set one up once.
 [/list]
 
-[size=4][b]Controls[/b][/size]
-Open the menu with [b]F7[/b] (rebind it in Mod Settings), or from the [b]Pause menu > Mod Settings > Launcher[/b].
+[size=5][b]Main features[/b][/size]
+[list]
+[*][b]Here:[/b] what's missing, in progress and done where you are standing right now.
+[*][b]Locations:[/b] every system, planet and city with its progress and quest list, including who gives each quest.
+[*][b]Questlines:[/b] each faction and the main story as a chain, in story order.
+[*][b]Activities:[/b] one-off activities (Earth landmarks, Clinic jobs, space encounters) and the small errands the game counts toward its own Activities stat. The menu also shows the game's own activity count.
+[*][b]Track[/b] a started quest, or [b]show its start on the starmap[/b] with a course plotted, straight from the menu.
+[*][b]Branching choices handled:[/b] the Crimson Fleet or UC SysDef ending, Foreknowledge or the regular path, Among the Stars or the full story. The paths you didn't take count as resolved, so 100% is always reachable.
+[*][b]New Game+ aware:[/b] the NG+ intro variants count as One Small Step; Among the Stars and Foreknowledge only count once you've entered Unity.
+[*][b]Manual override:[/b] mark any quest done or not done if detection gets it wrong. Saved in your save.
+[*][b]Spoiler mode:[/b] hide the names of quests you haven't discovered.
+[*][b]Notifications[/b] when you complete a quest or activity, with that place's progress, e.g. "Completed: Superfan (Neon 7/35)".
+[*][b]Controller support[/b] with on-screen button prompts.
+[/list]
+
+[b]Controls[/b] (keyboard / controller). Open: F7, or the controller binding you assign in Mod Settings > Keybindings.
 [list]
 [*]Switch tab: Q / E (LB / RB)
 [*]Move: arrow keys (D-pad / left stick); left/right switches between the place list and the quests
-[*]Track or show on map: Enter (A); show on map: R (X)
+[*]Track, or show on map: Enter (A) · Show on map: R (X)
 [*]Filter: F (Y) · Spoilers: X (View) · Mark done / not done: M (right-stick click)
 [*]Close: Esc (B)
 [/list]
 
-[size=4][b]Requirements[/b][/size]
+[size=5][b]Requirements[/b][/size]
 [list]
 [*][url=https://www.nexusmods.com/starfield/mods/106]Starfield Script Extender (SFSE)[/url]
 [*][url=https://www.nexusmods.com/starfield/mods/3256]Address Library for SFSE Plugins[/url]
 [*][url=https://www.nexusmods.com/starfield/mods/18326]OSF Settings[/url]
 [*][url=https://www.nexusmods.com/starfield/mods/17711]OSF UI[/url] (needs the Microsoft Edge WebView2 Runtime, included with Windows 11)
 [/list]
-Without OSF UI / OSF Settings the tracking and notifications still work; only the menu is unavailable.
+Without OSF UI and OSF Settings, tracking and notifications still work; only the menu is unavailable.
 
-[size=4][b]Installation[/b][/size]
-Install with Vortex or Mod Organizer 2 and enable [b]StarfieldCompletionist.esm[/b]. Launch the game through SFSE. Safe to install mid-playthrough: progress is read from your save.
-
-[size=4][b]Good to know[/b][/size]
+[b]Good to know[/b]
 [list]
 [*]Like any mod with a plugin, it disables achievements unless you use an achievement enabler.
-[*]Steam version only for the menu (SFSE doesn't support the Game Pass / Microsoft Store version).
-[*]Quest places are worked out from where each quest giver stands; a few may be off. Please report them in the Bugs tab.
+[*]The menu needs the Steam version (SFSE doesn't support the Game Pass / Microsoft Store version).
+[*]Quest start places are worked out from where each quest giver stands; a few may be off.
 [/list]
 
-[size=4][b]Credits[/b][/size]
+[size=5][b]Contributing[/b][/size]
+Completionist is open source. Report bugs, suggest features or contribute on GitHub: [url=https://github.com/rixbrnn/starfield-completionist]github.com/rixbrnn/starfield-completionist[/url]
+[list]
+[*][url=https://github.com/rixbrnn/starfield-completionist/issues/new/choose]Report a quest that is tracked wrongly or listed in the wrong place[/url]
+[*]Quest data (places, questline order, branching choices) lives in plain JSON files, so fixes don't need any coding.
+[*]Support for other mods' quests can be added the same way.
+[/list]
+
+[size=5][b]Shout outs[/b][/size]
 [list]
 [*]Inspired by [url=https://www.nexusmods.com/skyrimspecialedition/mods/46358]Completionist - Skyrim Completion Tracker[/url] by Faen90.
-[*]ozooma10 for [b]OSF UI[/b] and [b]OSF Settings[/b].
-[*]The SFSE team, meh321 (Address Library).
+[*]ozooma10 for [b]OSF UI[/b] and [b]OSF Settings[/b], which make the in-game menu possible.
+[*]The SFSE team, and meh321 for Address Library.
 [*]Barlow typeface by The Barlow Project Authors (SIL Open Font License).
 [/list]
-
-[size=4][b]Source and license[/b][/size]
-GPL-3.0-or-later. Script sources are included in the download (Scripts/Source/Completionist).
+Open source under GPL-3.0-or-later. Source: [url=https://github.com/rixbrnn/starfield-completionist]GitHub[/url]; the script sources are also included in the download (Scripts/Source/Completionist).

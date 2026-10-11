@@ -1,8 +1,8 @@
 # Starfield Completionist
 
-*Working title.* An SFSE plugin that tracks every quest in Starfield and shows what you're still missing in each star system, planet and city. It's inspired by Faen90's [Completionist](https://www.nexusmods.com/skyrimspecialedition/mods/46358) for Skyrim.
+Tracks every quest and activity in Starfield and shows what you're still missing in each star system, planet and city, with an in-game menu built on [OSF UI](https://www.nexusmods.com/starfield/mods/17711). Inspired by Faen90's [Completionist](https://www.nexusmods.com/skyrimspecialedition/mods/46358) for Skyrim.
 
-**Status:** Phase 0 (setup and research). Nothing to install yet. See [PLAN.md](PLAN.md) for the full plan and [docs/research](docs/research/README.md) for findings so far.
+**Status:** 1.0.0 released for PC (Steam). Found a quest tracked wrongly? [Open an issue](https://github.com/rixbrnn/starfield-completionist/issues/new/choose); see [CONTRIBUTING.md](CONTRIBUTING.md). Background: [PLAN.md](PLAN.md) and [docs/research](docs/research/README.md).
 
 ## Repository layout
 

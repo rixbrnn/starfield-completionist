@@ -1,0 +1,43 @@
+name: Quest tracked wrongly
+description: A quest or activity shows the wrong status, is missing, or is listed in the wrong place.
+labels: ["quest data"]
+body:
+  - type: input
+    id: quest
+    attributes:
+      label: Quest or activity
+      description: Its name as shown in the game (or in the Completionist menu).
+      placeholder: Back to the Grind
+    validations:
+      required: true
+  - type: dropdown
+    id: problem
+    attributes:
+      label: What's wrong?
+      options:
+        - Shows as not completed, but I completed it
+        - Shows as completed, but I didn't complete it
+        - Shows as in progress / not started incorrectly
+        - Listed in the wrong place (system, planet or city)
+        - Wrong order in its questline
+        - Missing from the menu
+        - Shouldn't be in the menu at all
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What you expected, and anything about how you played it (choices, New Game+, mods that change it).
+  - type: textarea
+    id: log
+    attributes:
+      label: Completionist log (optional)
+      description: Documents/My Games/Starfield/Logs/Script/User/Completionist.0.log
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: Completionist version
+      placeholder: 1.0.0

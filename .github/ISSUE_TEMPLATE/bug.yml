@@ -1,0 +1,32 @@
+name: Bug
+description: The menu doesn't open, something crashes, or a feature doesn't work.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Completionist, Starfield, SFSE, OSF UI and OSF Settings.
+      placeholder: Completionist 1.0.0, Starfield 1.16.244, SFSE 0.2.21, OSF UI 2.0, OSF Settings 1.1
+  - type: dropdown
+    id: input
+    attributes:
+      label: Input
+      options:
+        - Keyboard and mouse
+        - Controller
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs (optional)
+      description: |
+        Documents/My Games/Starfield/Logs/Script/User/Completionist.0.log
+        Documents/My Games/Starfield/SFSE/Logs/OSF UI.log
+      render: text
