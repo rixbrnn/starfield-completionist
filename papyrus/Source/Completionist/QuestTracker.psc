@@ -96,7 +96,11 @@ Function Check()
         Debug.TraceUser(LogName, entries[i].name + ": " + StatusName(entries[i].status) + " -> " + StatusName(status) + " [" + entries[i].place + "]")
         entries[i].status = status
         If status == kCompleted
-          Debug.Notification("Completed: " + entries[i].name + " (" + PlaceProgress(entries[i].place, entries[i].hub) + ")")
+          String prefix = "Completed: "
+          If entries[i].activity
+            prefix = "Activity completed: "
+          EndIf
+          Debug.Notification(prefix + entries[i].name + " (" + PlaceProgress(entries[i].place, entries[i].hub) + ")")
         EndIf
       EndIf
       i += 1
@@ -177,22 +181,33 @@ EndFunction
 
 ; Logs overall progress and one line per place.
 Function Report()
-  Int total = 0
-  Int completed = 0
+  Int quests = 0
+  Int questsDone = 0
+  Int activities = 0
+  Int activitiesDone = 0
   Int p = 0
   While p < MaxPages
     Completionist:QuestData:Entry[] entries = GetPage(p)
-    total += entries.Length
     Int i = 0
     While i < entries.Length
-      If entries[i].status == kCompleted
-        completed += 1
+      Bool done = entries[i].status == kCompleted
+      If entries[i].activity
+        activities += 1
+        If done
+          activitiesDone += 1
+        EndIf
+      Else
+        quests += 1
+        If done
+          questsDone += 1
+        EndIf
       EndIf
       i += 1
     EndWhile
     p += 1
   EndWhile
-  Debug.TraceUser(LogName, "Progress: " + completed + "/" + total + " quests completed")
+  String summary = questsDone + "/" + quests + " quests, " + activitiesDone + "/" + activities + " activities completed"
+  Debug.TraceUser(LogName, "Progress: " + summary)
 
   p = 0
   While p < MaxPages
@@ -207,7 +222,7 @@ Function Report()
     p += 1
   EndWhile
 
-  Debug.Notification("Completionist: " + completed + "/" + total + " quests completed")
+  Debug.Notification("Completionist: " + summary)
 EndFunction
 
 ; Logs "done/total, active" for one place.

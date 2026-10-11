@@ -1060,6 +1060,43 @@
       "fail": null
     },
     {
+      "id": "sffl-se01",
+      "name": "A Strange Invitation",
+      "form": "SFBGS00D.esm|0x02FC79",
+      "editorId": "SFFL_SE01",
+      "type": "activity",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        0,
+        5,
+        6,
+        25,
+        50,
+        66,
+        100,
+        200,
+        225,
+        250,
+        255,
+        260,
+        270,
+        280,
+        400,
+        410,
+        500,
+        600,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null
+    },
+    {
       "id": "sffl-z01",
       "name": "A Missing Beloved",
       "form": "SFBGS00D.esm|0x0325E6",

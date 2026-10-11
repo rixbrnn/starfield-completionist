@@ -72,14 +72,15 @@ We copy all of that. On top of it, we add the **place-based view**, which Skyrim
 | Included in v1 | Excluded from v1 (maybe later) |
 |---|---|
 | Main missions (Constellation) | Mission-board radiants (cargo, bounties, surveys) |
-| Faction questlines: UC Vanguard, Freestar Rangers, Crimson Fleet, Ryujin Industries | Activities (procedural, endless) |
+| Faction questlines: UC Vanguard, Freestar Rangers, Crimson Fleet, Ryujin Industries | "Misc Pointer" activities (just "go talk to X") and engine handlers |
 | Companion quests | Repeatables / Terran Armada Incursions (v2 counters) |
 | Side missions and named misc missions | Tiny "pointer" objectives that just say "Talk to X" |
 | **DLC:** Shattered Space (House Va'ruun), Terran Armada questline | |
 | **Creations:** Trackers Alliance and other official quest Creations, if installed | |
 | Temple quests (as quests; powers themselves come in v2) | |
+| **Activities** (one-off: Earth landmarks, Clinic jobs, *Coffee Run*, space encounters like *The Pale Lady*), counted separately from quests | |
 
-The extractor will tell us the real total (expect a few hundred). Curation decides borderline cases, and the rule goes in `docs/quest-inclusion-rules.md`.
+Current totals (2026-10-11): **262 quests + 42 activities**. Inclusion rules live in `tools/extract/build-quest-drafts.ts`; the Map Genie cross-check is in `docs/research/S2-quest-types.md`.
 
 ### 3.2 Quest statuses
 

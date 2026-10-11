@@ -30,6 +30,13 @@
       "location": "Starfield.esm|0x265018"
     },
     {
+      "id": "hub.neon",
+      "kind": "hub",
+      "name": "Neon",
+      "parent": "pl.volii-alpha",
+      "location": "Starfield.esm|0x015FFE"
+    },
+    {
       "id": "hub.new-atlantis",
       "kind": "hub",
       "name": "New Atlantis",
@@ -42,6 +49,20 @@
       "name": "Opulence of the Stars",
       "parent": "pl.nirvana-iv",
       "location": "SFBGS050.esm|0x021405"
+    },
+    {
+      "id": "hub.paradiso",
+      "kind": "hub",
+      "name": "Paradiso",
+      "parent": "pl.porrima-ii",
+      "location": "Starfield.esm|0x26310D"
+    },
+    {
+      "id": "hub.red-mile",
+      "kind": "hub",
+      "name": "Red Mile",
+      "parent": "pl.porrima-iii",
+      "location": "Starfield.esm|0x2CE0C9"
     },
     {
       "id": "hub.the-unifier",
@@ -93,11 +114,32 @@
       "location": "Starfield.esm|0x01A80D"
     },
     {
+      "id": "pl.porrima-ii",
+      "kind": "planet",
+      "name": "Porrima II",
+      "parent": "sys.porrima",
+      "location": "Starfield.esm|0x01A8AA"
+    },
+    {
+      "id": "pl.porrima-iii",
+      "kind": "planet",
+      "name": "Porrima III",
+      "parent": "sys.porrima",
+      "location": "Starfield.esm|0x01A8B6"
+    },
+    {
       "id": "pl.saturn",
       "kind": "planet",
       "name": "Saturn",
       "parent": "sys.sol",
       "location": "Starfield.esm|0x01B750"
+    },
+    {
+      "id": "pl.volii-alpha",
+      "kind": "planet",
+      "name": "Volii Alpha",
+      "parent": "sys.volii",
+      "location": "Starfield.esm|0x01A978"
     },
     {
       "id": "sys.algorab",
@@ -130,10 +172,22 @@
       "location": "Starfield.esm|0x061594"
     },
     {
+      "id": "sys.porrima",
+      "kind": "system",
+      "name": "Porrima",
+      "location": "Starfield.esm|0x061591"
+    },
+    {
       "id": "sys.sol",
       "kind": "system",
       "name": "Sol",
       "location": "Starfield.esm|0x061527"
+    },
+    {
+      "id": "sys.volii",
+      "kind": "system",
+      "name": "Volii",
+      "location": "Starfield.esm|0x06158E"
     }
   ],
   "questlines": [
@@ -192,6 +246,162 @@
       "complete": {
         "type": "questStage",
         "stage": 30
+      },
+      "fail": null
+    },
+    {
+      "id": "sfbgs033-fungalturtle",
+      "name": "Platypig",
+      "form": "SFBGS050.esm|0x09C04B",
+      "editorId": "SFBGS033_FungalTurtle",
+      "type": "activity",
+      "start": {
+        "place": "hub.neon",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        1,
+        10,
+        100,
+        200,
+        300,
+        400,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null
+    },
+    {
+      "id": "sfbgs033-guineahopper",
+      "name": "Platypig",
+      "form": "SFBGS050.esm|0x09C04C",
+      "editorId": "SFBGS033_GuineaHopper",
+      "type": "activity",
+      "start": {
+        "place": "hub.red-mile",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        1,
+        10,
+        100,
+        200,
+        300,
+        400,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null
+    },
+    {
+      "id": "sfbgs033-platypig",
+      "name": "Platypig",
+      "form": "SFBGS050.esm|0x08ED10",
+      "editorId": "SFBGS033_Platypig",
+      "type": "activity",
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        1,
+        10,
+        100,
+        200,
+        300,
+        400,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null
+    },
+    {
+      "id": "sfbgs033-pygmycoralbug",
+      "name": "Platypig",
+      "form": "SFBGS050.esm|0x09C04D",
+      "editorId": "SFBGS033_PygmyCoralBug",
+      "type": "activity",
+      "start": {
+        "place": "hub.paradiso",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        1,
+        10,
+        100,
+        200,
+        300,
+        400,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null
+    },
+    {
+      "id": "sfbgs033-rareearthpig",
+      "name": "Rare Earth Pig",
+      "form": "SFBGS050.esm|0x08ED0F",
+      "editorId": "SFBGS033_RareEarthPig",
+      "type": "activity",
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        1,
+        10,
+        100,
+        200,
+        300,
+        400,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null
+    },
+    {
+      "id": "sfbgs033-razorcrestedbeetle",
+      "name": "Platypig",
+      "form": "SFBGS050.esm|0x09C04E",
+      "editorId": "SFBGS033_RazorCrestedBeetle",
+      "type": "activity",
+      "start": {
+        "place": "hub.akila-city",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        1,
+        10,
+        100,
+        200,
+        300,
+        400,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null
     },

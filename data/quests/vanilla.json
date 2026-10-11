@@ -27,11 +27,25 @@
       "location": "Starfield.esm|0x010DFB"
     },
     {
+      "id": "hub.apollo-landing-site",
+      "kind": "hub",
+      "name": "Apollo Landing Site",
+      "parent": "pl.luna",
+      "location": "Starfield.esm|0x3807DA"
+    },
+    {
       "id": "hub.argos-extractors-mining-outpost",
       "kind": "hub",
       "name": "Argos Extractors Mining Outpost",
       "parent": "pl.vectera",
       "location": "Starfield.esm|0x005748"
+    },
+    {
+      "id": "hub.cairo-landmark",
+      "kind": "hub",
+      "name": "Cairo Landmark",
+      "parent": "pl.earth",
+      "location": "Starfield.esm|0x187428"
     },
     {
       "id": "hub.crucible",
@@ -55,6 +69,20 @@
       "location": "Starfield.esm|0x1EC462"
     },
     {
+      "id": "hub.deserted-trade-authority-starstation",
+      "kind": "hub",
+      "name": "Deserted Trade Authority Starstation",
+      "parent": "pl.prax",
+      "location": "Starfield.esm|0x09C574"
+    },
+    {
+      "id": "hub.dubai-landmark",
+      "kind": "hub",
+      "name": "Dubai Landmark",
+      "parent": "pl.earth",
+      "location": "Starfield.esm|0x188E90"
+    },
+    {
       "id": "hub.ecliptic-base",
       "kind": "hub",
       "name": "Ecliptic Base",
@@ -69,6 +97,13 @@
       "location": "Starfield.esm|0x265018"
     },
     {
+      "id": "hub.hong-kong-landmark",
+      "kind": "hub",
+      "name": "Hong Kong Landmark",
+      "parent": "pl.earth",
+      "location": "Starfield.esm|0x188E8B"
+    },
+    {
       "id": "hub.hopetown",
       "kind": "hub",
       "name": "HopeTown",
@@ -81,6 +116,27 @@
       "name": "Lair of the Mantis",
       "parent": "pl.denebola-i-b",
       "location": "Starfield.esm|0x23DE55"
+    },
+    {
+      "id": "hub.london-landmark",
+      "kind": "hub",
+      "name": "London Landmark",
+      "parent": "pl.earth",
+      "location": "Starfield.esm|0x188E7F"
+    },
+    {
+      "id": "hub.los-angeles-landmark",
+      "kind": "hub",
+      "name": "Los Angeles Landmark",
+      "parent": "pl.earth",
+      "location": "Starfield.esm|0x18E411"
+    },
+    {
+      "id": "hub.lucky-lu",
+      "kind": "hub",
+      "name": "Lucky Lu",
+      "parent": "pl.heinlein-i",
+      "location": "Starfield.esm|0x05E819"
     },
     {
       "id": "hub.nasa-launch-tower",
@@ -111,11 +167,32 @@
       "location": "Starfield.esm|0x21702B"
     },
     {
+      "id": "hub.new-york-landmark",
+      "kind": "hub",
+      "name": "New York Landmark",
+      "parent": "pl.earth",
+      "location": "Starfield.esm|0x18E415"
+    },
+    {
       "id": "hub.nishina-research-station",
       "kind": "hub",
       "name": "Nishina Research Station",
       "parent": "pl.freya-iii",
       "location": "Starfield.esm|0x257DE3"
+    },
+    {
+      "id": "hub.opportunity-rover",
+      "kind": "hub",
+      "name": "Opportunity Rover",
+      "parent": "pl.mars",
+      "location": "Starfield.esm|0x3807BE"
+    },
+    {
+      "id": "hub.osaka-landmark",
+      "kind": "hub",
+      "name": "Osaka Landmark",
+      "parent": "pl.earth",
+      "location": "Starfield.esm|0x188E77"
     },
     {
       "id": "hub.paradiso",
@@ -137,6 +214,20 @@
       "name": "Research Outpost: U3-09",
       "parent": "pl.altair-ii",
       "location": "Starfield.esm|0x1FB245"
+    },
+    {
+      "id": "hub.shanghai-landmark",
+      "kind": "hub",
+      "name": "Shanghai Landmark",
+      "parent": "pl.earth",
+      "location": "Starfield.esm|0x188E87"
+    },
+    {
+      "id": "hub.st-louis-landmark",
+      "kind": "hub",
+      "name": "St. Louis Landmark",
+      "parent": "pl.earth",
+      "location": "Starfield.esm|0x18E412"
     },
     {
       "id": "hub.tau-gourmet-production-center",
@@ -186,6 +277,13 @@
       "name": "Trident Luxury Lines Staryard",
       "parent": "pl.akila",
       "location": "Starfield.esm|0x223325"
+    },
+    {
+      "id": "hub.vlad-s-villa",
+      "kind": "hub",
+      "name": "Vlad's Villa",
+      "parent": "pl.syrma-vii-a",
+      "location": "Starfield.esm|0x17E1AF"
     },
     {
       "id": "pl.akila",
@@ -258,6 +356,13 @@
       "location": "Starfield.esm|0x01AB25"
     },
     {
+      "id": "pl.heinlein-i",
+      "kind": "planet",
+      "name": "Heinlein I",
+      "parent": "sys.heinlein",
+      "location": "Starfield.esm|0x01B655"
+    },
+    {
       "id": "pl.ixyll-ii",
       "kind": "planet",
       "name": "Ixyll II",
@@ -270,6 +375,13 @@
       "name": "Jemison",
       "parent": "sys.alpha-centauri",
       "location": "Starfield.esm|0x01AB29"
+    },
+    {
+      "id": "pl.luna",
+      "kind": "planet",
+      "name": "Luna",
+      "parent": "sys.sol",
+      "location": "Starfield.esm|0x01B732"
     },
     {
       "id": "pl.mars",
@@ -307,11 +419,25 @@
       "location": "Starfield.esm|0x01A8B6"
     },
     {
+      "id": "pl.prax",
+      "kind": "planet",
+      "name": "Prax",
+      "parent": "sys.valo",
+      "location": "Starfield.esm|0x01B1E9"
+    },
+    {
       "id": "pl.suvorov",
       "kind": "planet",
       "name": "Suvorov",
       "parent": "sys.kryx",
       "location": "Starfield.esm|0x01AD95"
+    },
+    {
+      "id": "pl.syrma-vii-a",
+      "kind": "planet",
+      "name": "Syrma VII-a",
+      "parent": "sys.syrma",
+      "location": "Starfield.esm|0x01B64E"
     },
     {
       "id": "pl.tau-ceti-ii",
@@ -378,6 +504,12 @@
       "location": "Starfield.esm|0x06157F"
     },
     {
+      "id": "sys.heinlein",
+      "kind": "system",
+      "name": "Heinlein",
+      "location": "Starfield.esm|0x06152D"
+    },
+    {
       "id": "sys.ixyll",
       "kind": "system",
       "name": "Ixyll",
@@ -412,6 +544,12 @@
       "kind": "system",
       "name": "Sol",
       "location": "Starfield.esm|0x061527"
+    },
+    {
+      "id": "sys.syrma",
+      "kind": "system",
+      "name": "Syrma",
+      "location": "Starfield.esm|0x06152E"
     },
     {
       "id": "sys.tau-ceti",
@@ -2040,6 +2178,70 @@
       "fail": null
     },
     {
+      "id": "city-akilalife06",
+      "name": "Hand Delivered",
+      "form": "Starfield.esm|0x2E18CE",
+      "editorId": "City_AkilaLife06",
+      "type": "activity",
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Duncan Lynch",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        1,
+        100,
+        150,
+        175,
+        200,
+        9000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "city-akilalife07",
+      "name": "Solomon's Trove",
+      "form": "Starfield.esm|0x00DBE9",
+      "editorId": "City_AkilaLife07",
+      "type": "activity",
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Leah Casler",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        1,
+        100,
+        150,
+        200,
+        250,
+        300,
+        350,
+        400,
+        450,
+        500,
+        550,
+        600,
+        650,
+        700,
+        750,
+        800,
+        9000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null
+    },
+    {
       "id": "city-akilalife08",
       "name": "Charity of the Wolf",
       "form": "Starfield.esm|0x2D2517",
@@ -3428,6 +3630,29 @@
         20,
         100,
         200,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null
+    },
+    {
+      "id": "city-newatlantis-z-coffeerun",
+      "name": "Coffee Run",
+      "form": "Starfield.esm|0x1136DB",
+      "editorId": "City_NewAtlantis_Z_CoffeeRun",
+      "type": "activity",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Donna Rain",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        10,
         1000
       ],
       "complete": {
@@ -5419,6 +5644,79 @@
       "fail": null
     },
     {
+      "id": "ffclinicr01",
+      "name": "Knowledge is Power",
+      "form": "Starfield.esm|0x1C2C96",
+      "editorId": "FFClinicR01",
+      "type": "activity",
+      "start": {
+        "place": "hub.the-clinic",
+        "giver": "Osian Salvato",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        1,
+        10,
+        200
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "ffclinicr02",
+      "name": "Specimen Collection",
+      "form": "Starfield.esm|0x1C2C98",
+      "editorId": "FFClinicR02",
+      "type": "activity",
+      "start": {
+        "place": "hub.the-clinic",
+        "giver": "Lara Darvish",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        1,
+        10,
+        100,
+        200
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "ffclinicz01",
+      "name": "Comfort Food",
+      "form": "Starfield.esm|0x1C2C93",
+      "editorId": "FFClinicZ01",
+      "type": "activity",
+      "start": {
+        "place": "hub.the-clinic",
+        "giver": "Rebecca Armistead",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        10,
+        15,
+        20,
+        50,
+        200
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
       "id": "ffconstantr02",
       "name": "Family Reunion",
       "form": "Starfield.esm|0x211125",
@@ -5927,6 +6225,33 @@
       }
     },
     {
+      "id": "fflodge01",
+      "name": "Board and Lodging",
+      "form": "Starfield.esm|0x1C0F26",
+      "editorId": "FFLodge01",
+      "type": "activity",
+      "faction": "constellation",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Noel",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        10,
+        20,
+        30,
+        50,
+        100,
+        200
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
       "id": "ffneonz01",
       "name": "Superfan",
       "form": "Starfield.esm|0x0B2A73",
@@ -6260,6 +6585,129 @@
         "stage": 100
       },
       "fail": null
+    },
+    {
+      "id": "ffneonz12",
+      "name": "About Face",
+      "form": "Starfield.esm|0x25544A",
+      "editorId": "FFNeonZ12",
+      "type": "activity",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Miguel Rivas",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        30,
+        40,
+        45,
+        50,
+        60,
+        70,
+        80,
+        90,
+        95,
+        98,
+        99,
+        100,
+        200
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 98
+      },
+      "fail": {
+        "type": "questStage",
+        "stage": 200
+      }
+    },
+    {
+      "id": "ffnewatlantis01",
+      "name": "Diplomatic Immunity",
+      "form": "Starfield.esm|0x24C3A1",
+      "editorId": "FFNewAtlantis01",
+      "type": "activity",
+      "faction": "united-colonies",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Representative Chisolm",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "stages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        10,
+        15,
+        20,
+        30,
+        32,
+        34,
+        36,
+        37,
+        38,
+        40,
+        50,
+        60,
+        66,
+        90,
+        100,
+        200
+      ],
+      "complete": {
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 90
+          },
+          {
+            "type": "questStage",
+            "stage": 100
+          }
+        ]
+      },
+      "fail": {
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 4
+          },
+          {
+            "type": "questStage",
+            "stage": 5
+          }
+        ]
+      }
     },
     {
       "id": "ffnewatlantis02",
@@ -6806,6 +7254,270 @@
             "stage": 600
           }
         ]
+      },
+      "fail": null
+    },
+    {
+      "id": "landmark-apollo",
+      "name": "Apollo Landmark Quest",
+      "form": "Starfield.esm|0x026EB0",
+      "editorId": "Landmark_Apollo",
+      "type": "activity",
+      "start": {
+        "place": "hub.apollo-landing-site",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        0,
+        1,
+        100,
+        200,
+        9000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "landmark-cairo",
+      "name": "Cairo Landmark Quest",
+      "form": "Starfield.esm|0x009A2C",
+      "editorId": "Landmark_Cairo",
+      "type": "activity",
+      "start": {
+        "place": "hub.cairo-landmark",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        0,
+        1,
+        100,
+        200,
+        9000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "landmark-dubai",
+      "name": "Dubai Landmark Quest",
+      "form": "Starfield.esm|0x009948",
+      "editorId": "Landmark_Dubai",
+      "type": "activity",
+      "start": {
+        "place": "hub.dubai-landmark",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        0,
+        1,
+        100,
+        200,
+        9000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "landmark-hongkong",
+      "name": "Hong Kong Landmark Quest",
+      "form": "Starfield.esm|0x024C87",
+      "editorId": "Landmark_HongKong",
+      "type": "activity",
+      "start": {
+        "place": "hub.hong-kong-landmark",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        0,
+        1,
+        100,
+        200,
+        9000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "landmark-london",
+      "name": "London Landmark Quest",
+      "form": "Starfield.esm|0x00994A",
+      "editorId": "Landmark_London",
+      "type": "activity",
+      "start": {
+        "place": "hub.london-landmark",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        0,
+        1,
+        100,
+        200,
+        9000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "landmark-losangeles",
+      "name": "Los Angeles Landmark Quest",
+      "form": "Starfield.esm|0x009A2B",
+      "editorId": "Landmark_LosAngeles",
+      "type": "activity",
+      "start": {
+        "place": "hub.los-angeles-landmark",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        0,
+        1,
+        100,
+        200,
+        9000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "landmark-newyork",
+      "name": "New York Landmark Quest",
+      "form": "Starfield.esm|0x00CDC1",
+      "editorId": "Landmark_NewYork",
+      "type": "activity",
+      "start": {
+        "place": "hub.new-york-landmark",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        0,
+        1,
+        100,
+        200,
+        9000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "landmark-opportunity",
+      "name": "London Landmark Quest",
+      "form": "Starfield.esm|0x009949",
+      "editorId": "Landmark_Opportunity",
+      "type": "activity",
+      "start": {
+        "place": "hub.opportunity-rover",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        0,
+        1,
+        100,
+        200,
+        9000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "landmark-osaka",
+      "name": "Osaka Landmark Quest",
+      "form": "Starfield.esm|0x026EAC",
+      "editorId": "Landmark_Osaka",
+      "type": "activity",
+      "start": {
+        "place": "hub.osaka-landmark",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        0,
+        1,
+        100,
+        200,
+        9000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "landmark-shanghai",
+      "name": "Shanghai Landmark Quest",
+      "form": "Starfield.esm|0x00DC17",
+      "editorId": "Landmark_Shanghai",
+      "type": "activity",
+      "start": {
+        "place": "hub.shanghai-landmark",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        0,
+        1,
+        100,
+        200,
+        9000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "landmark-stlouis",
+      "name": "St. Louis Landmark Quest",
+      "form": "Starfield.esm|0x00DC18",
+      "editorId": "Landmark_StLouis",
+      "type": "activity",
+      "start": {
+        "place": "hub.st-louis-landmark",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        0,
+        1,
+        100,
+        200,
+        9000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
       },
       "fail": null
     },
@@ -8971,6 +9683,28 @@
       "fail": null
     },
     {
+      "id": "mqmisc01",
+      "name": "Vlad's Home",
+      "form": "Starfield.esm|0x10CB67",
+      "editorId": "MQMisc01",
+      "type": "activity",
+      "faction": "constellation",
+      "start": {
+        "place": "hub.vlad-s-villa",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        10,
+        100
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": null
+    },
+    {
       "id": "mqmisc02",
       "name": "Companion's Belongings",
       "form": "Starfield.esm|0x1560EE",
@@ -9688,6 +10422,48 @@
       "complete": {
         "type": "questStage",
         "stage": 8100
+      },
+      "fail": null
+    },
+    {
+      "id": "rad03",
+      "name": "The Long Haul",
+      "form": "Starfield.esm|0x21710A",
+      "editorId": "RAD03",
+      "type": "activity",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null
+    },
+    {
+      "id": "rad04",
+      "name": "Wanted... Dead not Alive",
+      "form": "Starfield.esm|0x216D3D",
+      "editorId": "RAD04",
+      "type": "activity",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null
     },
@@ -11142,6 +11918,341 @@
       ],
       "complete": {
         "type": "questCompleted"
+      },
+      "fail": null
+    },
+    {
+      "id": "rl082",
+      "name": "Trade Authority",
+      "form": "Starfield.esm|0x2B8950",
+      "editorId": "RL082",
+      "type": "activity",
+      "start": {
+        "place": "hub.deserted-trade-authority-starstation",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        0,
+        5,
+        7,
+        10,
+        15,
+        20,
+        25,
+        27,
+        30,
+        35,
+        40
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 35
+      },
+      "fail": {
+        "type": "questStage",
+        "stage": 40
+      }
+    },
+    {
+      "id": "se-ac01",
+      "name": "Marooned",
+      "form": "Starfield.esm|0x05B4B0",
+      "editorId": "SE_AC01",
+      "type": "activity",
+      "start": {
+        "place": "hub.lucky-lu",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        24,
+        25,
+        30,
+        40,
+        50,
+        60,
+        1000,
+        2000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null
+    },
+    {
+      "id": "se-fab02",
+      "name": "Training Ship",
+      "form": "Starfield.esm|0x088A03",
+      "editorId": "SE_FAB02",
+      "type": "activity",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        10,
+        20,
+        25,
+        30,
+        50,
+        66,
+        69,
+        70,
+        75,
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null
+    },
+    {
+      "id": "se-kt01",
+      "name": "Mayday",
+      "form": "Starfield.esm|0x03BC50",
+      "editorId": "SE_KT01",
+      "type": "activity",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        0,
+        5,
+        6,
+        10,
+        20,
+        30,
+        40,
+        50,
+        66,
+        100,
+        200,
+        300,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null
+    },
+    {
+      "id": "se-kt02",
+      "name": "Party Cruise",
+      "form": "Starfield.esm|0x029289",
+      "editorId": "SE_KT02",
+      "type": "activity",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        10,
+        20,
+        30,
+        50,
+        100,
+        200,
+        300,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": {
+        "type": "questStage",
+        "stage": 6
+      }
+    },
+    {
+      "id": "se-kt03",
+      "name": "Robot Survey Team",
+      "form": "Starfield.esm|0x0277A4",
+      "editorId": "SE_KT03",
+      "type": "activity",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        10,
+        20,
+        30,
+        50,
+        66,
+        100,
+        200,
+        300,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": {
+        "type": "questStage",
+        "stage": 66
+      }
+    },
+    {
+      "id": "se-kt04",
+      "name": "The Pale Lady",
+      "form": "Starfield.esm|0x0251D1",
+      "editorId": "SE_KT04",
+      "type": "activity",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        20,
+        30,
+        50,
+        100,
+        200,
+        300,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 30
+      },
+      "fail": {
+        "type": "questStage",
+        "stage": 1000
+      }
+    },
+    {
+      "id": "se-kt05",
+      "name": "Survey Says",
+      "form": "Starfield.esm|0x0179C2",
+      "editorId": "SE_KT05",
+      "type": "activity",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        10,
+        20,
+        30,
+        50,
+        100,
+        200,
+        300,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null
+    },
+    {
+      "id": "se-kt06",
+      "name": "Married Couple",
+      "form": "Starfield.esm|0x02F844",
+      "editorId": "SE_KT06",
+      "type": "activity",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        5,
+        6,
+        10,
+        20,
+        30,
+        50,
+        100,
+        200,
+        300,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 30
+      },
+      "fail": null
+    },
+    {
+      "id": "se-player-fab14",
+      "name": "Delivery Truck",
+      "form": "Starfield.esm|0x05B944",
+      "editorId": "SE_Player_FAB14",
+      "type": "activity",
+      "start": {
+        "place": "hub.akila-city",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        10,
+        50,
+        75,
+        100,
+        200,
+        300,
+        400,
+        401,
+        402,
+        403,
+        404,
+        420,
+        421,
+        500,
+        900,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 500
       },
       "fail": null
     },

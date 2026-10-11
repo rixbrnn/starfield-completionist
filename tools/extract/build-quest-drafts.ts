@@ -87,8 +87,19 @@ const untagged = dump.quests.filter(
 for (const quest of untagged) {
   quest.type = quest.editorId.startsWith("COM_") ? "companion" : "side";
 }
-const candidates = [...tagged, ...untagged];
-console.log(`${tagged.length} tagged quests + ${untagged.length} untagged quests`);
+// One-off activities (QTYP = activity), minus "Misc Pointer" nudges and engine handlers.
+const NOT_AN_ACTIVITY = /pointer|handl|dialogue|tutorial|\bintro\b|^quest for|^misc quest|player house|^wrapper for|\[/i;
+const activities = dump.quests.filter(
+  (q) =>
+    playerFacing(q) &&
+    q.type === "activity" &&
+    !NOT_AN_ACTIVITY.test(q.name) &&
+    !/^(BE|OE|SQ)_|^LC\d+$|_Pointer$/.test(q.editorId) &&
+    q.name !== q.editorId,
+);
+
+const candidates = [...tagged, ...untagged, ...activities];
+console.log(`${tagged.length} tagged quests + ${untagged.length} untagged quests + ${activities.length} activities`);
 
 // ---------------------------------------------------------------- game data
 

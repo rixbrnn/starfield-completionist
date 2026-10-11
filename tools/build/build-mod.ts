@@ -35,7 +35,7 @@ interface Condition {
 
 interface Collection {
   places?: Array<{ id: string; name: string; parent?: string }>;
-  quests: Array<{ name: string; form: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null }>;
+  quests: Array<{ name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null }>;
 }
 
 /** Stages from a questStage / anyOf-of-questStage condition. */
@@ -77,6 +77,7 @@ for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort(
       papyrusString(quest.name),
       papyrusString(describe(quest.start.place)),
       papyrusString(places.get(quest.start.place)?.name ?? "Anywhere"),
+      quest.type === "activity" ? "True" : "False",
       ...pad(complete, MAX_COMPLETE_STAGES),
       ...pad(fail, MAX_FAIL_STAGES),
     ];
@@ -102,6 +103,7 @@ Struct Entry
   String name
   String place
   String hub ; first part of place, e.g. "Neon"
+  Bool activity ; one-off activity rather than a quest
   Int complete1 = -1
   Int complete2 = -1
   Int complete3 = -1
@@ -124,7 +126,7 @@ ${pageBlocks}
   Return entries
 EndFunction
 
-Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asName, String asPlace, String asHub, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
+Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asName, String asPlace, String asHub, Bool abActivity, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
   Quest found = Game.GetFormFromFile(aiFormID, asPlugin) as Quest
   If found
     Entry entry = new Entry
@@ -132,6 +134,7 @@ Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asName, St
     entry.name = asName
     entry.place = asPlace
     entry.hub = asHub
+    entry.activity = abActivity
     entry.complete1 = aiComplete1
     entry.complete2 = aiComplete2
     entry.complete3 = aiComplete3

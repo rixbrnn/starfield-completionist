@@ -37,6 +37,13 @@
       "location": "ShatteredSpace.esm|0x03D517"
     },
     {
+      "id": "hub.misthaze-cavern",
+      "kind": "hub",
+      "name": "Misthaze Cavern",
+      "parent": "pl.va-ruun-kai",
+      "location": "ShatteredSpace.esm|0x00F189"
+    },
+    {
       "id": "hub.new-atlantis",
       "kind": "hub",
       "name": "New Atlantis",
@@ -152,6 +159,43 @@
       }
     },
     {
+      "id": "sfbgs001-dazraz02",
+      "name": "Hide and Seek",
+      "form": "ShatteredSpace.esm|0x050B56",
+      "editorId": "SFBGS001_DazraZ02",
+      "type": "activity",
+      "start": {
+        "place": "hub.dazra",
+        "giver": "Mila Hohdan",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        5,
+        10,
+        15,
+        16,
+        20,
+        30,
+        40,
+        45,
+        50,
+        1000,
+        1500,
+        2000,
+        3000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": {
+        "type": "questStage",
+        "stage": 3000
+      }
+    },
+    {
       "id": "sfbgs001-dazraz03",
       "name": "Sympathy for the Living",
       "form": "ShatteredSpace.esm|0x0D5E84",
@@ -195,6 +239,32 @@
         "type": "questStage",
         "stage": 2000
       }
+    },
+    {
+      "id": "sfbgs001-lc08",
+      "name": "Waterfall and hidden treasure",
+      "form": "ShatteredSpace.esm|0x0165AA",
+      "editorId": "SFBGS001_LC08",
+      "type": "activity",
+      "start": {
+        "place": "hub.misthaze-cavern",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        1,
+        5,
+        6,
+        10,
+        90,
+        100
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": null
     },
     {
       "id": "sfbgs001-mq-shell",
