@@ -29,7 +29,7 @@ Function Register()
   If !OSFUI.IsAvailable()
     Return
   EndIf
-  OSFUI.RegisterSend(Self, ModId, "close")
+  ; "close" from the page is handled by OSF UI itself (the name is reserved).
   OSFSettings.RegisterHotkey(Self, ModId, OpenHotkey)
   PublishStatus()
   PublishLocation(Game.GetPlayer().GetCurrentLocation())
@@ -47,12 +47,6 @@ Function OnOSFHotkey(String asModId, String asHotkeyId)
   If asHotkeyId == OpenHotkey
     PublishLocation(Game.GetPlayer().GetCurrentLocation())
     OSFUI.Open(MenuView)
-  EndIf
-EndFunction
-
-Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
-  If asName == "close"
-    OSFUI.Close(MenuView)
   EndIf
 EndFunction
 

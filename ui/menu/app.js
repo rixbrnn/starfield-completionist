@@ -66,7 +66,9 @@
     for (let p = 0; p < pages; p++) {
       const ids = bridge.state.get("ids" + p) || [];
       const values = bridge.state.get("status" + p) || [];
-      ids.forEach((id, i) => next.set(id, values[i] ?? NOT_STARTED));
+      // Papyrus strings are case-insensitive and shared engine-wide, so "ri01" can arrive as
+      // "RI01" (the editor ID the game already holds). Our ids are lowercase.
+      ids.forEach((id, i) => next.set(String(id).toLowerCase(), values[i] ?? NOT_STARTED));
     }
     statuses = next;
     queueRender();
