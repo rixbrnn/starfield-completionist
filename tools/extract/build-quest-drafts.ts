@@ -75,10 +75,20 @@ if (!existsSync(args.dump)) {
 const dump = JSON.parse(readFileSync(args.dump, "utf8")) as { quests: DumpQuest[] };
 const playerFacing = (q: DumpQuest) => q.name && q.objectives > 0 && !q.name.includes("<Alias=") && !/^\[.*\]$/.test(q.name);
 const NOT_A_QUEST = /(_OLD|Debug|Test|Template)\b|^(OE|SE|BE|RQ|MB|RAD|DialogueGeneric)_?/i;
+// Untagged quests that are engine machinery or cut content rather than player quests
+// (checked against the Map Genie checklist, see docs/research/S2-quest-types.md).
+const INTERNAL_UNTAGGED = /Debug|Gauntlet|TempleQuest$|SpawnManager|Controller|^CUT_/i;
 
-const candidates = dump.quests.filter((q) => playerFacing(q) && ["main", "faction", "side"].includes(q.type));
-const untagged = dump.quests.filter((q) => playerFacing(q) && q.type === "" && !NOT_A_QUEST.test(q.editorId));
-console.log(`${candidates.length} tagged quests, ${untagged.length} untagged to review`);
+const tagged = dump.quests.filter((q) => playerFacing(q) && ["main", "faction", "side"].includes(q.type));
+// Many real quests have no QTYP: Akila City and New Atlantis side quests, companion quests, encounters.
+const untagged = dump.quests.filter(
+  (q) => playerFacing(q) && q.type === "" && !NOT_A_QUEST.test(q.editorId) && !INTERNAL_UNTAGGED.test(q.editorId),
+);
+for (const quest of untagged) {
+  quest.type = quest.editorId.startsWith("COM_") ? "companion" : "side";
+}
+const candidates = [...tagged, ...untagged];
+console.log(`${tagged.length} tagged quests + ${untagged.length} untagged quests`);
 
 // ---------------------------------------------------------------- game data
 
@@ -98,7 +108,7 @@ const locations = loadLocations(plugins, stringsFor);
 
 const actorBases = new Set<string>();
 const forcedRefs = new Set<string>();
-for (const quest of [...candidates, ...untagged]) {
+for (const quest of candidates) {
   for (const alias of quest.aliases) {
     if (alias.uniqueActor) actorBases.add(alias.uniqueActor);
     if (alias.forcedRef) forcedRefs.add(alias.forcedRef);
@@ -366,9 +376,9 @@ const review = [
   "|---|---|---|---|---|",
   ...report,
   "",
-  "## Untagged quests (no QTYP) that might be real",
+  "## Untagged quests (no QTYP), included as side/companion quests",
   "",
-  "Add the real ones to the collections by hand.",
+  "Included automatically; remove any that turn out not to be real quests (add their editor ID pattern to INTERNAL_UNTAGGED).",
   "",
   "| Editor ID | Quest | Form | Folder |",
   "|---|---|---|---|",

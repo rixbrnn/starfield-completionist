@@ -23,6 +23,13 @@
       "location": "ShatteredSpace.esm|0x03D519"
     },
     {
+      "id": "hub.deep-gorge-refinery",
+      "kind": "hub",
+      "name": "Deep Gorge Refinery",
+      "parent": "pl.va-ruun-kai",
+      "location": "ShatteredSpace.esm|0x02552C"
+    },
+    {
       "id": "hub.hamadi-station",
       "kind": "hub",
       "name": "Hamadi Station",
@@ -1900,6 +1907,46 @@
         "type": "questStage",
         "stage": 10000
       }
+    },
+    {
+      "id": "sfbgs001lc07-quest01",
+      "name": "Refinery Controller Quest",
+      "form": "ShatteredSpace.esm|0x097FC8",
+      "editorId": "SFBGS001LC07_Quest01",
+      "type": "side",
+      "start": {
+        "place": "hub.deep-gorge-refinery",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        5,
+        10,
+        15,
+        20,
+        30,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        49,
+        50,
+        51,
+        54,
+        55,
+        56,
+        57,
+        58,
+        60
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null
     }
   ]
 }

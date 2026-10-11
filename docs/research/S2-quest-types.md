@@ -69,6 +69,16 @@ Named quests with at least one objective (2,594 QUST records in total, 1,553 nam
 
 That gives roughly **300 candidate quests** before curation.
 
+## Cross-check against Map Genie (2026-10-11)
+
+[mapgenie.io/starfield/checklist](https://mapgenie.io/starfield/checklist) lists 169 base-game quests (20 main, 42 faction, 107 misc; 166 unique names). Compared by name against our collections:
+
+- **Before:** 151/166 found. Nine missing quests were untagged in the game data (Akila City's Ashta and Jansen quests, *Secret Lives*, *Search and Seizure*, *Two Tales, Two Cities*, *Failure to Communicate*, *Dream Home*). So untagged quests with objectives are now **included by default**, minus engine/cut-content patterns (`INTERNAL_UNTAGGED` in `build-quest-drafts.ts`).
+- **After:** 160/166. The other six aren't gaps:
+  - Map Genie names three quests differently from the game: *Stall at Startup* = "Start-Up Stopped", *Refurbished Products* = "Refurbished Goods", *The Cursed Boots* = "The Boot".
+  - Three names don't exist as quests in the game files: *Give Donna a Pick-Me-Up*, *MAST Research*, *Copy and drink tea* (likely activities or nicknames).
+- We also track 25+ real base-game quests Map Genie doesn't list, e.g. companion *Commitment* quests, *Matters of the Hart*, *In Memoriam*, *Escape from the Endless Voyage*, *Vanguard: Bug Hunt*.
+
 ## Still open
 
 - How are companion quests identified? (`COM_` editor-ID prefix, `FollowersSupport\…` folder?)

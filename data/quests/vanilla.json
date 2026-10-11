@@ -1729,6 +1729,166 @@
       "fail": null
     },
     {
+      "id": "city-akila-ashta01",
+      "name": "Defensive Measures",
+      "form": "Starfield.esm|0x21625F",
+      "editorId": "City_Akila_Ashta01",
+      "type": "side",
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Davis Wilson",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        1,
+        5,
+        8,
+        10,
+        20,
+        25,
+        30,
+        31,
+        32,
+        33,
+        34,
+        40,
+        50,
+        59,
+        60,
+        65,
+        70,
+        200
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "city-akila-ashta02",
+      "name": "False Positives",
+      "form": "Starfield.esm|0x212B4F",
+      "editorId": "City_Akila_Ashta02",
+      "type": "side",
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Davis Wilson",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        1,
+        5,
+        10,
+        15,
+        20,
+        30,
+        35,
+        40,
+        50,
+        60,
+        70,
+        80,
+        81,
+        82,
+        83,
+        85,
+        90,
+        100,
+        110,
+        120,
+        121,
+        130,
+        200
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "city-akila-ashta03",
+      "name": "Leader of the Pack",
+      "form": "Starfield.esm|0x212B4E",
+      "editorId": "City_Akila_Ashta03",
+      "type": "side",
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Davis Wilson",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        1,
+        5,
+        7,
+        10,
+        15,
+        20,
+        30,
+        31,
+        35,
+        39,
+        90,
+        95,
+        96,
+        100,
+        110,
+        150,
+        160,
+        170,
+        180,
+        200
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
+    },
+    {
+      "id": "city-akila-jansen",
+      "name": "Rough Landings",
+      "form": "Starfield.esm|0x1A8B64",
+      "editorId": "City_Akila_Jansen",
+      "type": "side",
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Marko Jansen",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        1,
+        25,
+        100,
+        200,
+        300,
+        400,
+        500,
+        510,
+        515,
+        520,
+        522,
+        524,
+        525,
+        600,
+        9000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 600
+      },
+      "fail": null
+    },
+    {
       "id": "city-akilalife01",
       "name": "The Great Laredo Caper",
       "form": "Starfield.esm|0x11463F",
@@ -4337,6 +4497,133 @@
       }
     },
     {
+      "id": "com-quest-barrett-q02",
+      "name": "Worlds Apart",
+      "form": "Starfield.esm|0x002FAE",
+      "editorId": "COM_Quest_Barrett_Q02",
+      "type": "companion",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Barrett",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        1,
+        2,
+        3,
+        9,
+        10,
+        11,
+        83,
+        99,
+        101,
+        112,
+        198,
+        7400,
+        7401,
+        7402,
+        7407,
+        7998,
+        7999,
+        8000,
+        8001,
+        8010,
+        8099,
+        8100,
+        8101,
+        8110,
+        8111,
+        8112,
+        8120,
+        8200,
+        8299,
+        8300,
+        8301,
+        8302,
+        8310,
+        8399,
+        8400,
+        8401,
+        8405,
+        8410,
+        8415,
+        8499,
+        8500,
+        8501,
+        8502,
+        8505,
+        8510,
+        8599,
+        8600,
+        8601,
+        8605,
+        8610,
+        8615,
+        8620,
+        8624,
+        8625,
+        8699,
+        8700,
+        8701,
+        8710,
+        8711,
+        8712,
+        8713,
+        8714,
+        8720,
+        8799,
+        8800,
+        8801,
+        8805,
+        8810,
+        8812,
+        8815,
+        8820,
+        8830,
+        8835,
+        8840,
+        8845,
+        8850,
+        8860,
+        8899,
+        8900,
+        8901,
+        8910,
+        8911,
+        8912,
+        8920,
+        8930,
+        8999,
+        9000,
+        9100,
+        9200,
+        9998,
+        9999,
+        20000,
+        49999,
+        50000
+      ],
+      "complete": {
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 9100
+          },
+          {
+            "type": "questStage",
+            "stage": 9200
+          }
+        ]
+      },
+      "fail": {
+        "type": "questStage",
+        "stage": 20000
+      }
+    },
+    {
       "id": "com-quest-samcoe-commitment",
       "name": "Commitment: Sam Coe",
       "form": "Starfield.esm|0x0DF7AD",
@@ -4556,6 +4843,50 @@
         "type": "questStage",
         "stage": 20000
       }
+    },
+    {
+      "id": "crucible01",
+      "name": "Secret Lives",
+      "form": "Starfield.esm|0x0BD77E",
+      "editorId": "Crucible01",
+      "type": "side",
+      "start": {
+        "place": "hub.crucible",
+        "giver": "Wyatt Earp",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        1,
+        50,
+        100,
+        110,
+        120,
+        150,
+        200,
+        205,
+        210,
+        220,
+        230,
+        300,
+        400,
+        9000
+      ],
+      "complete": {
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 300
+          },
+          {
+            "type": "questStage",
+            "stage": 400
+          }
+        ]
+      },
+      "fail": null
     },
     {
       "id": "fc01",
@@ -5989,6 +6320,114 @@
         50,
         60,
         100
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": null
+    },
+    {
+      "id": "ffnewatlantis05",
+      "name": "Search and Seizure",
+      "form": "Starfield.esm|0x08E2D9",
+      "editorId": "FFNewAtlantis05",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Sergeant Yumi",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        20,
+        25,
+        30,
+        40,
+        45,
+        50,
+        60,
+        70,
+        80,
+        90,
+        95,
+        100,
+        200
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": null
+    },
+    {
+      "id": "ffnewatlantis06",
+      "name": "Two Tales, Two Cities",
+      "form": "Starfield.esm|0x089F4E",
+      "editorId": "FFNewAtlantis06",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Sergeant Yumi",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        19,
+        20,
+        30,
+        35,
+        40,
+        45,
+        46,
+        47,
+        50,
+        60,
+        65,
+        70,
+        75,
+        78,
+        79,
+        80,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        95,
+        100,
+        200
       ],
       "complete": {
         "type": "questStage",
@@ -8532,6 +8971,27 @@
       "fail": null
     },
     {
+      "id": "mqmisc02",
+      "name": "Companion's Belongings",
+      "form": "Starfield.esm|0x1560EE",
+      "editorId": "MQMisc02",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        10,
+        100
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": null
+    },
+    {
       "id": "ms01",
       "name": "Groundpounder",
       "form": "Starfield.esm|0x1F3A36",
@@ -10665,6 +11125,105 @@
       "fail": null
     },
     {
+      "id": "rl040quest",
+      "name": "Unusual SOS",
+      "form": "Starfield.esm|0x25A9E2",
+      "editorId": "RL040Quest",
+      "type": "side",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        10,
+        20,
+        30
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null
+    },
+    {
+      "id": "sg02",
+      "name": "Failure to Communicate",
+      "form": "Starfield.esm|0x1E7332",
+      "editorId": "SG02",
+      "type": "side",
+      "start": {
+        "place": "hub.hopetown",
+        "giver": "Chanda Banda",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        100,
+        125,
+        200,
+        300,
+        400,
+        425,
+        500,
+        600,
+        700,
+        775,
+        780,
+        790,
+        800,
+        825,
+        850,
+        900,
+        910,
+        911,
+        912,
+        920,
+        930,
+        950,
+        1000,
+        1005,
+        1010,
+        1015,
+        1020,
+        1100,
+        1150,
+        1175,
+        1200,
+        1210,
+        1215,
+        1216,
+        1220,
+        1230,
+        1240,
+        1250,
+        1300,
+        1310,
+        1400,
+        1500,
+        9000
+      ],
+      "complete": {
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 1400
+          },
+          {
+            "type": "questStage",
+            "stage": 1500
+          }
+        ]
+      },
+      "fail": null
+    },
+    {
       "id": "staryard-deimos-z-tasteofhome",
       "name": "Taste of Home",
       "form": "Starfield.esm|0x10E782",
@@ -10709,6 +11268,45 @@
       "complete": {
         "type": "questStage",
         "stage": 1000
+      },
+      "fail": null
+    },
+    {
+      "id": "traitstarterhome",
+      "name": "Dream Home",
+      "form": "Starfield.esm|0x0A47B8",
+      "editorId": "TraitStarterHome",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Landry Hollifeld",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        1,
+        100,
+        150,
+        200,
+        300,
+        400,
+        500,
+        1000,
+        9000
+      ],
+      "complete": {
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 500
+          },
+          {
+            "type": "questStage",
+            "stage": 1000
+          }
+        ]
       },
       "fail": null
     },
