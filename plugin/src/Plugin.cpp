@@ -104,6 +104,13 @@ namespace Completionist::Plugin
 			if (a_msg->type == SFSE::MessagingInterface::kPostDataLoad) {
 				REX::INFO("Game data loaded");
 				g_registry.Load(QuestDataDirectory());
+
+				// CommonLibSF leaves unmapped functions at Address Library ID 0, and calling one
+				// aborts the game. Only track quests once TESQuest::IsStageDone is mapped.
+				if (RE::ID::TESQuest::IsStageDone.id() == 0) {
+					REX::WARN("TESQuest::IsStageDone has no address for this game version; quest tracking disabled");
+					return;
+				}
 				StartQuestWatcher();
 			}
 		}
