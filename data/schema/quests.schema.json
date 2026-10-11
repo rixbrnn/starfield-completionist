@@ -231,6 +231,15 @@
             "$ref": "#/$defs/id"
           }
         },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "description": "All stage indices; any of them done means the quest has started."
+        },
         "complete": {
           "$ref": "#/$defs/condition"
         },

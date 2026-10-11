@@ -61,9 +61,17 @@
         "confidence": "medium",
         "source": "giver"
       },
+      "stages": [
+        5,
+        10,
+        100,
+        200
+      ],
       "complete": {
-        "type": "questCompleted"
-      }
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null
     },
     {
       "id": "sffl-anchorpointz02a",
@@ -77,9 +85,22 @@
         "confidence": "medium",
         "source": "giver"
       },
+      "stages": [
+        5,
+        10,
+        20,
+        30,
+        35,
+        40,
+        45,
+        50,
+        100
+      ],
       "complete": {
-        "type": "questCompleted"
-      }
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": null
     },
     {
       "id": "sffl-anchorpointz03",
@@ -93,9 +114,22 @@
         "confidence": "medium",
         "source": "giver"
       },
+      "stages": [
+        99,
+        100,
+        150,
+        200,
+        240,
+        250,
+        260,
+        300,
+        1000
+      ],
       "complete": {
-        "type": "questCompleted"
-      }
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null
     },
     {
       "id": "sffl-anchorpointz04",
@@ -109,9 +143,16 @@
         "confidence": "medium",
         "source": "giver"
       },
+      "stages": [
+        100,
+        200,
+        1000
+      ],
       "complete": {
-        "type": "questCompleted"
-      }
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null
     },
     {
       "id": "sffl-ms02",
@@ -124,9 +165,88 @@
         "confidence": "medium",
         "source": "alias"
       },
+      "stages": [
+        0,
+        5,
+        9,
+        10,
+        20,
+        50,
+        60,
+        80,
+        90,
+        95,
+        96,
+        99,
+        100,
+        101,
+        150,
+        160,
+        165,
+        167,
+        170,
+        175,
+        180,
+        185,
+        190,
+        195,
+        199,
+        200,
+        205,
+        210,
+        215,
+        230,
+        250,
+        252,
+        260,
+        263,
+        265,
+        280,
+        285,
+        287,
+        290,
+        295,
+        299,
+        300,
+        310,
+        315,
+        320,
+        340,
+        352,
+        353,
+        400,
+        420,
+        440,
+        450,
+        455,
+        470,
+        475,
+        480,
+        485,
+        499,
+        500,
+        599,
+        600,
+        610,
+        650,
+        660,
+        800,
+        899,
+        900,
+        920,
+        950,
+        952,
+        955,
+        960,
+        975,
+        990,
+        999
+      ],
       "complete": {
-        "type": "questCompleted"
-      }
+        "type": "questStage",
+        "stage": 999
+      },
+      "fail": null
     },
     {
       "id": "sffl-ms03",
@@ -140,8 +260,122 @@
         "confidence": "medium",
         "source": "giver"
       },
+      "stages": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        20,
+        50,
+        100,
+        101,
+        102,
+        110,
+        115,
+        120,
+        130,
+        140,
+        150,
+        200,
+        300,
+        310,
+        400,
+        405,
+        410,
+        420,
+        430,
+        440,
+        450,
+        500,
+        505,
+        510,
+        600,
+        610,
+        1000,
+        1010,
+        1100,
+        1110,
+        1115,
+        1120,
+        1125,
+        1130,
+        1135,
+        1140,
+        1200,
+        1201,
+        1202,
+        1203,
+        1204,
+        1205,
+        1206,
+        1207,
+        1208,
+        1209,
+        1210,
+        1211,
+        1212,
+        1215,
+        1216,
+        1217,
+        1218,
+        1220,
+        1230,
+        1235,
+        1240,
+        1250,
+        1260,
+        1265,
+        1270,
+        1271,
+        1272,
+        1280,
+        1290,
+        1300,
+        1310,
+        2000,
+        2010,
+        2020,
+        2100,
+        2110,
+        2200,
+        2210,
+        3000,
+        3010,
+        3100,
+        3200,
+        3201,
+        3202,
+        3203,
+        3204,
+        3205,
+        3206,
+        3207,
+        3208,
+        3209,
+        3210,
+        3220,
+        3230,
+        3235,
+        3240,
+        3250,
+        3260,
+        3270,
+        4000,
+        5000,
+        10000
+      ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 10000
+      },
+      "fail": {
+        "type": "questStage",
+        "stage": 4000
       }
     },
     {
@@ -155,9 +389,40 @@
         "confidence": "low",
         "source": "manual"
       },
+      "stages": [
+        10,
+        50,
+        66,
+        100,
+        200,
+        300,
+        400,
+        410,
+        425,
+        450,
+        500,
+        525,
+        550,
+        600,
+        650,
+        700,
+        800,
+        1000
+      ],
       "complete": {
-        "type": "questCompleted"
-      }
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 800
+          },
+          {
+            "type": "questStage",
+            "stage": 1000
+          }
+        ]
+      },
+      "fail": null
     },
     {
       "id": "sffl-r02",
@@ -171,9 +436,27 @@
         "confidence": "medium",
         "source": "giver"
       },
+      "stages": [
+        5,
+        100,
+        200,
+        201,
+        202,
+        205,
+        206,
+        210,
+        215,
+        225,
+        250,
+        255,
+        260,
+        1000
+      ],
       "complete": {
-        "type": "questCompleted"
-      }
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null
     },
     {
       "id": "sffl-r03",
@@ -186,8 +469,34 @@
         "confidence": "low",
         "source": "manual"
       },
+      "stages": [
+        0,
+        10,
+        40,
+        50,
+        60,
+        75,
+        100,
+        110,
+        150,
+        175,
+        180,
+        200,
+        250,
+        300,
+        400,
+        450,
+        500,
+        550,
+        1000
+      ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 500
+      },
+      "fail": {
+        "type": "questStage",
+        "stage": 200
       }
     },
     {
@@ -201,9 +510,23 @@
         "confidence": "low",
         "source": "manual"
       },
+      "stages": [
+        0,
+        1,
+        50,
+        55,
+        60,
+        65,
+        100,
+        200,
+        300,
+        350
+      ],
       "complete": {
-        "type": "questCompleted"
-      }
+        "type": "questStage",
+        "stage": 300
+      },
+      "fail": null
     },
     {
       "id": "sffl-se-rs02",
@@ -216,9 +539,22 @@
         "confidence": "low",
         "source": "manual"
       },
+      "stages": [
+        0,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        65,
+        70,
+        80
+      ],
       "complete": {
         "type": "questCompleted"
-      }
+      },
+      "fail": null
     },
     {
       "id": "sffl-z01",
@@ -231,8 +567,47 @@
         "confidence": "low",
         "source": "manual"
       },
+      "stages": [
+        0,
+        5,
+        10,
+        20,
+        30,
+        100,
+        105,
+        110,
+        120,
+        125,
+        129,
+        130,
+        140,
+        146,
+        148,
+        150,
+        160,
+        199,
+        200,
+        201,
+        250,
+        255,
+        260,
+        270,
+        280,
+        300,
+        305,
+        310,
+        350,
+        998,
+        999,
+        9999
+      ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 999
+      },
+      "fail": {
+        "type": "questStage",
+        "stage": 9999
       }
     },
     {
@@ -251,9 +626,19 @@
         "confidence": "medium",
         "source": "alias"
       },
+      "stages": [
+        1,
+        10,
+        50,
+        100,
+        1000,
+        2000
+      ],
       "complete": {
-        "type": "questCompleted"
-      }
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null
     }
   ]
 }

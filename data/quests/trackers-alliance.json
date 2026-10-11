@@ -55,8 +55,62 @@
         "confidence": "low",
         "source": "manual"
       },
+      "stages": [
+        0,
+        1,
+        5,
+        30,
+        55,
+        90,
+        100,
+        200,
+        210,
+        220,
+        230,
+        240,
+        425,
+        430,
+        450,
+        475,
+        500,
+        600,
+        700,
+        750,
+        800,
+        850,
+        900,
+        950,
+        999
+      ],
       "complete": {
-        "type": "questCompleted"
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 230
+          },
+          {
+            "type": "questStage",
+            "stage": 850
+          },
+          {
+            "type": "questStage",
+            "stage": 900
+          }
+        ]
+      },
+      "fail": {
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 850
+          },
+          {
+            "type": "questStage",
+            "stage": 950
+          }
+        ]
       }
     },
     {
@@ -71,8 +125,62 @@
         "confidence": "low",
         "source": "manual"
       },
+      "stages": [
+        0,
+        1,
+        5,
+        30,
+        55,
+        90,
+        100,
+        200,
+        210,
+        220,
+        230,
+        240,
+        425,
+        430,
+        450,
+        475,
+        500,
+        600,
+        700,
+        750,
+        800,
+        850,
+        900,
+        950,
+        999
+      ],
       "complete": {
-        "type": "questCompleted"
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 230
+          },
+          {
+            "type": "questStage",
+            "stage": 850
+          },
+          {
+            "type": "questStage",
+            "stage": 900
+          }
+        ]
+      },
+      "fail": {
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 850
+          },
+          {
+            "type": "questStage",
+            "stage": 950
+          }
+        ]
       }
     },
     {
@@ -87,8 +195,62 @@
         "confidence": "low",
         "source": "manual"
       },
+      "stages": [
+        0,
+        1,
+        5,
+        30,
+        55,
+        90,
+        100,
+        200,
+        210,
+        220,
+        230,
+        240,
+        425,
+        430,
+        450,
+        475,
+        500,
+        600,
+        700,
+        750,
+        800,
+        850,
+        900,
+        950,
+        999
+      ],
       "complete": {
-        "type": "questCompleted"
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 230
+          },
+          {
+            "type": "questStage",
+            "stage": 850
+          },
+          {
+            "type": "questStage",
+            "stage": 900
+          }
+        ]
+      },
+      "fail": {
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 850
+          },
+          {
+            "type": "questStage",
+            "stage": 950
+          }
+        ]
       }
     },
     {
@@ -103,8 +265,62 @@
         "confidence": "low",
         "source": "manual"
       },
+      "stages": [
+        0,
+        1,
+        5,
+        30,
+        55,
+        90,
+        100,
+        200,
+        210,
+        220,
+        230,
+        240,
+        425,
+        430,
+        450,
+        475,
+        500,
+        600,
+        700,
+        750,
+        800,
+        850,
+        900,
+        950,
+        999
+      ],
       "complete": {
-        "type": "questCompleted"
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 230
+          },
+          {
+            "type": "questStage",
+            "stage": 850
+          },
+          {
+            "type": "questStage",
+            "stage": 900
+          }
+        ]
+      },
+      "fail": {
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 850
+          },
+          {
+            "type": "questStage",
+            "stage": 950
+          }
+        ]
       }
     },
     {
@@ -119,8 +335,62 @@
         "confidence": "low",
         "source": "manual"
       },
+      "stages": [
+        0,
+        1,
+        5,
+        30,
+        55,
+        90,
+        100,
+        200,
+        210,
+        220,
+        230,
+        240,
+        425,
+        430,
+        450,
+        475,
+        500,
+        600,
+        700,
+        750,
+        800,
+        850,
+        900,
+        950,
+        999
+      ],
       "complete": {
-        "type": "questCompleted"
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 230
+          },
+          {
+            "type": "questStage",
+            "stage": 850
+          },
+          {
+            "type": "questStage",
+            "stage": 900
+          }
+        ]
+      },
+      "fail": {
+        "type": "anyOf",
+        "conditions": [
+          {
+            "type": "questStage",
+            "stage": 850
+          },
+          {
+            "type": "questStage",
+            "stage": 950
+          }
+        ]
       }
     },
     {
@@ -140,9 +410,26 @@
         "confidence": "medium",
         "source": "giver"
       },
+      "stages": [
+        0,
+        10,
+        99,
+        100,
+        101,
+        102,
+        110,
+        200,
+        300,
+        301,
+        400,
+        999,
+        1000
+      ],
       "complete": {
-        "type": "questCompleted"
-      }
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null
     },
     {
       "id": "sfta00",
@@ -161,9 +448,100 @@
         "confidence": "medium",
         "source": "giver"
       },
+      "stages": [
+        1,
+        2,
+        3,
+        100,
+        101,
+        102,
+        110,
+        200,
+        201,
+        202,
+        203,
+        206,
+        210,
+        211,
+        300,
+        325,
+        350,
+        351,
+        352,
+        355,
+        356,
+        358,
+        360,
+        365,
+        400,
+        410,
+        500,
+        501,
+        600,
+        650,
+        700,
+        705,
+        710,
+        800,
+        810,
+        815,
+        850,
+        900,
+        1000,
+        1025,
+        1026,
+        1050,
+        1051,
+        1100,
+        1150,
+        1175,
+        1200,
+        1245,
+        1250,
+        1300,
+        1350,
+        1375,
+        1380,
+        1400,
+        1425,
+        1450,
+        1451,
+        1475,
+        1500,
+        1501,
+        1502,
+        1505,
+        1507,
+        1510,
+        1515,
+        1520,
+        1550,
+        1600,
+        1610,
+        1620,
+        1621,
+        1622,
+        1630,
+        1640,
+        1650,
+        1660,
+        1700,
+        1750,
+        1800,
+        1825,
+        1850,
+        1900,
+        1901,
+        1902,
+        1950,
+        2000,
+        10000
+      ],
       "complete": {
-        "type": "questCompleted"
-      }
+        "type": "questStage",
+        "stage": 2000
+      },
+      "fail": null
     }
   ]
 }

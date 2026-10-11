@@ -6,9 +6,10 @@ namespace Completionist::Plugin
 {
 	namespace
 	{
-		QuestRegistry              g_registry;
-		std::vector<std::uint16_t> g_lastFlags;  // per quest: last logged QUEST_DATA::flags
-		std::atomic_bool           g_checkQueued{ false };
+		QuestRegistry            g_registry;
+		std::vector<QuestStatus> g_lastStatus;  // per quest, as of the previous check
+		std::atomic_bool         g_checkQueued{ false };
+		std::uint32_t            g_checks{ 0 };
 
 		std::filesystem::path QuestDataDirectory()
 		{
@@ -16,38 +17,65 @@ namespace Completionist::Plugin
 			return std::filesystem::current_path() / "Data" / "SFSE" / "Plugins" / "StarfieldCompletionist" / "quests";
 		}
 
-		// Spike S1: which QUEST_DATA::flags bits mean running / completed?
-		// Runs on the main thread and logs every quest whose flags changed since the last check.
+		struct Tally
+		{
+			std::size_t total{ 0 };
+			std::size_t completed{ 0 };
+			std::size_t inProgress{ 0 };
+			std::size_t failed{ 0 };
+		};
+
+		void LogPlaceSummary(const std::vector<QuestStatus>& a_status)
+		{
+			const auto& quests = g_registry.Quests();
+			std::map<std::string, Tally> byPlace;
+			Tally                        overall;
+			for (std::size_t i = 0; i < quests.size(); ++i) {
+				for (auto* tally : { &byPlace[quests[i].place.empty() ? "(no place)" : quests[i].place], &overall }) {
+					++tally->total;
+					tally->completed += a_status[i] == QuestStatus::kCompleted;
+					tally->inProgress += a_status[i] == QuestStatus::kInProgress;
+					tally->failed += a_status[i] == QuestStatus::kFailed;
+				}
+			}
+
+			REX::INFO("Progress: {}/{} completed, {} in progress, {} failed", overall.completed, overall.total, overall.inProgress, overall.failed);
+			for (const auto& [place, tally] : byPlace) {
+				const auto missing = tally.total - tally.completed - tally.inProgress - tally.failed;
+				REX::INFO("  {:>3}/{:<3} done  {:>2} active  {:>2} not started  {}", tally.completed, tally.total, tally.inProgress, missing, place);
+			}
+		}
+
+		// Runs on the main thread: evaluates every quest and logs what changed.
 		void CheckQuests()
 		{
 			const auto& quests = g_registry.Quests();
-			g_lastFlags.resize(quests.size(), 0xFFFF);
-
-			std::size_t                          changed = 0;
-			std::map<std::uint16_t, std::size_t> histogram;
-			for (std::size_t i = 0; i < quests.size(); ++i) {
-				const auto& quest = quests[i];
-				if (!quest.form) {
-					continue;
-				}
-				const auto flags = quest.form->data.flags;
-				++histogram[flags];
-				if (flags == g_lastFlags[i]) {
-					continue;
-				}
-				if (changed++ == 0) {
-					REX::INFO("Quest flags changed:");
-				}
-				REX::INFO("  {:<34} {:<38} {:#06x} -> {:#06x}  [{}] {}", quest.editorID, quest.name, g_lastFlags[i], flags, quest.type, quest.place);
-				g_lastFlags[i] = flags;
+			std::vector<QuestStatus> status;
+			status.reserve(quests.size());
+			for (const auto& quest : quests) {
+				status.push_back(quest.Status());
 			}
 
-			if (changed > 0) {
-				REX::INFO("{} quests changed. Flags histogram:", changed);
-				for (const auto& [flags, count] : histogram) {
-					REX::INFO("  {:#06x}: {}", flags, count);
+			const bool  first = g_lastStatus.empty();
+			std::size_t changed = 0;
+			if (!first) {
+				for (std::size_t i = 0; i < quests.size(); ++i) {
+					if (status[i] != g_lastStatus[i]) {
+						if (changed++ == 0) {
+							REX::INFO("Quest status changes:");
+						}
+						REX::INFO("  {:<38} {} -> {}  [{}] {}", quests[i].name, ToString(g_lastStatus[i]), ToString(status[i]), quests[i].editorID, quests[i].place);
+					}
 				}
 			}
+
+			if (first || changed > 0) {
+				LogPlaceSummary(status);
+			} else if (++g_checks % 12 == 0) {
+				const auto done = std::ranges::count(status, QuestStatus::kCompleted);
+				REX::INFO("Watching {} quests ({} completed); no changes", quests.size(), done);
+			}
+			g_lastStatus = std::move(status);
 		}
 
 		// SFSE doesn't tell plugins when a save loads (spike S6), so poll for changes.

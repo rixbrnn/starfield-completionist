@@ -4,6 +4,69 @@
 
 namespace Completionist
 {
+	namespace
+	{
+		Condition ParseCondition(const nlohmann::json& a_json)
+		{
+			Condition condition;
+			const auto type = a_json.value("type", "");
+			if (type == "questStage" && !a_json.contains("form")) {
+				condition.kind = Condition::Kind::kQuestStage;
+				condition.stage = a_json.value<std::uint16_t>("stage", 0);
+			} else if (type == "anyOf" || type == "allOf") {
+				condition.kind = type == "anyOf" ? Condition::Kind::kAnyOf : Condition::Kind::kAllOf;
+				for (const auto& child : a_json.value("conditions", nlohmann::json::array())) {
+					condition.children.push_back(ParseCondition(child));
+				}
+			}
+			return condition;
+		}
+	}
+
+	bool Condition::Evaluate(const RE::TESQuest& a_quest) const
+	{
+		switch (kind) {
+		case Kind::kQuestStage:
+			return a_quest.IsStageDone(stage);
+		case Kind::kAnyOf:
+			return std::ranges::any_of(children, [&](const auto& a_child) { return a_child.Evaluate(a_quest); });
+		case Kind::kAllOf:
+			return std::ranges::all_of(children, [&](const auto& a_child) { return a_child.Evaluate(a_quest); });
+		default:
+			return false;
+		}
+	}
+
+	std::string_view ToString(QuestStatus a_status)
+	{
+		switch (a_status) {
+		case QuestStatus::kNotStarted:
+			return "not started";
+		case QuestStatus::kInProgress:
+			return "in progress";
+		case QuestStatus::kCompleted:
+			return "completed";
+		case QuestStatus::kFailed:
+			return "failed";
+		}
+		return "?";
+	}
+
+	QuestStatus TrackedQuest::Status() const
+	{
+		if (!form) {
+			return QuestStatus::kNotStarted;
+		}
+		if (complete.Evaluate(*form)) {
+			return QuestStatus::kCompleted;
+		}
+		if (fail && fail->Evaluate(*form)) {
+			return QuestStatus::kFailed;
+		}
+		const auto started = std::ranges::any_of(stages, [&](auto a_stage) { return form->IsStageDone(a_stage); });
+		return started ? QuestStatus::kInProgress : QuestStatus::kNotStarted;
+	}
+
 	void QuestRegistry::Load(const std::filesystem::path& a_directory)
 	{
 		_quests.clear();
@@ -59,7 +122,12 @@ namespace Completionist
 				.editorID = quest.value("editorId", ""),
 				.type = quest.value("type", ""),
 				.place = describePlace(quest["start"].value("place", "")),
+				.stages = quest.value("stages", std::vector<std::uint16_t>{}),
+				.complete = ParseCondition(quest.value("complete", nlohmann::json::object())),
 			};
+			if (quest.contains("fail") && quest["fail"].is_object()) {
+				tracked.fail = ParseCondition(quest["fail"]);
+			}
 			if (const auto* form = RE::TESForm::LookupByEditorID(tracked.editorID.c_str()); form && form->Is(RE::FormType::kQUST)) {
 				tracked.form = const_cast<RE::TESQuest*>(static_cast<const RE::TESQuest*>(form));
 			} else {

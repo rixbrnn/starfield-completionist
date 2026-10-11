@@ -34,6 +34,10 @@ interface QuestDump {
   /** Raw DNAM (12 bytes in Starfield; layout not decoded yet). */
   dnam: string;
   stages: number[];
+  /** Stages whose log entry has the "complete quest" flag (QSDT & 0x01). */
+  completeStages: number[];
+  /** Stages whose log entry has the "fail quest" flag (QSDT & 0x02). */
+  failStages: number[];
   objectives: number;
   aliases: QuestAlias[];
   /** Count of each subrecord type, to learn Starfield's QUST layout. */
@@ -69,6 +73,8 @@ function parseQuest(record: PluginRecord, plugin: PluginHeader, strings: StringT
     faction: "",
     dnam: "",
     stages: [],
+    completeStages: [],
+    failStages: [],
     objectives: 0,
     aliases: [],
     subrecords: {},
@@ -103,6 +109,15 @@ function parseQuest(record: PluginRecord, plugin: PluginHeader, strings: StringT
           quest.stages.push(data.readUInt16LE(0));
         }
         break;
+      case "QSDT": {
+        // Log entry flags for the stage set by the preceding INDX.
+        const stage = quest.stages.at(-1);
+        if (stage !== undefined && data.length >= 1) {
+          if ((data[0] & 0x01) !== 0 && !quest.completeStages.includes(stage)) quest.completeStages.push(stage);
+          if ((data[0] & 0x02) !== 0 && !quest.failStages.includes(stage)) quest.failStages.push(stage);
+        }
+        break;
+      }
       case "QOBJ":
         quest.objectives++;
         break;

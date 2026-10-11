@@ -29,6 +29,9 @@ interface DumpQuest {
   faction: string;
   filter: string;
   objectives: number;
+  stages: number[];
+  completeStages: number[];
+  failStages: number[];
   aliases: DumpAlias[];
 }
 
@@ -215,6 +218,13 @@ function findStart(quest: DumpQuest): Start {
 
 // ---------------------------------------------------------------- write collections
 
+/** Completion/failure stages as a schema condition: one stage, or anyOf several. */
+function stageCondition(stages: number[]): object | undefined {
+  if (stages.length === 0) return undefined;
+  if (stages.length === 1) return { type: "questStage", stage: stages[0] };
+  return { type: "anyOf", conditions: stages.map((stage) => ({ type: "questStage", stage })) };
+}
+
 const slug = (text: string) =>
   text
     .normalize("NFKD")
@@ -302,7 +312,9 @@ for (const [owner, quests] of byOwner) {
         confidence: start.confidence,
         source: start.source,
       },
-      complete: { type: "questCompleted" },
+      stages: [...new Set(quest.stages)].sort((a, b) => a - b),
+      complete: stageCondition(quest.completeStages) ?? { type: "questCompleted" },
+      fail: stageCondition(quest.failStages) ?? null,
     };
   });
 
