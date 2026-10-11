@@ -126,6 +126,9 @@ Struct Entry
   String place
   String hub ; first part of place, e.g. "Neon"
   Bool activity ; one-off activity rather than a quest
+  ; Never remove fields: Papyrus saves running functions mid-execution, and code resumed
+  ; from an older save fails if a field it uses is gone.
+  String exclusive ; unused since 1.0 (replaced by the choice fields below)
   ; Two-sided choice groups (up to two): completing a quest on one side locks out the
   ; unfinished quests on the other side. "" = none.
   String choice1Group

@@ -28,6 +28,13 @@ Int Property kOverrideNotDone = 2 AutoReadOnly
 ; Read from the game's own PlayerUnityTimesEntered actor value (Starfield.esm 0x219529).
 Bool unityEntered = False
 
+; Refresh state. A refresh can be interrupted (a save made mid-refresh, an error), so the
+; timer retries until one finishes, and the menu only gets statuses once one has.
+Bool refreshing = False
+Bool ready = False
+Float refreshStarted = 0.0
+Float Property RefreshTimeout = 120.0 AutoReadOnly
+
 String[] overrideIds
 Int[] overrideValues
 
@@ -42,12 +49,20 @@ Event OnQuestInit()
 EndEvent
 
 Event Actor.OnPlayerLoadGame(Actor akSender)
+  ; Flags saved mid-refresh belong to the previous session.
+  refreshing = False
+  ready = False
   Refresh()
 EndEvent
 
 Event OnTimer(Int aiTimerID)
   If aiTimerID == kCheckTimer
-    Check()
+    If ready
+      Check()
+    ElseIf !refreshing || Utility.GetCurrentRealTime() - refreshStarted > RefreshTimeout
+      refreshing = False
+      Refresh()
+    EndIf
     StartTimer(CheckInterval, kCheckTimer)
   EndIf
 EndEvent
@@ -68,6 +83,12 @@ EndFunction
 ; Reloads the quest table (plugins or data may have changed), sets every status
 ; without announcing, and logs a full report.
 Function Refresh()
+  If refreshing
+    Return
+  EndIf
+  refreshing = True
+  ready = False
+  refreshStarted = Utility.GetCurrentRealTime()
   Debug.OpenUserLog(LogName)
   Int pages = Completionist:QuestData.PageCount()
   If pages > MaxPages
@@ -92,8 +113,14 @@ Function Refresh()
   EndWhile
 
   Report()
+  refreshing = False
+  ready = True
   SendCustomEvent("StatusChanged")
   StartTimer(CheckInterval, kCheckTimer)
+EndFunction
+
+Bool Function IsReady()
+  Return ready
 EndFunction
 
 Completionist:QuestData:Entry[] Function LoadPage(Int aiPage, Int aiPageCount)

@@ -34,7 +34,10 @@ Function Register()
   OSFUI.RegisterSend(Self, ModId, "plot")
   OSFUI.RegisterSend(Self, ModId, "override")
   OSFSettings.RegisterHotkey(Self, ModId, OpenHotkey)
-  PublishStatus()
+  ; Until the tracker's refresh finishes, statuses are incomplete; StatusChanged publishes them then.
+  If Tracker().IsReady()
+    PublishStatus()
+  EndIf
   PublishLocation(Game.GetPlayer().GetCurrentLocation())
 EndFunction
 
