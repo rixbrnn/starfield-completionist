@@ -28,6 +28,18 @@ How it's built (**revised 2026-10-11: Papyrus core**, see "Decision: Papyrus" be
 | Settings & hotkeys | OSF Settings (PC) | The emerging Starfield "MCM" |
 | License | GPL-3.0-or-later (+ modding exception) | Matches CommonLibSF and OSF UI |
 
+### Decision: Nexus (PC) first, consoles later (2026-10-11)
+
+v1 ships on **Nexus Mods only**: PC, with the full menu via OSF UI (needs SFSE). A console version (Creations) is a **future version**, not v1. Console unknowns (terminal menus, dynamic mission text, PS5 Creations rules, Bethesda's upload process) wait until there's hardware to test on.
+
+To keep that door open:
+
+1. All tracking logic stays in Papyrus; the OSF UI menu only displays what the script reports.
+2. The mod works without SFSE/OSF UI: notifications still appear (also covers Game Pass PC players, who can't run SFSE).
+3. The core uses nothing Creations forbid.
+
+UI direction is being chosen from the concepts at https://claude.ai/artifact/4wiQfaF5rSbHftJ4yyS4Nz (A: Mission Log tab, B: Starmap overlay, C: Overview + HUD).
+
 ### Decision: Papyrus (2026-10-11)
 
 Calling `TESQuest::IsStageDone` from the C++ plugin aborted the game: CommonLibSF has no Address Library ID for it on 1.16.244 (500 of its 772 function IDs are placeholders). Rather than reverse-engineer and re-verify addresses after every game update, quest status moved to Papyrus, the game's own scripting, which is stable across updates and is the only option on consoles. This also sets up console support (v2, via Creations). The design keeps the logic in Papyrus and the UI behind a thin layer: OSF UI on PC, vanilla UI on consoles.
