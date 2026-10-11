@@ -19,22 +19,33 @@
 
 ## Building the plugin
 
-Every push builds the DLL on GitHub Actions; download it from the run's **Artifacts**.
+**Download a build:**
 
-To build locally you need:
+- Every push that touches the plugin builds it on GitHub Actions. Open the run under the **Actions** tab, scroll to the bottom of its summary page, and download the zip under **Artifacts**.
+- Pushing a version tag (e.g. `git tag v0.1.0 && git push --tags`) also publishes an installable zip on the **Releases** page.
 
-- Visual Studio 2022 or later with the "Desktop development with C++" workload
+**Build locally.** You need:
+
+- Visual Studio Build Tools 2026 (or Visual Studio 2022+) with the "Desktop development with C++" workload
 - [XMake](https://xmake.io) 3.0+
 
-Then:
+Both install with winget:
 
-```bash
+```powershell
+winget install --id Xmake-io.Xmake
+winget install --id Microsoft.VisualStudio.BuildTools --override "--quiet --wait --norestart --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+```
+
+Then, **from PowerShell or a Developer Command Prompt (not Git Bash, where XMake fails with "cannot get program for cc")**:
+
+```powershell
 git clone --recurse-submodules https://github.com/rixbrnn/starfield-completionist.git
+cd starfield-completionist
 xmake config --mode=releasedbg
 xmake build
 ```
 
-Set `XSE_SF_MODS_PATH` (your MO2 `mods` folder) or `XSE_SF_GAME_PATH` (the Starfield folder) and the build installs the DLL there.
+The DLL lands in `build/windows/x64/releasedbg/`. Set `XSE_SF_MODS_PATH` (your MO2 `mods` folder) or `XSE_SF_GAME_PATH` (the Starfield folder) before building, and XMake also copies it into `…/SFSE/Plugins/` there.
 
 The plugin needs [SFSE](https://sfse.silverlock.org/) and [Address Library for SFSE Plugins](https://www.nexusmods.com/starfield/mods/3256). For now it only writes research logs to `Documents/My Games/Starfield/SFSE/Logs/StarfieldCompletionist.log`.
 
