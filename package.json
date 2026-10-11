@@ -12,7 +12,8 @@
     "find-forms": "node tools/extract/find-forms.ts",
     "validate": "node tools/validate/validate-data.ts",
     "typecheck": "tsc -p tools",
-    "build:drafts": "node tools/extract/build-quest-drafts.ts"
+    "build:drafts": "node tools/extract/build-quest-drafts.ts",
+    "build:mod": "node tools/build/build-mod.ts"
   },
   "dependencies": {
     "ajv": "^8.20.0"
