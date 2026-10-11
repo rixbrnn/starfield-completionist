@@ -170,3 +170,7 @@ kbd { min-width: 28px; text-align: center; padding: 2px 6px; border: 1px solid v
 .app { position: relative; }
 .toast { position: absolute; right: 48px; bottom: 80px; padding: 12px 18px; background: var(--text); color: var(--ink); font-family: var(--condensed); font-size: 18px; letter-spacing: 0.06em; opacity: 0; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
 .toast.visible { opacity: 1; transform: none; }
+
+/* "TRACKED" badge next to a quest the player is tracking. */
+.tracked-badge { display: inline-block; margin-left: 12px; padding: 1px 7px; vertical-align: 2px; border: 1px solid var(--active); color: var(--active); font-family: var(--condensed); font-size: 13px; font-weight: 600; letter-spacing: 0.14em; }
+.row.selected .tracked-badge { background: var(--active); border-color: var(--active); color: var(--ink); }

@@ -32,18 +32,21 @@ Function Register()
   ; "close" from the page is handled by OSF UI itself (the name is reserved).
   OSFUI.RegisterSend(Self, ModId, "track")
   OSFUI.RegisterSend(Self, ModId, "plot")
+  OSFUI.RegisterSend(Self, ModId, "untrack")
   OSFUI.RegisterSend(Self, ModId, "override")
   OSFUI.RegisterSend(Self, ModId, "plotLocation")
   OSFSettings.RegisterHotkey(Self, ModId, OpenHotkey)
   ; Until the tracker's refresh finishes, statuses are incomplete; StatusChanged publishes them then.
   If Tracker().IsReady()
     PublishStatus()
+    PublishTracked()
   EndIf
   PublishLocation(Game.GetPlayer().GetCurrentLocation())
 EndFunction
 
 Event Completionist:QuestTracker.StatusChanged(Completionist:QuestTracker akSender, Var[] akArgs)
   PublishStatus()
+  PublishTracked()
 EndEvent
 
 Event Actor.OnLocationChange(Actor akSender, Location akOldLoc, Location akNewLoc)
@@ -55,6 +58,10 @@ Function OnOSFHotkey(String asModId, String asHotkeyId)
     ; Open first so the menu appears immediately; the location follows a moment later.
     OSFUI.Open(MenuView)
     PublishLocation(Game.GetPlayer().GetCurrentLocation())
+    ; The player may have changed tracking in the game's own Missions menu.
+    If Tracker().IsReady()
+      PublishTracked()
+    EndIf
   EndIf
 EndFunction
 
@@ -83,20 +90,23 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
     Return
   EndIf
 
-  If asName == "track"
+  If asName == "track" || asName == "untrack"
     ; Keeps the menu open (the player may want to show it on the map next) and reports
     ; whether the game actually accepted it, since SetActive can be refused silently.
+    Bool wanted = asName == "track"
     Quest q = entry.questForm
     Bool wasActive = q.IsActive()
-    If q.IsRunning() && !q.IsCompleted()
-      q.SetActive(True)
+    If !wanted || (q.IsRunning() && !q.IsCompleted())
+      q.SetActive(wanted)
     EndIf
     Bool nowActive = q.IsActive()
-    Debug.TraceUser("Completionist", "Track " + entry.name + " [" + entry.id + "]: running=" + q.IsRunning() + " completed=" + q.IsCompleted() + " active " + wasActive + " -> " + nowActive)
-    Var[] result = new Var[2]
+    Debug.TraceUser("Completionist", asName + " " + entry.name + " [" + entry.id + "]: running=" + q.IsRunning() + " completed=" + q.IsCompleted() + " active " + wasActive + " -> " + nowActive)
+    Var[] result = new Var[3]
     result[0] = entry.id
     result[1] = nowActive
+    result[2] = wanted
     OSFUI.EmitEvent(ModId, "tracked", result)
+    PublishTracked()
   ElseIf asName == "plot"
     If entry.startLocation
       OSFUI.Close(MenuView)
@@ -123,6 +133,26 @@ Completionist:QuestData:Entry Function FindEntry(String asId)
     p += 1
   EndWhile
   Return None
+EndFunction
+
+; Publishes the ids of tracked quests. Only quests in progress can be tracked, so only
+; those are asked (IsActive), which keeps this cheap enough to run on every menu open.
+Function PublishTracked()
+  Completionist:QuestTracker tracker = Tracker()
+  String[] ids = new String[0]
+  Int p = 0
+  While p < tracker.MaxPages
+    Completionist:QuestData:Entry[] entries = tracker.GetPage(p)
+    Int i = 0
+    While i < entries.Length && ids.Length < 128
+      If entries[i].status == tracker.kInProgress && entries[i].questForm.IsActive()
+        ids.Add(entries[i].id)
+      EndIf
+      i += 1
+    EndWhile
+    p += 1
+  EndWhile
+  OSFUI.SetStateStrings(ModId, "tracked", ids)
 EndFunction
 
 ; Publishes quest ids and statuses page by page ("ids0"/"status0" …), since Papyrus arrays

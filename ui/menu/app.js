@@ -41,6 +41,7 @@
   let shownQuests = []; // quests in the detail list, in display order (for selection and actions)
   let shownCards = []; // place cards (Here tab on a planet / in space) or systems (nothing tracked)
   let hereLayout = "city"; // Here tab: "city", "cards" (planet or system) or "nowhere"
+  let tracked = new Set(); // ids of quests the player is tracking (the game's "active" quests)
   let inSpace = false;
   let survey = -1; // current planet's survey progress, 0-1 (-1 = no planet)
   let statuses = new Map(); // quest id -> status; quests missing here aren't in the player's load order
@@ -121,10 +122,19 @@
     }
     bridge.state.on("unityEntered", (value) => { unityEntered = value === true; queueRender(); });
     bridge.state.on("gameActivities", (value) => { gameActivities = typeof value === "number" ? value : null; queueRender(); });
+    bridge.state.on("tracked", (ids) => {
+      tracked = new Set((Array.isArray(ids) ? ids : []).map((id) => String(id).toLowerCase()));
+      queueRender();
+    });
     bridge.on("tracked", (event) => {
-      const [id, ok] = (event && event.args) || [];
-      const q = questsById.get(String(id).toLowerCase());
-      showToast(q ? (ok ? "Now tracking: " + q.name : "Couldn't track " + q.name + ". The game didn't accept it.") : "Tracking updated");
+      const [rawId, active, wanted] = (event && event.args) || [];
+      const id = String(rawId).toLowerCase();
+      const q = questsById.get(id);
+      if (active) tracked.add(id); else tracked.delete(id);
+      queueRender();
+      if (!q) return;
+      if (wanted === false) showToast(active ? "Couldn't stop tracking " + q.name : "Stopped tracking: " + q.name);
+      else showToast(active ? "Now tracking: " + q.name : "Couldn't track " + q.name + ". The game didn't accept it.");
     });
     bridge.state.on("inSpace", (value) => { inSpace = value === true; queueRender(); });
     bridge.state.on("survey", (value) => { survey = typeof value === "number" ? value : -1; queueRender(); });
@@ -416,7 +426,9 @@
       const actions = selected ? actionsFor(q) : [];
       list.append(el("div", { class: "row" + (selected ? " selected" : "") + (notYetAvailable(q) ? " unavailable" : ""), onclick: () => selectRow(index) },
         statusIcon(s, selected),
-        el("span", { class: "row-name" + (hide ? " hidden" : ""), text: hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name }),
+        el("span", { class: "row-name" + (hide ? " hidden" : "") },
+          hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name,
+          tracked.has(q.id) ? el("span", { class: "tracked-badge", text: "TRACKED" }) : null),
         el("span", { class: "row-tag" + (q.activity ? " activity" : ""), text: tagFor(q) }),
         el("span", { class: "row-meta", text: hide ? "" : rowMeta(q, s, options) }),
         actions.length
@@ -437,7 +449,11 @@
   function actionsFor(q) {
     const s = statusOf(q);
     const actions = [];
-    if (s === IN_PROGRESS) actions.push({ id: "track", label: "TRACK", run: () => send("track", q) });
+    if (s === IN_PROGRESS) {
+      actions.push(tracked.has(q.id)
+        ? { id: "untrack", label: "UNTRACK", run: () => send("untrack", q) }
+        : { id: "track", label: "TRACK", run: () => send("track", q) });
+    }
     if (!isDone(s) && hasStartLocation(q)) actions.push({ id: "plot", label: "SHOW ON MAP", run: () => send("plot", q) });
     actions.push(overrideAction(q));
     return actions;
@@ -482,7 +498,8 @@
     if (bridge) bridge.send(action, q.id);
     else {
       console.log("[preview] " + action + " " + q.id);
-      if (action === "track") showToast("Now tracking: " + q.name);
+      if (action === "track") { tracked.add(q.id); showToast("Now tracking: " + q.name); render(); }
+      if (action === "untrack") { tracked.delete(q.id); showToast("Stopped tracking: " + q.name); render(); }
     }
   }
 
@@ -661,7 +678,7 @@
       const selected = view.focus === "list" && index === view.row;
       return el("div", { class: "row" + (selected ? " selected" : ""), onclick: () => selectRow(index) },
         statusIcon(IN_PROGRESS, selected),
-        el("span", { class: "row-name", text: q.name }),
+        el("span", { class: "row-name" }, q.name, tracked.has(q.id) ? el("span", { class: "tracked-badge", text: "TRACKED" }) : null),
         el("span", { class: "row-meta", text: hubName(q) }),
         selected && primaryAction(q) ? el("span", { class: "row-actions" }, el("button", { text: primaryAction(q).label, onclick: (e) => { e.stopPropagation(); primaryAction(q).run(); } })) : null);
     });
