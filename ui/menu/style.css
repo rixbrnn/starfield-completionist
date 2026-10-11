@@ -154,3 +154,8 @@ kbd { min-width: 28px; text-align: center; padding: 2px 6px; border: 1px solid v
 .next-row.selected { background: var(--text); color: var(--ink); }
 .next-row.selected .track { background: #b9c2cb; }
 .next-row.selected .fill { background: var(--ink); }
+
+/* Button hint inside row action buttons ("A TRACK"). */
+.row-actions button { display: inline-flex; align-items: center; gap: 8px; }
+.row-actions kbd { min-width: 0; padding: 0 5px; font-size: 13px; border-color: currentColor; color: inherit; }
+.row-actions kbd:empty { display: none; }

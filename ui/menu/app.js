@@ -413,7 +413,7 @@
         el("span", { class: "row-tag" + (q.activity ? " activity" : ""), text: tagFor(q) }),
         el("span", { class: "row-meta", text: hide ? "" : rowMeta(q, s, options) }),
         actions.length
-          ? el("span", { class: "row-actions" }, actions.map((a) => el("button", { text: a.label, onclick: (e) => { e.stopPropagation(); a.run(); } })))
+          ? el("span", { class: "row-actions" }, actions.map((a) => el("button", { onclick: (e) => { e.stopPropagation(); a.run(); } }, el("kbd", { text: actionKey(a, q) }), a.label)))
           : null));
     });
     children.push(list);
@@ -461,6 +461,15 @@
   }
 
   const primaryAction = (q) => actionsFor(q).find((a) => a.id !== "override");
+
+  // The button that runs an action, shown inside the row button so controller users can see it.
+  function actionKey(action, q) {
+    const pad = view.input === "gamepad";
+    if (action.id === "override") return pad ? "RS" : "M";
+    if (primaryAction(q) === action || (primaryAction(q) || {}).id === action.id) return pad ? "A" : "ENTER";
+    if (action.id === "plot") return pad ? "X" : "R";
+    return "";
+  }
 
   function send(action, q) {
     if (bridge) bridge.send(action, q.id);
