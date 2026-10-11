@@ -294,10 +294,25 @@ Int Function StatusOf(Completionist:QuestData:Entry akEntry)
     Return kFailed
   ElseIf q.IsCompleted() || AnyStageDone(q, akEntry.complete1, akEntry.complete2, akEntry.complete3, akEntry.complete4)
     Return kCompleted
-  ElseIf q.IsRunning() || q.GetStage() > 0
+  ElseIf q.IsRunning() && HasOpenObjective(akEntry)
     Return kInProgress
   EndIf
   Return kNotStarted
+EndFunction
+
+; Whether the game shows this quest in the mission log: one of its objectives is displayed
+; and not completed or failed. Many activities and errands run in the background with
+; nothing displayed; the game doesn't list those, so neither do we.
+Bool Function HasOpenObjective(Completionist:QuestData:Entry akEntry)
+  If akEntry.objectivesMany || akEntry.obj1 < 0
+    Return True
+  EndIf
+  Quest q = akEntry.questForm
+  Return ObjectiveOpen(q, akEntry.obj1) || ObjectiveOpen(q, akEntry.obj2) || ObjectiveOpen(q, akEntry.obj3) || ObjectiveOpen(q, akEntry.obj4) || ObjectiveOpen(q, akEntry.obj5) || ObjectiveOpen(q, akEntry.obj6) || ObjectiveOpen(q, akEntry.obj7) || ObjectiveOpen(q, akEntry.obj8)
+EndFunction
+
+Bool Function ObjectiveOpen(Quest akQuest, Int aiObjective)
+  Return aiObjective >= 0 && akQuest.IsObjectiveDisplayed(aiObjective) && !akQuest.IsObjectiveCompleted(aiObjective) && !akQuest.IsObjectiveFailed(aiObjective)
 EndFunction
 
 Bool Function AnyStageDone(Quest akQuest, Int aiStage1, Int aiStage2, Int aiStage3, Int aiStage4)

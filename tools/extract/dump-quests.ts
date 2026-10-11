@@ -39,6 +39,8 @@ interface QuestDump {
   /** Stages whose log entry has the "fail quest" flag (QSDT & 0x02). */
   failStages: number[];
   objectives: number;
+  /** Objective indices (QOBJ), for checking which objectives the game displays. */
+  objectiveIds: number[];
   /** Display text of the first objective (NNAM), e.g. "Talk to Cmdr. Tuala". */
   objectiveText: string;
   aliases: QuestAlias[];
@@ -78,6 +80,7 @@ function parseQuest(record: PluginRecord, plugin: PluginHeader, strings: StringT
     completeStages: [],
     failStages: [],
     objectives: 0,
+    objectiveIds: [],
     objectiveText: "",
     aliases: [],
     subrecords: {},
@@ -123,6 +126,7 @@ function parseQuest(record: PluginRecord, plugin: PluginHeader, strings: StringT
       }
       case "QOBJ":
         quest.objectives++;
+        if (data.length >= 2 && !quest.objectiveIds.includes(data.readUInt16LE(0))) quest.objectiveIds.push(data.readUInt16LE(0));
         break;
       case "NNAM":
         if (!quest.objectiveText && !alias) {

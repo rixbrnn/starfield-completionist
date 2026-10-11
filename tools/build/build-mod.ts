@@ -27,6 +27,8 @@ const { values: args } = parseArgs({
 const PLUGIN_NAME = "StarfieldCompletionist.esm";
 const MAX_COMPLETE_STAGES = 4;
 const MAX_FAIL_STAGES = 2;
+// Every activity has at most 8 objectives; quests with more are "in progress" while running.
+const MAX_OBJECTIVES = 8;
 // Papyrus arrays hold at most 128 elements, so the table is split into pages;
 // QuestTracker.psc has one variable per page (keep MAX_PAGES in sync with it).
 const PAGE_SIZE = 100;
@@ -40,7 +42,7 @@ interface Condition {
 
 interface Collection {
   places?: Array<{ id: string; name: string; parent?: string; location?: string }>;
-  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; equivalentGroup?: string | null; hidden?: boolean }>;
+  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null; objectives?: number[]; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; equivalentGroup?: string | null; hidden?: boolean }>;
 }
 
 /** Stages from a questStage / anyOf-of-questStage condition. */
@@ -96,6 +98,9 @@ for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort(
       quest.type === "activity" ? "True" : "False",
       ...[0, 1].flatMap((i) => [papyrusString(quest.choices?.[i]?.group ?? ""), papyrusString(quest.choices?.[i]?.side ?? "")]),
       quest.ngPlusOnly ? "True" : "False",
+      // Objectives for "in progress": up to MAX_OBJECTIVES indices, or "many" for big story quests.
+      ...Array.from({ length: MAX_OBJECTIVES }, (_, i) => ((quest.objectives ?? []).length <= MAX_OBJECTIVES ? (quest.objectives?.[i] ?? -1) : -1)),
+      (quest.objectives ?? []).length > MAX_OBJECTIVES ? "True" : "False",
       papyrusString(quest.equivalentGroup ?? ""),
       quest.hidden ? "True" : "False",
       ...startLocation(quest.start.place),
@@ -136,6 +141,17 @@ Struct Entry
   String choice2Group
   String choice2Side
   Bool ngPlusOnly ; only available after entering Unity; not counted before that
+  ; Objective indices (-1 = unused). In progress = running with one of these displayed and open,
+  ; matching the game's mission log. objectivesMany: too many to list, so running is enough.
+  Int obj1 = -1
+  Int obj2 = -1
+  Int obj3 = -1
+  Int obj4 = -1
+  Int obj5 = -1
+  Int obj6 = -1
+  Int obj7 = -1
+  Int obj8 = -1
+  Bool objectivesMany
   String equivalent ; versions of the same quest: completing any member completes the group ("" = none)
   Bool hidden ; tracked only through its equivalent group; not listed or counted
   Location startLocation ; where the quest starts, for plotting a course (None if unknown)
@@ -161,7 +177,7 @@ ${pageBlocks}
   Return entries
 EndFunction
 
-Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asChoice1Group, String asChoice1Side, String asChoice2Group, String asChoice2Side, Bool abNgPlusOnly, String asEquivalent, Bool abHidden, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
+Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asChoice1Group, String asChoice1Side, String asChoice2Group, String asChoice2Side, Bool abNgPlusOnly, Int aiObj1, Int aiObj2, Int aiObj3, Int aiObj4, Int aiObj5, Int aiObj6, Int aiObj7, Int aiObj8, Bool abObjectivesMany, String asEquivalent, Bool abHidden, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
   Quest found = Game.GetFormFromFile(aiFormID, asPlugin) as Quest
   If found
     Entry entry = new Entry
@@ -176,6 +192,15 @@ Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, Stri
     entry.choice2Group = asChoice2Group
     entry.choice2Side = asChoice2Side
     entry.ngPlusOnly = abNgPlusOnly
+    entry.obj1 = aiObj1
+    entry.obj2 = aiObj2
+    entry.obj3 = aiObj3
+    entry.obj4 = aiObj4
+    entry.obj5 = aiObj5
+    entry.obj6 = aiObj6
+    entry.obj7 = aiObj7
+    entry.obj8 = aiObj8
+    entry.objectivesMany = abObjectivesMany
     entry.equivalent = asEquivalent
     entry.hidden = abHidden
     If aiLocationID > 0

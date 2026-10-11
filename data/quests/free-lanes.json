@@ -87,6 +87,11 @@
         100,
         200
       ],
+      "objectives": [
+        5,
+        10,
+        15
+      ],
       "complete": {
         "type": "questStage",
         "stage": 200
@@ -116,6 +121,12 @@
         45,
         50,
         100
+      ],
+      "objectives": [
+        10,
+        20,
+        30,
+        40
       ],
       "complete": {
         "type": "questStage",
@@ -147,6 +158,11 @@
         300,
         1000
       ],
+      "objectives": [
+        10,
+        15,
+        20
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1000
@@ -171,6 +187,10 @@
         200,
         1000
       ],
+      "objectives": [
+        10,
+        20
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1000
@@ -192,6 +212,12 @@
       "stages": [
         10,
         1000
+      ],
+      "objectives": [
+        100,
+        200,
+        300,
+        400
       ],
       "complete": {
         "type": "questCompleted"
@@ -453,6 +479,60 @@
         10000,
         20000
       ],
+      "objectives": [
+        10,
+        20,
+        30,
+        110,
+        130,
+        150,
+        160,
+        170,
+        250,
+        300,
+        1000,
+        1100,
+        1110,
+        1120,
+        1140,
+        1145,
+        1146,
+        1150,
+        1210,
+        2000,
+        2300,
+        2310,
+        2330,
+        2340,
+        2345,
+        2360,
+        2370,
+        2380,
+        2400,
+        2415,
+        2445,
+        2500,
+        2510,
+        2520,
+        2530,
+        2535,
+        2540,
+        2550,
+        2560,
+        2600,
+        2700,
+        2720,
+        2730,
+        2750,
+        2930,
+        2931,
+        2940,
+        2950,
+        2960,
+        2980,
+        2990,
+        4050
+      ],
       "complete": {
         "type": "anyOf",
         "conditions": [
@@ -559,6 +639,20 @@
         975,
         990,
         999
+      ],
+      "objectives": [
+        150,
+        165,
+        170,
+        180,
+        190,
+        200,
+        250,
+        252,
+        455,
+        475,
+        480,
+        950
       ],
       "complete": {
         "type": "questStage",
@@ -688,6 +782,24 @@
         5000,
         10000
       ],
+      "objectives": [
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        1000,
+        1100,
+        1200,
+        1300,
+        2000,
+        2100,
+        2200,
+        3000,
+        3100,
+        3200
+      ],
       "complete": {
         "type": "questStage",
         "stage": 10000
@@ -714,6 +826,9 @@
       "stages": [
         100,
         10000
+      ],
+      "objectives": [
+        100
       ],
       "complete": {
         "type": "questStage",
@@ -752,6 +867,12 @@
         700,
         800,
         1000
+      ],
+      "objectives": [
+        400,
+        401,
+        500,
+        501
       ],
       "complete": {
         "type": "anyOf",
@@ -797,6 +918,12 @@
         260,
         1000
       ],
+      "objectives": [
+        200,
+        201,
+        225,
+        250
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1000
@@ -836,6 +963,13 @@
         550,
         1000
       ],
+      "objectives": [
+        10,
+        175,
+        200,
+        250,
+        300
+      ],
       "complete": {
         "type": "questStage",
         "stage": 500
@@ -862,6 +996,10 @@
         500,
         1100
       ],
+      "objectives": [
+        10,
+        20
+      ],
       "complete": {
         "type": "questCompleted"
       },
@@ -883,6 +1021,10 @@
         10,
         500,
         1000
+      ],
+      "objectives": [
+        10,
+        20
       ],
       "complete": {
         "type": "questCompleted"
@@ -925,6 +1067,9 @@
         600,
         700,
         1000
+      ],
+      "objectives": [
+        300
       ],
       "complete": {
         "type": "questStage",
@@ -978,6 +1123,9 @@
         895,
         900,
         1000
+      ],
+      "objectives": [
+        300
       ],
       "complete": {
         "type": "questCompleted"
@@ -1036,6 +1184,17 @@
         900,
         1000
       ],
+      "objectives": [
+        160,
+        175,
+        200,
+        210,
+        220,
+        225,
+        230,
+        660,
+        700
+      ],
       "complete": {
         "type": "questCompleted"
       },
@@ -1064,6 +1223,11 @@
         200,
         300,
         350
+      ],
+      "objectives": [
+        0,
+        100,
+        300
       ],
       "complete": {
         "type": "questStage",
@@ -1094,6 +1258,10 @@
         65,
         70,
         80
+      ],
+      "objectives": [
+        100,
+        200
       ],
       "complete": {
         "type": "questCompleted"
@@ -1132,6 +1300,10 @@
         500,
         600,
         1000
+      ],
+      "objectives": [
+        250,
+        255
       ],
       "complete": {
         "type": "questCompleted"
@@ -1184,6 +1356,12 @@
         999,
         9999
       ],
+      "objectives": [
+        125,
+        130,
+        140,
+        200
+      ],
       "complete": {
         "type": "questStage",
         "stage": 999
@@ -1217,6 +1395,10 @@
         100,
         1000,
         2000
+      ],
+      "objectives": [
+        50,
+        100
       ],
       "complete": {
         "type": "questStage",

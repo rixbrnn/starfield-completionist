@@ -245,6 +245,15 @@
           },
           "description": "All stage indices; any of them done means the quest has started."
         },
+        "objectives": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "description": "Objective indices; a quest is in progress while one of them is displayed and not completed."
+        },
         "complete": {
           "$ref": "#/$defs/condition"
         },

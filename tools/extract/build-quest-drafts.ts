@@ -29,6 +29,7 @@ interface DumpQuest {
   faction: string;
   filter: string;
   objectives: number;
+  objectiveIds: number[];
   objectiveText: string;
   /** Set for small errands ("Misc Pointer" activities). */
   errand?: boolean;
@@ -395,6 +396,7 @@ for (const [owner, quests] of byOwner) {
         source: start.source,
       },
       stages: [...new Set(quest.stages)].sort((a, b) => a - b),
+      objectives: [...quest.objectiveIds].sort((a, b) => a - b),
       complete: stageCondition(quest.completeStages) ?? { type: "questCompleted" },
       fail: stageCondition(quest.failStages) ?? null,
       ...(choicesOf.has(quest.editorId) ? { choices: choicesOf.get(quest.editorId) } : {}),

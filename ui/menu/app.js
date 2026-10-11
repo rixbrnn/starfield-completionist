@@ -423,17 +423,13 @@
       const s = statusOf(q);
       const hide = view.spoilers && s === NOT_STARTED;
       const selected = view.focus === "list" && index === view.row;
-      const actions = selected ? actionsFor(q) : [];
-      list.append(el("div", { class: "row" + (selected ? " selected" : "") + (notYetAvailable(q) ? " unavailable" : ""), onclick: () => selectRow(index) },
+      list.append(el("div", { class: "row" + (selected ? " selected" : "") + (notYetAvailable(q) ? " unavailable" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
         statusIcon(s, selected),
         el("span", { class: "row-name" + (hide ? " hidden" : "") },
           hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name,
           tracked.has(q.id) ? el("span", { class: "tracked-badge", text: "TRACKED" }) : null),
         el("span", { class: "row-tag" + (q.activity ? " activity" : ""), text: tagFor(q) }),
-        el("span", { class: "row-meta", text: hide ? "" : rowMeta(q, s, options) }),
-        actions.length
-          ? el("span", { class: "row-actions" }, actions.map((a) => el("button", { onclick: (e) => { e.stopPropagation(); a.run(); } }, el("kbd", { text: actionKey(a, q) }), a.label)))
-          : null));
+        el("span", { class: "row-meta", text: hide ? "" : rowMeta(q, s, options) })));
     });
     children.push(list);
     document.getElementById("detail").replaceChildren(...children);
@@ -485,14 +481,6 @@
 
   const primaryAction = (q) => actionsFor(q).find((a) => a.id !== "override");
 
-  // The button that runs an action, shown inside the row button so controller users can see it.
-  function actionKey(action, q) {
-    const pad = view.input === "gamepad";
-    if (action.id === "override") return pad ? "RS" : "M";
-    if (primaryAction(q) === action || (primaryAction(q) || {}).id === action.id) return pad ? "A" : "ENTER";
-    if (action.id === "plot") return pad ? "X" : "R";
-    return "";
-  }
 
   function send(action, q) {
     if (bridge) bridge.send(action, q.id);
@@ -668,19 +656,17 @@
 
     const systemRows = shownCards.map((s, index) => {
       const selected = view.focus === "cards" && index === view.card;
-      return el("div", { class: "next-row" + (selected ? " selected" : ""), onclick: () => { view.focus = "cards"; view.card = index; render(); } },
+      return el("div", { class: "next-row" + (selected ? " selected" : ""), onclick: () => { view.focus = "cards"; view.card = index; render(); }, ondblclick: () => openCard(index) },
         el("div", { class: "next-main" },
           el("span", { class: "item-head" }, el("span", { class: "item-name", text: s.label }), el("span", { class: "item-frac", text: s.t.missing + " not started" })),
-          el("span", { class: "track" }, el("span", { class: "fill", style: "width: " + (s.t.total ? Math.round((s.t.done / s.t.total) * 100) : 0) + "%" }))),
-        selected && s.loc ? el("span", { class: "row-actions" }, el("button", { text: "SET COURSE", onclick: (e) => { e.stopPropagation(); plotLocation(s.loc); } })) : null);
+          el("span", { class: "track" }, el("span", { class: "fill", style: "width: " + (s.t.total ? Math.round((s.t.done / s.t.total) * 100) : 0) + "%" }))));
     });
     const activeRows = shownQuests.map((q, index) => {
       const selected = view.focus === "list" && index === view.row;
-      return el("div", { class: "row" + (selected ? " selected" : ""), onclick: () => selectRow(index) },
+      return el("div", { class: "row" + (selected ? " selected" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
         statusIcon(IN_PROGRESS, selected),
         el("span", { class: "row-name" }, q.name, tracked.has(q.id) ? el("span", { class: "tracked-badge", text: "TRACKED" }) : null),
-        el("span", { class: "row-meta", text: hubName(q) }),
-        selected && primaryAction(q) ? el("span", { class: "row-actions" }, el("button", { text: primaryAction(q).label, onclick: (e) => { e.stopPropagation(); primaryAction(q).run(); } })) : null);
+        el("span", { class: "row-meta", text: hubName(q) }));
     });
 
     document.getElementById("detail").replaceChildren(
@@ -734,19 +720,19 @@
   // Footer prompts follow the last input device, like the game's own menus.
   function renderKeys() {
     const pad = view.input === "gamepad";
-    const key = (k, label, end) => el("span", { class: end ? "end" : "" }, el("kbd", { text: k }), label);
+    const key = (k, label, end, run) => el("button", { class: end ? "end" : "", onclick: run }, el("kbd", { text: k }), label);
     const q = selectedQuest();
     const onCard = view.focus === "cards" && shownCards.length > 0;
     const primary = view.focus === "side" ? "OPEN" : onCard ? (hereLayout === "nowhere" ? "SET COURSE" : "OPEN PLACE") : q ? (primaryAction(q) || {}).label : null;
     const canPlot = onCard ? hereLayout !== "nowhere" && !!shownCards[view.card].loc : q && actionsFor(q).some((a) => a.id === "plot");
     const keys = [
-      key(pad ? "LB / RB" : "Q / E", "SWITCH TAB"),
-      primary ? key(pad ? "A" : "ENTER", primary) : null,
-      canPlot && primary !== "SHOW ON MAP" ? key(pad ? "X" : "R", onCard ? "SET COURSE" : "SHOW ON MAP") : null,
-      q ? key(pad ? "RS" : "M", overrideAction(q).label) : null,
-      key(pad ? "Y" : "F", "FILTER"),
-      key(pad ? "VIEW" : "X", "SPOILERS: " + (view.spoilers ? "HIDDEN" : "SHOWN")),
-      key(pad ? "B" : "ESC", "CLOSE", true),
+      key(pad ? "LB / RB" : "Q / E", "SWITCH TAB", false, () => cycleTab(1)),
+      primary ? key(pad ? "A" : "ENTER", primary, false, activate) : null,
+      canPlot && primary !== "SHOW ON MAP" ? key(pad ? "X" : "R", onCard ? "SET COURSE" : "SHOW ON MAP", false, plotSelected) : null,
+      q ? key(pad ? "RS" : "M", overrideAction(q).label, false, overrideSelected) : null,
+      key(pad ? "Y" : "F", "FILTER", false, cycleFilter),
+      key(pad ? "VIEW" : "X", "SPOILERS: " + (view.spoilers ? "HIDDEN" : "SHOWN"), false, toggleSpoilers),
+      key(pad ? "B" : "ESC", "CLOSE", true, () => { if (bridge) bridge.send("close"); }),
     ];
     document.getElementById("keys").replaceChildren(...keys.filter(Boolean));
   }
