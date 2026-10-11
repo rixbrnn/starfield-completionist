@@ -1,0 +1,42 @@
+name: data
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/data.yml"
+      - "data/**"
+      - "tools/**"
+      - "package.json"
+      - "package-lock.json"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/data.yml"
+      - "data/**"
+      - "tools/**"
+      - "package.json"
+      - "package-lock.json"
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: install
+        run: npm ci
+
+      - name: typecheck tools
+        run: npm run typecheck
+
+      - name: validate quest data
+        run: npm run validate

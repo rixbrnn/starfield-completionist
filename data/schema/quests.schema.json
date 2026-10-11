@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/rixbrnn/starfield-completionist/blob/main/data/schema/quests.schema.json",
+  "title": "Starfield Completionist quest collection",
+  "description": "Quests the plugin tracks, the place each one starts, and how completion is detected. See PLAN.md §6.",
+  "type": "object",
+  "required": ["schema", "id", "requires", "quests"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schema": { "const": 1 },
+    "id": { "$ref": "#/$defs/id", "description": "Unique collection ID, e.g. \"vanilla.quests\"." },
+    "title": { "type": "string" },
+    "requires": {
+      "description": "Plugins that must be loaded for this collection to apply.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/pluginName" },
+      "minItems": 1
+    },
+    "places": { "type": "array", "items": { "$ref": "#/$defs/place" } },
+    "questlines": { "type": "array", "items": { "$ref": "#/$defs/questline" } },
+    "quests": { "type": "array", "items": { "$ref": "#/$defs/quest" } }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+([.-][a-z0-9]+)*$"
+    },
+    "pluginName": {
+      "type": "string",
+      "pattern": "^[^|/\\\\]+\\.(esm|esp|esl)$"
+    },
+    "formKey": {
+      "description": "\"Plugin.esm|0x00ABCD\": owning plugin and 6-digit local FormID.",
+      "type": "string",
+      "pattern": "^[^|/\\\\]+\\.(esm|esp|esl)\\|0x[0-9A-F]{6}$"
+    },
+    "place": {
+      "type": "object",
+      "required": ["id", "kind", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "kind": {
+          "enum": ["system", "planet", "hub", "space", "anywhere"],
+          "description": "hub = city, settlement or station; space = \"in space\" bucket of a system; anywhere = not tied to a place."
+        },
+        "name": { "type": "string", "minLength": 1 },
+        "parent": { "$ref": "#/$defs/id" },
+        "location": { "$ref": "#/$defs/formKey", "description": "LCTN record used by the Here view." }
+      }
+    },
+    "questline": {
+      "type": "object",
+      "required": ["id", "name", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "type": { "enum": ["main", "faction", "companion", "side"] },
+        "faction": { "type": "string" }
+      }
+    },
+    "quest": {
+      "type": "object",
+      "required": ["id", "name", "form", "type", "start", "complete"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "name": { "type": "string", "minLength": 1 },
+        "form": { "$ref": "#/$defs/formKey" },
+        "type": { "enum": ["main", "faction", "side", "companion", "misc"] },
+        "faction": { "type": "string" },
+        "questline": {
+          "type": "object",
+          "required": ["id", "order"],
+          "additionalProperties": false,
+          "properties": {
+            "id": { "$ref": "#/$defs/id" },
+            "order": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "start": {
+          "type": "object",
+          "required": ["place", "confidence", "source"],
+          "additionalProperties": false,
+          "properties": {
+            "place": { "$ref": "#/$defs/id" },
+            "giver": { "type": "string" },
+            "hint": { "type": "string", "description": "Written by us. Shown only when spoilers are revealed." },
+            "confidence": { "enum": ["high", "medium", "low"] },
+            "source": { "enum": ["giver", "alias", "objective", "smnode", "filter", "manual"] }
+          }
+        },
+        "visits": { "type": "array", "items": { "$ref": "#/$defs/id" } },
+        "complete": { "$ref": "#/$defs/condition" },
+        "fail": { "oneOf": [{ "$ref": "#/$defs/condition" }, { "type": "null" }] },
+        "prereqs": { "type": "array", "items": { "$ref": "#/$defs/id" } },
+        "exclusiveGroup": { "oneOf": [{ "$ref": "#/$defs/id" }, { "type": "null" }] },
+        "missable": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": ["after", "note"],
+              "additionalProperties": false,
+              "properties": {
+                "after": { "$ref": "#/$defs/id" },
+                "note": { "type": "string" }
+              }
+            },
+            { "type": "null" }
+          ]
+        }
+      }
+    },
+    "condition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["type"],
+          "additionalProperties": false,
+          "properties": { "type": { "const": "questCompleted" } }
+        },
+        {
+          "type": "object",
+          "required": ["type", "stage"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "enum": ["questStage", "questStageRecorded"] },
+            "stage": { "type": "integer", "minimum": 0, "maximum": 65535 },
+            "form": { "$ref": "#/$defs/formKey", "description": "Another quest's stage; defaults to the quest itself." }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["type", "conditions"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "enum": ["anyOf", "allOf"] },
+            "conditions": { "type": "array", "items": { "$ref": "#/$defs/condition" }, "minItems": 1 }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "starfield-completionist-tools",
+  "private": true,
+  "type": "module",
+  "description": "Data extraction and validation tools for Starfield Completionist",
+  "license": "GPL-3.0-or-later",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "extract:quests": "node tools/extract/dump-quests.ts",
+    "find-forms": "node tools/extract/find-forms.ts",
+    "validate": "node tools/validate/validate-data.ts",
+    "typecheck": "tsc -p tools"
+  },
+  "dependencies": {
+    "ajv": "^8.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "typescript": "^7.0.2"
+  }
+}

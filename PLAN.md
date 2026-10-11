@@ -1,0 +1,410 @@
+# Starfield Completionist — Project Plan
+
+*Drafted 2026-10-11, revised the same day: **v1 = quests only**. Status: pre-development. Items marked **(verify)** are assumptions a Phase 0 spike must confirm before we build on them.*
+
+---
+
+## 0. Summary
+
+**v1 goal:** make sure you complete every quest in Starfield, and see **which quests you're still missing in each star system, planet and city**.
+
+The game's own mission log only shows quests you've already picked up. This mod knows the full list in advance. That gives you:
+
+- **Missing (not started)** quests, with spoiler-safe hints on how to start them.
+- **In progress** and **completed** quests, grouped by place.
+- **Completion %** per system, planet, city, faction and questline.
+- A **"Here" view**: the quests missing where you are standing right now.
+
+How it's built (unchanged from the original plan):
+
+| Decision | Choice | Why |
+|---|---|---|
+| Platform | PC (Steam) via SFSE | Native access to quest state and events, custom UI. Console "Lite" maybe later |
+| Plugin file (ESM) | **None** | Saves stay clean, install/uninstall any time, achievements should stay enabled **(verify)** |
+| Menu UI | OSF UI (HTML/CSS/JS in WebView2) | Rich lists, filters and search; no SWF conflicts with StarUI |
+| Settings & hotkeys | OSF Settings | The emerging Starfield "MCM" |
+| Quest data | JSON files (quest → place, type, questline, hints) | Mod/DLC support is a data job; community can contribute |
+| License | GPL-3.0-or-later (+ modding exception) | Required by CommonLibSF |
+
+**Later versions** reuse the same engine for magazines, powers, uniques, ships, exploration, etc. (see §11).
+
+---
+
+## 1. Reference: Skyrim's Completionist quest tracker
+
+From *Completionist – Skyrim Completion Tracker (NG)* by Faen90 (Nexus SSE #46358; source `github.com/Faen668/Completionist-NG`, C++ SKSE plugin, GPL-3.0):
+
+- Every quest is tracked automatically, including radiant/repeatable ones.
+- The DLL refreshes the pages each time the menu opens, so counts are always current.
+- **~40 quests "stop" instead of "complete".** The DLL records their stages in the background while you play. If you install mid-game after those stages, they aren't detected, so the player can **toggle a quest complete manually** and report a bug.
+- A configurable counter for radiant quests (Blades).
+
+We copy all of that. On top of it, we add the **place-based view**, which Skyrim's version doesn't center on.
+
+---
+
+## 2. Starfield modding ecosystem (Oct 2026)
+
+| Tool | Status | Role |
+|---|---|---|
+| Starfield | v1.16.244 (Free Lanes, **Terran Armada** DLC and the PS5 port launched 2026-04-07) | Target runtime |
+| **SFSE** 0.2.21 | Steam only; **no Game Pass**. Interfaces: Messaging, Trampoline, Menu, Task. **No co-save** | Loader |
+| **Address Library for SFSE Plugins** (Nexus #3256) | Active | Version-independent addresses |
+| **CommonLibSF** (`github.com/libxse/commonlibsf`) | Active; C++23, XMake ≥ 3.0, GPL-3.0 | Game API (quests, locations, data handler) |
+| **OSF Settings** (Nexus #18326) | v1.1 (2026-10-02) | Settings page, rebindable hotkey, "Mod Issues" reporting |
+| **OSF UI** (Nexus #17711) | v2.0 | HTML/CSS/JS menus and HUD overlays; C++ API `OSFUI.h` / `OSFUI_RequestAPI`, Papyrus `OSFUI.psc`; F12 DevTools in dev mode |
+| SF1Edit (xEdit) / Spriggit / Creation Kit | Data tools | Extracting quests, NPCs, locations |
+
+**Competition:** Nexus searches for "completionist", "tracker", "collectibles" and "magazine" found no Starfield completion tracker.
+
+---
+
+## 3. v1 scope: quests
+
+### 3.1 What counts as a quest
+
+| Included in v1 | Excluded from v1 (maybe later) |
+|---|---|
+| Main missions (Constellation) | Mission-board radiants (cargo, bounties, surveys) |
+| Faction questlines: UC Vanguard, Freestar Rangers, Crimson Fleet, Ryujin Industries | Activities (procedural, endless) |
+| Companion quests | Repeatables / Terran Armada Incursions (v2 counters) |
+| Side missions and named misc missions | Tiny "pointer" objectives that just say "Talk to X" |
+| **DLC:** Shattered Space (House Va'ruun), Terran Armada questline | |
+| **Creations:** Trackers Alliance and other official quest Creations, if installed | |
+| Temple quests (as quests; powers themselves come in v2) | |
+
+The extractor will tell us the real total (expect a few hundred). Curation decides borderline cases, and the rule goes in `docs/quest-inclusion-rules.md`.
+
+### 3.2 Quest statuses
+
+| Status | Meaning | Detection |
+|---|---|---|
+| **Not started** | Never begun | No stage set, not running |
+| **In progress** | Active | Running, stage > 0, not completed |
+| **Completed** | Done | Quest completed flag, or terminal stage done/recorded |
+| **Failed** | Failed ending | Failed flag / failure stage |
+| **Locked out** | Its alternative was chosen | Another quest in its `exclusiveGroup` completed |
+| **Missed** | Can no longer be started | Data-defined condition (e.g. "after quest X completes") |
+
+**100 % rule:** a place or questline is 100 % when every quest is Completed **or** Locked out (the alternative branch was taken). Failed and Missed count as not done, but they are shown so you know.
+
+### 3.3 Grouping by place
+
+Each quest is listed under **where you pick it up** (its start location), because that's what helps you find missing quests. The hierarchy:
+
+```
+Star system            e.g. Alpha Centauri · Cheyenne · Volii · Sol · Va'ruun'kai's system
+└─ Planet / moon       e.g. Jemison · Akila · Volii Alpha · Mars
+   └─ Hub              e.g. New Atlantis · Akila City · Neon · Cydonia · Dazra · The Key (station)
+      └─ Quests
+```
+
+Special buckets:
+
+- **"In space (system)"**: quests that start from a ship hail or encounter in a system.
+- **"Anywhere"**: quests triggered by events, items or radio that aren't tied to a place.
+- **"Multiple / questline"**: each quest in a chain is listed under its own start location, and the chain is also browsable as one questline.
+
+Optionally, a quest also shows **"Visits: …"**, other places its objectives send you (v1.1; nice to have).
+
+### 3.4 Features
+
+- **Here view (default):** auto-detects your current system, planet and hub, and shows what's missing and in progress here.
+- **Galaxy view:** every system with `completed / total`, sorted by most missing; drill down system → planet → hub → quests.
+- **By type:** Main, Factions (each chain in story order), Companions, Side, Misc, DLC, Creations.
+- **Quest detail:**
+  - status and quest type
+  - how to start it (spoiler-gated): giver NPC, place, hint we wrote ourselves
+  - prerequisites ("unlocks after …")
+  - exclusive and missable warnings
+- **Search and filters:** missing / in progress / completed / failed; DLC on/off; hide spoilers.
+- **Spoiler mode:** missing quests show as "??? — 1 undiscovered quest in Neon", with reveal-on-click.
+- **Notifications (HUD toasts):**
+  - "Quest completed — Neon 7/12"
+  - optional, on entering a hub: "Akila City: 3 quests not started"
+- **Manual override:** mark completed / not completed per quest, for detection edge cases.
+- **Other quests (auto-detected):** quests from mods without a JSON pack still appear in an "Other" bucket. The DLL enumerates named, player-facing quests at runtime; location is "Unknown" until a pack adds it. This is a setting, default on.
+
+---
+
+## 4. The hard part: mapping quests to places
+
+Quest records don't have a single "location" field. We infer the start place offline, during extraction, and a human confirms it.
+
+### 4.1 Signals the extractor uses (strongest first)
+
+1. **Quest giver's placement.** Find the NPC who starts the quest: the alias filled by a unique actor / forced reference that speaks the start dialogue, or the Story Manager trigger. Then follow their **placed reference → cell → location → parent locations** up to hub, planet and system.
+2. **Location aliases.** A quest alias with a specific forced location.
+3. **First objective target.** The alias the first displayed objective points to, resolved the same way.
+4. **Story Manager node.** Event-started quests (e.g. "on location change into X", "ship hail") give the system or "Anywhere".
+5. **Curated override.** A human-set `hub` always wins.
+
+### 4.2 Location hierarchy
+
+Starfield location records chain to parent locations. The extractor (and the DLL, for the Here view) walks up the chain and classifies each level by **location-type keywords**, such as star system, planet/moon, city or settlement, and station **(verify the exact keywords, spike S3)**.
+
+### 4.3 Accuracy process
+
+- The extractor writes `confidence: high | medium | low` and `source: giver | alias | objective | smnode | manual` per quest.
+- Curation reviews everything below high first.
+- Cross-check against public wikis **for verification only**. Don't copy wiki text; hints are written by us.
+- Players can report "wrong place" through the bug template; fixes ship as data-only updates.
+
+---
+
+## 5. Architecture (v1)
+
+```
+┌──────────────────────── StarfieldCompletionist.dll (SFSE plugin, no ESM) ─────────────────────┐
+│                                                                                               │
+│  QuestRegistry ◄── data/quests/*.json  ("Plugin.esm|0xABCDEF" → TESQuest*, skips missing      │
+│       │            plugins, reports bad data to OSF Settings "Mod Issues")                    │
+│       │        ◄── auto-discovery of named quests from all loaded plugins → "Other" bucket    │
+│       ▼                                                                                       │
+│  QuestTracker  ── status per quest (Not started / In progress / Completed / Failed /           │
+│       │           Locked out / Missed); exclusive groups; stage recorder for "stop" quests    │
+│       │        ◄── events: quest stage/status changes; SFSE PostLoadGame → full reconcile     │
+│       ▼                                                                                       │
+│  LocationService ── player's current location → hub / planet / system (Here view, toasts)    │
+│       ▼                                                                                       │
+│  Store ── derived state (recomputed from the save)                                           │
+│       │  + sidecar JSON per save: manual overrides + recorded stages (SFSE has no co-save)    │
+│       ▼                                                                                       │
+│  UI bridge ─► OSF UI menu (Here / Galaxy / By type / Search / Quest detail)                   │
+│            ─► OSF UI HUD (toasts)                                                             │
+│            ─► OSF Settings (options, hotkey, issues)                                          │
+└───────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+Notes:
+
+- **Mostly derived from the save.** Quest completion flags live in the save itself, so v1 needs very little persistence: only manual overrides and the stage recorder (if spike S1 shows stage flags get lost when a quest stops).
+- **Sidecar keyed by save name** (`Documents/My Games/Starfield/SFSE/Completionist/saves/<saveName>.json`). Reloading an older save rolls back overrides correctly.
+- **Performance.** Event handlers are O(1) lookups; a full reconcile runs only on load and when the menu opens; no per-frame work.
+- **Fallback UI.** If OSF UI proves unstable, export state to JSON and show it in a companion web page (same HTML/JS). The UI sits behind an `IUiSink` interface.
+
+---
+
+## 6. Data format
+
+```json
+{
+  "schema": 1,
+  "id": "vanilla.quests",
+  "requires": ["Starfield.esm"],
+  "places": [
+    { "id": "sys.volii", "kind": "system", "name": "Volii", "location": "Starfield.esm|0x000000" },
+    { "id": "pl.volii-alpha", "kind": "planet", "name": "Volii Alpha", "parent": "sys.volii", "location": "Starfield.esm|0x000000" },
+    { "id": "hub.neon", "kind": "hub", "name": "Neon", "parent": "pl.volii-alpha", "location": "Starfield.esm|0x000000" }
+  ],
+  "questlines": [
+    { "id": "ryujin", "name": "Ryujin Industries", "type": "faction" }
+  ],
+  "quests": [
+    {
+      "id": "ryujin-01",
+      "name": "<from extractor>",
+      "form": "Starfield.esm|0x000000",
+      "type": "faction",
+      "questline": { "id": "ryujin", "order": 1 },
+      "start": {
+        "place": "hub.neon",
+        "giver": "<NPC name>",
+        "hint": "Written by us, spoiler-gated",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": { "type": "questCompleted" },
+      "fail": null,
+      "prereqs": [],
+      "exclusiveGroup": null,
+      "missable": null
+    }
+  ]
+}
+```
+
+FormIDs above are placeholders.
+
+- **`complete.type`:** `questCompleted`, `questStage` (with `stage`), `questStageRecorded`, `anyOf` / `allOf`.
+- **`exclusiveGroup`:** e.g. `"crimson-fleet-ending"`; members lock each other out.
+- **`missable`:** e.g. `{ "after": "quest-id", "note": "…" }`.
+
+A JSON Schema at `data/schema/quests.schema.json` gives addon authors validation and autocomplete.
+
+---
+
+## 7. Data extraction pipeline
+
+```
+Official masters (Starfield.esm, ShatteredSpace.esm, SFBGS050.esm = Terran Armada,
+                  SFBGS003.esm = Trackers Alliance, other SFBGS*.esm)
+   │
+   ▼  tools/esm (reads .esm + BA2 string tables directly)
+records: QUST (name, QTYP type, FTYP faction, FLTR folder, stages, aliases, objectives),
+         NPC_/ACHR placements, CELL, LCTN tree
+   │
+   ▼  tools/extract/*.ts
+draft quests.json with start place + confidence  ──►  curation (inclusion, hints, exclusives, missables)
+   │
+   ▼  CI
+schema check · unique IDs · FormIDs resolve · every included quest has a place · diff vs last run
+```
+
+Re-run after every game update or DLC and review the diff.
+
+---
+
+## 8. Repository layout
+
+```
+starfield-completionist/
+├─ xmake.lua          plugin build (includes lib/commonlibsf)
+├─ lib/commonlibsf/   CommonLibSF submodule
+├─ plugin/
+│  ├─ src/            main.cpp · Plugin.cpp · later: registry/ · tracker/ · location/ · store/ · ui/
+│  └─ tests/          unit tests (status logic, exclusive groups, JSON parsing)
+├─ ui/                OSF UI views: menu + HUD (TypeScript + Vite → static files)
+├─ settings/          OSF Settings schema
+├─ data/
+│  ├─ quests/         vanilla.json, shattered-space.json, terran-armada.json, creations/*.json
+│  └─ schema/         quests.schema.json + example
+├─ tools/             TypeScript, run directly by Node 24 (no build step)
+│  ├─ esm/            plugin (.esm), BA2 and string-table readers
+│  ├─ extract/        dump-quests, find-forms, keyword tables
+│  └─ validate/       schema + cross-reference checks (CI)
+├─ docs/research/     one note per spike
+├─ dist/              FOMOD + packaging (later)
+└─ .github/workflows/ build.yml (DLL on Windows), data.yml (typecheck + validate)
+```
+
+The extraction tools read the game files directly in Node instead of using xEdit scripts. Dumping all quests from the 13 official masters takes under a second, and it runs on any machine with the game installed.
+
+---
+
+## 9. Roadmap to v1
+
+Rough durations for one part-time developer: **about 2–3 months to v1.0**. Phases 1 and 2 can run in parallel.
+
+### Phase 0: Setup and spikes (1–2 weeks)
+
+Toolchain:
+
+- Visual Studio 2022+ (C++), XMake ≥ 3.0, Git, Node.js 24+
+- Steam Starfield, SFSE 0.2.21, Address Library
+- MO2 dev profile, OSF Settings + OSF UI + WebView2
+- Creation Kit (optional, for cross-checking records)
+
+Hello world: an SFSE plugin that logs on `PostDataLoad` / `PostLoadGame`, and a blank OSF UI view opened by a hotkey.
+
+**Progress (2026-10-11):**
+
+- Repo, CI and the starter plugin are in place. The plugin logs a quest-type histogram (S2) and the payload of SFSE's save/load messages (S6).
+- The quest extractor works.
+- S2 is mostly answered: see `docs/research/S2-quest-types.md`.
+
+| Spike | Question | Decides |
+|---|---|---|
+| **S1** | Which quests *stop* instead of *complete*? Do stage-done flags survive a stop? Failed flag? | Stage recorder scope |
+| **S2** | Which QUST fields mark quest type and "shows in mission log"? How to filter out radiants, activities and pointers? | Inclusion filter, auto-discovery |
+| **S3** | Location parent chain + keywords for system / planet / hub; player's current location at runtime | Grouping, Here view |
+| **S4** | Prototype quest → place extraction on ~20 known quests; measure accuracy | How much manual curation we need |
+| **S5** | CommonLibSF events for quest stage/status changes and location change | Live updates, toasts |
+| **S6** | Save name available on save/load messages? | Sidecar keys |
+| **S7** | Does a DLL-only mod keep achievements enabled? | "Achievement-safe" claim |
+| **S8** | OSF UI: open a view from C++, push state, receive commands; controller navigation; HUD toast | UI feasibility |
+
+**Exit:** all spikes answered; inclusion rules written.
+
+### Phase 1: Engine (2–3 weeks)
+
+- QuestRegistry (JSON + auto-discovery), QuestTracker (all six statuses, exclusive groups, stage recorder), LocationService, sidecar store.
+- Debug dump to `Completionist/debug.json`.
+
+**Exit:** on fresh, mid-game and endgame saves, statuses match the in-game mission log for 100 % of started quests.
+
+### Phase 2: Quest data (2–4 weeks, overlaps Phase 1)
+
+- Extractor → draft vanilla data → curation of inclusion, places, questline order, exclusives, missables and hints.
+- Shattered Space, Terran Armada, Trackers Alliance packs.
+
+**Exit:** every included quest has a place with confidence ≥ medium, and CI is green.
+
+### Phase 3: UI (3–4 weeks)
+
+- Menu: Here, Galaxy, By type, Search, Quest detail; spoiler mode; manual override.
+- HUD toasts; OSF Settings page; hotkey; keyboard, mouse and controller.
+
+**Exit:** usable without a mouse; no measurable FPS impact.
+
+### Phase 4: Closed beta (2–3 weeks)
+
+- Testers on Discord / hidden Nexus file. The bug template asks for the SFSE log, the sidecar JSON and a "wrong place / wrong status" form.
+
+**Exit:** at least one full playthrough verified; no open crash bugs.
+
+### Phase 5: Release v1.0 (≈1 week)
+
+- Nexus page, FOMOD (core + DLC/Creations packs), public GitHub repo (GPL), changelog.
+- State clearly: Steam only, needs SFSE, OSF Settings, OSF UI.
+
+---
+
+## 10. Testing
+
+| Layer | How |
+|---|---|
+| Logic | Unit tests: status transitions, exclusive groups, missable rules, 100 % math, JSON parsing |
+| Data | CI: schema, unique IDs, FormIDs resolve, every quest has a place, diff review |
+| In-game | Saves at fresh / mid / endgame / NG+. Console simulation: `setstage`, `completequest`, `resetquest`, `coc` to hubs to test the Here view |
+| Persistence | Override a quest, save, reload an older save → override rolls back |
+| Compatibility | With and without StarUI; large mod lists; quest mods (auto-discovery bucket) |
+
+---
+
+## 11. After v1
+
+The same engine (registry, trackers, store, UI) extends by adding new detect types and JSON collections:
+
+| Version | Adds |
+|---|---|
+| v1.1 | "Visits" places per quest; radiant/Incursion counters; more Creations packs; translations |
+| v2 | Skill magazines (likely perk-based, verify), Starborn powers, skills, unique weapons and apparel ("ever owned" ledger), HUD "★ Needed" crosshair tag |
+| v3 | Ships, crew, research, homes, unique locations, exploration/surveys, achievement mirror, NG+ lineage view, inventory name tags (hook or StarUI integration) |
+| Maybe | Console "Lite" via Creations (Papyrus + ESM, simpler UI) |
+
+---
+
+## 12. Risks
+
+| Risk | Mitigation |
+|---|---|
+| Quest → place mapping is wrong for some quests | Confidence scores, curation, wiki cross-check, data-only hotfixes, "wrong place" reports |
+| Quests that stop instead of complete | Stage recorder + manual override (proven in Skyrim's version) |
+| Starfield updates break SFSE | Address Library only, CI builds, tell users to disable auto-update, update playbook |
+| OSF UI / Settings are young | UI behind `IUiSink`, companion web page fallback, GPL source is forkable |
+| Spoilers | Spoiler mode on by default for not-started quests |
+| Achievements disabled | No ESM; confirm in S7 before advertising |
+| Game Pass users excluded | Say so clearly |
+| Licensing / naming | GPL-3 source release; credit Faen90 for the concept; ask before using the "Completionist" name |
+
+---
+
+## 13. Next steps
+
+1. Install the Phase 0 toolchain.
+2. `git init`, add CommonLibSF, get the hello-world plugin logging in game.
+3. Run **S2, S3 and S4 first**. They decide whether the per-place view works as designed.
+4. Contact Faen90 about the name and possible collaboration.
+
+---
+
+## Sources
+
+- Completionist – Skyrim Completion Tracker (NG): https://www.nexusmods.com/skyrimspecialedition/mods/46358 · source: https://github.com/Faen668/Completionist-NG
+- SFSE: https://sfse.silverlock.org/ · https://github.com/ianpatt/sfse/blob/master/sfse/PluginAPI.h
+- CommonLibSF: https://github.com/libxse/commonlibsf
+- Address Library for SFSE Plugins: https://www.nexusmods.com/starfield/mods/3256
+- OSF Settings: https://www.nexusmods.com/starfield/mods/18326 · https://github.com/ozooma10/osf-settings
+- OSF UI: https://www.nexusmods.com/starfield/mods/17711 · https://github.com/ozooma10/osf-ui
+- Terran Armada / Free Lanes / PS5: https://www.neowin.net/news/starfields-biggest-update-yet-new-terran-armada-dlc-and-ps5-port-are-all-now-live/

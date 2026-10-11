@@ -1,0 +1,55 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/build.yml"
+      - "plugin/**"
+      - "lib/**"
+      - "xmake.lua"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/build.yml"
+      - "plugin/**"
+      - "lib/**"
+      - "xmake.lua"
+  workflow_dispatch:
+
+jobs:
+  plugin:
+    runs-on: windows-latest
+    env:
+      # The commonlibsf.plugin rule installs into $XSE_SF_MODS_PATH/<target>/SFSE/Plugins,
+      # which gives us a ready-to-install MO2 mod folder to upload.
+      XSE_SF_MODS_PATH: ${{ github.workspace }}/dist/mods
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: setup xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+          xmake-version: "latest"
+
+      - name: cache xmake packages
+        uses: actions/cache@v4
+        with:
+          path: ~/AppData/Local/.xmake/packages
+          key: xmake-packages-${{ hashFiles('xmake.lua', 'lib/commonlibsf/xmake.lua', 'lib/commonlibsf/lib/commonlib-shared/xmake.lua') }}
+
+      - name: config
+        run: xmake config -y --mode=releasedbg
+
+      - name: build
+        run: xmake build -y -vD
+
+      - name: upload mod folder
+        uses: actions/upload-artifact@v4
+        with:
+          name: StarfieldCompletionist-${{ github.sha }}
+          path: dist/mods/StarfieldCompletionist
+          if-no-files-found: error

@@ -1,0 +1,14 @@
+# Build output (xmake, extraction dumps, CI staging)
+/build/
+/.xmake/
+/vsxmake*/
+/dist/
+
+# Node
+node_modules/
+
+# Editors
+/.vs/
+/.vscode/
+/.idea/
+*.user
