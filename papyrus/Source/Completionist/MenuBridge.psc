@@ -33,6 +33,7 @@ Function Register()
   OSFUI.RegisterSend(Self, ModId, "track")
   OSFUI.RegisterSend(Self, ModId, "plot")
   OSFUI.RegisterSend(Self, ModId, "override")
+  OSFUI.RegisterSend(Self, ModId, "plotLocation")
   OSFSettings.RegisterHotkey(Self, ModId, OpenHotkey)
   ; Until the tracker's refresh finishes, statuses are incomplete; StatusChanged publishes them then.
   If Tracker().IsReady()
@@ -61,6 +62,15 @@ EndFunction
 ; osfui.send("plot", questId) opens the starmap with a course to where the quest starts.
 Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
   If akArgs == None || akArgs.Length == 0
+    Return
+  EndIf
+  ; osfui.send("plotLocation", localFormId, plugin): open the starmap with a course to a location.
+  If asName == "plotLocation" && akArgs.Length >= 2
+    Location target = Game.GetFormFromFile(akArgs[0] as Int, akArgs[1] as String) as Location
+    If target
+      OSFUI.Close(MenuView)
+      Game.ShowGalaxyStarMapMenuAndPlotToLocation(target)
+    EndIf
     Return
   EndIf
   ; osfui.send("override", questId, value): 0 = automatic, 1 = mark done, 2 = mark not done.
@@ -153,6 +163,18 @@ Function PublishLocation(Location akLocation)
     AddLocationChain(ids, ship.GetCurrentLocation())
   EndIf
   OSFUI.SetStateInts(ModId, "location", ids)
+
+  Actor player = Game.GetPlayer()
+  OSFUI.SetState(ModId, "inSpace", player.IsInSpace())
+  Planet currentPlanet = player.GetCurrentPlanet()
+  If !currentPlanet && ship
+    currentPlanet = ship.GetCurrentPlanet()
+  EndIf
+  Float survey = -1.0
+  If currentPlanet
+    survey = currentPlanet.GetSurveyPercent()
+  EndIf
+  OSFUI.SetState(ModId, "survey", survey)
 EndFunction
 
 Function AddLocationChain(Int[] aiIds, Location akLocation)

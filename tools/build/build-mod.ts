@@ -279,8 +279,11 @@ const choiceLabels = Object.fromEntries(
       return [group, { a: s.a.lockedLabel, b: s.b.lockedLabel }];
     }),
 );
+// All star systems (LCTN key -> name), to name systems that have no tracked quests.
+const systems = JSON.parse(readFileSync(join(repo, "data/systems.json"), "utf8")) as Record<string, string>;
 const menuData = {
   choiceLabels,
+  systems,
   places: menuPlaces,
   quests: menuQuests,
   questlines: [...menuLines.values()].map((line) => ({

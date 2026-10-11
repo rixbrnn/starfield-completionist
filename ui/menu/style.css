@@ -130,3 +130,27 @@ kbd { min-width: 28px; text-align: center; padding: 2px 6px; border: 1px solid v
 
 /* NG+-only quests before entering Unity: listed, but not counted. */
 .row.unavailable:not(.selected) { opacity: 0.55; }
+
+/* Here tab: badges next to the title, place cards, and the "nothing tracked" page. */
+.title-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+.badges { display: flex; gap: 10px; font-family: var(--condensed); font-size: 15px; letter-spacing: 0.16em; }
+.badges span { padding: 6px 12px; border: 1px solid var(--chip); color: var(--soft); }
+.section-title { font-family: var(--condensed); font-size: 15px; letter-spacing: 0.18em; color: var(--muted); margin-bottom: 10px; }
+.section-title.ruled { padding-bottom: 10px; margin-bottom: 0; border-bottom: 1px solid var(--line); }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.card { display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; border: 1px solid var(--line); }
+.card.selected { background: var(--text); color: var(--ink); border-color: var(--text); }
+.card.selected .track { background: #b9c2cb; }
+.card.selected .fill { background: var(--ink); }
+.card-sub { font-size: 14px; color: var(--muted); }
+.card.selected .card-sub { color: #3a4651; }
+.lead { margin: 12px 0 0 0; font-size: 19px; color: var(--soft); }
+.nowhere { flex: 1; min-height: 0; display: flex; gap: 48px; }
+.nowhere-col { flex: 1; min-width: 0; display: flex; flex-direction: column; min-height: 0; }
+.nowhere-col.narrow { flex: 0 0 640px; }
+.nowhere-list { overflow-y: auto; min-height: 0; }
+.next-row { display: flex; align-items: center; gap: 18px; padding: 14px 16px; border-bottom: 1px solid var(--line-soft); cursor: pointer; }
+.next-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.next-row.selected { background: var(--text); color: var(--ink); }
+.next-row.selected .track { background: #b9c2cb; }
+.next-row.selected .fill { background: var(--ink); }

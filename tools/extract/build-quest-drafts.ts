@@ -165,6 +165,16 @@ const stringsFor = (plugin: PluginHeader): StringTable => {
 console.log("Reading locations…");
 const locations = loadLocations(plugins, stringsFor);
 
+// Every star system (LCTN key -> name), so the menu can name systems without tracked quests.
+const systems = Object.fromEntries(
+  [...locations.values()]
+    .filter((l) => l.types.includes("LocTypeStarSystem") && l.name && !l.name.startsWith("_"))
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((l) => [l.key, l.name]),
+);
+writeFileSync(resolve(args.out, "../systems.json"), `${JSON.stringify(systems, null, 2)}\n`);
+console.log(`systems.json: ${Object.keys(systems).length} star systems`);
+
 const actorBases = new Set<string>();
 const forcedRefs = new Set<string>();
 for (const quest of candidates) {
