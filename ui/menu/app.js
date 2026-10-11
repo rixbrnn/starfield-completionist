@@ -71,7 +71,9 @@
   function queueRender() {
     if (renderQueued) return;
     renderQueued = true;
-    requestAnimationFrame(() => { renderQueued = false; render(); });
+    // A timer, not requestAnimationFrame: the game's browser pauses animation frames until the
+    // menu gets focus, so the first progress update would wait for a mouse click.
+    setTimeout(() => { renderQueued = false; render(); }, 0);
   }
 
   function ingestStatuses() {
@@ -905,6 +907,10 @@
       toggleSpoilers();
     }
   });
+
+  // Redraw whenever the menu is shown or focused, so reopening it never shows stale content.
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) render(); });
+  window.addEventListener("focus", render);
 
   render();
 })();
