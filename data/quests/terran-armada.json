@@ -198,12 +198,6 @@
       "faction": "terran-armada"
     },
     {
-      "id": "main",
-      "name": "Main Missions",
-      "type": "main",
-      "faction": "terran-armada"
-    },
-    {
       "id": "freestar-collective",
       "name": "Freestar Rangers",
       "type": "faction",
@@ -247,7 +241,8 @@
         "type": "questStage",
         "stage": 30
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs033-fungalturtle",
@@ -273,7 +268,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs033-guineahopper",
@@ -299,7 +295,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs033-platypig",
@@ -325,7 +322,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs033-pygmycoralbug",
@@ -351,7 +349,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs033-rareearthpig",
@@ -377,7 +376,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs033-razorcrestedbeetle",
@@ -403,7 +403,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-ec-robot-q01",
@@ -453,7 +454,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-ec-robot-q02",
@@ -508,7 +510,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-ec-robot-q03",
@@ -565,7 +568,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-ec-robot-q04",
@@ -637,7 +641,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-mq01",
@@ -648,7 +653,7 @@
       "faction": "terran-armada",
       "questline": {
         "id": "terran-armada",
-        "order": 1
+        "order": 2
       },
       "start": {
         "place": "hub.opulence-of-the-stars",
@@ -762,7 +767,8 @@
         "type": "questStage",
         "stage": 1700
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-mq02a",
@@ -773,7 +779,7 @@
       "faction": "terran-armada",
       "questline": {
         "id": "terran-armada",
-        "order": 2
+        "order": 3
       },
       "start": {
         "place": "sys.algorab",
@@ -830,7 +836,8 @@
         "type": "questStage",
         "stage": 9999
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-mq02b",
@@ -841,7 +848,7 @@
       "faction": "terran-armada",
       "questline": {
         "id": "terran-armada",
-        "order": 3
+        "order": 4
       },
       "start": {
         "place": "sys.algorab",
@@ -942,18 +949,19 @@
         "type": "questStage",
         "stage": 9999
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-mq03",
       "name": "Battle of The Unifier",
       "form": "SFBGS050.esm|0x028050",
       "editorId": "SFTER_MQ03",
-      "type": "main",
+      "type": "faction",
       "faction": "terran-armada",
       "questline": {
-        "id": "main",
-        "order": 1
+        "id": "terran-armada",
+        "order": 5
       },
       "start": {
         "place": "hub.the-unifier",
@@ -1030,7 +1038,8 @@
         "type": "questStage",
         "stage": 1700
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-mqintro",
@@ -1041,7 +1050,7 @@
       "faction": "terran-armada",
       "questline": {
         "id": "terran-armada",
-        "order": 4
+        "order": 1
       },
       "start": {
         "place": "hub.akila-city",
@@ -1082,7 +1091,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-mqoutpostfc",
@@ -1093,7 +1103,7 @@
       "faction": "freestar-collective",
       "questline": {
         "id": "freestar-collective",
-        "order": 1
+        "order": 9
       },
       "start": {
         "place": "sys.algorab",
@@ -1116,7 +1126,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-mqoutpostri",
@@ -1127,7 +1138,7 @@
       "faction": "ryujin-industries",
       "questline": {
         "id": "ryujin-industries",
-        "order": 1
+        "order": 16
       },
       "start": {
         "place": "sys.algorab",
@@ -1151,7 +1162,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-mqoutpostuc",
@@ -1162,7 +1174,7 @@
       "faction": "united-colonies",
       "questline": {
         "id": "united-colonies",
-        "order": 1
+        "order": 14
       },
       "start": {
         "place": "sys.algorab",
@@ -1185,7 +1197,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-ms01",
@@ -1267,7 +1280,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-ms02",
@@ -1319,7 +1333,8 @@
         "type": "questStage",
         "stage": 1200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfter-z01",
@@ -1354,7 +1369,8 @@
       "fail": {
         "type": "questStage",
         "stage": 500
-      }
+      },
+      "exclusiveGroup": null
     }
   ]
 }

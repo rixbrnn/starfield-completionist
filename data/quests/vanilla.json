@@ -686,7 +686,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "cf02",
@@ -697,7 +698,7 @@
       "faction": "crimson-fleet",
       "questline": {
         "id": "crimson-fleet",
-        "order": 2
+        "order": 3
       },
       "start": {
         "place": "hub.the-key",
@@ -845,7 +846,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "cf03",
@@ -856,7 +858,7 @@
       "faction": "crimson-fleet",
       "questline": {
         "id": "crimson-fleet",
-        "order": 3
+        "order": 4
       },
       "start": {
         "place": "hub.the-key",
@@ -978,7 +980,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "cf04",
@@ -989,7 +992,7 @@
       "faction": "crimson-fleet",
       "questline": {
         "id": "crimson-fleet",
-        "order": 4
+        "order": 5
       },
       "start": {
         "place": "hub.the-key",
@@ -1110,7 +1113,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "cf05",
@@ -1121,7 +1125,7 @@
       "faction": "crimson-fleet",
       "questline": {
         "id": "crimson-fleet",
-        "order": 5
+        "order": 6
       },
       "start": {
         "place": "hub.the-key",
@@ -1420,7 +1424,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "cf06",
@@ -1431,7 +1436,7 @@
       "faction": "crimson-fleet",
       "questline": {
         "id": "crimson-fleet",
-        "order": 6
+        "order": 7
       },
       "start": {
         "place": "hub.the-key",
@@ -1513,7 +1518,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "cf07",
@@ -1524,7 +1530,7 @@
       "faction": "crimson-fleet",
       "questline": {
         "id": "crimson-fleet",
-        "order": 7
+        "order": 8
       },
       "start": {
         "place": "hub.the-key",
@@ -1592,18 +1598,19 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "cf08-fleet",
-      "name": "Legacy's End",
+      "name": "Legacy's End (Crimson Fleet)",
       "form": "Starfield.esm|0x1EF7F1",
       "editorId": "CF08_Fleet",
       "type": "faction",
       "faction": "crimson-fleet",
       "questline": {
         "id": "crimson-fleet",
-        "order": 8
+        "order": 9
       },
       "start": {
         "place": "hub.the-key",
@@ -1685,18 +1692,19 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": "crimson-fleet-ending"
     },
     {
       "id": "cf08-sysdef",
-      "name": "Legacy's End",
+      "name": "Legacy's End (UC SysDef)",
       "form": "Starfield.esm|0x1B41D0",
       "editorId": "CF08_SysDef",
       "type": "faction",
       "faction": "crimson-fleet",
       "questline": {
         "id": "crimson-fleet",
-        "order": 9
+        "order": 10
       },
       "start": {
         "place": "hub.the-key",
@@ -1762,7 +1770,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": "crimson-fleet-ending"
     },
     {
       "id": "cfsd01",
@@ -1773,7 +1782,7 @@
       "faction": "crimson-fleet",
       "questline": {
         "id": "crimson-fleet",
-        "order": 10
+        "order": 2
       },
       "start": {
         "place": "hub.cydonia",
@@ -1864,7 +1873,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-akila-ashta01",
@@ -1903,7 +1913,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-akila-ashta02",
@@ -1947,7 +1958,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-akila-ashta03",
@@ -1988,7 +2000,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-akila-jansen",
@@ -2024,7 +2037,8 @@
         "type": "questStage",
         "stage": 600
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-akilalife01",
@@ -2056,7 +2070,8 @@
         "type": "questStage",
         "stage": 400
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-akilalife02",
@@ -2097,7 +2112,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-akilalife04",
@@ -2144,7 +2160,8 @@
       "fail": {
         "type": "questStage",
         "stage": 450
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "city-akilalife05",
@@ -2175,7 +2192,8 @@
         "type": "questStage",
         "stage": 400
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-akilalife06",
@@ -2202,7 +2220,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-akilalife07",
@@ -2239,7 +2258,8 @@
       "complete": {
         "type": "questCompleted"
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-akilalife08",
@@ -2277,7 +2297,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-cy-psych01",
@@ -2311,7 +2332,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-cy-redtape01",
@@ -2350,7 +2372,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-cy-redtape02",
@@ -2411,7 +2434,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-cy-redtape03",
@@ -2474,7 +2498,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-cy-runaway01",
@@ -2540,7 +2565,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-cy-startup01",
@@ -2589,7 +2615,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-er-dead",
@@ -2630,7 +2657,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-er-exorcism",
@@ -2686,7 +2714,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-er-ghost",
@@ -2719,7 +2748,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-er-peace",
@@ -2773,7 +2803,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-gg-bet",
@@ -2801,7 +2832,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-gg-connections",
@@ -2835,7 +2867,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-gg-marines",
@@ -2881,7 +2914,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-gg-mark",
@@ -2942,7 +2976,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-na-botany01",
@@ -2987,7 +3022,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-na-botany02",
@@ -3023,7 +3059,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-na-botany03",
@@ -3068,7 +3105,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-na-viewport01",
@@ -3104,7 +3142,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-na-viewport02",
@@ -3139,7 +3178,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-na-viewport03",
@@ -3179,7 +3219,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-na-well01",
@@ -3218,7 +3259,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-na-well02",
@@ -3269,7 +3311,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-neon-chem01",
@@ -3312,7 +3355,8 @@
         "type": "questStage",
         "stage": 800
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-neon-chem02",
@@ -3369,7 +3413,8 @@
         "type": "questStage",
         "stage": 600
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-neon-chem03",
@@ -3419,7 +3464,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-neon-gang01",
@@ -3456,7 +3502,8 @@
         "type": "questStage",
         "stage": 500
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-neon-gang02",
@@ -3490,7 +3537,8 @@
         "type": "questStage",
         "stage": 700
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-neon-gang03",
@@ -3551,7 +3599,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-aninvitation",
@@ -3584,7 +3633,8 @@
       "fail": {
         "type": "questStage",
         "stage": 2000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-ashipmentforsalinas",
@@ -3611,7 +3661,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-beautifulsecrets",
@@ -3636,7 +3687,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-coffeerun",
@@ -3659,7 +3711,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-gemjealousy",
@@ -3684,7 +3737,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-olivebranch",
@@ -3731,7 +3785,8 @@
       "fail": {
         "type": "questStage",
         "stage": 66
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-partinggift",
@@ -3788,7 +3843,8 @@
             "stage": 1000
           }
         ]
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-primarysources",
@@ -3823,7 +3879,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-reliablecare",
@@ -3851,7 +3908,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-spreadingthenews",
@@ -3878,7 +3936,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-suspiciousactivities",
@@ -3924,7 +3983,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-terrorbrew",
@@ -3967,7 +4027,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-theartcollector",
@@ -3992,7 +4053,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-theboot",
@@ -4034,7 +4096,8 @@
         "type": "questStage",
         "stage": 80
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "city-newatlantis-z-thekindnessofstrangers",
@@ -4074,7 +4137,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "com-quest-andreja-commitment",
@@ -4101,7 +4165,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "com-quest-andreja-q01",
@@ -4196,7 +4261,8 @@
       "fail": {
         "type": "questStage",
         "stage": 20000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "com-quest-barrett-commitment",
@@ -4319,7 +4385,8 @@
       "fail": {
         "type": "questStage",
         "stage": 6000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "com-quest-barrett-q01",
@@ -4719,7 +4786,8 @@
       "fail": {
         "type": "questStage",
         "stage": 20000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "com-quest-barrett-q02",
@@ -4846,7 +4914,8 @@
       "fail": {
         "type": "questStage",
         "stage": 20000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "com-quest-samcoe-commitment",
@@ -4879,7 +4948,8 @@
         "type": "questStage",
         "stage": 800
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "com-quest-samcoe-q01",
@@ -4954,7 +5024,8 @@
       "fail": {
         "type": "questStage",
         "stage": 20000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "com-quest-sarahmorgan-commitment",
@@ -4991,7 +5062,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "com-quest-sarahmorgan-q01",
@@ -5067,7 +5139,8 @@
       "fail": {
         "type": "questStage",
         "stage": 20000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "crucible01",
@@ -5111,7 +5184,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "fc01",
@@ -5181,7 +5255,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "fc02",
@@ -5258,7 +5333,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "fc03",
@@ -5322,7 +5398,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "fc04",
@@ -5391,7 +5468,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "fc05",
@@ -5455,7 +5533,8 @@
         "type": "questStage",
         "stage": 2100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "fc06",
@@ -5532,7 +5611,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "fc08",
@@ -5589,7 +5669,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "fc09",
@@ -5641,7 +5722,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffclinicr01",
@@ -5664,7 +5746,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffclinicr02",
@@ -5688,7 +5771,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffclinicz01",
@@ -5714,7 +5798,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffconstantr02",
@@ -5748,7 +5833,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffconstantz04",
@@ -5783,7 +5869,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffconstantz05",
@@ -5817,7 +5904,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffconstantz06",
@@ -5851,7 +5939,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffcydoniar02",
@@ -5877,7 +5966,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffcydoniar03",
@@ -5905,7 +5995,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffcydoniaz01",
@@ -5935,7 +6026,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffcydoniaz04",
@@ -5960,7 +6052,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffcydoniaz05",
@@ -6012,7 +6105,8 @@
       "fail": {
         "type": "questStage",
         "stage": 90
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "ffcydoniaz06",
@@ -6037,7 +6131,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffcydoniaz07",
@@ -6062,7 +6157,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffcydoniaz08",
@@ -6086,7 +6182,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffdenr01",
@@ -6116,7 +6213,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffdenz01",
@@ -6144,7 +6242,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffkeyz01",
@@ -6180,7 +6279,8 @@
       "fail": {
         "type": "questStage",
         "stage": 66
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "ffkeyz02",
@@ -6222,7 +6322,8 @@
       "fail": {
         "type": "questStage",
         "stage": 66
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "fflodge01",
@@ -6249,7 +6350,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffneonz01",
@@ -6287,7 +6389,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffneonz02",
@@ -6318,7 +6421,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffneonz03",
@@ -6350,7 +6454,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffneonz04",
@@ -6380,7 +6485,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffneonz05",
@@ -6416,7 +6522,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffneonz06",
@@ -6461,7 +6568,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffneonz07",
@@ -6494,7 +6602,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffneonz08",
@@ -6525,7 +6634,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffneonz09",
@@ -6554,7 +6664,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffneonz10",
@@ -6584,7 +6695,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffneonz12",
@@ -6643,7 +6755,8 @@
       "fail": {
         "type": "questStage",
         "stage": 200
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "ffnewatlantis01",
@@ -6707,7 +6820,8 @@
             "stage": 5
           }
         ]
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "ffnewatlantis02",
@@ -6737,7 +6851,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffnewatlantis04",
@@ -6773,7 +6888,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffnewatlantis05",
@@ -6823,7 +6939,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffnewatlantis06",
@@ -6881,7 +6998,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffnewhomesteadr02",
@@ -6907,7 +7025,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffnewhomesteadr04",
@@ -6935,7 +7054,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffnewhomesteadr05",
@@ -6962,7 +7082,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffnewhomesteadz01",
@@ -7005,7 +7126,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffparadisoz01",
@@ -7038,7 +7160,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffparadisoz02",
@@ -7070,7 +7193,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffparadisoz03",
@@ -7100,7 +7224,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffparadisoz04",
@@ -7131,7 +7256,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ffredmiler01",
@@ -7163,7 +7289,8 @@
       "fail": {
         "type": "questStage",
         "stage": 2000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "hope01",
@@ -7208,7 +7335,8 @@
             "stage": 8900
           }
         ]
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "hope02",
@@ -7255,7 +7383,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "landmark-apollo",
@@ -7279,7 +7408,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "landmark-cairo",
@@ -7303,7 +7433,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "landmark-dubai",
@@ -7327,7 +7458,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "landmark-hongkong",
@@ -7351,7 +7483,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "landmark-london",
@@ -7375,7 +7508,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "landmark-losangeles",
@@ -7399,7 +7533,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "landmark-newyork",
@@ -7423,7 +7558,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "landmark-opportunity",
@@ -7447,7 +7583,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "landmark-osaka",
@@ -7471,7 +7608,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "landmark-shanghai",
@@ -7495,7 +7633,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "landmark-stlouis",
@@ -7519,7 +7658,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq-templequest-01",
@@ -7550,7 +7690,8 @@
         "type": "questStage",
         "stage": 60
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq101",
@@ -7739,7 +7880,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq102",
@@ -7830,7 +7972,8 @@
         "type": "questStage",
         "stage": 1150
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq103",
@@ -7841,7 +7984,7 @@
       "faction": "constellation",
       "questline": {
         "id": "main",
-        "order": 3
+        "order": 4
       },
       "start": {
         "place": "hub.new-atlantis",
@@ -7923,7 +8066,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq104a",
@@ -7934,7 +8078,7 @@
       "faction": "constellation",
       "questline": {
         "id": "main",
-        "order": 4
+        "order": 5
       },
       "start": {
         "place": "hub.the-eye",
@@ -7981,7 +8125,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq104b",
@@ -7992,7 +8137,7 @@
       "faction": "constellation",
       "questline": {
         "id": "main",
-        "order": 5
+        "order": 3
       },
       "start": {
         "place": "hub.new-atlantis",
@@ -8053,7 +8198,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq105",
@@ -8200,7 +8346,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq106",
@@ -8248,7 +8395,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq201",
@@ -8299,7 +8447,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq201b",
@@ -8347,7 +8496,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq202",
@@ -8432,7 +8582,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq204",
@@ -8537,7 +8688,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq206a",
@@ -8548,7 +8700,7 @@
       "faction": "constellation",
       "questline": {
         "id": "main",
-        "order": 12
+        "order": 15
       },
       "start": {
         "place": "hub.new-atlantis",
@@ -8603,7 +8755,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq206b",
@@ -8675,7 +8828,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq207",
@@ -8723,7 +8877,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq207b",
@@ -8734,7 +8889,7 @@
       "faction": "constellation",
       "questline": {
         "id": "main",
-        "order": 15
+        "order": 17
       },
       "start": {
         "place": "hub.the-eye",
@@ -8764,7 +8919,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq207c",
@@ -8775,7 +8931,7 @@
       "faction": "constellation",
       "questline": {
         "id": "main",
-        "order": 16
+        "order": 18
       },
       "start": {
         "place": "hub.nishina-research-station",
@@ -8942,7 +9098,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq301",
@@ -8953,7 +9110,7 @@
       "faction": "constellation",
       "questline": {
         "id": "main",
-        "order": 17
+        "order": 16
       },
       "start": {
         "place": "hub.nasa-launch-tower",
@@ -9006,7 +9163,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq302b",
@@ -9017,7 +9175,7 @@
       "faction": "constellation",
       "questline": {
         "id": "main",
-        "order": 18
+        "order": 19
       },
       "start": {
         "place": "hub.ecliptic-base",
@@ -9151,7 +9309,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq304b",
@@ -9205,7 +9364,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq305",
@@ -9216,7 +9376,7 @@
       "faction": "constellation",
       "questline": {
         "id": "main",
-        "order": 19
+        "order": 20
       },
       "start": {
         "place": "hub.new-atlantis",
@@ -9266,345 +9426,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
-    },
-    {
-      "id": "mq401a",
-      "name": "One Small Step",
-      "form": "Starfield.esm|0x1D5AD2",
-      "editorId": "MQ401a",
-      "type": "main",
-      "faction": "constellation",
-      "questline": {
-        "id": "main",
-        "order": 20
-      },
-      "start": {
-        "place": "hub.new-atlantis",
-        "giver": "Vasco",
-        "confidence": "medium",
-        "source": "giver"
-      },
-      "stages": [
-        10,
-        100,
-        1000
-      ],
-      "complete": {
-        "type": "questStage",
-        "stage": 1000
-      },
-      "fail": null
-    },
-    {
-      "id": "mq401b",
-      "name": "One Small Step",
-      "form": "Starfield.esm|0x1A9053",
-      "editorId": "MQ401b",
-      "type": "main",
-      "faction": "constellation",
-      "questline": {
-        "id": "main",
-        "order": 21
-      },
-      "start": {
-        "place": "hub.new-atlantis",
-        "giver": "Sarah Morgan",
-        "confidence": "medium",
-        "source": "giver"
-      },
-      "stages": [
-        10,
-        100,
-        110
-      ],
-      "complete": {
-        "type": "questCompleted"
-      },
-      "fail": null
-    },
-    {
-      "id": "mq401c",
-      "name": "One Small Step",
-      "form": "Starfield.esm|0x17F7A5",
-      "editorId": "MQ401c",
-      "type": "main",
-      "faction": "constellation",
-      "questline": {
-        "id": "main",
-        "order": 22
-      },
-      "start": {
-        "place": "hub.new-atlantis",
-        "confidence": "medium",
-        "source": "giver"
-      },
-      "stages": [
-        10,
-        100,
-        1000
-      ],
-      "complete": {
-        "type": "questStage",
-        "stage": 1000
-      },
-      "fail": null
-    },
-    {
-      "id": "mq401d",
-      "name": "One Small Step",
-      "form": "Starfield.esm|0x17B94D",
-      "editorId": "MQ401d",
-      "type": "main",
-      "faction": "constellation",
-      "questline": {
-        "id": "main",
-        "order": 23
-      },
-      "start": {
-        "place": "hub.new-atlantis",
-        "confidence": "medium",
-        "source": "giver"
-      },
-      "stages": [
-        10,
-        100,
-        110,
-        120,
-        130,
-        140,
-        150,
-        160,
-        200,
-        210,
-        220,
-        230,
-        240,
-        250,
-        260,
-        270,
-        280,
-        290,
-        300,
-        1000
-      ],
-      "complete": {
-        "type": "questStage",
-        "stage": 1000
-      },
-      "fail": null
-    },
-    {
-      "id": "mq401e",
-      "name": "One Small Step",
-      "form": "Starfield.esm|0x173104",
-      "editorId": "MQ401e",
-      "type": "main",
-      "faction": "constellation",
-      "questline": {
-        "id": "main",
-        "order": 24
-      },
-      "start": {
-        "place": "hub.new-atlantis",
-        "confidence": "medium",
-        "source": "giver"
-      },
-      "stages": [
-        10,
-        100,
-        110,
-        120,
-        130,
-        140,
-        150,
-        160,
-        200,
-        210,
-        220,
-        230,
-        240,
-        250,
-        260,
-        270,
-        280,
-        290,
-        300,
-        310,
-        1000
-      ],
-      "complete": {
-        "type": "questStage",
-        "stage": 1000
-      },
-      "fail": null
-    },
-    {
-      "id": "mq401f",
-      "name": "One Small Step",
-      "form": "Starfield.esm|0x172F8B",
-      "editorId": "MQ401f",
-      "type": "main",
-      "faction": "constellation",
-      "questline": {
-        "id": "main",
-        "order": 25
-      },
-      "start": {
-        "place": "hub.new-atlantis",
-        "confidence": "medium",
-        "source": "giver"
-      },
-      "stages": [
-        10,
-        100,
-        1000
-      ],
-      "complete": {
-        "type": "questStage",
-        "stage": 1000
-      },
-      "fail": null
-    },
-    {
-      "id": "mq401g",
-      "name": "One Small Step",
-      "form": "Starfield.esm|0x04BD08",
-      "editorId": "MQ401g",
-      "type": "main",
-      "faction": "constellation",
-      "questline": {
-        "id": "main",
-        "order": 26
-      },
-      "start": {
-        "place": "hub.new-atlantis",
-        "confidence": "medium",
-        "source": "giver"
-      },
-      "stages": [
-        10,
-        100,
-        110,
-        120,
-        130,
-        140,
-        150,
-        160,
-        200,
-        210,
-        220,
-        230,
-        240,
-        250,
-        260,
-        270,
-        280,
-        290,
-        300,
-        1000
-      ],
-      "complete": {
-        "type": "questStage",
-        "stage": 1000
-      },
-      "fail": null
-    },
-    {
-      "id": "mq401h",
-      "name": "One Small Step",
-      "form": "Starfield.esm|0x045F9F",
-      "editorId": "MQ401h",
-      "type": "main",
-      "faction": "constellation",
-      "questline": {
-        "id": "main",
-        "order": 27
-      },
-      "start": {
-        "place": "hub.new-atlantis",
-        "confidence": "medium",
-        "source": "giver"
-      },
-      "stages": [
-        10,
-        100,
-        105,
-        110,
-        200,
-        210,
-        220,
-        230,
-        240,
-        250,
-        260,
-        270,
-        280,
-        290,
-        1000,
-        2000
-      ],
-      "complete": {
-        "type": "questStage",
-        "stage": 1000
-      },
-      "fail": null
-    },
-    {
-      "id": "mq401i",
-      "name": "One Small Step",
-      "form": "Starfield.esm|0x029DA1",
-      "editorId": "MQ401i",
-      "type": "main",
-      "faction": "constellation",
-      "questline": {
-        "id": "main",
-        "order": 28
-      },
-      "start": {
-        "place": "hub.new-atlantis",
-        "confidence": "medium",
-        "source": "giver"
-      },
-      "stages": [
-        10,
-        100,
-        1000
-      ],
-      "complete": {
-        "type": "questStage",
-        "stage": 1000
-      },
-      "fail": null
-    },
-    {
-      "id": "mq401j",
-      "name": "One Small Step",
-      "form": "Starfield.esm|0x025233",
-      "editorId": "MQ401j",
-      "type": "main",
-      "faction": "constellation",
-      "questline": {
-        "id": "main",
-        "order": 29
-      },
-      "start": {
-        "place": "hub.new-atlantis",
-        "confidence": "medium",
-        "source": "giver"
-      },
-      "stages": [
-        10,
-        100,
-        110,
-        120,
-        1000
-      ],
-      "complete": {
-        "type": "questStage",
-        "stage": 1000
-      },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq402",
@@ -9615,7 +9438,7 @@
       "faction": "constellation",
       "questline": {
         "id": "main",
-        "order": 30
+        "order": 21
       },
       "start": {
         "place": "hub.the-eye",
@@ -9648,7 +9471,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mq404",
@@ -9659,7 +9483,7 @@
       "faction": "constellation",
       "questline": {
         "id": "main",
-        "order": 31
+        "order": 12
       },
       "start": {
         "place": "hub.the-eye",
@@ -9680,7 +9504,8 @@
         "type": "questStage",
         "stage": 300
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mqmisc01",
@@ -9702,7 +9527,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "mqmisc02",
@@ -9723,7 +9549,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ms01",
@@ -9783,7 +9610,8 @@
         "type": "questStage",
         "stage": 1200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ms02",
@@ -9922,7 +9750,8 @@
       "fail": {
         "type": "questStage",
         "stage": 8900
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "ms03-juno",
@@ -9977,7 +9806,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ms04",
@@ -10026,7 +9856,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ms05",
@@ -10101,7 +9932,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ms06",
@@ -10229,7 +10061,8 @@
       "fail": {
         "type": "questStage",
         "stage": 3330
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "oe-terrormorphencounter",
@@ -10298,7 +10131,8 @@
             "stage": 985
           }
         ]
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "rad01-list",
@@ -10327,7 +10161,8 @@
         "type": "questStage",
         "stage": 900
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "rad02",
@@ -10423,7 +10258,8 @@
         "type": "questStage",
         "stage": 8100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "rad03",
@@ -10444,7 +10280,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "rad04",
@@ -10465,7 +10302,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "rad05",
@@ -10504,7 +10342,8 @@
       "fail": {
         "type": "questStage",
         "stage": 8900
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "ri01",
@@ -10608,7 +10447,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ri02",
@@ -10619,7 +10459,7 @@
       "faction": "ryujin-industries",
       "questline": {
         "id": "ryujin-industries",
-        "order": 2
+        "order": 5
       },
       "start": {
         "place": "hub.neon",
@@ -10700,7 +10540,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ri03",
@@ -10711,7 +10552,7 @@
       "faction": "ryujin-industries",
       "questline": {
         "id": "ryujin-industries",
-        "order": 3
+        "order": 8
       },
       "start": {
         "place": "hub.neon",
@@ -10824,7 +10665,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ri04",
@@ -10835,7 +10677,7 @@
       "faction": "ryujin-industries",
       "questline": {
         "id": "ryujin-industries",
-        "order": 4
+        "order": 9
       },
       "start": {
         "place": "hub.neon",
@@ -10920,7 +10762,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ri05",
@@ -10931,7 +10774,7 @@
       "faction": "ryujin-industries",
       "questline": {
         "id": "ryujin-industries",
-        "order": 5
+        "order": 10
       },
       "start": {
         "place": "hub.neon",
@@ -11105,7 +10948,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ri06",
@@ -11116,7 +10960,7 @@
       "faction": "ryujin-industries",
       "questline": {
         "id": "ryujin-industries",
-        "order": 6
+        "order": 11
       },
       "start": {
         "place": "hub.neon",
@@ -11234,7 +11078,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ri07",
@@ -11245,7 +11090,7 @@
       "faction": "ryujin-industries",
       "questline": {
         "id": "ryujin-industries",
-        "order": 7
+        "order": 12
       },
       "start": {
         "place": "hub.neon",
@@ -11424,7 +11269,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ri08",
@@ -11435,7 +11281,7 @@
       "faction": "ryujin-industries",
       "questline": {
         "id": "ryujin-industries",
-        "order": 8
+        "order": 13
       },
       "start": {
         "place": "hub.neon",
@@ -11580,7 +11426,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "rir01",
@@ -11591,7 +11438,7 @@
       "faction": "ryujin-industries",
       "questline": {
         "id": "ryujin-industries",
-        "order": 9
+        "order": 2
       },
       "start": {
         "place": "hub.neon",
@@ -11621,7 +11468,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "rir02",
@@ -11632,7 +11480,7 @@
       "faction": "ryujin-industries",
       "questline": {
         "id": "ryujin-industries",
-        "order": 10
+        "order": 3
       },
       "start": {
         "place": "hub.neon",
@@ -11655,7 +11503,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "rir03",
@@ -11666,7 +11515,7 @@
       "faction": "ryujin-industries",
       "questline": {
         "id": "ryujin-industries",
-        "order": 11
+        "order": 4
       },
       "start": {
         "place": "hub.neon",
@@ -11699,7 +11548,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "rir04",
@@ -11710,7 +11560,7 @@
       "faction": "ryujin-industries",
       "questline": {
         "id": "ryujin-industries",
-        "order": 12
+        "order": 6
       },
       "start": {
         "place": "hub.neon",
@@ -11739,7 +11589,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "rir05",
@@ -11750,7 +11601,7 @@
       "faction": "ryujin-industries",
       "questline": {
         "id": "ryujin-industries",
-        "order": 13
+        "order": 7
       },
       "start": {
         "place": "hub.neon",
@@ -11781,7 +11632,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "rir06",
@@ -11848,7 +11700,8 @@
         "type": "questStage",
         "stage": 900
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "rir07",
@@ -11898,7 +11751,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "rl040quest",
@@ -11919,7 +11773,8 @@
       "complete": {
         "type": "questCompleted"
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "rl082",
@@ -11952,7 +11807,8 @@
       "fail": {
         "type": "questStage",
         "stage": 40
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "se-ac01",
@@ -11984,7 +11840,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "se-fab02",
@@ -12018,7 +11875,8 @@
       "complete": {
         "type": "questCompleted"
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "se-kt01",
@@ -12049,7 +11907,8 @@
       "complete": {
         "type": "questCompleted"
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "se-kt02",
@@ -12084,7 +11943,8 @@
       "fail": {
         "type": "questStage",
         "stage": 6
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "se-kt03",
@@ -12120,7 +11980,8 @@
       "fail": {
         "type": "questStage",
         "stage": 66
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "se-kt04",
@@ -12158,7 +12019,8 @@
       "fail": {
         "type": "questStage",
         "stage": 1000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "se-kt05",
@@ -12190,7 +12052,8 @@
       "complete": {
         "type": "questCompleted"
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "se-kt06",
@@ -12219,7 +12082,8 @@
         "type": "questStage",
         "stage": 30
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "se-player-fab14",
@@ -12254,7 +12118,8 @@
         "type": "questStage",
         "stage": 500
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sg02",
@@ -12332,7 +12197,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "staryard-deimos-z-tasteofhome",
@@ -12356,7 +12222,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "staryard-trident-z-fuelinggreatness",
@@ -12380,7 +12247,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "traitstarterhome",
@@ -12419,7 +12287,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "uc01",
@@ -12529,7 +12398,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "uc01-shipsimquest",
@@ -12566,7 +12436,8 @@
       "complete": {
         "type": "questCompleted"
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "uc02",
@@ -12679,7 +12550,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "uc03",
@@ -12840,7 +12712,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "uc04",
@@ -13012,7 +12885,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "uc05",
@@ -13202,7 +13076,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "uc06",
@@ -13296,7 +13171,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "uc07",
@@ -13435,7 +13311,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "uc08",
@@ -13647,7 +13524,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "uc09",
@@ -13756,7 +13634,8 @@
         "type": "questStage",
         "stage": 500
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ucr01",
@@ -13792,7 +13671,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ucr03",
@@ -13825,7 +13705,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ucr04",
@@ -13857,39 +13738,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
-    },
-    {
-      "id": "ucr04-dupe00",
-      "name": "Apex Predator",
-      "form": "Starfield.esm|0x03517B",
-      "editorId": "UCR04_Dupe00",
-      "type": "faction",
-      "faction": "united-colonies",
-      "questline": {
-        "id": "united-colonies",
-        "order": 13
-      },
-      "start": {
-        "place": "hub.abandoned-mines",
-        "giver": "Dr. Percival Walker",
-        "confidence": "medium",
-        "source": "giver"
-      },
-      "stages": [
-        1,
-        2,
-        50,
-        100,
-        500,
-        999,
-        1000
-      ],
-      "complete": {
-        "type": "questStage",
-        "stage": 1000
-      },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "ucr05",
@@ -13900,7 +13750,7 @@
       "faction": "united-colonies",
       "questline": {
         "id": "united-colonies",
-        "order": 14
+        "order": 13
       },
       "start": {
         "place": "hub.new-atlantis",
@@ -13920,7 +13770,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     }
   ]
 }

@@ -98,8 +98,30 @@ const activities = dump.quests.filter(
     q.name !== q.editorId,
 );
 
-const candidates = [...tagged, ...untagged, ...activities];
-console.log(`${tagged.length} tagged quests + ${untagged.length} untagged quests + ${activities.length} activities`);
+// Hand-curated fixes: exclusions, names, questline moves and order, either/or groups.
+interface Curation {
+  questlineOrder: Record<string, string[]>;
+  moveToQuestline: Record<string, { questline: string; type: string; faction?: string }>;
+  exclude: { editorIds: string[]; patterns: string[] };
+  exclusiveGroups: Record<string, string[]>;
+  names: Record<string, string>;
+}
+const curation = JSON.parse(readFileSync(resolve("data/curation.json"), "utf8")) as Curation;
+const excluded = (q: DumpQuest) =>
+  curation.exclude.editorIds.includes(q.editorId) || curation.exclude.patterns.some((p) => new RegExp(p).test(q.editorId));
+const exclusiveGroupOf = new Map(Object.entries(curation.exclusiveGroups).flatMap(([group, ids]) => ids.map((id) => [id, group] as const)));
+const curatedOrder = new Map(Object.values(curation.questlineOrder).flatMap((ids) => ids.map((id, index) => [id, index + 1] as const)));
+
+const candidates = [...tagged, ...untagged, ...activities].filter((q) => !excluded(q));
+for (const quest of candidates) {
+  quest.name = curation.names[quest.editorId] ?? quest.name;
+  const move = curation.moveToQuestline[quest.editorId];
+  if (move) {
+    quest.type = move.type;
+    quest.faction = move.faction ?? quest.faction;
+  }
+}
+console.log(`${tagged.length} tagged quests + ${untagged.length} untagged quests + ${activities.length} activities (${tagged.length + untagged.length + activities.length - candidates.length} excluded by curation)`);
 
 // ---------------------------------------------------------------- game data
 
@@ -309,7 +331,9 @@ for (const [owner, quests] of byOwner) {
       report.push(`| ${quest.editorId} | ${quest.name} | ${place.name} | ${start.confidence} | ${start.source} |`);
     }
 
-    const lineId = quest.type === "main" ? "main" : quest.type === "faction" && quest.faction ? quest.faction : undefined;
+    const lineId =
+      curation.moveToQuestline[quest.editorId]?.questline ??
+      (quest.type === "main" ? "main" : quest.type === "faction" && quest.faction ? quest.faction : undefined);
     if (lineId && !questlines.has(lineId)) {
       questlines.set(lineId, {
         id: lineId,
@@ -336,16 +360,20 @@ for (const [owner, quests] of byOwner) {
       stages: [...new Set(quest.stages)].sort((a, b) => a - b),
       complete: stageCondition(quest.completeStages) ?? { type: "questCompleted" },
       fail: stageCondition(quest.failStages) ?? null,
+      exclusiveGroup: exclusiveGroupOf.get(quest.editorId) ?? null,
     };
   });
 
-  // Order within each questline follows editor IDs (RI01, RI02, …); curation fixes exceptions.
+  // Questline order comes from data/curation.json (story order); quests it doesn't list
+  // go after, in editor-ID order.
   const counters = new Map<string, number>();
   for (const entry of entries) {
     if (entry.questline) {
-      const next = (counters.get(entry.questline.id) ?? 0) + 1;
-      counters.set(entry.questline.id, next);
-      entry.questline.order = next;
+      const listed = curation.questlineOrder[entry.questline.id]?.length ?? 0;
+      const next = (counters.get(entry.questline.id) ?? listed) + 1;
+      const curated = curatedOrder.get(entry.editorId);
+      if (curated === undefined) counters.set(entry.questline.id, next);
+      entry.questline.order = curated ?? next;
     }
   }
 

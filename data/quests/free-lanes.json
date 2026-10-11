@@ -91,7 +91,8 @@
         "type": "questStage",
         "stage": 200
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-anchorpointz02a",
@@ -120,7 +121,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-anchorpointz03",
@@ -149,7 +151,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-anchorpointz04",
@@ -172,7 +175,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-be-rs01",
@@ -192,7 +196,8 @@
       "complete": {
         "type": "questCompleted"
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-ms01-quest",
@@ -464,7 +469,8 @@
       "fail": {
         "type": "questStage",
         "stage": 10000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-ms02",
@@ -558,7 +564,8 @@
         "type": "questStage",
         "stage": 999
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-ms03",
@@ -688,7 +695,8 @@
       "fail": {
         "type": "questStage",
         "stage": 4000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-r01",
@@ -734,7 +742,8 @@
           }
         ]
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-r02",
@@ -768,7 +777,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-r03",
@@ -809,7 +819,8 @@
       "fail": {
         "type": "questStage",
         "stage": 200
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-se-dr028mine",
@@ -830,7 +841,8 @@
       "complete": {
         "type": "questCompleted"
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-se-dr029mine",
@@ -851,7 +863,8 @@
       "complete": {
         "type": "questCompleted"
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-se-ec01",
@@ -893,7 +906,8 @@
         "type": "questStage",
         "stage": 600
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-se-ec02",
@@ -944,7 +958,8 @@
       "complete": {
         "type": "questCompleted"
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-se-ec07",
@@ -1000,7 +1015,8 @@
       "complete": {
         "type": "questCompleted"
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-se-rs01",
@@ -1029,7 +1045,8 @@
         "type": "questStage",
         "stage": 300
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-se-rs02",
@@ -1057,7 +1074,8 @@
       "complete": {
         "type": "questCompleted"
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-se01",
@@ -1094,7 +1112,8 @@
       "complete": {
         "type": "questCompleted"
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sffl-z01",
@@ -1148,7 +1167,8 @@
       "fail": {
         "type": "questStage",
         "stage": 9999
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sq-starborncontainer",
@@ -1159,7 +1179,7 @@
       "faction": "constellation",
       "questline": {
         "id": "main",
-        "order": 1
+        "order": 22
       },
       "start": {
         "place": "hub.new-atlantis",
@@ -1178,7 +1198,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     }
   ]
 }

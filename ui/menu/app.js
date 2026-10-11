@@ -7,7 +7,8 @@
   const bridge = window.osfui;
   const demo = !bridge; // previewing in a browser: fake progress so the layout can be checked
 
-  const NOT_STARTED = 0, IN_PROGRESS = 1, COMPLETED = 2, FAILED = 3;
+  const NOT_STARTED = 0, IN_PROGRESS = 1, COMPLETED = 2, FAILED = 3, LOCKED_OUT = 4;
+  const isDone = (s) => s === COMPLETED || s === LOCKED_OUT; // locked out = the other branch of an either/or choice was completed
   const TABS = [
     { id: "here", label: "HERE" },
     { id: "locations", label: "LOCATIONS" },
@@ -18,7 +19,7 @@
     { id: "all", label: "ALL", test: () => true },
     { id: "missing", label: "NOT STARTED", test: (s) => s === NOT_STARTED },
     { id: "active", label: "IN PROGRESS", test: (s) => s === IN_PROGRESS },
-    { id: "done", label: "COMPLETED", test: (s) => s === COMPLETED },
+    { id: "done", label: "COMPLETED", test: isDone },
   ];
   const FACTION_TAGS = {
     constellation: "CONSTELLATION", "united-colonies": "UC VANGUARD", "freestar-collective": "FREESTAR",
@@ -138,7 +139,7 @@
       if (!available(q)) continue;
       t.total++;
       const s = statusOf(q);
-      if (s === COMPLETED) t.done++;
+      if (isDone(s)) t.done++;
       else if (s === IN_PROGRESS) t.active++;
       else if (s === FAILED) t.failed++;
     }
@@ -242,6 +243,7 @@
     if (status === COMPLETED) add("path", { d: "M5 9.5l2.6 2.6L13 6.5", fill: "none", stroke: onLight ? "#e9edf1" : "#0b0f14", "stroke-width": 2 });
     if (status === IN_PROGRESS) add("rect", { x: 6, y: 6, width: 6, height: 6, fill: stroke });
     if (status === FAILED) add("path", { d: "M5.5 5.5l7 7M12.5 5.5l-7 7", stroke, "stroke-width": 1.8 });
+    if (status === LOCKED_OUT) add("path", { d: "M3 15L15 3", stroke, "stroke-width": 1.5 });
     return svg;
   }
 
@@ -293,8 +295,8 @@
       const chain = el("div", { class: "chain", role: "img", "aria-label": t.done + " of " + t.total + " completed" });
       quests.filter(available).forEach((q, i) => {
         const s = statusOf(q);
-        if (i > 0) chain.append(el("b", { class: s === COMPLETED || s === IN_PROGRESS ? "done" : "" }));
-        chain.append(el("i", { class: s === COMPLETED ? "done" : s === IN_PROGRESS ? "active" : "" }));
+        if (i > 0) chain.append(el("b", { class: isDone(s) || s === IN_PROGRESS ? "done" : "" }));
+        chain.append(el("i", { class: isDone(s) ? "done" : s === IN_PROGRESS ? "active" : "" }));
       });
       children.push(chain);
     } else {
@@ -325,7 +327,7 @@
         statusIcon(s, false),
         el("span", { class: "row-name" + (hide ? " hidden" : ""), text: hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name }),
         el("span", { class: "row-tag" + (q.activity ? " activity" : ""), text: tagFor(q) }),
-        el("span", { class: "row-meta", text: hide ? "" : options.meta ? options.meta(q) : q.giver || "" })));
+        el("span", { class: "row-meta", text: hide ? "" : s === LOCKED_OUT ? "Other branch chosen" : options.meta ? options.meta(q) : q.giver || "" })));
     }
     children.push(list);
     document.getElementById("detail").replaceChildren(...children);

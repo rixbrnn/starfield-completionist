@@ -1,0 +1,46 @@
+{
+  "$comment": "Hand-curated fixes applied by tools/extract/build-quest-drafts.ts on top of what the game data says. Keys are editor IDs.",
+
+  "questlineOrder": {
+    "main": [
+      "MQ101", "MQ102", "MQ104B", "MQ103", "MQ104A", "MQ105", "MQ106",
+      "MQ201", "MQ201B", "MQ202", "MQ204", "MQ404", "MQ206B", "MQ207", "MQ206A",
+      "MQ301", "MQ207B", "MQ207C", "MQ302b", "MQ305", "MQ402", "SQ_StarbornContainer"
+    ],
+    "united-colonies": [
+      "UC01", "UC02", "UC03", "UC04", "UC05", "UC06", "UC07", "UC08", "UC09",
+      "UCR01", "UCR03", "UCR04", "UCR05", "SFTER_MQOutpostUC"
+    ],
+    "freestar-collective": ["FC01", "FC02", "FC03", "FC04", "FC05", "FC06", "FC08", "FC09", "SFTER_MQOutpostFC"],
+    "ryujin-industries": [
+      "RI01", "RIR01", "RIR02", "RIR03", "RI02", "RIR04", "RIR05", "RI03", "RI04", "RI05", "RI06", "RI07", "RI08",
+      "RIR06", "RIR07", "SFTER_MQOutpostRI"
+    ],
+    "crimson-fleet": ["CF01", "CFSD01", "CF02", "CF03", "CF04", "CF05", "CF06", "CF07", "CF08_Fleet", "CF08_SysDef"],
+    "house-varuun": [
+      "SFBGS001_MQIN", "SFBGS001_MQ01", "SFBGS001_MQ02", "SFBGS001_MQ_Shell", "SFBGS001_MQ03",
+      "SFBGS001_MQ04", "SFBGS001_MQ05", "SFBGS001_MQ06"
+    ],
+    "terran-armada": ["SFTER_MQIntro", "SFTER_MQ01", "SFTER_MQ02A", "SFTER_MQ02B", "SFTER_MQ03"],
+    "trackers-alliance": ["SFBGS003_MiscPointer", "SFTA00"]
+  },
+
+  "moveToQuestline": {
+    "SFTER_MQ03": { "questline": "terran-armada", "type": "faction", "faction": "terran-armada" }
+  },
+
+  "exclude": {
+    "$comment": "New Game+ copies of the intro and a duplicate record; tracking them would make 100% impossible.",
+    "editorIds": ["UCR04_Dupe00"],
+    "patterns": ["^MQ401[a-j]$"]
+  },
+
+  "exclusiveGroups": {
+    "crimson-fleet-ending": ["CF08_Fleet", "CF08_SysDef"]
+  },
+
+  "names": {
+    "CF08_Fleet": "Legacy's End (Crimson Fleet)",
+    "CF08_SysDef": "Legacy's End (UC SysDef)"
+  }
+}

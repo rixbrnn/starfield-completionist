@@ -7,6 +7,7 @@ Int Property kNotStarted = 0 AutoReadOnly
 Int Property kInProgress = 1 AutoReadOnly
 Int Property kCompleted = 2 AutoReadOnly
 Int Property kFailed = 3 AutoReadOnly
+Int Property kLockedOut = 4 AutoReadOnly ; the other branch of an either/or group was completed
 
 Float Property CheckInterval = 30.0 AutoReadOnly
 Int Property kCheckTimer = 1 AutoReadOnly
@@ -70,7 +71,7 @@ Function Refresh()
     Completionist:QuestData:Entry[] entries = GetPage(p)
     Int i = 0
     While i < entries.Length
-      entries[i].status = StatusOf(entries[i])
+      entries[i].status = Resolve(entries[i])
       i += 1
     EndWhile
     p += 1
@@ -96,7 +97,7 @@ Function Check()
     Completionist:QuestData:Entry[] entries = GetPage(p)
     Int i = 0
     While i < entries.Length
-      Int status = StatusOf(entries[i])
+      Int status = Resolve(entries[i])
       If status != entries[i].status
         Debug.TraceUser(LogName, entries[i].name + ": " + StatusName(entries[i].status) + " -> " + StatusName(status) + " [" + entries[i].place + "]")
         entries[i].status = status
@@ -116,6 +117,36 @@ Function Check()
   If changed
     SendCustomEvent("StatusChanged")
   EndIf
+EndFunction
+
+; Status including either/or groups: a quest whose alternative was completed is locked out.
+Int Function Resolve(Completionist:QuestData:Entry akEntry)
+  Int status = StatusOf(akEntry)
+  If status != kCompleted && akEntry.exclusive != "" && AlternativeCompleted(akEntry)
+    Return kLockedOut
+  EndIf
+  Return status
+EndFunction
+
+Bool Function AlternativeCompleted(Completionist:QuestData:Entry akEntry)
+  Int p = 0
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    Int i = 0
+    While i < entries.Length
+      If entries[i] != akEntry && entries[i].exclusive == akEntry.exclusive && StatusOf(entries[i]) == kCompleted
+        Return True
+      EndIf
+      i += 1
+    EndWhile
+    p += 1
+  EndWhile
+  Return False
+EndFunction
+
+; Completed, or resolved because its alternative was completed.
+Bool Function IsDone(Int aiStatus)
+  Return aiStatus == kCompleted || aiStatus == kLockedOut
 EndFunction
 
 Int Function StatusOf(Completionist:QuestData:Entry akEntry)
@@ -141,6 +172,8 @@ String Function StatusName(Int aiStatus)
     Return "in progress"
   ElseIf aiStatus == kFailed
     Return "failed"
+  ElseIf aiStatus == kLockedOut
+    Return "locked out"
   EndIf
   Return "not started"
 EndFunction
@@ -156,7 +189,7 @@ String Function PlaceProgress(String asPlace, String asHub)
     While i < entries.Length
       If entries[i].place == asPlace
         total += 1
-        If entries[i].status == kCompleted
+        If IsDone(entries[i].status)
           done += 1
         EndIf
       EndIf
@@ -199,7 +232,7 @@ Function Report()
     Completionist:QuestData:Entry[] entries = GetPage(p)
     Int i = 0
     While i < entries.Length
-      Bool done = entries[i].status == kCompleted
+      Bool done = IsDone(entries[i].status)
       If entries[i].activity
         activities += 1
         If done
@@ -246,7 +279,7 @@ Function ReportPlace(String asPlace)
     While i < entries.Length
       If entries[i].place == asPlace
         total += 1
-        If entries[i].status == kCompleted
+        If IsDone(entries[i].status)
           done += 1
         ElseIf entries[i].status == kInProgress
           active += 1

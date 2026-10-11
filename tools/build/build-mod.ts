@@ -36,7 +36,7 @@ interface Condition {
 
 interface Collection {
   places?: Array<{ id: string; name: string; parent?: string }>;
-  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null }>;
+  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null; exclusiveGroup?: string | null }>;
 }
 
 /** Stages from a questStage / anyOf-of-questStage condition. */
@@ -80,6 +80,7 @@ for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort(
       papyrusString(describe(quest.start.place)),
       papyrusString(places.get(quest.start.place)?.name ?? "Anywhere"),
       quest.type === "activity" ? "True" : "False",
+      papyrusString(quest.exclusiveGroup ?? ""),
       ...pad(complete, MAX_COMPLETE_STAGES),
       ...pad(fail, MAX_FAIL_STAGES),
     ];
@@ -107,6 +108,7 @@ Struct Entry
   String place
   String hub ; first part of place, e.g. "Neon"
   Bool activity ; one-off activity rather than a quest
+  String exclusive ; either/or group: completing one member locks out the others ("" = none)
   Int complete1 = -1
   Int complete2 = -1
   Int complete3 = -1
@@ -129,7 +131,7 @@ ${pageBlocks}
   Return entries
 EndFunction
 
-Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
+Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asExclusive, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
   Quest found = Game.GetFormFromFile(aiFormID, asPlugin) as Quest
   If found
     Entry entry = new Entry
@@ -139,6 +141,7 @@ Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, Stri
     entry.place = asPlace
     entry.hub = asHub
     entry.activity = abActivity
+    entry.exclusive = asExclusive
     entry.complete1 = aiComplete1
     entry.complete2 = aiComplete2
     entry.complete3 = aiComplete3
@@ -198,7 +201,7 @@ collectionFiles.forEach((file, fileIndex) => {
     title?: string;
     places?: Array<{ id: string; name: string; kind: string; parent?: string; location?: string }>;
     questlines?: Array<{ id: string; name: string }>;
-    quests: Array<{ id: string; name: string; type: string; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string } }>;
+    quests: Array<{ id: string; name: string; type: string; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string }; exclusiveGroup?: string | null }>;
   };
   const keyOf = new Map((collection.places ?? []).map((p) => [p.id, p.location ?? `${file}:${p.id}`]));
   for (const place of collection.places ?? []) {
@@ -217,6 +220,7 @@ collectionFiles.forEach((file, fileIndex) => {
       activity: quest.type === "activity",
       giver: quest.start.giver,
       place: keyOf.get(quest.start.place) ?? null,
+      exclusive: quest.exclusiveGroup ?? undefined,
     });
     if (quest.questline) {
       menuLines.get(quest.questline.id)?.quests.push({ id: quest.id, order: quest.questline.order, file: fileIndex });
@@ -230,7 +234,7 @@ const menuData = {
     id: line.id,
     name: line.name,
     group: line.group,
-    quests: line.quests.sort((a, b) => a.file - b.file || a.order - b.order).map((q) => q.id),
+    quests: line.quests.sort((a, b) => a.order - b.order || a.file - b.file).map((q) => q.id),
   })),
 };
 

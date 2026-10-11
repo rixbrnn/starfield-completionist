@@ -156,7 +156,8 @@
       "fail": {
         "type": "questStage",
         "stage": 3000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-dazraz02",
@@ -193,7 +194,8 @@
       "fail": {
         "type": "questStage",
         "stage": 3000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-dazraz03",
@@ -238,7 +240,8 @@
       "fail": {
         "type": "questStage",
         "stage": 2000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-lc08",
@@ -264,7 +267,8 @@
         "type": "questStage",
         "stage": 100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-mq-shell",
@@ -275,7 +279,7 @@
       "faction": "house-varuun",
       "questline": {
         "id": "house-varuun",
-        "order": 1
+        "order": 4
       },
       "start": {
         "place": "hub.dazra",
@@ -310,7 +314,8 @@
         "type": "questStage",
         "stage": 1100
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-mq01",
@@ -440,7 +445,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-mq02",
@@ -531,7 +537,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-mq03",
@@ -542,7 +549,7 @@
       "faction": "house-varuun",
       "questline": {
         "id": "house-varuun",
-        "order": 4
+        "order": 5
       },
       "start": {
         "place": "hub.dazra",
@@ -701,7 +708,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-mq04",
@@ -712,7 +720,7 @@
       "faction": "house-varuun",
       "questline": {
         "id": "house-varuun",
-        "order": 5
+        "order": 6
       },
       "start": {
         "place": "pl.va-ruun-kai",
@@ -923,7 +931,8 @@
         "type": "questStage",
         "stage": 10000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-mq05",
@@ -934,7 +943,7 @@
       "faction": "house-varuun",
       "questline": {
         "id": "house-varuun",
-        "order": 6
+        "order": 7
       },
       "start": {
         "place": "hub.dazra",
@@ -1018,7 +1027,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-mq06",
@@ -1029,7 +1039,7 @@
       "faction": "house-varuun",
       "questline": {
         "id": "house-varuun",
-        "order": 7
+        "order": 8
       },
       "start": {
         "place": "hub.scaled-citadel",
@@ -1117,7 +1127,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-mqin",
@@ -1128,7 +1139,7 @@
       "faction": "house-varuun",
       "questline": {
         "id": "house-varuun",
-        "order": 8
+        "order": 1
       },
       "start": {
         "place": "hub.dazra",
@@ -1197,7 +1208,8 @@
         "type": "questStage",
         "stage": 1000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-ms01",
@@ -1478,7 +1490,8 @@
       "fail": {
         "type": "questStage",
         "stage": 10000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-ms02",
@@ -1546,7 +1559,8 @@
             "stage": 4000
           }
         ]
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-ms03",
@@ -1625,7 +1639,8 @@
       "fail": {
         "type": "questStage",
         "stage": 2000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-ms04",
@@ -1685,7 +1700,8 @@
       "fail": {
         "type": "questStage",
         "stage": 4000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-ms05",
@@ -1740,7 +1756,8 @@
       "fail": {
         "type": "questStage",
         "stage": 4000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-vkaiz01",
@@ -1777,7 +1794,8 @@
       "fail": {
         "type": "questStage",
         "stage": 4000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-vkaiz02",
@@ -1808,7 +1826,8 @@
         "type": "questStage",
         "stage": 2000
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-vkaiz03a",
@@ -1884,7 +1903,8 @@
       "fail": {
         "type": "questStage",
         "stage": 10000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001-vkaiz03b",
@@ -1976,7 +1996,8 @@
       "fail": {
         "type": "questStage",
         "stage": 10000
-      }
+      },
+      "exclusiveGroup": null
     },
     {
       "id": "sfbgs001lc07-quest01",
@@ -2016,7 +2037,8 @@
       "complete": {
         "type": "questCompleted"
       },
-      "fail": null
+      "fail": null,
+      "exclusiveGroup": null
     }
   ]
 }
