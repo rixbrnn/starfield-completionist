@@ -47,8 +47,9 @@ EndEvent
 
 Function OnOSFHotkey(String asModId, String asHotkeyId)
   If asHotkeyId == OpenHotkey
-    PublishLocation(Game.GetPlayer().GetCurrentLocation())
+    ; Open first so the menu appears immediately; the location follows a moment later.
     OSFUI.Open(MenuView)
+    PublishLocation(Game.GetPlayer().GetCurrentLocation())
   EndIf
 EndFunction
 

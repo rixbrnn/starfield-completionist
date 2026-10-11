@@ -40,6 +40,7 @@
   let shownQuests = []; // quests in the detail list, in display order (for selection and actions)
   let statuses = new Map(); // quest id -> status; quests missing here aren't in the player's load order
   let locationChain = []; // FormIDs, most specific first
+  let loaded = demo; // true once Papyrus has published statuses
 
   const questsById = new Map(DATA.quests.map((q) => [q.id, q]));
 
@@ -75,6 +76,7 @@
       ids.forEach((id, i) => next.set(String(id).toLowerCase(), values[i] ?? NOT_STARTED));
     }
     statuses = next;
+    loaded = pages > 0;
     queueRender();
   }
 
@@ -376,6 +378,11 @@
   }
 
   function render() {
+    if (!loaded) {
+      document.getElementById("side").hidden = true;
+      document.getElementById("detail").replaceChildren(el("div", { class: "kicker", text: "LOADING PROGRESS…" }));
+      return;
+    }
     if (view.tab === "here") view.focus = "list";
     renderBody();
     renderKeys();
