@@ -242,7 +242,6 @@
         "stage": 30
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -270,7 +269,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -298,7 +296,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -326,7 +323,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -354,7 +350,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -382,7 +377,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -410,7 +404,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -462,7 +455,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -519,7 +511,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -578,7 +569,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -652,7 +642,6 @@
         ]
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -779,7 +768,6 @@
         "stage": 1700
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -849,7 +837,6 @@
         "stage": 9999
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -963,7 +950,6 @@
         "stage": 9999
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -1053,7 +1039,6 @@
         "stage": 1700
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -1107,7 +1092,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -1143,7 +1127,6 @@
         "stage": 10000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -1180,7 +1163,6 @@
         "stage": 10000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -1216,7 +1198,6 @@
         "stage": 10000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -1300,7 +1281,6 @@
         "stage": 2000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -1354,7 +1334,6 @@
         "stage": 1200
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -1391,7 +1370,6 @@
         "type": "questStage",
         "stage": 500
       },
-      "exclusiveGroup": null,
       "equivalentGroup": null
     }
   ]

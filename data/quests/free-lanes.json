@@ -92,7 +92,6 @@
         "stage": 200
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -123,7 +122,6 @@
         "stage": 100
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -154,7 +152,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -179,7 +176,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -201,7 +197,6 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -475,7 +470,6 @@
         "type": "questStage",
         "stage": 10000
       },
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -571,7 +565,6 @@
         "stage": 999
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -703,7 +696,6 @@
         "type": "questStage",
         "stage": 4000
       },
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -728,7 +720,6 @@
         "stage": 10000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -776,7 +767,6 @@
         ]
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -812,7 +802,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -855,7 +844,6 @@
         "type": "questStage",
         "stage": 200
       },
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -878,7 +866,6 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -901,7 +888,6 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -945,7 +931,6 @@
         "stage": 600
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -998,7 +983,6 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -1056,7 +1040,6 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -1087,7 +1070,6 @@
         "stage": 300
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -1117,7 +1099,6 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -1156,7 +1137,6 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -1212,7 +1192,6 @@
         "type": "questStage",
         "stage": 9999
       },
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -1244,7 +1223,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     }
   ]

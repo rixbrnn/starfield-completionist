@@ -91,7 +91,6 @@
         "type": "questCompleted"
       },
       "prereqs": [],
-      "exclusiveGroup": null,
       "missable": null
     }
   ]

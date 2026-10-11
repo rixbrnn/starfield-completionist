@@ -112,6 +112,7 @@ Function PublishStatus()
   Completionist:QuestTracker tracker = Tracker()
   Int pages = tracker.MaxPages
   OSFUI.SetState(ModId, "pages", pages)
+  OSFUI.SetState(ModId, "unityEntered", tracker.IsUnityEntered())
   ; The game's own activity counter (it also counts small errands the menu leaves out).
   OSFUI.SetState(ModId, "gameActivities", Game.QueryStat("Activities Completed"))
   Int p = 0

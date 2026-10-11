@@ -42,6 +42,7 @@
   let locationChain = []; // FormIDs, most specific first
   let loaded = demo; // true once Papyrus has published statuses
   let manual = new Set(); // quest ids with a manual override (status values arrive +10)
+  let unityEntered = false; // NG+-only quests count once the player has entered Unity
   let gameActivities = null; // the game's own "Activities Completed" stat
   const demoAuto = new Map(); // preview only: detected status to restore on "reset to auto"
 
@@ -105,6 +106,7 @@
       bridge.state.on("ids" + p, ingestStatuses);
       bridge.state.on("status" + p, ingestStatuses);
     }
+    bridge.state.on("unityEntered", (value) => { unityEntered = value === true; queueRender(); });
     bridge.state.on("gameActivities", (value) => { gameActivities = typeof value === "number" ? value : null; queueRender(); });
     bridge.state.on("location", (ids) => { locationChain = Array.isArray(ids) ? ids : []; queueRender(); });
   }
@@ -152,10 +154,13 @@
   const available = (q) => demo || statuses.has(q.id);
   const statusOf = (q) => statuses.get(q.id) ?? NOT_STARTED;
 
+  // NG+-only quests (Among the Stars, Foreknowledge) can't be done before entering Unity.
+  const notYetAvailable = (q) => q.ngPlusOnly && !unityEntered;
+
   function tally(quests) {
     const t = { total: 0, done: 0, active: 0, failed: 0 };
     for (const q of quests) {
-      if (!available(q)) continue;
+      if (!available(q) || notYetAvailable(q)) continue;
       t.total++;
       const s = statusOf(q);
       if (isDone(s)) t.done++;
@@ -372,11 +377,11 @@
       const hide = view.spoilers && s === NOT_STARTED;
       const selected = view.focus === "list" && index === view.row;
       const actions = selected ? actionsFor(q) : [];
-      list.append(el("div", { class: "row" + (selected ? " selected" : ""), onclick: () => selectRow(index) },
+      list.append(el("div", { class: "row" + (selected ? " selected" : "") + (notYetAvailable(q) ? " unavailable" : ""), onclick: () => selectRow(index) },
         statusIcon(s, selected),
         el("span", { class: "row-name" + (hide ? " hidden" : ""), text: hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name }),
         el("span", { class: "row-tag" + (q.activity ? " activity" : ""), text: tagFor(q) }),
-        el("span", { class: "row-meta", text: hide ? "" : manual.has(q.id) ? "Marked manually" : s === LOCKED_OUT ? "Other branch chosen" : options.meta ? options.meta(q) : q.giver || "" }),
+        el("span", { class: "row-meta", text: hide ? "" : rowMeta(q, s, options) }),
         actions.length
           ? el("span", { class: "row-actions" }, actions.map((a) => el("button", { text: a.label, onclick: (e) => { e.stopPropagation(); a.run(); } })))
           : null));
@@ -434,6 +439,22 @@
 
   function selectedQuest() {
     return view.focus === "list" ? shownQuests[view.row] : undefined;
+  }
+
+  function lockedReason(q) {
+    for (const choice of q.choices || []) {
+      const otherSideDone = DATA.quests.some((other) =>
+        other !== q && (other.choices || []).some((c) => c.group === choice.group && c.side !== choice.side) && statusOf(other) === COMPLETED);
+      if (otherSideDone) return (DATA.choiceLabels[choice.group] || {})[choice.side] || "Other path chosen";
+    }
+    return "Other path chosen";
+  }
+
+  function rowMeta(q, s, options) {
+    if (notYetAvailable(q)) return "Available in New Game+";
+    if (manual.has(q.id)) return "Marked manually";
+    if (s === LOCKED_OUT) return lockedReason(q);
+    return options.meta ? options.meta(q) : q.giver || "";
   }
 
   function hubName(q) {

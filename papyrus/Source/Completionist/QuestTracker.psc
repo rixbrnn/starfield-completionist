@@ -24,6 +24,10 @@ CustomEvent StatusChanged
 Int Property kOverrideNone = 0 AutoReadOnly
 Int Property kOverrideDone = 1 AutoReadOnly
 Int Property kOverrideNotDone = 2 AutoReadOnly
+; Whether the player has entered Unity (New Game+): NG+-only quests count only then.
+; Read from the game's own PlayerUnityTimesEntered actor value (Starfield.esm 0x219529).
+Bool unityEntered = False
+
 String[] overrideIds
 Int[] overrideValues
 
@@ -69,6 +73,8 @@ Function Refresh()
   If pages > MaxPages
     Debug.TraceUser(LogName, "Quest table has " + pages + " pages but the tracker holds " + MaxPages + "; extra quests are ignored")
   EndIf
+  ActorValue unityTimes = Game.GetFormFromFile(0x219529, "Starfield.esm") as ActorValue
+  unityEntered = unityTimes && Game.GetPlayer().GetValue(unityTimes) >= 1
   page0 = LoadPage(0, pages)
   page1 = LoadPage(1, pages)
   page2 = LoadPage(2, pages)
@@ -139,7 +145,7 @@ Int Function Resolve(Completionist:QuestData:Entry akEntry)
   If status != kCompleted && akEntry.equivalent != "" && EquivalentCompleted(akEntry)
     Return kCompleted
   EndIf
-  If status != kCompleted && akEntry.exclusive != "" && AlternativeCompleted(akEntry)
+  If status != kCompleted && akEntry.choice1Group != "" && LockedByChoice(akEntry)
     Return kLockedOut
   EndIf
   Return status
@@ -163,20 +169,41 @@ Bool Function EquivalentCompleted(Completionist:QuestData:Entry akEntry)
   Return False
 EndFunction
 
-Bool Function AlternativeCompleted(Completionist:QuestData:Entry akEntry)
+; Locked out when a quest on the other side of one of its choice groups was completed,
+; e.g. Foreknowledge done -> Short Sighted, No Sudden Moves, ... are skipped.
+Bool Function LockedByChoice(Completionist:QuestData:Entry akEntry)
   Int p = 0
   While p < MaxPages
     Completionist:QuestData:Entry[] entries = GetPage(p)
     Int i = 0
     While i < entries.Length
-      If entries[i] != akEntry && entries[i].exclusive == akEntry.exclusive && StatusOf(entries[i]) == kCompleted
-        Return True
+      Completionist:QuestData:Entry other = entries[i]
+      If other != akEntry && other.choice1Group != ""
+        If OnOtherSide(other, akEntry.choice1Group, akEntry.choice1Side) || (akEntry.choice2Group != "" && OnOtherSide(other, akEntry.choice2Group, akEntry.choice2Side))
+          If StatusOf(other) == kCompleted
+            Return True
+          EndIf
+        EndIf
       EndIf
       i += 1
     EndWhile
     p += 1
   EndWhile
   Return False
+EndFunction
+
+Bool Function OnOtherSide(Completionist:QuestData:Entry akOther, String asGroup, String asSide)
+  Return (akOther.choice1Group == asGroup && akOther.choice1Side != asSide) || (akOther.choice2Group == asGroup && akOther.choice2Side != asSide)
+EndFunction
+
+; Whether an entry counts toward totals: hidden equivalents never do, NG+-only quests
+; only after entering Unity.
+Bool Function Counted(Completionist:QuestData:Entry akEntry)
+  Return !akEntry.hidden && (!akEntry.ngPlusOnly || unityEntered)
+EndFunction
+
+Bool Function IsUnityEntered()
+  Return unityEntered
 EndFunction
 
 Int Function OverrideOf(String asId)
@@ -272,7 +299,7 @@ String Function PlaceProgress(String asPlace, String asHub)
     Completionist:QuestData:Entry[] entries = GetPage(p)
     Int i = 0
     While i < entries.Length
-      If entries[i].place == asPlace && !entries[i].hidden
+      If entries[i].place == asPlace && Counted(entries[i])
         total += 1
         If IsDone(entries[i].status)
           done += 1
@@ -318,8 +345,8 @@ Function Report()
     Int i = 0
     While i < entries.Length
       Bool done = IsDone(entries[i].status)
-      If entries[i].hidden
-        ; equivalents only: counted through their visible entry
+      If !Counted(entries[i])
+        ; hidden equivalents, or NG+-only before entering Unity
       ElseIf entries[i].activity
         activities += 1
         If done
@@ -345,7 +372,7 @@ Function Report()
     Completionist:QuestData:Entry[] entries = GetPage(p)
     Int i = 0
     While i < entries.Length
-      If !entries[i].hidden && !PlaceSeenBefore(entries[i].place, p, i)
+      If Counted(entries[i]) && !PlaceSeenBefore(entries[i].place, p, i)
         ReportPlace(entries[i].place)
       EndIf
       i += 1
@@ -366,7 +393,7 @@ Function ReportPlace(String asPlace)
     Completionist:QuestData:Entry[] entries = GetPage(p)
     Int i = 0
     While i < entries.Length
-      If entries[i].place == asPlace && !entries[i].hidden
+      If entries[i].place == asPlace && Counted(entries[i])
         total += 1
         If IsDone(entries[i].status)
           done += 1

@@ -106,14 +106,23 @@ interface Curation {
   questlineOrder: Record<string, string[]>;
   moveToQuestline: Record<string, { questline: string; type: string; faction?: string }>;
   exclude: { editorIds: string[]; patterns: string[] };
-  exclusiveGroups: Record<string, string[]>;
+  choiceGroups: Record<string, { a: { quests: string[]; lockedLabel: string }; b: { quests: string[]; lockedLabel: string } } | string>;
+  ngPlusOnly: { editorIds: string[] };
   names: Record<string, string>;
   equivalents: Record<string, string[]>;
 }
 const curation = JSON.parse(readFileSync(resolve("data/curation.json"), "utf8")) as Curation;
 const excluded = (q: DumpQuest) =>
   curation.exclude.editorIds.includes(q.editorId) || curation.exclude.patterns.some((p) => new RegExp(p).test(q.editorId));
-const exclusiveGroupOf = new Map(Object.entries(curation.exclusiveGroups).flatMap(([group, ids]) => ids.map((id) => [id, group] as const)));
+// Two-sided choices: editor ID -> the (group, side) pairs it belongs to.
+const choicesOf = new Map<string, Array<{ group: string; side: "a" | "b" }>>();
+for (const [group, sides] of Object.entries(curation.choiceGroups)) {
+  if (typeof sides === "string") continue; // $comment
+  for (const side of ["a", "b"] as const) {
+    for (const id of sides[side].quests) choicesOf.set(id, [...(choicesOf.get(id) ?? []), { group, side }]);
+  }
+}
+const ngPlusOnly = new Set(curation.ngPlusOnly.editorIds);
 // Equivalent groups: the first member is shown, the rest are hidden.
 const equivalentOf = new Map(Object.entries(curation.equivalents).filter(([group]) => !group.startsWith("$")).flatMap(([group, ids]) => ids.map((id, index) => [id, { group, hidden: index > 0 }] as const)));
 const curatedOrder = new Map(Object.values(curation.questlineOrder).flatMap((ids) => ids.map((id, index) => [id, index + 1] as const)));
@@ -378,7 +387,8 @@ for (const [owner, quests] of byOwner) {
       stages: [...new Set(quest.stages)].sort((a, b) => a - b),
       complete: stageCondition(quest.completeStages) ?? { type: "questCompleted" },
       fail: stageCondition(quest.failStages) ?? null,
-      exclusiveGroup: exclusiveGroupOf.get(quest.editorId) ?? null,
+      ...(choicesOf.has(quest.editorId) ? { choices: choicesOf.get(quest.editorId) } : {}),
+      ...(ngPlusOnly.has(quest.editorId) ? { ngPlusOnly: true } : {}),
       equivalentGroup: equivalentOf.get(quest.editorId)?.group ?? null,
       ...(equivalentOf.get(quest.editorId)?.hidden ? { hidden: true } : {}),
     };

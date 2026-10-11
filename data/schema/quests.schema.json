@@ -264,16 +264,6 @@
             "$ref": "#/$defs/id"
           }
         },
-        "exclusiveGroup": {
-          "oneOf": [
-            {
-              "$ref": "#/$defs/id"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
         "missable": {
           "oneOf": [
             {
@@ -311,6 +301,34 @@
         "hidden": {
           "type": "boolean",
           "description": "Tracked only through its equivalentGroup; not listed or counted."
+        },
+        "choices": {
+          "type": "array",
+          "maxItems": 2,
+          "description": "Two-sided choice groups this quest belongs to (data/curation.json choiceGroups). Completing a quest on one side locks out unfinished quests on the other.",
+          "items": {
+            "type": "object",
+            "required": [
+              "group",
+              "side"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "group": {
+                "$ref": "#/$defs/id"
+              },
+              "side": {
+                "enum": [
+                  "a",
+                  "b"
+                ]
+              }
+            }
+          }
+        },
+        "ngPlusOnly": {
+          "type": "boolean",
+          "description": "Only available after entering Unity (New Game+)."
         }
       }
     },

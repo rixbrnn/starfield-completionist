@@ -23,3 +23,12 @@ Bethesda keeps NG+ facts in **actor values on the player**, moved to the new uni
 Define our own actor values in `StarfieldCompletionist.esm` and give each quest a permanent bit. The tracker sets the bit on completion. A float holds integers exactly up to 2^24, so 24 bits per actor value: about 15 values for all entries. Bit assignments must be append-only so saves stay valid.
 
 **Unverified:** whether mod-added actor values carry over like Bethesda's. Needs one real Unity jump.
+
+## NG+-specific main missions (implemented 2026-10-11)
+
+From `MQ401QuestScript` and the quest data:
+
+- **Among the Stars** (`MQ402`): NG+ shortcut that skips the main story. Choice group `among-the-stars`: completing it locks out the skipped main missions ("Skipped by Among the Stars"); playing the story locks it out instead.
+- **Foreknowledge** (`MQ404`): NG+ path that replaces Short Sighted, No Sudden Moves, High Price to Pay and Missed Beyond Measure. Choice group `foreknowledge`.
+- Both are `ngPlusOnly`: not counted until `PlayerUnityTimesEntered` (Starfield.esm `0x219529`) is at least 1.
+- From the 2nd Unity jump, `MQ401` may roll an alternate-universe variant (`MQ401a`-`j`), handled by the `one-small-step` equivalents.

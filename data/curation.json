@@ -118,12 +118,6 @@
     ],
     "patterns": []
   },
-  "exclusiveGroups": {
-    "crimson-fleet-ending": [
-      "CF08_Fleet",
-      "CF08_SysDef"
-    ]
-  },
   "names": {
     "CF08_Fleet": "Legacy's End (Crimson Fleet)",
     "CF08_SysDef": "Legacy's End (UC SysDef)"
@@ -142,6 +136,79 @@
       "MQ401h",
       "MQ401i",
       "MQ401j"
+    ]
+  },
+  "choiceGroups": {
+    "$comment": "Two-sided choices: completing any quest on one side locks out the unfinished quests on the other side (they count as resolved). lockedLabel is shown on a locked-out quest of that side.",
+    "crimson-fleet-ending": {
+      "a": {
+        "quests": [
+          "CF08_Fleet"
+        ],
+        "lockedLabel": "Other ending chosen"
+      },
+      "b": {
+        "quests": [
+          "CF08_SysDef"
+        ],
+        "lockedLabel": "Other ending chosen"
+      }
+    },
+    "foreknowledge": {
+      "a": {
+        "quests": [
+          "MQ404"
+        ],
+        "lockedLabel": "Not taken: you played the regular path"
+      },
+      "b": {
+        "quests": [
+          "MQ201B",
+          "MQ202",
+          "MQ204",
+          "MQ206A"
+        ],
+        "lockedLabel": "Skipped by Foreknowledge"
+      }
+    },
+    "among-the-stars": {
+      "a": {
+        "quests": [
+          "MQ402"
+        ],
+        "lockedLabel": "Not taken: you played the main story"
+      },
+      "b": {
+        "quests": [
+          "MQ102",
+          "MQ104B",
+          "MQ103",
+          "MQ104A",
+          "MQ105",
+          "MQ106",
+          "MQ201",
+          "MQ201B",
+          "MQ202",
+          "MQ204",
+          "MQ404",
+          "MQ206B",
+          "MQ207",
+          "MQ206A",
+          "MQ301",
+          "MQ207B",
+          "MQ207C",
+          "MQ302b",
+          "MQ305"
+        ],
+        "lockedLabel": "Skipped by Among the Stars"
+      }
+    }
+  },
+  "ngPlusOnly": {
+    "$comment": "Only available after entering Unity (New Game+); not counted before that.",
+    "editorIds": [
+      "MQ402",
+      "MQ404"
     ]
   }
 }

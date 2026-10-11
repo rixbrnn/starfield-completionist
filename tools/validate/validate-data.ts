@@ -19,7 +19,7 @@ interface Collection {
     start: { place: string };
     visits?: string[];
     prereqs?: string[];
-    exclusiveGroup?: string | null;
+    choices?: Array<{ group: string; side: string }>;
     missable?: { after: string } | null;
   }>;
 }
@@ -87,15 +87,16 @@ for (const group of groups) {
     errors.push(`quest form ${form} is listed more than once`);
   }
 
-  const groupSizes = new Map<string, number>();
+  // Every choice group needs quests on both sides, or nothing can ever lock out.
+  const sides = new Map<string, Set<string>>();
   for (const quest of allQuests) {
-    if (quest.exclusiveGroup) {
-      groupSizes.set(quest.exclusiveGroup, (groupSizes.get(quest.exclusiveGroup) ?? 0) + 1);
+    for (const choice of quest.choices ?? []) {
+      sides.set(choice.group, (sides.get(choice.group) ?? new Set()).add(choice.side));
     }
   }
-  for (const [name, size] of groupSizes) {
-    if (size < 2) {
-      errors.push(`exclusiveGroup "${name}" has only one quest`);
+  for (const [name, present] of sides) {
+    if (present.size < 2) {
+      errors.push(`choice group "${name}" has quests on only one side`);
     }
   }
 

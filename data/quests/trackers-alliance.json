@@ -112,7 +112,6 @@
           }
         ]
       },
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -184,7 +183,6 @@
           }
         ]
       },
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -256,7 +254,6 @@
           }
         ]
       },
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -328,7 +325,6 @@
           }
         ]
       },
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -400,7 +396,6 @@
           }
         ]
       },
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -440,7 +435,6 @@
         "stage": 1000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     },
     {
@@ -554,7 +548,6 @@
         "stage": 2000
       },
       "fail": null,
-      "exclusiveGroup": null,
       "equivalentGroup": null
     }
   ]

@@ -36,7 +36,7 @@ interface Condition {
 
 interface Collection {
   places?: Array<{ id: string; name: string; parent?: string; location?: string }>;
-  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null; exclusiveGroup?: string | null; equivalentGroup?: string | null; hidden?: boolean }>;
+  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; equivalentGroup?: string | null; hidden?: boolean }>;
 }
 
 /** Stages from a questStage / anyOf-of-questStage condition. */
@@ -90,7 +90,8 @@ for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort(
       papyrusString(describe(quest.start.place)),
       papyrusString(places.get(quest.start.place)?.name ?? "Anywhere"),
       quest.type === "activity" ? "True" : "False",
-      papyrusString(quest.exclusiveGroup ?? ""),
+      ...[0, 1].flatMap((i) => [papyrusString(quest.choices?.[i]?.group ?? ""), papyrusString(quest.choices?.[i]?.side ?? "")]),
+      quest.ngPlusOnly ? "True" : "False",
       papyrusString(quest.equivalentGroup ?? ""),
       quest.hidden ? "True" : "False",
       ...startLocation(quest.start.place),
@@ -121,7 +122,13 @@ Struct Entry
   String place
   String hub ; first part of place, e.g. "Neon"
   Bool activity ; one-off activity rather than a quest
-  String exclusive ; either/or group: completing one member locks out the others ("" = none)
+  ; Two-sided choice groups (up to two): completing a quest on one side locks out the
+  ; unfinished quests on the other side. "" = none.
+  String choice1Group
+  String choice1Side
+  String choice2Group
+  String choice2Side
+  Bool ngPlusOnly ; only available after entering Unity; not counted before that
   String equivalent ; versions of the same quest: completing any member completes the group ("" = none)
   Bool hidden ; tracked only through its equivalent group; not listed or counted
   Location startLocation ; where the quest starts, for plotting a course (None if unknown)
@@ -147,7 +154,7 @@ ${pageBlocks}
   Return entries
 EndFunction
 
-Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asExclusive, String asEquivalent, Bool abHidden, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
+Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asChoice1Group, String asChoice1Side, String asChoice2Group, String asChoice2Side, Bool abNgPlusOnly, String asEquivalent, Bool abHidden, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
   Quest found = Game.GetFormFromFile(aiFormID, asPlugin) as Quest
   If found
     Entry entry = new Entry
@@ -157,7 +164,11 @@ Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, Stri
     entry.place = asPlace
     entry.hub = asHub
     entry.activity = abActivity
-    entry.exclusive = asExclusive
+    entry.choice1Group = asChoice1Group
+    entry.choice1Side = asChoice1Side
+    entry.choice2Group = asChoice2Group
+    entry.choice2Side = asChoice2Side
+    entry.ngPlusOnly = abNgPlusOnly
     entry.equivalent = asEquivalent
     entry.hidden = abHidden
     If aiLocationID > 0
@@ -222,7 +233,7 @@ collectionFiles.forEach((file, fileIndex) => {
     title?: string;
     places?: Array<{ id: string; name: string; kind: string; parent?: string; location?: string }>;
     questlines?: Array<{ id: string; name: string }>;
-    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string }; exclusiveGroup?: string | null; hidden?: boolean }>;
+    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string }; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; hidden?: boolean }>;
   };
   const keyOf = new Map((collection.places ?? []).map((p) => [p.id, p.location ?? `${file}:${p.id}`]));
   for (const place of collection.places ?? []) {
@@ -243,14 +254,26 @@ collectionFiles.forEach((file, fileIndex) => {
       errand: quest.errand || undefined,
       giver: quest.start.giver,
       place: keyOf.get(quest.start.place) ?? null,
-      exclusive: quest.exclusiveGroup ?? undefined,
+      choices: quest.choices,
+      ngPlusOnly: quest.ngPlusOnly || undefined,
     });
     if (quest.questline) {
       menuLines.get(quest.questline.id)?.quests.push({ id: quest.id, order: quest.questline.order, file: fileIndex });
     }
   }
 });
+// Labels for locked-out quests, per choice group and side.
+const curation = JSON.parse(readFileSync(join(repo, "data/curation.json"), "utf8")) as { choiceGroups: Record<string, unknown> };
+const choiceLabels = Object.fromEntries(
+  Object.entries(curation.choiceGroups)
+    .filter(([, sides]) => typeof sides === "object")
+    .map(([group, sides]) => {
+      const s = sides as Record<"a" | "b", { lockedLabel: string }>;
+      return [group, { a: s.a.lockedLabel, b: s.b.lockedLabel }];
+    }),
+);
 const menuData = {
+  choiceLabels,
   places: menuPlaces,
   quests: menuQuests,
   questlines: [...menuLines.values()].map((line) => ({
