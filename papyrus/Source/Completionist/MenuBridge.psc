@@ -75,7 +75,8 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
   If asName == "plotLocation" && akArgs.Length >= 2
     Location target = Game.GetFormFromFile(akArgs[0] as Int, akArgs[1] as String) as Location
     If target
-      OpenStarmapWithCourse(target)
+      OSFUI.Close(MenuView)
+      Game.ShowGalaxyStarMapMenuAndPlotToLocation(target)
     EndIf
     Return
   EndIf
@@ -108,20 +109,12 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
     PublishTracked()
   ElseIf asName == "plot"
     If entry.startLocation
-      OpenStarmapWithCourse(entry.startLocation)
+      OSFUI.Close(MenuView)
+      Game.ShowGalaxyStarMapMenuAndPlotToLocation(entry.startLocation)
     Else
       Debug.Notification("No known start location for " + entry.name)
     EndIf
   EndIf
-EndFunction
-
-; Closes the menu first and opens the starmap once it is gone: opened straight from another
-; menu, the starmap skips the zoom-in animation the game's own Set Course plays. Wait counts
-; only while the game runs, i.e. after our (pausing) menu has closed.
-Function OpenStarmapWithCourse(Location akTarget)
-  OSFUI.Close(MenuView)
-  Utility.Wait(0.35)
-  Game.ShowGalaxyStarMapMenuAndPlotToLocation(akTarget)
 EndFunction
 
 ; Papyrus string comparison ignores case, so ids match however the engine interned them.
