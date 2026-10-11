@@ -12,7 +12,7 @@ Float Property CheckInterval = 30.0 AutoReadOnly
 Int Property kCheckTimer = 1 AutoReadOnly
 String Property LogName = "Completionist" AutoReadOnly
 
-Completionist:QuestData#Entry[] entries
+Completionist:QuestData:Entry[] entries
 Int[] lastStatus ; per entry, as of the previous check (saved with the game)
 
 Event OnQuestInit()
@@ -63,8 +63,8 @@ Function Check()
   EndWhile
 EndFunction
 
-Int Function StatusOf(Completionist:QuestData#Entry akEntry)
-  Quest q = akEntry.form
+Int Function StatusOf(Completionist:QuestData:Entry akEntry)
+  Quest q = akEntry.questForm
   If AnyStageDone(q, akEntry.fail1, akEntry.fail2, -1, -1)
     Return kFailed
   ElseIf q.IsCompleted() || AnyStageDone(q, akEntry.complete1, akEntry.complete2, akEntry.complete3, akEntry.complete4)
@@ -91,7 +91,7 @@ String Function StatusName(Int aiStatus)
 EndFunction
 
 ; "Neon 6/12": completed / total for quests starting at the same place as akEntry.
-String Function PlaceProgress(Completionist:QuestData#Entry akEntry)
+String Function PlaceProgress(Completionist:QuestData:Entry akEntry)
   String asPlace = akEntry.place
   Int total = 0
   Int done = 0
