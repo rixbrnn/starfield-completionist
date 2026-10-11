@@ -16,6 +16,10 @@ import { parseArgs } from "node:util";
 import { resolveGamePath } from "../extract/game.ts";
 import { group, pluginFile, record, subrecord, uint32Data, vmadData, zstringData } from "../esm/writer.ts";
 
+// Windows bsdtar (System32): Git for Windows puts GNU tar first on PATH, which can't write zips
+// and treats "C:" as a remote host.
+const windowsTar = () => join(process.env.SystemRoot ?? "C:/Windows", "System32/tar.exe");
+
 const repo = fileURLToPath(new URL("../../", import.meta.url));
 const { values: args } = parseArgs({
   options: { game: { type: "string" }, install: { type: "boolean", default: false } },
@@ -312,7 +316,7 @@ if (!existsSync(join(baseScripts, "Quest.psc"))) {
   console.log("Extracting base script sources from ContentResources.zip…");
   const staging = join(repo, "build/sf-scripts-staging");
   mkdirSync(staging, { recursive: true });
-  const tar = spawnSync("tar", ["-xf", join(gamePath, "Tools/ContentResources.zip"), "-C", staging, "Scripts/Source"], { stdio: "inherit" });
+  const tar = spawnSync(windowsTar(), ["-xf", join(gamePath, "Tools/ContentResources.zip"), "-C", staging, "Scripts/Source"], { stdio: "inherit" });
   if (tar.status !== 0) {
     throw new Error("Could not extract ContentResources.zip");
   }
