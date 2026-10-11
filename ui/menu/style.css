@@ -7,7 +7,7 @@
 @font-face { font-family: "Barlow Condensed"; font-weight: 600; src: url("fonts/BarlowCondensed-600.woff2") format("woff2"); }
 
 :root {
-  --bg: rgba(5, 8, 11, 0.94);
+  --bg: #06090d; /* opaque, like the game's own menus */
   --text: #e9edf1;
   --muted: #8d99a6;
   --soft: #c4ccd4;
@@ -86,7 +86,6 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .row-name { flex: 1; font-size: 19px; font-weight: 500; }
 .row-name.hidden { color: var(--muted); font-style: italic; }
 .row-tag { width: 160px; flex-shrink: 0; font-family: var(--condensed); font-size: 15px; letter-spacing: 0.14em; color: var(--muted); }
-.row-tag.activity { color: var(--activity); }
 .row-meta { width: 240px; flex-shrink: 0; text-align: right; font-size: 16px; color: var(--muted); }
 .empty { padding: 24px 16px; color: var(--muted); font-size: 18px; }
 
@@ -180,3 +179,44 @@ kbd { min-width: 28px; text-align: center; padding: 2px 6px; border: 1px solid v
 .keys button:hover { color: #ffffff; }
 .keys button:hover kbd { border-color: var(--text); }
 .keys .end { margin-left: auto; }
+
+/* v2 layout: slimmer top bar and footer, side column summary, compact list header. */
+.top { height: 64px; padding: 0 40px; background: #0a0e13; }
+.brand { font-size: 22px; gap: 14px; }
+.stripes { gap: 2px; }
+.stripes i { width: 28px; height: 3px; }
+.tabs { gap: 36px; font-size: 19px; }
+.tabs button { padding: 6px 0; }
+.total-value { font-size: 22px; }
+.total-label { font-size: 12px; }
+.ring { width: 40px; height: 40px; }
+.keys { height: 52px; padding: 0 40px; background: #0a0e13; font-size: 16px; }
+.side { width: 440px; padding: 18px 0 20px 40px; background: #080c10; }
+.side[hidden] { display: none; }
+.detail { padding: 22px 40px 16px 40px; gap: 16px; }
+.title { font-size: 52px; }
+.segments { height: 6px; }
+.stats { gap: 40px; }
+.stat-value { font-size: 30px; }
+.row { height: 52px; }
+.row-name { font-size: 18px; }
+
+.list-head { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.list-title { font-family: var(--condensed); font-size: 22px; font-weight: 600; letter-spacing: 0.1em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.list-title span { color: var(--muted); font-weight: 500; }
+
+.here-summary { display: flex; flex-direction: column; gap: 16px; padding: 8px 28px 8px 0; }
+.here-title { margin: 2px 0 0 0; font-family: var(--condensed); font-weight: 600; font-size: 52px; line-height: 1; letter-spacing: 0.04em; text-transform: uppercase; }
+.here-summary .badges span { padding: 4px 10px; font-size: 14px; }
+.here-stats { display: flex; align-items: center; gap: 20px; }
+.ring.big { width: 92px; height: 92px; }
+.here-counts { display: grid; grid-template-columns: auto auto; align-items: baseline; gap: 4px 16px; font-family: var(--condensed); font-size: 16px; letter-spacing: 0.12em; color: var(--muted); }
+.here-counts b { font-size: 22px; font-weight: 600; color: var(--text); text-align: right; }
+.here-counts b.active { color: var(--active); }
+.here-counts b.failed { color: var(--failed); }
+
+/* Log categories: a name and a count, sub-categories indented. */
+.item.count { padding-top: 11px; padding-bottom: 11px; }
+.item.count .item-name { font-family: var(--condensed); font-size: 19px; letter-spacing: 0.1em; text-transform: uppercase; }
+.item.count.sub { padding-left: 60px; }
+.item.count.sub .item-name { font-size: 17px; }

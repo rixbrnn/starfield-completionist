@@ -10,9 +10,10 @@
   const NOT_STARTED = 0, IN_PROGRESS = 1, COMPLETED = 2, FAILED = 3, LOCKED_OUT = 4;
   const isDone = (s) => s === COMPLETED || s === LOCKED_OUT; // locked out = the other branch of an either/or choice was completed
   const TABS = [
+    { id: "log", label: "LOG" },
     { id: "here", label: "HERE" },
     { id: "locations", label: "LOCATIONS" },
-    { id: "questlines", label: "QUESTLINES" },
+    { id: "questlines", label: "QUESTS" },
     { id: "activities", label: "ACTIVITIES" },
   ];
   const FILTERS = [
@@ -30,17 +31,17 @@
 
   const view = {
     tab: "here",
-    selected: { locations: null, questlines: null, activities: "all" },
+    selected: { log: "active", here: "all", locations: null, questlines: null, activities: "all" },
     filter: "all",
     spoilers: readSetting("spoilers", false), // true = hide names of quests you haven't started
-    focus: "list", // "side" (place / questline list) or "list" (quests); the Here tab only has "list"
+    focus: "list", // "side" (place / questline / category list), "list" (quests) or "cards" (nothing-tracked page)
     row: 0, // selected quest row when focus is "list"
     card: 0, // selected card when focus is "cards"
     input: "keyboard", // "gamepad" after a controller button, so prompts show controller buttons
   };
   let shownQuests = []; // quests in the detail list, in display order (for selection and actions)
-  let shownCards = []; // place cards (Here tab on a planet / in space) or systems (nothing tracked)
-  let hereLayout = "city"; // Here tab: "city", "cards" (planet or system) or "nowhere"
+  let shownCards = []; // systems on the nothing-tracked page
+  let hereLayout = "city"; // Here tab: "city", "places" (planet or system) or "nowhere"
   let tracked = new Set(); // ids of quests the player is tracking (the game's "active" quests)
   let inSpace = false;
   let survey = -1; // current planet's survey progress, 0-1 (-1 = no planet)
@@ -259,7 +260,41 @@
     return [{ kind: "item", key: "all", label: "All activities", quests: all }, ...locationRows(true)];
   }
 
+  // Log: only quests the player has found (started, finished or failed), like the game's Missions menu.
+  function logRows() {
+    const found = DATA.quests.filter((q) => available(q) && [IN_PROGRESS, COMPLETED, FAILED].includes(statusOf(q)));
+    const kindOf = (q) => (q.activity ? 3 : q.type === "main" ? 0 : q.type === "faction" ? 1 : 2);
+    const active = found.filter((q) => statusOf(q) === IN_PROGRESS).sort((a, b) => kindOf(a) - kindOf(b));
+    const ofKind = (k) => active.filter((q) => kindOf(q) === k);
+    const item = (key, label, quests, sub) => ({ kind: "item", key, label, quests, count: true, sub });
+    return [
+      { kind: "group", label: "FOUND SO FAR", frac: String(found.length) },
+      item("active", "In progress", active),
+      item("main", "Main", ofKind(0), true),
+      item("faction", "Faction", ofKind(1), true),
+      item("side", "Side", ofKind(2), true),
+      item("activity", "Activities", ofKind(3), true),
+      item("completed", "Completed", found.filter((q) => statusOf(q) === COMPLETED)),
+      item("failed", "Failed", found.filter((q) => statusOf(q) === FAILED)),
+    ];
+  }
+
+  // Here on a planet or in a system: the whole place, then each place in it (hubs or planets).
+  function hereRows() {
+    const key = herePlace();
+    const place = key && DATA.places[key];
+    if (!place || (place.kind !== "planet" && place.kind !== "system")) return [];
+    const level = place.kind === "planet" ? "hub" : "planet";
+    return [
+      { kind: "group", label: (level === "hub" ? "PLACES ON " : "PLANETS AND MOONS IN ") + place.name.toUpperCase() },
+      { kind: "item", key: "all", label: "All of " + place.name, quests: questsUnder(key) },
+      ...placeCards(key, level).map((c) => ({ kind: "item", key: c.key, label: c.label, quests: c.quests, loc: c.loc })),
+    ];
+  }
+
   function sideRows() {
+    if (view.tab === "log") return logRows();
+    if (view.tab === "here") return hereRows();
     if (view.tab === "locations") return locationRows(false);
     if (view.tab === "questlines") return questlineRows();
     if (view.tab === "activities") return activityRows();
@@ -310,10 +345,10 @@
   }
 
   // Completion ring with the percentage inside, as in the starmap concept.
-  function progressRing(fraction, color) {
+  function progressRing(fraction, color, cls) {
     const size = 52, r = 22, c = 2 * Math.PI * r;
     const svg = document.createElementNS(SVG, "svg");
-    svg.setAttribute("class", "ring");
+    svg.setAttribute("class", cls || "ring");
     svg.setAttribute("viewBox", "0 0 " + size + " " + size);
     svg.setAttribute("role", "img");
     svg.setAttribute("aria-label", Math.round(fraction * 100) + "% complete");
@@ -344,17 +379,22 @@
     document.getElementById("totals").replaceChildren(total(quests, "QUESTS", "#e9edf1"), total(activities, "ACTIVITIES", "#f0c43a"));
   }
 
-  function renderSide(rows) {
+  // header: optional block above the list (the Here tab's place summary).
+  function renderSide(rows, header) {
     const side = document.getElementById("side");
-    side.hidden = view.tab === "here";
+    side.hidden = false;
     side.setAttribute("aria-label", TABS.find((t) => t.id === view.tab).label);
-    side.replaceChildren(...rows.map((row) => {
-      if (row.kind === "group") return el("div", { class: "group" }, el("span", { text: row.label }), el("span", { text: row.frac }));
+    side.replaceChildren(header || "", ...rows.map((row) => {
+      if (row.kind === "group") return el("div", { class: "group" }, el("span", { text: row.label }), el("span", { text: row.frac || "" }));
       if (row.kind === "subgroup") return el("div", { class: "subgroup", text: row.label });
-      const t = tally(row.quests);
       const selected = view.selected[view.tab] === row.key;
+      const cls = "item" + (row.count ? " count" : "") + (row.count && row.sub ? " sub" : "") + (selected ? " selected" : "") + (selected && view.focus === "list" ? " inactive" : "");
+      const attrs = { class: cls, "aria-pressed": selected ? "true" : "false", onclick: () => select(row.key) };
+      // Log categories show how many quests they hold; everything else shows progress.
+      if (row.count) return el("button", attrs, el("span", { class: "item-head" }, el("span", { class: "item-name", text: row.label }), el("span", { class: "item-frac", text: String(row.quests.length) })));
+      const t = tally(row.quests);
       const pct = t.total ? Math.round((t.done / t.total) * 100) : 0;
-      return el("button", { class: "item" + (selected ? " selected" : "") + (selected && view.focus === "list" ? " inactive" : ""), "aria-pressed": selected ? "true" : "false", onclick: () => select(row.key) },
+      return el("button", attrs,
         el("span", { class: "item-head" }, el("span", { class: "item-name", text: row.label }), el("span", { class: "item-frac", text: t.done + " / " + t.total })),
         el("span", { class: "track" }, el("span", { class: "fill", style: "width: " + pct + "%" })));
     }));
@@ -362,15 +402,51 @@
     if (current) current.scrollIntoView({ block: "nearest" });
   }
 
+  // options.listTitle: compact layout (Here, Log) with only a title line above the list; the
+  // summary lives in the side column. options.noFilters: list everything given (Log).
   function renderDetail(kicker, title, quests, options) {
     options = options || {};
     const t = tally(quests);
-    const shown = quests.filter((q) => available(q) && FILTERS.find((f) => f.id === view.filter).test(statusOf(q)));
-    const heading = el("div", {}, el("div", { class: "kicker", text: kicker }), el("h1", { class: "title", text: title }));
-    const badges = (options.badges || []).filter(Boolean);
-    const children = [
-      badges.length ? el("div", { class: "title-row" }, heading, el("div", { class: "badges" }, badges.map((b) => el("span", { text: b })))) : heading,
-    ];
+    const shown = quests.filter((q) => available(q) && (options.noFilters || FILTERS.find((f) => f.id === view.filter).test(statusOf(q))));
+    const counts = { all: t.total, missing: t.missing, active: t.active, done: t.done };
+    const filters = options.noFilters ? null : el("div", { class: "filters", role: "tablist", "aria-label": "Filter" },
+      FILTERS.map((f) => el("button", { role: "tab", "aria-selected": view.filter === f.id ? "true" : "false", text: f.label + " " + counts[f.id], onclick: () => setFilter(f.id) })));
+    const children = [];
+
+    if (options.listTitle) {
+      children.push(el("div", { class: "list-head" },
+        el("div", { class: "list-title" }, options.listTitle, el("span", { text: " · " + shown.length })),
+        filters));
+    } else {
+      renderSummary(children, kicker, title, quests, t, options);
+      children.push(filters);
+    }
+
+    shownQuests = shown;
+    view.row = Math.min(view.row, Math.max(0, shown.length - 1));
+    const list = el("div", { class: "list" });
+    if (shown.length === 0) list.append(el("div", { class: "empty", text: options.empty || "Nothing here for this filter." }));
+    shown.forEach((q, index) => {
+      const s = statusOf(q);
+      const hide = view.spoilers && s === NOT_STARTED;
+      const selected = view.focus === "list" && index === view.row;
+      list.append(el("div", { class: "row" + (selected ? " selected" : "") + (notYetAvailable(q) ? " unavailable" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
+        statusIcon(s, selected),
+        el("span", { class: "row-name" + (hide ? " hidden" : "") },
+          hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name,
+          tracked.has(q.id) ? el("span", { class: "tracked-badge", text: "TRACKED" }) : null),
+        el("span", { class: "row-tag", text: tagFor(q) }),
+        el("span", { class: "row-meta", text: hide ? "" : rowMeta(q, s, options) })));
+    });
+    children.push(list);
+    document.getElementById("detail").replaceChildren(...children.filter(Boolean));
+    const current = document.querySelector(".row.selected");
+    if (current) current.scrollIntoView({ block: "nearest" });
+  }
+
+  // Title, progress bar (or questline chain) and counts above the list (Locations, Quests, Activities).
+  function renderSummary(children, kicker, title, quests, t, options) {
+    children.push(el("div", {}, el("div", { class: "kicker", text: kicker }), el("h1", { class: "title", text: title })));
 
     if (options.chain) {
       const chain = el("div", { class: "chain", role: "img", "aria-label": t.done + " of " + t.total + " completed" });
@@ -395,46 +471,20 @@
       stat(t.done, "COMPLETED"), stat(t.active, "IN PROGRESS", "active"), stat(t.missing, "NOT STARTED"),
       t.failed ? stat(t.failed, "FAILED", "failed") : null));
     if (options.note) children.push(el("div", { class: "note", text: options.note }));
+  }
 
-    shownCards = options.cards || [];
-    view.card = Math.min(view.card, Math.max(0, shownCards.length - 1));
-    if (shownCards.length) {
-      children.push(el("div", {},
-        el("div", { class: "section-title", text: options.cardsTitle || "" }),
-        el("div", { class: "cards" }, shownCards.map((card, index) => {
-          const ct = tally(card.quests);
-          const selected = view.focus === "cards" && index === view.card;
-          return el("button", { class: "card" + (selected ? " selected" : ""), onclick: () => openCard(index) },
-            el("span", { class: "item-head" }, el("span", { class: "item-name", text: card.label }), el("span", { class: "item-frac", text: ct.done + " / " + ct.total })),
-            card.sub ? el("span", { class: "card-sub", text: card.sub }) : null,
-            el("span", { class: "track" }, el("span", { class: "fill", style: "width: " + (ct.total ? Math.round((ct.done / ct.total) * 100) : 0) + "%" })));
-        }))));
-    }
-
-    const counts = { all: t.total, missing: t.missing, active: t.active, done: t.done };
-    children.push(el("div", { class: "filters", role: "tablist", "aria-label": "Filter" },
-      FILTERS.map((f) => el("button", { role: "tab", "aria-selected": view.filter === f.id ? "true" : "false", text: f.label + " " + counts[f.id], onclick: () => setFilter(f.id) }))));
-
-    shownQuests = shown;
-    view.row = Math.min(view.row, Math.max(0, shown.length - 1));
-    const list = el("div", { class: "list" });
-    if (shown.length === 0) list.append(el("div", { class: "empty", text: "Nothing here for this filter." }));
-    shown.forEach((q, index) => {
-      const s = statusOf(q);
-      const hide = view.spoilers && s === NOT_STARTED;
-      const selected = view.focus === "list" && index === view.row;
-      list.append(el("div", { class: "row" + (selected ? " selected" : "") + (notYetAvailable(q) ? " unavailable" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
-        statusIcon(s, selected),
-        el("span", { class: "row-name" + (hide ? " hidden" : "") },
-          hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name,
-          tracked.has(q.id) ? el("span", { class: "tracked-badge", text: "TRACKED" }) : null),
-        el("span", { class: "row-tag" + (q.activity ? " activity" : ""), text: tagFor(q) }),
-        el("span", { class: "row-meta", text: hide ? "" : rowMeta(q, s, options) })));
-    });
-    children.push(list);
-    document.getElementById("detail").replaceChildren(...children);
-    const current = document.querySelector(".row.selected");
-    if (current) current.scrollIntoView({ block: "nearest" });
+  // Here tab's side column: where the player is, how much is done there.
+  function hereSummary(kicker, title, badges, quests) {
+    const t = tally(quests);
+    const count = (value, label, cls) => [el("b", { class: cls || "", text: String(value) }), el("span", { text: label })];
+    return el("div", { class: "here-summary" },
+      el("div", {}, el("div", { class: "kicker", text: kicker }), el("h1", { class: "here-title", text: title })),
+      badges.length ? el("div", { class: "badges" }, badges.map((b) => el("span", { text: b }))) : null,
+      el("div", { class: "here-stats" },
+        progressRing(t.total ? t.done / t.total : 0, "#e9edf1", "ring big"),
+        el("div", { class: "here-counts" },
+          count(t.done, "COMPLETED"), count(t.active, "IN PROGRESS", "active"), count(t.missing, "NOT STARTED"),
+          t.failed ? count(t.failed, "FAILED", "failed") : null)));
   }
 
   // ------------------------------------------------------------------ actions (handled by Completionist:MenuBridge)
@@ -522,22 +572,25 @@
       document.getElementById("detail").replaceChildren(el("div", { class: "kicker", text: "LOADING PROGRESS…" }));
       return;
     }
-    if (view.tab === "here" && view.focus === "side") view.focus = "list";
     renderBody();
     renderKeys();
   }
 
   function renderBody() {
     renderHeader();
+    shownCards = [];
     const rows = sideRows();
-    if (view.tab !== "here") {
-      const items = rows.filter((r) => r.kind === "item");
-      if (!items.some((r) => r.key === view.selected[view.tab]) && items.length) view.selected[view.tab] = items[0].key;
-    }
-    renderSide(rows);
+    const items = rows.filter((r) => r.kind === "item");
+    if (!items.some((r) => r.key === view.selected[view.tab]) && items.length) view.selected[view.tab] = items[0].key;
 
     if (view.tab === "here") {
-      renderHere();
+      renderHere(rows);
+      return;
+    }
+    renderSide(rows);
+    if (view.tab === "log") {
+      const row = items.find((r) => r.key === view.selected.log);
+      renderDetail("", "", row ? row.quests : [], { listTitle: row ? row.label.toUpperCase() : "", noFilters: true, meta: hubName, empty: "Nothing here yet." });
     } else if (view.tab === "questlines") {
       const row = rows.find((r) => r.key === view.selected.questlines);
       if (row) renderDetail((row.sub || "").toUpperCase(), row.label, row.quests, { chain: true, meta: hubName });
@@ -559,43 +612,43 @@
 
   const placeName = (key) => (DATA.places[key] ? DATA.places[key].name : "");
 
-  // Here: a city shows its quests; a planet or system adds cards for the places in it;
-  // anywhere without tracked quests suggests where to go next.
-  function renderHere() {
+  // Here: the side column sums up where the player is (and, on a planet or in a system, lists
+  // the places in it); the rest is the quest list. Anywhere without tracked quests suggests
+  // where to go next.
+  function renderHere(rows) {
     const key = herePlace();
-    if (!key) return renderNowhere();
+    if (!key) {
+      document.getElementById("side").hidden = true;
+      return renderNowhere();
+    }
     const place = DATA.places[key];
     const chain = placeChain(key);
     const systemName = (chain.find((p) => p.kind === "system") || {}).name || "";
+    let kicker, badges = [], meta;
 
     if (place.kind === "planet") {
-      hereLayout = "cards";
-      return renderDetail(
-        systemName.toUpperCase() + " SYSTEM · " + (inSpace ? "IN ORBIT" : "ON THE SURFACE"),
-        place.name,
-        questsUnder(key),
-        {
-          badges: ["PLANET", survey >= 0 ? "SURVEYED " + Math.round(survey * 100) + "%" : null],
-          cards: placeCards(key, "hub"),
-          cardsTitle: "PLACES ON " + place.name.toUpperCase(),
-          meta: hubName,
-        });
+      kicker = systemName.toUpperCase() + " SYSTEM · " + (inSpace ? "IN ORBIT" : "ON THE SURFACE");
+      badges = ["PLANET", survey >= 0 ? "SURVEYED " + Math.round(survey * 100) + "%" : null].filter(Boolean);
+      meta = hubName;
+    } else if (place.kind === "system") {
+      kicker = inSpace ? "IN SPACE" : "STAR SYSTEM";
+      badges = ["STAR SYSTEM"];
+      meta = (q) => {
+        const c = placeChain(q.place);
+        const planet = c.find((p) => p.kind === "planet");
+        return planet && planet !== c[0] ? c[0].name + " · " + planet.name : c.length ? c[0].name : "";
+      };
+    } else {
+      kicker = chain.slice(1).map((p) => p.name.toUpperCase() + (p.kind === "system" ? " SYSTEM" : "")).join(" · ");
     }
-    if (place.kind === "system") {
-      hereLayout = "cards";
-      return renderDetail(inSpace ? "IN SPACE" : "STAR SYSTEM", place.name, questsUnder(key), {
-        badges: ["STAR SYSTEM"],
-        cards: placeCards(key, "planet"),
-        cardsTitle: "PLANETS AND MOONS IN " + place.name.toUpperCase(),
-        meta: (q) => {
-          const c = placeChain(q.place);
-          const planet = c.find((p) => p.kind === "planet");
-          return planet && planet !== c[0] ? c[0].name + " · " + planet.name : c.length ? c[0].name : "";
-        },
-      });
-    }
-    hereLayout = "city";
-    renderDetail(chain.slice(1).map((p) => p.name.toUpperCase() + (p.kind === "system" ? " SYSTEM" : "")).join(" · "), place.name, questsUnder(key));
+    const items = rows.filter((r) => r.kind === "item");
+    hereLayout = items.length ? "places" : "city";
+    if (view.focus === "cards" || (view.focus === "side" && !items.length)) view.focus = "list";
+
+    const all = questsUnder(key);
+    renderSide(rows, hereSummary(kicker, place.name, badges, all));
+    const row = items.find((r) => r.key === view.selected.here);
+    renderDetail("", "", row ? row.quests : all, { listTitle: (row ? row.label : place.name).toUpperCase(), meta });
   }
 
   // Cards for the places under a planet (by hub) or a system (by planet), with progress.
@@ -617,6 +670,7 @@
         const hubs = [...g.hubs];
         const isSelf = g.key === key;
         return {
+          key: g.key,
           label: isSelf ? (level === "hub" ? "Elsewhere on " + placeName(key) : "In space") : placeName(g.key),
           sub: level === "planet" && hubs.length ? hubs[0] + (hubs.length > 1 ? " · " + (hubs.length - 1) + " more" : "") : null,
           quests: g.quests,
@@ -702,20 +756,18 @@
     else console.log("[preview] plotLocation " + locKey);
   }
 
-  // Cards: open the place in the Locations tab (planet/system) or set course (nothing tracked).
+  // Systems on the nothing-tracked page: set course there.
   function openCard(index) {
     const card = shownCards[index];
-    if (!card) return;
-    if (hereLayout === "nowhere") {
-      if (card.loc) plotLocation(card.loc);
-      return;
-    }
-    view.tab = "locations";
-    view.selected.locations = card.openKey;
-    view.focus = "side";
-    view.row = 0;
-    render();
+    if (card && card.loc) plotLocation(card.loc);
   }
+
+  // The place / questline / category selected in the side column, while it has focus.
+  function selectedSideItem() {
+    if (view.focus !== "side") return null;
+    return sideRows().find((r) => r.kind === "item" && r.key === view.selected[view.tab]) || null;
+  }
+  const sideItemLocation = (item) => item && (item.loc || (DATA.places[item.key] || {}).loc);
 
   // Footer prompts follow the last input device, like the game's own menus.
   function renderKeys() {
@@ -723,15 +775,17 @@
     const key = (k, label, end, run) => el("button", { class: end ? "end" : "", onclick: run }, el("kbd", { text: k }), label);
     const q = selectedQuest();
     const onCard = view.focus === "cards" && shownCards.length > 0;
-    const primary = view.focus === "side" ? "OPEN" : onCard ? (hereLayout === "nowhere" ? "SET COURSE" : "OPEN PLACE") : q ? (primaryAction(q) || {}).label : null;
-    const canPlot = onCard ? hereLayout !== "nowhere" && !!shownCards[view.card].loc : q && actionsFor(q).some((a) => a.id === "plot");
+    const sideLoc = sideItemLocation(selectedSideItem());
+    const primary = view.focus === "side" ? "OPEN" : onCard ? "SET COURSE" : q ? (primaryAction(q) || {}).label : null;
+    const canPlot = view.focus === "side" ? !!sideLoc : !onCard && q && actionsFor(q).some((a) => a.id === "plot");
+    const checklist = view.tab !== "log"; // the Log only lists found quests: no filter, nothing to hide
     const keys = [
       key(pad ? "LB / RB" : "Q / E", "SWITCH TAB", false, () => cycleTab(1)),
       primary ? key(pad ? "A" : "ENTER", primary, false, activate) : null,
-      canPlot && primary !== "SHOW ON MAP" ? key(pad ? "X" : "R", onCard ? "SET COURSE" : "SHOW ON MAP", false, plotSelected) : null,
+      canPlot ? key(pad ? "X" : "R", view.focus === "side" ? "SET COURSE" : "SHOW ON MAP", false, plotSelected) : null,
       q ? key(pad ? "RS" : "M", overrideAction(q).label, false, overrideSelected) : null,
-      key(pad ? "Y" : "F", "FILTER", false, cycleFilter),
-      key(pad ? "VIEW" : "X", "SPOILERS: " + (view.spoilers ? "HIDDEN" : "SHOWN"), false, toggleSpoilers),
+      checklist ? key(pad ? "Y" : "F", "FILTER", false, cycleFilter) : null,
+      checklist ? key(pad ? "VIEW" : "X", "SPOILERS: " + (view.spoilers ? "HIDDEN" : "SHOWN"), false, toggleSpoilers) : null,
       key(pad ? "B" : "ESC", "CLOSE", true, () => { if (bridge) bridge.send("close"); }),
     ];
     document.getElementById("keys").replaceChildren(...keys.filter(Boolean));
@@ -741,7 +795,7 @@
 
   function setTab(id) {
     view.tab = id;
-    view.focus = id === "here" ? "list" : "side";
+    view.focus = id === "here" || id === "log" ? "list" : "side";
     view.row = 0;
     view.card = 0;
     render();
@@ -767,10 +821,12 @@
     setTab(TABS[(i + TABS.length + delta) % TABS.length].id);
   }
   function cycleFilter() {
+    if (view.tab === "log") return;
     const i = FILTERS.findIndex((f) => f.id === view.filter);
     setFilter(FILTERS[(i + 1) % FILTERS.length].id);
   }
   function toggleSpoilers() {
+    if (view.tab === "log") return;
     view.spoilers = !view.spoilers;
     writeSetting("spoilers", view.spoilers);
     render();
@@ -778,17 +834,6 @@
 
   // Up/down moves within the focused column; left/right moves between the columns.
   function move(delta) {
-    if (view.tab === "here" && hereLayout === "cards") {
-      // Cards sit above the list: up from the first row reaches them, down leaves them.
-      if (view.focus === "cards") {
-        if (delta > 0 && shownQuests.length) selectRow(0);
-        return;
-      }
-      if (delta < 0 && view.row === 0 && shownCards.length) {
-        view.focus = "cards";
-        return render();
-      }
-    }
     if (view.focus === "cards") {
       view.card = Math.min(shownCards.length - 1, Math.max(0, view.card + delta));
       return render();
@@ -803,21 +848,15 @@
     select(items[Math.min(items.length - 1, Math.max(0, at + delta))].key);
   }
   function focusColumn(column) {
-    if (view.tab === "here") {
-      if (hereLayout === "nowhere") {
-        // Left: the systems list; right: quests in progress.
-        const target = column === "side" ? "cards" : "list";
-        if (target === "list" && !shownQuests.length) return;
-        view.focus = target;
-        return render();
-      }
-      if (hereLayout === "cards" && view.focus === "cards") {
-        view.card = Math.min(shownCards.length - 1, Math.max(0, view.card + (column === "side" ? -1 : 1)));
-        return render();
-      }
-      return;
+    if (view.tab === "here" && hereLayout === "nowhere") {
+      // Left: the systems list; right: quests in progress.
+      const target = column === "side" ? "cards" : "list";
+      if (target === "list" && !shownQuests.length) return;
+      view.focus = target;
+      return render();
     }
     if (column === "list" && !shownQuests.length) return;
+    if (column === "side" && !sideRows().some((r) => r.kind === "item")) return;
     view.focus = column;
     render();
   }
@@ -838,6 +877,11 @@
     if (view.focus === "cards") {
       const card = shownCards[view.card];
       if (card && card.loc) plotLocation(card.loc);
+      return;
+    }
+    if (view.focus === "side") {
+      const loc = sideItemLocation(selectedSideItem());
+      if (loc) plotLocation(loc);
       return;
     }
     const q = selectedQuest();
