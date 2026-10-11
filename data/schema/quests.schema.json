@@ -168,6 +168,10 @@
             "activity"
           ]
         },
+        "errand": {
+          "type": "boolean",
+          "description": "Small errand (\"Misc Pointer\" activity), named by its first objective."
+        },
         "faction": {
           "type": "string"
         },

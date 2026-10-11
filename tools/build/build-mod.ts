@@ -216,7 +216,7 @@ collectionFiles.forEach((file, fileIndex) => {
     title?: string;
     places?: Array<{ id: string; name: string; kind: string; parent?: string; location?: string }>;
     questlines?: Array<{ id: string; name: string }>;
-    quests: Array<{ id: string; name: string; type: string; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string }; exclusiveGroup?: string | null }>;
+    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string }; exclusiveGroup?: string | null }>;
   };
   const keyOf = new Map((collection.places ?? []).map((p) => [p.id, p.location ?? `${file}:${p.id}`]));
   for (const place of collection.places ?? []) {
@@ -233,6 +233,7 @@ collectionFiles.forEach((file, fileIndex) => {
       type: quest.type,
       faction: quest.faction,
       activity: quest.type === "activity",
+      errand: quest.errand || undefined,
       giver: quest.start.giver,
       place: keyOf.get(quest.start.place) ?? null,
       exclusive: quest.exclusiveGroup ?? undefined,

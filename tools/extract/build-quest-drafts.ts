@@ -29,6 +29,9 @@ interface DumpQuest {
   faction: string;
   filter: string;
   objectives: number;
+  objectiveText: string;
+  /** Set for small errands ("Misc Pointer" activities). */
+  errand?: boolean;
   stages: number[];
   completeStages: number[];
   failStages: number[];
@@ -112,7 +115,18 @@ const excluded = (q: DumpQuest) =>
 const exclusiveGroupOf = new Map(Object.entries(curation.exclusiveGroups).flatMap(([group, ids]) => ids.map((id) => [id, group] as const)));
 const curatedOrder = new Map(Object.values(curation.questlineOrder).flatMap((ids) => ids.map((id, index) => [id, index + 1] as const)));
 
-const candidates = [...tagged, ...untagged, ...activities].filter((q) => !excluded(q));
+// Small errands ("Misc Pointer" activities). The game shows them by their first objective,
+// e.g. "Talk to Sergeant Yumi", and counts them in its Activities Completed stat. Templated
+// ones ("Talk to <Alias…>") are repeatable job-board nudges and are skipped.
+const errands = dump.quests.filter(
+  (q) => q.type === "activity" && q.objectives > 0 && /pointer/i.test(q.name) && q.objectiveText !== "" && !q.objectiveText.includes("<Alias"),
+);
+for (const quest of errands) {
+  quest.name = quest.objectiveText.replace(/^\(Optional\)\s*/i, "");
+  quest.errand = true;
+}
+
+const candidates = [...tagged, ...untagged, ...activities, ...errands].filter((q) => !excluded(q));
 for (const quest of candidates) {
   quest.name = curation.names[quest.editorId] ?? quest.name;
   const move = curation.moveToQuestline[quest.editorId];
@@ -121,7 +135,7 @@ for (const quest of candidates) {
     quest.faction = move.faction ?? quest.faction;
   }
 }
-console.log(`${tagged.length} tagged quests + ${untagged.length} untagged quests + ${activities.length} activities (${tagged.length + untagged.length + activities.length - candidates.length} excluded by curation)`);
+console.log(`${tagged.length} tagged quests + ${untagged.length} untagged quests + ${activities.length} activities + ${errands.length} errands (${tagged.length + untagged.length + activities.length + errands.length - candidates.length} excluded by curation)`);
 
 // ---------------------------------------------------------------- game data
 
@@ -349,6 +363,7 @@ for (const [owner, quests] of byOwner) {
       form: quest.form,
       editorId: quest.editorId,
       type: quest.type,
+      ...(quest.errand ? { errand: true } : {}),
       ...(quest.faction ? { faction: quest.faction } : {}),
       ...(lineId ? { questline: { id: lineId, order: 0 } } : {}),
       start: {

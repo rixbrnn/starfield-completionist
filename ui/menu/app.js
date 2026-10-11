@@ -267,10 +267,33 @@
   }
 
   function tagFor(q) {
+    if (q.errand) return "ERRAND";
     if (q.activity) return "ACTIVITY";
     if (q.type === "faction") return FACTION_TAGS[q.faction] || "FACTION";
     if (q.type === "main") return "MAIN";
     return q.type.toUpperCase();
+  }
+
+  // Completion ring with the percentage inside, as in the starmap concept.
+  function progressRing(fraction, color) {
+    const size = 52, r = 22, c = 2 * Math.PI * r;
+    const svg = document.createElementNS(SVG, "svg");
+    svg.setAttribute("class", "ring");
+    svg.setAttribute("viewBox", "0 0 " + size + " " + size);
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", Math.round(fraction * 100) + "% complete");
+    const circle = (attrs) => {
+      const node = document.createElementNS(SVG, "circle");
+      for (const [k, v] of Object.entries({ cx: size / 2, cy: size / 2, r, fill: "none", "stroke-width": 3, ...attrs })) node.setAttribute(k, v);
+      svg.append(node);
+    };
+    circle({ stroke: "#26303a" });
+    circle({ stroke: color, "stroke-dasharray": (fraction * c).toFixed(1) + " " + c.toFixed(1), transform: "rotate(-90 " + size / 2 + " " + size / 2 + ")" });
+    const text = document.createElementNS(SVG, "text");
+    for (const [k, v] of Object.entries({ x: size / 2, y: size / 2, "text-anchor": "middle", "dominant-baseline": "central", class: "ring-text" })) text.setAttribute(k, v);
+    text.textContent = Math.round(fraction * 100) + "%";
+    svg.append(text);
+    return svg;
   }
 
   function renderHeader() {
@@ -278,10 +301,12 @@
     tabs.replaceChildren(...TABS.map((t) => el("button", { "aria-current": view.tab === t.id ? "page" : null, text: t.label, onclick: () => setTab(t.id) })));
     const quests = tally(DATA.quests.filter((q) => !q.activity));
     const activities = tally(DATA.quests.filter((q) => q.activity));
-    const total = (t, label) => el("div", {},
-      el("div", { class: "total-value" }, String(t.done), el("span", { text: " / " + t.total })),
-      el("div", { class: "total-label", text: label }));
-    document.getElementById("totals").replaceChildren(total(quests, "QUESTS"), total(activities, "ACTIVITIES"));
+    const total = (t, label, color) => el("div", { class: "total" },
+      progressRing(t.total ? t.done / t.total : 0, color),
+      el("div", {},
+        el("div", { class: "total-value" }, String(t.done), el("span", { text: " / " + t.total })),
+        el("div", { class: "total-label", text: label })));
+    document.getElementById("totals").replaceChildren(total(quests, "QUESTS", "#e9edf1"), total(activities, "ACTIVITIES", "#f0c43a"));
   }
 
   function renderSide(rows) {

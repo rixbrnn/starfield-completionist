@@ -610,6 +610,28 @@
   ],
   "quests": [
     {
+      "id": "cf-key-home-captainsquarters-misc",
+      "name": "Visit your quarters in the Key",
+      "form": "Starfield.esm|0x0C3686",
+      "editorId": "CF_Key_Home_CaptainsQuarters_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.the-key",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "cf01",
       "name": "Deep Cover",
       "form": "Starfield.esm|0x009136",
@@ -2336,6 +2358,30 @@
       "exclusiveGroup": null
     },
     {
+      "id": "city-cy-psych01misc",
+      "name": "Speak with the Deimos Psychologist",
+      "form": "Starfield.esm|0x20217B",
+      "editorId": "City_CY_Psych01Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Gilly Seong",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "city-cy-redtape01",
       "name": "Red Tape Blues",
       "form": "Starfield.esm|0x237490",
@@ -2367,6 +2413,30 @@
         501,
         1000,
         10000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "city-cy-redtape01-misc",
+      "name": "Speak with Trevor",
+      "form": "Starfield.esm|0x11500C",
+      "editorId": "City_CY_RedTape01_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Trevor Petyarre",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
       ],
       "complete": {
         "type": "questStage",
@@ -2435,6 +2505,34 @@
         "stage": 2000
       },
       "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "city-cy-redtape02-blackmail",
+      "name": "Show Hurst's note to CDR Woodard",
+      "form": "Starfield.esm|0x0F437A",
+      "editorId": "City_CY_RedTape02_Blackmail",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "CDR Vincent Woodard",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        900,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": {
+        "type": "questStage",
+        "stage": 900
+      },
       "exclusiveGroup": null
     },
     {
@@ -2559,6 +2657,30 @@
         700,
         701,
         710,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "city-cy-runaway01-misc",
+      "name": "Speak with Rivkah",
+      "form": "Starfield.esm|0x0E2802",
+      "editorId": "City_CY_Runaway01_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Rivkah Ovadia",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
         1000
       ],
       "complete": {
@@ -2980,6 +3102,35 @@
       "exclusiveGroup": null
     },
     {
+      "id": "city-na-aquilus01misc",
+      "name": "Talk to Keeper Aquilus",
+      "form": "Starfield.esm|0x253F58",
+      "editorId": "City_NA_Aquilus01Misc",
+      "type": "activity",
+      "errand": true,
+      "faction": "united-colonies",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Keeper Aquilus",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        10,
+        100,
+        200
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "exclusiveGroup": null
+    },
+    {
       "id": "city-na-botany01",
       "name": "A Tree Grows in New Atlantis",
       "form": "Starfield.esm|0x270718",
@@ -3026,6 +3177,30 @@
       "exclusiveGroup": null
     },
     {
+      "id": "city-na-botany01-miscpointer",
+      "name": "Speak to the Man",
+      "form": "Starfield.esm|0x0A4BB8",
+      "editorId": "City_NA_Botany01_MiscPointer",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Kelton Frush",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        10,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "city-na-botany02",
       "name": "Out On a Limb",
       "form": "Starfield.esm|0x27071B",
@@ -3058,6 +3233,31 @@
       "complete": {
         "type": "questStage",
         "stage": 200
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "city-na-botany02-miscpointer",
+      "name": "Check in on Kelton later",
+      "form": "Starfield.esm|0x0A3100",
+      "editorId": "City_NA_Botany02_MiscPointer",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Kelton Frush",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        10,
+        20,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
       },
       "fail": null,
       "exclusiveGroup": null
@@ -3104,6 +3304,31 @@
       "complete": {
         "type": "questStage",
         "stage": 200
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "city-na-botany03-miscpointer",
+      "name": "Check in on Kelton later",
+      "form": "Starfield.esm|0x0980E8",
+      "editorId": "City_NA_Botany03_MiscPointer",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Kelton Frush",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        10,
+        20,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
       },
       "fail": null,
       "exclusiveGroup": null
@@ -5188,6 +5413,50 @@
       "exclusiveGroup": null
     },
     {
+      "id": "fc-ac-home-coremanor-misc",
+      "name": "Visit your new manor in the Akila City core",
+      "form": "Starfield.esm|0x0C3688",
+      "editorId": "FC_AC_Home_CoreManor_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.akila-city",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "fc-ac-home-midtownhouse-misc",
+      "name": "Visit your new home in midtown Akila City",
+      "form": "Starfield.esm|0x0C3687",
+      "editorId": "FC_AC_Home_MidtownHouse_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.akila-city",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "fc01",
       "name": "Job Gone Wrong",
       "form": "Starfield.esm|0x29A8F0",
@@ -5837,6 +6106,31 @@
       "exclusiveGroup": null
     },
     {
+      "id": "ffconstantr02misc",
+      "name": "Speak with Abe",
+      "form": "Starfield.esm|0x211126",
+      "editorId": "FFConstantR02Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        100,
+        101,
+        102,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "ffconstantz04",
       "name": "Debt Forgiveness",
       "form": "Starfield.esm|0x2149FA",
@@ -5873,6 +6167,29 @@
       "exclusiveGroup": null
     },
     {
+      "id": "ffconstantz04misc",
+      "name": "Speak with Janet",
+      "form": "Starfield.esm|0x2149F9",
+      "editorId": "FFConstantZ04Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "ffconstantz05",
       "name": "Escape from the Endless Voyage",
       "form": "Starfield.esm|0x21261E",
@@ -5898,6 +6215,29 @@
         300,
         301,
         302,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "ffconstantz05misc",
+      "name": "Speak with Janet",
+      "form": "Starfield.esm|0x21261D",
+      "editorId": "FFConstantZ05Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        100,
         1000
       ],
       "complete": {
@@ -5999,6 +6339,30 @@
       "exclusiveGroup": null
     },
     {
+      "id": "ffcydoniar03misc",
+      "name": "Offer to help Mitch Benjamin",
+      "form": "Starfield.esm|0x0DBD9C",
+      "editorId": "FFCydoniaR03Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Mitch Benjamin",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "ffcydoniaz01",
       "name": "Freight Fright",
       "form": "Starfield.esm|0x22E140",
@@ -6046,6 +6410,30 @@
         100,
         200,
         202,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "ffcydoniaz04misc",
+      "name": "Speak with Renee",
+      "form": "Starfield.esm|0x1E7A5A",
+      "editorId": "FFCydoniaZ04Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Renee Shelby",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
         1000
       ],
       "complete": {
@@ -6161,6 +6549,30 @@
       "exclusiveGroup": null
     },
     {
+      "id": "ffcydoniaz07misc",
+      "name": "Speak with Laylah",
+      "form": "Starfield.esm|0x30270A",
+      "editorId": "FFCydoniaZ07Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Laylah Pulaski",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "ffcydoniaz08",
       "name": "The Bounty That Got Away",
       "form": "Starfield.esm|0x30B819",
@@ -6177,6 +6589,30 @@
         200,
         1000,
         2000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "ffcydoniaz08misc",
+      "name": "Speak with the Trackers Alliance Agent",
+      "form": "Starfield.esm|0x30B81A",
+      "editorId": "FFCydoniaZ08Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Trackers Alliance Agent",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
       ],
       "complete": {
         "type": "questStage",
@@ -6283,6 +6719,37 @@
       "exclusiveGroup": null
     },
     {
+      "id": "ffkeyz01miscobjective",
+      "name": "Speak to Bog",
+      "form": "Starfield.esm|0x1B6247",
+      "editorId": "FFKeyZ01MiscObjective",
+      "type": "activity",
+      "errand": true,
+      "faction": "crimson-fleet",
+      "start": {
+        "place": "hub.the-key",
+        "giver": "Bog",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        66,
+        100,
+        200,
+        10000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 10000
+      },
+      "fail": {
+        "type": "questStage",
+        "stage": 66
+      },
+      "exclusiveGroup": null
+    },
+    {
       "id": "ffkeyz02",
       "name": "Doctor's Orders",
       "form": "Starfield.esm|0x1B6246",
@@ -6323,6 +6790,29 @@
         "type": "questStage",
         "stage": 66
       },
+      "exclusiveGroup": null
+    },
+    {
+      "id": "fflodge-mb",
+      "name": "Check out the Constellation Mission Board",
+      "form": "Starfield.esm|0x12E159",
+      "editorId": "FFLodge_MB",
+      "type": "activity",
+      "errand": true,
+      "faction": "constellation",
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        10,
+        100
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
       "exclusiveGroup": null
     },
     {
@@ -6824,6 +7314,31 @@
       "exclusiveGroup": null
     },
     {
+      "id": "ffnewatlantis01misc",
+      "name": "Talk to Representative Chisolm",
+      "form": "Starfield.esm|0x24C3DE",
+      "editorId": "FFNewAtlantis01Misc",
+      "type": "activity",
+      "errand": true,
+      "faction": "united-colonies",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Representative Chisolm",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        10,
+        100
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "ffnewatlantis02",
       "name": "Keeping the Peace",
       "form": "Starfield.esm|0x24C46C",
@@ -6841,6 +7356,35 @@
         5,
         10,
         15,
+        20,
+        30,
+        40,
+        50,
+        100
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "ffnewatlantis02misc",
+      "name": "Talk to Sergeant Yumi",
+      "form": "Starfield.esm|0x042C70",
+      "editorId": "FFNewAtlantis02Misc",
+      "type": "activity",
+      "errand": true,
+      "faction": "united-colonies",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Sergeant Yumi",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        10,
         20,
         30,
         40,
@@ -7029,6 +7573,30 @@
       "exclusiveGroup": null
     },
     {
+      "id": "ffnewhomesteadr02misc",
+      "name": "Speak with Giuliana",
+      "form": "Starfield.esm|0x14629B",
+      "editorId": "FFNewHomesteadR02Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-homestead",
+        "giver": "Dr. Giuliana Lakota",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "ffnewhomesteadr04",
       "name": "Brownout",
       "form": "Starfield.esm|0x21B1FA",
@@ -7058,6 +7626,32 @@
       "exclusiveGroup": null
     },
     {
+      "id": "ffnewhomesteadr04misc",
+      "name": "Speak with Joyce",
+      "form": "Starfield.esm|0x14629A",
+      "editorId": "FFNewHomesteadR04Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-homestead",
+        "giver": "Joyce Osaka",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        10,
+        50,
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "ffnewhomesteadr05",
       "name": "Special Sauce",
       "form": "Starfield.esm|0x21952E",
@@ -7076,6 +7670,53 @@
         200,
         300,
         999,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "ffnewhomesteadr05misc",
+      "name": "Speak with Luthor",
+      "form": "Starfield.esm|0x14629C",
+      "editorId": "FFNewHomesteadR05Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-homestead",
+        "giver": "Luthor Atlanta",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "ffnewhomesteadz00misc",
+      "name": "Enter New Homestead",
+      "form": "Starfield.esm|0x2D2621",
+      "editorId": "FFNewHomesteadZ00Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-homestead",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        100,
         1000
       ],
       "complete": {
@@ -7130,6 +7771,30 @@
       "exclusiveGroup": null
     },
     {
+      "id": "ffnewhomesteadz01misc",
+      "name": "Speak with Bill Starsap",
+      "form": "Starfield.esm|0x00B78A",
+      "editorId": "FFNewHomesteadZ01Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-homestead",
+        "giver": "Bill Starsap",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "ffparadisoz01",
       "name": "Last Resort",
       "form": "Starfield.esm|0x1C7689",
@@ -7154,6 +7819,30 @@
         460,
         500,
         600,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "ffparadisoz01misc",
+      "name": "Speak with Emilian",
+      "form": "Starfield.esm|0x1C7688",
+      "editorId": "FFParadisoZ01Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.paradiso",
+        "giver": "Emilian Vasilescu",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
         1000
       ],
       "complete": {
@@ -7197,6 +7886,32 @@
       "exclusiveGroup": null
     },
     {
+      "id": "ffparadisoz02misc",
+      "name": "Speak with Dirk",
+      "form": "Starfield.esm|0x1C6902",
+      "editorId": "FFParadisoZ02Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.paradiso",
+        "giver": "Dirk Huddleston",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        50,
+        100,
+        200,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "ffparadisoz03",
       "name": "Proper Tea Theft",
       "form": "Starfield.esm|0x1C433F",
@@ -7218,6 +7933,30 @@
         200,
         210,
         220,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "ffparadisoz03misc",
+      "name": "Speak with Kumar",
+      "form": "Starfield.esm|0x1C433E",
+      "editorId": "FFParadisoZ03Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.paradiso",
+        "giver": "Kumar Sharma",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
         1000
       ],
       "complete": {
@@ -7260,6 +7999,30 @@
       "exclusiveGroup": null
     },
     {
+      "id": "ffparadisoz04misc",
+      "name": "Speak with Jiro",
+      "form": "Starfield.esm|0x1C38EB",
+      "editorId": "FFParadisoZ04Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.paradiso",
+        "giver": "Chief Sugiyama",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "ffredmiler01",
       "name": "Run the Red Mile",
       "form": "Starfield.esm|0x2DFEDB",
@@ -7290,6 +8053,32 @@
         "type": "questStage",
         "stage": 2000
       },
+      "exclusiveGroup": null
+    },
+    {
+      "id": "ffredmiler01misc",
+      "name": "Tell Mei You Want to Run the Red Mile",
+      "form": "Starfield.esm|0x2DFEDC",
+      "editorId": "FFRedMileR01Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.red-mile",
+        "giver": "Mei Devine",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        110,
+        120,
+        1000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
       "exclusiveGroup": null
     },
     {
@@ -7689,6 +8478,174 @@
       "complete": {
         "type": "questStage",
         "stage": 60
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "mq-tutorialquest-misc01",
+      "name": "Talk to the Ship Services Technician",
+      "form": "Starfield.esm|0x021356",
+      "editorId": "MQ_TutorialQuest_Misc01",
+      "type": "activity",
+      "errand": true,
+      "faction": "constellation",
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        10,
+        100
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "mq-tutorialquest-misc02",
+      "name": "Start an Outpost on a Planet",
+      "form": "Starfield.esm|0x021355",
+      "editorId": "MQ_TutorialQuest_Misc02",
+      "type": "activity",
+      "errand": true,
+      "faction": "constellation",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        10,
+        100
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "mq-tutorialquest-misc04",
+      "name": "Check Out Your Ship's Inventory",
+      "form": "Starfield.esm|0x021353",
+      "editorId": "MQ_TutorialQuest_Misc04",
+      "type": "activity",
+      "errand": true,
+      "faction": "constellation",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        10,
+        100
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "mq-tutorialquest-misc05",
+      "name": "Craft or Modify an Item",
+      "form": "Starfield.esm|0x001190",
+      "editorId": "MQ_TutorialQuest_Misc05",
+      "type": "activity",
+      "errand": true,
+      "faction": "constellation",
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        10,
+        100
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "mq-tutorialquest-misc06",
+      "name": "Complete a Research Project",
+      "form": "Starfield.esm|0x00118F",
+      "editorId": "MQ_TutorialQuest_Misc06",
+      "type": "activity",
+      "errand": true,
+      "faction": "constellation",
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        10,
+        100
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "mq-tutorialquest-misc07",
+      "name": "Talk to a Hireable Crew Member",
+      "form": "Starfield.esm|0x31C070",
+      "editorId": "MQ_TutorialQuest_Misc07",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Marika Boros",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        10,
+        100
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "mq-tutorialquest-misc08",
+      "name": "Check out the Mission Board",
+      "form": "Starfield.esm|0x31C06F",
+      "editorId": "MQ_TutorialQuest_Misc08",
+      "type": "activity",
+      "errand": true,
+      "faction": "constellation",
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        10,
+        100
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 100
       },
       "fail": null,
       "exclusiveGroup": null
@@ -11430,6 +12387,36 @@
       "exclusiveGroup": null
     },
     {
+      "id": "ri08-postquest",
+      "name": "Talk to Imogene",
+      "form": "Starfield.esm|0x0C41A4",
+      "editorId": "RI08_PostQuest",
+      "type": "activity",
+      "errand": true,
+      "faction": "ryujin-industries",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Masako Imada",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        50,
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        10000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "rir01",
       "name": "One Step Ahead",
       "form": "Starfield.esm|0x2C572B",
@@ -11699,6 +12686,32 @@
       "complete": {
         "type": "questStage",
         "stage": 900
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "rir06-yukofollowup",
+      "name": "Talk to Yuko",
+      "form": "Starfield.esm|0x3BF88A",
+      "editorId": "RIR06_YukoFollowUp",
+      "type": "activity",
+      "errand": true,
+      "faction": "ryujin-industries",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Yuko Serrano",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        101,
+        102,
+        10000
+      ],
+      "complete": {
+        "type": "questCompleted"
       },
       "fail": null,
       "exclusiveGroup": null
@@ -12291,6 +13304,96 @@
       "exclusiveGroup": null
     },
     {
+      "id": "uc-gg-connect-misc",
+      "name": "Inquire at Reliant Medical about their missing courier",
+      "form": "Starfield.esm|0x14AFC2",
+      "editorId": "UC_GG_Connect_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.gagarin-landing",
+        "giver": "Helena Strickland",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "uc-gg-marines-misc",
+      "name": "Speak to Zinaida at the Gagarin Recruitment Office",
+      "form": "Starfield.esm|0x14AFC3",
+      "editorId": "UC_GG_Marines_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.gagarin-landing",
+        "giver": "Zinaida Kuipers",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "uc-na-home-penthouse-misc",
+      "name": "Visit your new penthouse in New Atlantis",
+      "form": "Starfield.esm|0x0C3689",
+      "editorId": "UC_NA_Home_Penthouse_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "uc-na-home-well-misc",
+      "name": "Visit your new home in the Well",
+      "form": "Starfield.esm|0x0D37B6",
+      "editorId": "UC_NA_Home_Well_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "uc01",
       "name": "Supra et Ultra",
       "form": "Starfield.esm|0x2C5401",
@@ -12432,6 +13535,29 @@
         1000,
         1005,
         1010
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "uc01-tuala-misc",
+      "name": "Speak to Commander Tuala about joining the Vanguard",
+      "form": "Starfield.esm|0x0068AC",
+      "editorId": "UC01_Tuala_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Commander John Tuala",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
       ],
       "complete": {
         "type": "questCompleted"
@@ -13080,6 +14206,29 @@
       "exclusiveGroup": null
     },
     {
+      "id": "uc05-realty-misc",
+      "name": "Speak to Zora at the Aphelion Realty office",
+      "form": "Starfield.esm|0x0BC8FA",
+      "editorId": "UC05_Realty_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Zora Sangweni",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "uc06",
       "name": "The Devils You Know",
       "form": "Starfield.esm|0x248CF0",
@@ -13638,6 +14787,75 @@
       "exclusiveGroup": null
     },
     {
+      "id": "uc09-postquest-percival-misc",
+      "name": "Speak to Percival",
+      "form": "Starfield.esm|0x2D3952",
+      "editorId": "UC09_PostQuest_Percival_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.abandoned-mines",
+        "giver": "Dr. Percival Walker",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "uc09-postquest-tuala-misc",
+      "name": "Speak to Commander Tuala",
+      "form": "Starfield.esm|0x2D3951",
+      "editorId": "UC09_PostQuest_Tuala_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Commander John Tuala",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "uc09-postquest-vaevictis-misc",
+      "name": "Speak to Vae Victis about working together",
+      "form": "Starfield.esm|0x2D3950",
+      "editorId": "UC09_PostQuest_VaeVictis_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Vae Victis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "ucr01",
       "name": "Vanguard: Bug Hunt",
       "form": "Starfield.esm|0x1EBDD5",
@@ -13737,6 +14955,29 @@
       "complete": {
         "type": "questStage",
         "stage": 1000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
+      "id": "ucr04-miscpointer",
+      "name": "Speak to Hadrian about joining you",
+      "form": "Starfield.esm|0x17C672",
+      "editorId": "UCR04_MiscPointer",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.tau-gourmet-production-center",
+        "giver": "Hadrian",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "complete": {
+        "type": "questCompleted"
       },
       "fail": null,
       "exclusiveGroup": null

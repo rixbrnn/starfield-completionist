@@ -121,3 +121,9 @@ kbd { min-width: 28px; text-align: center; padding: 2px 6px; border: 1px solid v
 
 /* Explanatory line under the stats (e.g. the game's own activity count). */
 .note { font-size: 16px; color: var(--muted); margin-top: -8px; }
+
+/* Header totals with completion rings. */
+.totals { width: 420px; gap: 28px; }
+.total { display: flex; align-items: center; gap: 12px; }
+.ring { width: 52px; height: 52px; flex-shrink: 0; }
+.ring-text { fill: var(--text); font-family: var(--condensed); font-weight: 600; font-size: 14px; }

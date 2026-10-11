@@ -39,6 +39,8 @@ interface QuestDump {
   /** Stages whose log entry has the "fail quest" flag (QSDT & 0x02). */
   failStages: number[];
   objectives: number;
+  /** Display text of the first objective (NNAM), e.g. "Talk to Cmdr. Tuala". */
+  objectiveText: string;
   aliases: QuestAlias[];
   /** Count of each subrecord type, to learn Starfield's QUST layout. */
   subrecords: Record<string, number>;
@@ -76,6 +78,7 @@ function parseQuest(record: PluginRecord, plugin: PluginHeader, strings: StringT
     completeStages: [],
     failStages: [],
     objectives: 0,
+    objectiveText: "",
     aliases: [],
     subrecords: {},
     refs: {},
@@ -120,6 +123,11 @@ function parseQuest(record: PluginRecord, plugin: PluginHeader, strings: StringT
       }
       case "QOBJ":
         quest.objectives++;
+        break;
+      case "NNAM":
+        if (!quest.objectiveText && !alias) {
+          quest.objectiveText = readLString(data, plugin, strings);
+        }
         break;
       case "ALST":
       case "ALLS":

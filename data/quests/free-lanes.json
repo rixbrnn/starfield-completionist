@@ -699,6 +699,30 @@
       "exclusiveGroup": null
     },
     {
+      "id": "sffl-ms03-miscobjective",
+      "name": "Talk to Yura",
+      "form": "SFBGS00D.esm|0x0357F7",
+      "editorId": "SFFL_MS03_MiscObjective",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "sys.algorab",
+        "giver": "Yura",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        10000
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 10000
+      },
+      "fail": null,
+      "exclusiveGroup": null
+    },
+    {
       "id": "sffl-r01",
       "name": "Hazardous Materials",
       "form": "SFBGS00D.esm|0x0296F5",
