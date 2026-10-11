@@ -41,6 +41,8 @@
   let statuses = new Map(); // quest id -> status; quests missing here aren't in the player's load order
   let locationChain = []; // FormIDs, most specific first
   let loaded = demo; // true once Papyrus has published statuses
+  let manual = new Set(); // quest ids with a manual override (status values arrive +10)
+  const demoAuto = new Map(); // preview only: detected status to restore on "reset to auto"
 
   const questsById = new Map(DATA.quests.map((q) => [q.id, q]));
 
@@ -68,14 +70,21 @@
   function ingestStatuses() {
     const pages = bridge.state.get("pages") || 0;
     const next = new Map();
+    const nextManual = new Set();
     for (let p = 0; p < pages; p++) {
       const ids = bridge.state.get("ids" + p) || [];
       const values = bridge.state.get("status" + p) || [];
       // Papyrus strings are case-insensitive and shared engine-wide, so "ri01" can arrive as
       // "RI01" (the editor ID the game already holds). Our ids are lowercase.
-      ids.forEach((id, i) => next.set(String(id).toLowerCase(), values[i] ?? NOT_STARTED));
+      ids.forEach((id, i) => {
+        const key = String(id).toLowerCase();
+        const raw = values[i] ?? NOT_STARTED;
+        next.set(key, raw % 10);
+        if (raw >= 10) nextManual.add(key);
+      });
     }
     statuses = next;
+    manual = nextManual;
     loaded = pages > 0;
     queueRender();
   }
@@ -339,7 +348,7 @@
         statusIcon(s, selected),
         el("span", { class: "row-name" + (hide ? " hidden" : ""), text: hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name }),
         el("span", { class: "row-tag" + (q.activity ? " activity" : ""), text: tagFor(q) }),
-        el("span", { class: "row-meta", text: hide ? "" : s === LOCKED_OUT ? "Other branch chosen" : options.meta ? options.meta(q) : q.giver || "" }),
+        el("span", { class: "row-meta", text: hide ? "" : manual.has(q.id) ? "Marked manually" : s === LOCKED_OUT ? "Other branch chosen" : options.meta ? options.meta(q) : q.giver || "" }),
         actions.length
           ? el("span", { class: "row-actions" }, actions.map((a) => el("button", { text: a.label, onclick: (e) => { e.stopPropagation(); a.run(); } })))
           : null));
@@ -360,8 +369,35 @@
     const actions = [];
     if (s === IN_PROGRESS) actions.push({ id: "track", label: "TRACK", run: () => send("track", q) });
     if (!isDone(s) && hasStartLocation(q)) actions.push({ id: "plot", label: "SHOW ON MAP", run: () => send("plot", q) });
+    actions.push(overrideAction(q));
     return actions;
   }
+
+  // Manual override for when detection gets a quest wrong; saved in the game save by the tracker.
+  // Never the default (Enter / A) action, so nothing gets marked by accident.
+  function overrideAction(q) {
+    if (manual.has(q.id)) return { id: "override", label: "RESET TO AUTO", run: () => setOverride(q, 0) };
+    if (isDone(statusOf(q))) return { id: "override", label: "MARK NOT DONE", run: () => setOverride(q, 2) };
+    return { id: "override", label: "MARK DONE", run: () => setOverride(q, 1) };
+  }
+
+  function setOverride(q, value) {
+    if (bridge) {
+      bridge.send("override", q.id, value);
+      return;
+    }
+    if (!demoAuto.has(q.id)) demoAuto.set(q.id, statusOf(q));
+    if (value === 0) {
+      statuses.set(q.id, demoAuto.get(q.id));
+      manual.delete(q.id);
+    } else {
+      statuses.set(q.id, value === 1 ? COMPLETED : NOT_STARTED);
+      manual.add(q.id);
+    }
+    render();
+  }
+
+  const primaryAction = (q) => actionsFor(q).find((a) => a.id !== "override");
 
   function send(action, q) {
     if (bridge) bridge.send(action, q.id);
@@ -422,12 +458,13 @@
     const pad = view.input === "gamepad";
     const key = (k, label, end) => el("span", { class: end ? "end" : "" }, el("kbd", { text: k }), label);
     const q = selectedQuest();
-    const primary = view.focus === "side" ? "OPEN" : q ? (actionsFor(q)[0] || {}).label : null;
+    const primary = view.focus === "side" ? "OPEN" : q ? (primaryAction(q) || {}).label : null;
     const canPlot = q && actionsFor(q).some((a) => a.id === "plot");
     const keys = [
       key(pad ? "LB / RB" : "Q / E", "SWITCH TAB"),
       primary ? key(pad ? "A" : "ENTER", primary) : null,
       canPlot && primary !== "SHOW ON MAP" ? key(pad ? "X" : "R", "SHOW ON MAP") : null,
+      q ? key(pad ? "RS" : "M", overrideAction(q).label) : null,
       key(pad ? "Y" : "F", "FILTER"),
       key(pad ? "VIEW" : "X", "SPOILERS: " + (view.spoilers ? "HIDDEN" : "SHOWN")),
       key(pad ? "B" : "ESC", "CLOSE", true),
@@ -495,8 +532,12 @@
   function activate() {
     if (view.focus === "side") return focusColumn("list");
     const q = selectedQuest();
-    const action = q && actionsFor(q)[0];
+    const action = q && primaryAction(q);
     if (action) action.run();
+  }
+  function overrideSelected() {
+    const q = selectedQuest();
+    if (q) overrideAction(q).run();
   }
   function plotSelected() {
     const q = selectedQuest();
@@ -507,7 +548,7 @@
   // Controller: OSF UI turns the D-pad / left stick into arrow keys and A into Enter, and B closes
   // the menu. Every button also arrives as a "ui.gamepad" event (XInput button masks), which is
   // how the shoulder buttons, X, Y and View work here.
-  const PAD = { VIEW: 0x0020, LB: 0x0100, RB: 0x0200, A: 0x1000, X: 0x4000, Y: 0x8000 };
+  const PAD = { VIEW: 0x0020, RS: 0x0080, LB: 0x0100, RB: 0x0200, A: 0x1000, X: 0x4000, Y: 0x8000 };
   if (bridge) {
     bridge.on("ui.gamepad", (event) => {
       if (!event || event.kind !== "button" || !event.button || !event.button.down) return;
@@ -521,6 +562,7 @@
       else if (id === PAD.X) plotSelected();
       else if (id === PAD.Y) cycleFilter();
       else if (id === PAD.VIEW) toggleSpoilers();
+      else if (id === PAD.RS) overrideSelected();
     });
   }
   document.addEventListener("mousemove", () => {
@@ -558,6 +600,8 @@
     } else if (key === "enter") {
       event.preventDefault();
       activate();
+    } else if (key === "m") {
+      overrideSelected();
     } else if (key === "r") {
       plotSelected();
     } else if (key === "f") {

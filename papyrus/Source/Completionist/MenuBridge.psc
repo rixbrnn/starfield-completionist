@@ -32,6 +32,7 @@ Function Register()
   ; "close" from the page is handled by OSF UI itself (the name is reserved).
   OSFUI.RegisterSend(Self, ModId, "track")
   OSFUI.RegisterSend(Self, ModId, "plot")
+  OSFUI.RegisterSend(Self, ModId, "override")
   OSFSettings.RegisterHotkey(Self, ModId, OpenHotkey)
   PublishStatus()
   PublishLocation(Game.GetPlayer().GetCurrentLocation())
@@ -57,6 +58,11 @@ EndFunction
 ; osfui.send("plot", questId) opens the starmap with a course to where the quest starts.
 Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
   If akArgs == None || akArgs.Length == 0
+    Return
+  EndIf
+  ; osfui.send("override", questId, value): 0 = automatic, 1 = mark done, 2 = mark not done.
+  If asName == "override" && akArgs.Length >= 2
+    Tracker().SetOverride(akArgs[0] as String, akArgs[1] as Int)
     Return
   EndIf
   Completionist:QuestData:Entry entry = FindEntry(akArgs[0] as String)
@@ -114,7 +120,12 @@ Function PublishStatus()
     Int i = 0
     While i < entries.Length
       ids.Add(entries[i].id)
-      statuses.Add(entries[i].status)
+      ; +10 flags a manual override so the menu can show it.
+      Int status = entries[i].status
+      If tracker.OverrideOf(entries[i].id) != tracker.kOverrideNone
+        status += 10
+      EndIf
+      statuses.Add(status)
       i += 1
     EndWhile
     OSFUI.SetStateStrings(ModId, "ids" + p, ids)

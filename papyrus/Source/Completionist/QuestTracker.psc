@@ -19,6 +19,14 @@ Int Property MaxPages = 4 AutoReadOnly
 
 ; Sent after every refresh and whenever a status changes, for listeners such as Completionist:MenuBridge.
 CustomEvent StatusChanged
+; Manual overrides, saved with the game: quest id -> kOverrideDone / kOverrideNotDone.
+; Kept apart from the pages because those are rebuilt on every load. At most 128 overrides.
+Int Property kOverrideNone = 0 AutoReadOnly
+Int Property kOverrideDone = 1 AutoReadOnly
+Int Property kOverrideNotDone = 2 AutoReadOnly
+String[] overrideIds
+Int[] overrideValues
+
 Completionist:QuestData:Entry[] page0
 Completionist:QuestData:Entry[] page1
 Completionist:QuestData:Entry[] page2
@@ -121,6 +129,12 @@ EndFunction
 
 ; Status including either/or groups: a quest whose alternative was completed is locked out.
 Int Function Resolve(Completionist:QuestData:Entry akEntry)
+  Int override = OverrideOf(akEntry.id)
+  If override == kOverrideDone
+    Return kCompleted
+  ElseIf override == kOverrideNotDone
+    Return kNotStarted
+  EndIf
   Int status = StatusOf(akEntry)
   If status != kCompleted && akEntry.exclusive != "" && AlternativeCompleted(akEntry)
     Return kLockedOut
@@ -142,6 +156,56 @@ Bool Function AlternativeCompleted(Completionist:QuestData:Entry akEntry)
     p += 1
   EndWhile
   Return False
+EndFunction
+
+Int Function OverrideOf(String asId)
+  If overrideIds == None
+    Return kOverrideNone
+  EndIf
+  Int at = overrideIds.Find(asId)
+  If at < 0
+    Return kOverrideNone
+  EndIf
+  Return overrideValues[at]
+EndFunction
+
+; Sets (or with kOverrideNone clears) a manual override, updates the quest at once and
+; tells listeners. No "Completed" notification for manual changes.
+Function SetOverride(String asId, Int aiValue)
+  If overrideIds == None
+    overrideIds = new String[0]
+    overrideValues = new Int[0]
+  EndIf
+  Int at = overrideIds.Find(asId)
+  If aiValue == kOverrideNone
+    If at >= 0
+      overrideIds.Remove(at)
+      overrideValues.Remove(at)
+    EndIf
+  ElseIf at >= 0
+    overrideValues[at] = aiValue
+  ElseIf overrideIds.Length < 128
+    overrideIds.Add(asId)
+    overrideValues.Add(aiValue)
+  Else
+    Debug.Notification("Completionist: too many manual overrides (128)")
+    Return
+  EndIf
+
+  Int p = 0
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    Int i = 0
+    While i < entries.Length
+      If entries[i].id == asId
+        entries[i].status = Resolve(entries[i])
+        Debug.TraceUser(LogName, entries[i].name + ": manual override " + aiValue + " -> " + StatusName(entries[i].status))
+      EndIf
+      i += 1
+    EndWhile
+    p += 1
+  EndWhile
+  SendCustomEvent("StatusChanged")
 EndFunction
 
 ; Completed, or resolved because its alternative was completed.
