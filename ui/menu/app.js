@@ -42,6 +42,7 @@
   let locationChain = []; // FormIDs, most specific first
   let loaded = demo; // true once Papyrus has published statuses
   let manual = new Set(); // quest ids with a manual override (status values arrive +10)
+  let gameActivities = null; // the game's own "Activities Completed" stat
   const demoAuto = new Map(); // preview only: detected status to restore on "reset to auto"
 
   const questsById = new Map(DATA.quests.map((q) => [q.id, q]));
@@ -104,6 +105,7 @@
       bridge.state.on("ids" + p, ingestStatuses);
       bridge.state.on("status" + p, ingestStatuses);
     }
+    bridge.state.on("gameActivities", (value) => { gameActivities = typeof value === "number" ? value : null; queueRender(); });
     bridge.state.on("location", (ids) => { locationChain = Array.isArray(ids) ? ids : []; queueRender(); });
   }
 
@@ -330,6 +332,7 @@
     children.push(el("div", { class: "stats" },
       stat(t.done, "COMPLETED"), stat(t.active, "IN PROGRESS", "active"), stat(t.missing, "NOT STARTED"),
       t.failed ? stat(t.failed, "FAILED", "failed") : null));
+    if (options.note) children.push(el("div", { class: "note", text: options.note }));
 
     const counts = { all: t.total, missing: t.missing, active: t.active, done: t.done };
     children.push(el("div", { class: "filters", role: "tablist", "aria-label": "Filter" },
@@ -449,7 +452,12 @@
       if (!row) return renderDetail("", "Nothing tracked", [], {});
       const chain = row.key === "all" || row.key === "anywhere" ? [] : placeChain(row.key);
       const kicker = chain.slice(1).map((p) => p.name.toUpperCase() + (p.kind === "system" ? " SYSTEM" : "")).join(" · ");
-      renderDetail(kicker, row.label, row.quests, view.tab === "activities" && row.key === "all" ? { meta: hubName } : {});
+      const options = view.tab === "activities" && row.key === "all" ? { meta: hubName } : {};
+      // The game's stat (and the Fixer achievement) also counts small errands and repeatable activities.
+      if (view.tab === "activities" && gameActivities !== null) {
+        options.note = "Game count: " + gameActivities + " activities completed, including small errands and repeatable activities this list leaves out.";
+      }
+      renderDetail(kicker, row.label, row.quests, options);
     }
   }
 

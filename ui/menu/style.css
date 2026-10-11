@@ -118,3 +118,6 @@ kbd { min-width: 28px; text-align: center; padding: 2px 6px; border: 1px solid v
 .row-actions { display: flex; gap: 8px; flex-shrink: 0; }
 .row-actions button { padding: 5px 12px; border: 1px solid var(--ink); font-family: var(--condensed); font-size: 15px; letter-spacing: 0.12em; color: var(--ink); }
 .row-actions button:hover { background: var(--ink); color: var(--text); }
+
+/* Explanatory line under the stats (e.g. the game's own activity count). */
+.note { font-size: 16px; color: var(--muted); margin-top: -8px; }

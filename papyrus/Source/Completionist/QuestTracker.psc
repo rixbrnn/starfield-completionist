@@ -314,6 +314,8 @@ Function Report()
   EndWhile
   String summary = questsDone + "/" + quests + " quests, " + activitiesDone + "/" + activities + " activities completed"
   Debug.TraceUser(LogName, "Progress: " + summary)
+  ; The game's own counters (stats screen), for comparison: they include every small activity and repeatable job.
+  Debug.TraceUser(LogName, "Game stats: " + Game.QueryStat("Quests Completed") + " quests completed, " + Game.QueryStat("Activities Completed") + " activities completed")
 
   p = 0
   While p < MaxPages
