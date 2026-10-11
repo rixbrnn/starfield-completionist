@@ -2,7 +2,7 @@ ScriptName Completionist:QuestTracker extends Quest
 {Tracks every quest in Completionist:QuestData and reports progress per place.
 Attached to the start-game-enabled quest Completionist_QuestTracker in StarfieldCompletionist.esm.}
 
-; Quest status codes
+; Quest status codes (stored in QuestData:Entry.status)
 Int Property kNotStarted = 0 AutoReadOnly
 Int Property kInProgress = 1 AutoReadOnly
 Int Property kCompleted = 2 AutoReadOnly
@@ -12,16 +12,21 @@ Float Property CheckInterval = 30.0 AutoReadOnly
 Int Property kCheckTimer = 1 AutoReadOnly
 String Property LogName = "Completionist" AutoReadOnly
 
-Completionist:QuestData:Entry[] entries
-Int[] lastStatus ; per entry, as of the previous check (saved with the game)
+; Papyrus arrays hold at most 128 elements, so the quest table comes in pages.
+; Keep the number of page variables in sync with MAX_PAGES in tools/build/build-mod.ts.
+Int Property MaxPages = 4 AutoReadOnly
+Completionist:QuestData:Entry[] page0
+Completionist:QuestData:Entry[] page1
+Completionist:QuestData:Entry[] page2
+Completionist:QuestData:Entry[] page3
 
 Event OnQuestInit()
   RegisterForRemoteEvent(Game.GetPlayer(), "OnPlayerLoadGame")
-  Refresh(abAnnounceChanges = False)
+  Refresh()
 EndEvent
 
 Event Actor.OnPlayerLoadGame(Actor akSender)
-  Refresh(abAnnounceChanges = False)
+  Refresh()
 EndEvent
 
 Event OnTimer(Int aiTimerID)
@@ -31,35 +36,72 @@ Event OnTimer(Int aiTimerID)
   EndIf
 EndEvent
 
-; Reloads the quest table (plugins or data may have changed) and logs a full report.
-Function Refresh(Bool abAnnounceChanges)
+Completionist:QuestData:Entry[] Function GetPage(Int aiPage)
+  If aiPage == 0
+    Return page0
+  ElseIf aiPage == 1
+    Return page1
+  ElseIf aiPage == 2
+    Return page2
+  ElseIf aiPage == 3
+    Return page3
+  EndIf
+  Return None
+EndFunction
+
+; Reloads the quest table (plugins or data may have changed), sets every status
+; without announcing, and logs a full report.
+Function Refresh()
   Debug.OpenUserLog(LogName)
-  entries = Completionist:QuestData.Load()
-  If lastStatus == None || lastStatus.Length != entries.Length
-    lastStatus = new Int[0]
+  Int pages = Completionist:QuestData.PageCount()
+  If pages > MaxPages
+    Debug.TraceUser(LogName, "Quest table has " + pages + " pages but the tracker holds " + MaxPages + "; extra quests are ignored")
+  EndIf
+  page0 = LoadPage(0, pages)
+  page1 = LoadPage(1, pages)
+  page2 = LoadPage(2, pages)
+  page3 = LoadPage(3, pages)
+
+  Int p = 0
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
     Int i = 0
     While i < entries.Length
-      lastStatus.Add(StatusOf(entries[i]))
+      entries[i].status = StatusOf(entries[i])
       i += 1
     EndWhile
-  EndIf
+    p += 1
+  EndWhile
+
   Report()
   StartTimer(CheckInterval, kCheckTimer)
 EndFunction
 
+Completionist:QuestData:Entry[] Function LoadPage(Int aiPage, Int aiPageCount)
+  If aiPage < aiPageCount
+    Return Completionist:QuestData.LoadPage(aiPage)
+  EndIf
+  Return new Completionist:QuestData:Entry[0]
+EndFunction
+
 ; Looks for status changes since the last check and announces completions.
 Function Check()
-  Int i = 0
-  While i < entries.Length
-    Int status = StatusOf(entries[i])
-    If status != lastStatus[i]
-      Debug.TraceUser(LogName, entries[i].name + ": " + StatusName(lastStatus[i]) + " -> " + StatusName(status) + " [" + entries[i].place + "]")
-      lastStatus[i] = status
-      If status == kCompleted
-        Debug.Notification("Completed: " + entries[i].name + " (" + PlaceProgress(entries[i]) + ")")
+  Int p = 0
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    Int i = 0
+    While i < entries.Length
+      Int status = StatusOf(entries[i])
+      If status != entries[i].status
+        Debug.TraceUser(LogName, entries[i].name + ": " + StatusName(entries[i].status) + " -> " + StatusName(status) + " [" + entries[i].place + "]")
+        entries[i].status = status
+        If status == kCompleted
+          Debug.Notification("Completed: " + entries[i].name + " (" + PlaceProgress(entries[i].place, entries[i].hub) + ")")
+        EndIf
       EndIf
-    EndIf
-    i += 1
+      i += 1
+    EndWhile
+    p += 1
   EndWhile
 EndFunction
 
@@ -90,59 +132,105 @@ String Function StatusName(Int aiStatus)
   Return "not started"
 EndFunction
 
-; "Neon 6/12": completed / total for quests starting at the same place as akEntry.
-String Function PlaceProgress(Completionist:QuestData:Entry akEntry)
-  String asPlace = akEntry.place
+; "Neon 6/12": completed / total for quests that start at asPlace.
+String Function PlaceProgress(String asPlace, String asHub)
   Int total = 0
   Int done = 0
-  Int i = 0
-  While i < entries.Length
-    If entries[i].place == asPlace
-      total += 1
-      If lastStatus[i] == kCompleted
-        done += 1
+  Int p = 0
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    Int i = 0
+    While i < entries.Length
+      If entries[i].place == asPlace
+        total += 1
+        If entries[i].status == kCompleted
+          done += 1
+        EndIf
       EndIf
-    EndIf
-    i += 1
+      i += 1
+    EndWhile
+    p += 1
   EndWhile
-  Return akEntry.hub + " " + done + "/" + total
+  Return asHub + " " + done + "/" + total
 EndFunction
 
+; True if an entry before (aiPage, aiIndex) has the same place, so each place is reported once.
+Bool Function PlaceSeenBefore(String asPlace, Int aiPage, Int aiIndex)
+  Int p = 0
+  While p <= aiPage
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    Int last = entries.Length
+    If p == aiPage
+      last = aiIndex
+    EndIf
+    Int i = 0
+    While i < last
+      If entries[i].place == asPlace
+        Return True
+      EndIf
+      i += 1
+    EndWhile
+    p += 1
+  EndWhile
+  Return False
+EndFunction
 
 ; Logs overall progress and one line per place.
 Function Report()
-  String[] places = new String[0]
-  Int[] totals = new Int[0]
-  Int[] done = new Int[0]
-  Int[] active = new Int[0]
-  Int completedCount = 0
-
-  Int i = 0
-  While i < entries.Length
-    Int at = places.Find(entries[i].place)
-    If at < 0
-      places.Add(entries[i].place)
-      totals.Add(0)
-      done.Add(0)
-      active.Add(0)
-      at = places.Length - 1
-    EndIf
-    totals[at] = totals[at] + 1
-    If lastStatus[i] == kCompleted
-      done[at] = done[at] + 1
-      completedCount += 1
-    ElseIf lastStatus[i] == kInProgress
-      active[at] = active[at] + 1
-    EndIf
-    i += 1
-  EndWhile
-
-  Debug.TraceUser(LogName, "Progress: " + completedCount + "/" + entries.Length + " quests completed")
+  Int total = 0
+  Int completed = 0
   Int p = 0
-  While p < places.Length
-    Debug.TraceUser(LogName, "  " + done[p] + "/" + totals[p] + " done, " + active[p] + " active: " + places[p])
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    total += entries.Length
+    Int i = 0
+    While i < entries.Length
+      If entries[i].status == kCompleted
+        completed += 1
+      EndIf
+      i += 1
+    EndWhile
     p += 1
   EndWhile
-  Debug.Notification("Completionist: " + completedCount + "/" + entries.Length + " quests completed")
+  Debug.TraceUser(LogName, "Progress: " + completed + "/" + total + " quests completed")
+
+  p = 0
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    Int i = 0
+    While i < entries.Length
+      If !PlaceSeenBefore(entries[i].place, p, i)
+        ReportPlace(entries[i].place)
+      EndIf
+      i += 1
+    EndWhile
+    p += 1
+  EndWhile
+
+  Debug.Notification("Completionist: " + completed + "/" + total + " quests completed")
 EndFunction
 
+; Logs "done/total, active" for one place.
+Function ReportPlace(String asPlace)
+  Int total = 0
+  Int done = 0
+  Int active = 0
+  Int p = 0
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    Int i = 0
+    While i < entries.Length
+      If entries[i].place == asPlace
+        total += 1
+        If entries[i].status == kCompleted
+          done += 1
+        ElseIf entries[i].status == kInProgress
+          active += 1
+        EndIf
+      EndIf
+      i += 1
+    EndWhile
+    p += 1
+  EndWhile
+  Debug.TraceUser(LogName, "  " + done + "/" + total + " done, " + active + " active: " + asPlace)
+EndFunction
