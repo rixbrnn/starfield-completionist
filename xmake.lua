@@ -16,6 +16,9 @@ set_encodings("utf-8")
 add_rules("mode.debug", "mode.releasedbg")
 add_rules("plugin.vsxmake.autoupdate")
 
+-- JSON for the quest collections
+add_requires("nlohmann_json 3.11.3")
+
 -- define targets
 target("StarfieldCompletionist", function()
     add_rules("commonlibsf.plugin", {
@@ -24,6 +27,11 @@ target("StarfieldCompletionist", function()
         description = "Tracks quest completion by star system, planet and city",
         xse_minimum = "0.2.21"
     })
+
+    add_packages("nlohmann_json")
+
+    -- Quest collections ship next to the DLL: Data/SFSE/Plugins/StarfieldCompletionist/quests/
+    add_installfiles("data/quests/*.json", { prefixdir = "SFSE/Plugins/StarfieldCompletionist/quests" })
 
     add_files("plugin/src/**.cpp")
     add_headerfiles("plugin/src/**.h")

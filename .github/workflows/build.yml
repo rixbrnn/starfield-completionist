@@ -9,6 +9,7 @@ on:
       - "plugin/**"
       - "lib/**"
       - "xmake.lua"
+      - "data/quests/**"
   pull_request:
     branches: [main]
     paths:
@@ -16,6 +17,7 @@ on:
       - "plugin/**"
       - "lib/**"
       - "xmake.lua"
+      - "data/quests/**"
   workflow_dispatch:
 
 jobs:

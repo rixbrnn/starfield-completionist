@@ -1,140 +1,82 @@
 #include "Plugin.h"
 
+#include "QuestRegistry.h"
+
 namespace Completionist::Plugin
 {
 	namespace
 	{
-		// SFSE also sends save/load messages, but CommonLibSF's MessageType enum
-		// stops at kPostPostDataLoad. Values are from sfse/PluginAPI.h.
-		enum : std::uint32_t
-		{
-			kPreSaveGame = 4,
-			kPostSaveGame = 5,
-			kPreLoadGame = 6,
-			kPostLoadGame = 7,
-		};
+		QuestRegistry              g_registry;
+		std::vector<std::uint16_t> g_lastFlags;  // per quest: last logged QUEST_DATA::flags
+		std::atomic_bool           g_checkQueued{ false };
 
-		std::string_view MessageName(std::uint32_t a_type)
+		std::filesystem::path QuestDataDirectory()
 		{
-			switch (a_type) {
-			case kPreSaveGame:
-				return "PreSaveGame";
-			case kPostSaveGame:
-				return "PostSaveGame";
-			case kPreLoadGame:
-				return "PreLoadGame";
-			case kPostLoadGame:
-				return "PostLoadGame";
-			default:
-				return "Unknown";
-			}
+			// The game's working directory is the Starfield install folder.
+			return std::filesystem::current_path() / "Data" / "SFSE" / "Plugins" / "StarfieldCompletionist" / "quests";
 		}
 
-		// Spike S6: do save/load messages carry the save file name?
-		// Logs the first bytes of the payload as hex and as printable text.
-		void LogSavePayload(const SFSE::MessagingInterface::Message* a_msg)
+		// Spike S1: which QUEST_DATA::flags bits mean running / completed?
+		// Runs on the main thread and logs every quest whose flags changed since the last check.
+		void CheckQuests()
 		{
-			if (!a_msg->data || a_msg->dataLen == 0) {
-				REX::INFO("{}: no payload (dataLen={})", MessageName(a_msg->type), a_msg->dataLen);
-				return;
-			}
+			const auto& quests = g_registry.Quests();
+			g_lastFlags.resize(quests.size(), 0xFFFF);
 
-			constexpr std::uint32_t kMaxBytes = 128;
-			const auto* bytes = static_cast<const std::uint8_t*>(a_msg->data);
-			const auto  count = std::min(a_msg->dataLen, kMaxBytes);
-
-			std::string hex;
-			std::string text;
-			for (std::uint32_t i = 0; i < count; ++i) {
-				hex += std::format("{:02X}", bytes[i]);
-				text += (bytes[i] >= 0x20 && bytes[i] < 0x7F) ? static_cast<char>(bytes[i]) : '.';
-			}
-
-			REX::INFO("{}: dataLen={} text=\"{}\" hex={}", MessageName(a_msg->type), a_msg->dataLen, text, hex);
-		}
-
-		// Spike S2: how many quests does the runtime see, per questType?
-		void LogQuestTypes()
-		{
-			const auto* dataHandler = RE::TESDataHandler::GetSingleton();
-			if (!dataHandler) {
-				REX::WARN("TESDataHandler unavailable, skipping quest survey");
-				return;
-			}
-
-			const auto& quests = dataHandler->formArrays[std::to_underlying(RE::FormType::kQUST)].formArray;
-
-			std::array<std::uint32_t, 256> perType{};
-			std::uint32_t                  withEditorID = 0;
-			for (const auto& form : quests) {
-				const auto* quest = static_cast<const RE::TESQuest*>(form.get());
-				if (!quest) {
+			std::size_t                          changed = 0;
+			std::map<std::uint16_t, std::size_t> histogram;
+			for (std::size_t i = 0; i < quests.size(); ++i) {
+				const auto& quest = quests[i];
+				if (!quest.form) {
 					continue;
 				}
-				++perType[quest->data.questType];
-				if (const auto* editorID = quest->GetFormEditorID(); editorID && editorID[0] != '\0') {
-					++withEditorID;
+				const auto flags = quest.form->data.flags;
+				++histogram[flags];
+				if (flags == g_lastFlags[i]) {
+					continue;
 				}
+				if (changed++ == 0) {
+					REX::INFO("Quest flags changed:");
+				}
+				REX::INFO("  {:<34} {:<38} {:#06x} -> {:#06x}  [{}] {}", quest.editorID, quest.name, g_lastFlags[i], flags, quest.type, quest.place);
+				g_lastFlags[i] = flags;
 			}
 
-			REX::INFO("Quests loaded: {} ({} with an editor ID at runtime)", quests.size(), withEditorID);
-			for (std::size_t type = 0; type < perType.size(); ++type) {
-				if (perType[type] > 0) {
-					REX::INFO("  questType {}: {}", type, perType[type]);
+			if (changed > 0) {
+				REX::INFO("{} quests changed. Flags histogram:", changed);
+				for (const auto& [flags, count] : histogram) {
+					REX::INFO("  {:#06x}: {}", flags, count);
 				}
 			}
 		}
 
-		// Diagnostics for the quest survey: which form arrays are populated, and can
-		// we reach MQ101 ("One Small Step", Starfield.esm|0x003448) directly?
-		void LogFormArrayDiagnostics()
+		// SFSE doesn't tell plugins when a save loads (spike S6), so poll for changes.
+		void StartQuestWatcher()
 		{
-			const auto* dataHandler = RE::TESDataHandler::GetSingleton();
-			if (!dataHandler) {
+			const auto* tasks = SFSE::GetTaskInterface();
+			if (!tasks) {
+				REX::ERROR("SFSE task interface unavailable; quest watcher not started");
 				return;
 			}
-
-			std::uint32_t populated = 0;
-			for (std::size_t type = 0; type < std::size(dataHandler->formArrays); ++type) {
-				const auto size = dataHandler->formArrays[type].formArray.size();
-				if (size > 0) {
-					++populated;
-					REX::INFO("  formArrays[{:#04x}]: {}", type, size);
+			std::thread([tasks] {
+				for (;;) {
+					std::this_thread::sleep_for(std::chrono::seconds(5));
+					if (!g_checkQueued.exchange(true)) {
+						tasks->AddTask([] {
+							CheckQuests();
+							g_checkQueued = false;
+						});
+					}
 				}
-			}
-			REX::INFO("Form arrays with entries: {} of {}", populated, std::size(dataHandler->formArrays));
-
-			if (const auto* byId = RE::TESForm::LookupByID(0x00003448)) {
-				const auto* editorID = byId->GetFormEditorID();
-				REX::INFO("LookupByID(0x3448): formType={:#04x} editorID=\"{}\"", std::to_underlying(byId->GetFormType()), editorID ? editorID : "");
-			} else {
-				REX::INFO("LookupByID(0x3448): not found");
-			}
-
-			const auto* byEditorID = RE::TESForm::LookupByEditorID("MQ101");
-			REX::INFO("LookupByEditorID(\"MQ101\"): {}", byEditorID ? std::format("formID={:08X}", byEditorID->GetFormID()) : "not found");
+			}).detach();
 		}
 
 		void OnMessage(SFSE::MessagingInterface::Message* a_msg) noexcept
 		{
-			switch (a_msg->type) {
-			case SFSE::MessagingInterface::kPostDataLoad:
+			if (a_msg->type == SFSE::MessagingInterface::kPostDataLoad) {
 				REX::INFO("Game data loaded");
-				LogQuestTypes();
-				LogFormArrayDiagnostics();
-				break;
-			case SFSE::MessagingInterface::kPostPostDataLoad:
-				REX::INFO("Game data loaded (post)");
-				LogQuestTypes();
-				break;
-			case kPreSaveGame:
-			case kPostSaveGame:
-			case kPreLoadGame:
-			case kPostLoadGame:
-				LogSavePayload(a_msg);
-				break;
-			default:
-				break;
+				g_registry.Load(QuestDataDirectory());
+				StartQuestWatcher();
 			}
 		}
 	}
