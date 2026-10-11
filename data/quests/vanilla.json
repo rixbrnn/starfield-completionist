@@ -1,0 +1,3842 @@
+{
+  "$schema": "../schema/quests.schema.json",
+  "schema": 1,
+  "id": "vanilla.quests",
+  "title": "Starfield",
+  "requires": [
+    "Starfield.esm"
+  ],
+  "places": [
+    {
+      "id": "anywhere",
+      "kind": "anywhere",
+      "name": "Anywhere"
+    },
+    {
+      "id": "hub.abandoned-mines",
+      "kind": "hub",
+      "name": "Abandoned Mines",
+      "parent": "pl.mars",
+      "location": "Starfield.esm|0x28DF7F"
+    },
+    {
+      "id": "hub.akila-city",
+      "kind": "hub",
+      "name": "Akila City",
+      "parent": "pl.akila",
+      "location": "Starfield.esm|0x010DFB"
+    },
+    {
+      "id": "hub.argos-extractors-mining-outpost",
+      "kind": "hub",
+      "name": "Argos Extractors Mining Outpost",
+      "parent": "pl.vectera",
+      "location": "Starfield.esm|0x005748"
+    },
+    {
+      "id": "hub.crucible",
+      "kind": "hub",
+      "name": "Crucible",
+      "parent": "pl.charybdis-iii",
+      "location": "Starfield.esm|0x299F69"
+    },
+    {
+      "id": "hub.cydonia",
+      "kind": "hub",
+      "name": "Cydonia",
+      "parent": "pl.mars",
+      "location": "Starfield.esm|0x015FF7"
+    },
+    {
+      "id": "hub.deimos-staryard",
+      "kind": "hub",
+      "name": "Deimos Staryard",
+      "parent": "pl.deimos",
+      "location": "Starfield.esm|0x1EC462"
+    },
+    {
+      "id": "hub.ecliptic-base",
+      "kind": "hub",
+      "name": "Ecliptic Base",
+      "parent": "pl.masada-iii",
+      "location": "Starfield.esm|0x18AE75"
+    },
+    {
+      "id": "hub.gagarin-landing",
+      "kind": "hub",
+      "name": "Gagarin Landing",
+      "parent": "pl.gagarin",
+      "location": "Starfield.esm|0x265018"
+    },
+    {
+      "id": "hub.hopetown",
+      "kind": "hub",
+      "name": "HopeTown",
+      "parent": "pl.polvo",
+      "location": "Starfield.esm|0x016027"
+    },
+    {
+      "id": "hub.lair-of-the-mantis",
+      "kind": "hub",
+      "name": "Lair of the Mantis",
+      "parent": "pl.denebola-i-b",
+      "location": "Starfield.esm|0x23DE55"
+    },
+    {
+      "id": "hub.nasa-launch-tower",
+      "kind": "hub",
+      "name": "NASA Launch Tower",
+      "parent": "pl.earth",
+      "location": "Starfield.esm|0x25B0B5"
+    },
+    {
+      "id": "hub.neon",
+      "kind": "hub",
+      "name": "Neon",
+      "parent": "pl.volii-alpha",
+      "location": "Starfield.esm|0x015FFE"
+    },
+    {
+      "id": "hub.new-atlantis",
+      "kind": "hub",
+      "name": "New Atlantis",
+      "parent": "pl.jemison",
+      "location": "Starfield.esm|0x01295A"
+    },
+    {
+      "id": "hub.new-homestead",
+      "kind": "hub",
+      "name": "New Homestead",
+      "parent": "pl.titan",
+      "location": "Starfield.esm|0x21702B"
+    },
+    {
+      "id": "hub.nishina-research-station",
+      "kind": "hub",
+      "name": "Nishina Research Station",
+      "parent": "pl.freya-iii",
+      "location": "Starfield.esm|0x257DE3"
+    },
+    {
+      "id": "hub.paradiso",
+      "kind": "hub",
+      "name": "Paradiso",
+      "parent": "pl.porrima-ii",
+      "location": "Starfield.esm|0x26310D"
+    },
+    {
+      "id": "hub.red-mile",
+      "kind": "hub",
+      "name": "Red Mile",
+      "parent": "pl.porrima-iii",
+      "location": "Starfield.esm|0x2CE0C9"
+    },
+    {
+      "id": "hub.research-outpost-u3-09",
+      "kind": "hub",
+      "name": "Research Outpost: U3-09",
+      "parent": "pl.altair-ii",
+      "location": "Starfield.esm|0x1FB245"
+    },
+    {
+      "id": "hub.tau-gourmet-production-center",
+      "kind": "hub",
+      "name": "Tau Gourmet Production Center",
+      "parent": "pl.tau-ceti-ii",
+      "location": "Starfield.esm|0x27BB9D"
+    },
+    {
+      "id": "hub.the-clinic",
+      "kind": "hub",
+      "name": "The Clinic",
+      "parent": "pl.deepala",
+      "location": "Starfield.esm|0x1DE8C0"
+    },
+    {
+      "id": "hub.the-den",
+      "kind": "hub",
+      "name": "The Den",
+      "parent": "pl.chthonia",
+      "location": "Starfield.esm|0x213CD7"
+    },
+    {
+      "id": "hub.the-eleos-retreat",
+      "kind": "hub",
+      "name": "The Eleos Retreat",
+      "parent": "pl.ixyll-ii",
+      "location": "Starfield.esm|0x295360"
+    },
+    {
+      "id": "hub.the-eye",
+      "kind": "hub",
+      "name": "The Eye",
+      "parent": "pl.jemison",
+      "location": "Starfield.esm|0x09C57D"
+    },
+    {
+      "id": "hub.the-key",
+      "kind": "hub",
+      "name": "The Key",
+      "parent": "pl.suvorov",
+      "location": "Starfield.esm|0x015359"
+    },
+    {
+      "id": "hub.trident-luxury-lines-staryard",
+      "kind": "hub",
+      "name": "Trident Luxury Lines Staryard",
+      "parent": "pl.akila",
+      "location": "Starfield.esm|0x223325"
+    },
+    {
+      "id": "pl.akila",
+      "kind": "planet",
+      "name": "Akila",
+      "parent": "sys.cheyenne",
+      "location": "Starfield.esm|0x01ABE3"
+    },
+    {
+      "id": "pl.altair-ii",
+      "kind": "planet",
+      "name": "Altair II",
+      "parent": "sys.altair",
+      "location": "Starfield.esm|0x01B2D5"
+    },
+    {
+      "id": "pl.charybdis-iii",
+      "kind": "planet",
+      "name": "Charybdis III",
+      "parent": "sys.charybdis",
+      "location": "Starfield.esm|0x01B38A"
+    },
+    {
+      "id": "pl.chthonia",
+      "kind": "planet",
+      "name": "Chthonia",
+      "parent": "sys.wolf",
+      "location": "Starfield.esm|0x00ADD7"
+    },
+    {
+      "id": "pl.deepala",
+      "kind": "planet",
+      "name": "Deepala",
+      "parent": "sys.narion",
+      "location": "Starfield.esm|0x01B1C3"
+    },
+    {
+      "id": "pl.deimos",
+      "kind": "planet",
+      "name": "Deimos",
+      "parent": "sys.sol",
+      "location": "Starfield.esm|0x01B73B"
+    },
+    {
+      "id": "pl.denebola-i-b",
+      "kind": "planet",
+      "name": "Denebola I-b",
+      "parent": "sys.denebola",
+      "location": "Starfield.esm|0x01A759"
+    },
+    {
+      "id": "pl.earth",
+      "kind": "planet",
+      "name": "Earth",
+      "parent": "sys.sol",
+      "location": "Starfield.esm|0x01B72F"
+    },
+    {
+      "id": "pl.freya-iii",
+      "kind": "planet",
+      "name": "Freya III",
+      "parent": "sys.freya",
+      "location": "Starfield.esm|0x01ABB2"
+    },
+    {
+      "id": "pl.gagarin",
+      "kind": "planet",
+      "name": "Gagarin",
+      "parent": "sys.alpha-centauri",
+      "location": "Starfield.esm|0x01AB25"
+    },
+    {
+      "id": "pl.ixyll-ii",
+      "kind": "planet",
+      "name": "Ixyll II",
+      "parent": "sys.ixyll",
+      "location": "Starfield.esm|0x01A8E4"
+    },
+    {
+      "id": "pl.jemison",
+      "kind": "planet",
+      "name": "Jemison",
+      "parent": "sys.alpha-centauri",
+      "location": "Starfield.esm|0x01AB29"
+    },
+    {
+      "id": "pl.mars",
+      "kind": "planet",
+      "name": "Mars",
+      "parent": "sys.sol",
+      "location": "Starfield.esm|0x01B735"
+    },
+    {
+      "id": "pl.masada-iii",
+      "kind": "planet",
+      "name": "Masada III",
+      "parent": "sys.masada",
+      "location": "Starfield.esm|0x01AE71"
+    },
+    {
+      "id": "pl.polvo",
+      "kind": "planet",
+      "name": "Polvo",
+      "parent": "sys.valo",
+      "location": "Starfield.esm|0x01B1DD"
+    },
+    {
+      "id": "pl.porrima-ii",
+      "kind": "planet",
+      "name": "Porrima II",
+      "parent": "sys.porrima",
+      "location": "Starfield.esm|0x01A8AA"
+    },
+    {
+      "id": "pl.porrima-iii",
+      "kind": "planet",
+      "name": "Porrima III",
+      "parent": "sys.porrima",
+      "location": "Starfield.esm|0x01A8B6"
+    },
+    {
+      "id": "pl.suvorov",
+      "kind": "planet",
+      "name": "Suvorov",
+      "parent": "sys.kryx",
+      "location": "Starfield.esm|0x01AD95"
+    },
+    {
+      "id": "pl.tau-ceti-ii",
+      "kind": "planet",
+      "name": "Tau Ceti II",
+      "parent": "sys.tau-ceti",
+      "location": "Starfield.esm|0x01B202"
+    },
+    {
+      "id": "pl.titan",
+      "kind": "planet",
+      "name": "Titan",
+      "parent": "sys.sol",
+      "location": "Starfield.esm|0x01B762"
+    },
+    {
+      "id": "pl.vectera",
+      "kind": "planet",
+      "name": "Vectera",
+      "parent": "sys.narion",
+      "location": "Starfield.esm|0x01BC43"
+    },
+    {
+      "id": "pl.volii-alpha",
+      "kind": "planet",
+      "name": "Volii Alpha",
+      "parent": "sys.volii",
+      "location": "Starfield.esm|0x01A978"
+    },
+    {
+      "id": "sys.alpha-centauri",
+      "kind": "system",
+      "name": "Alpha Centauri",
+      "location": "Starfield.esm|0x061581"
+    },
+    {
+      "id": "sys.altair",
+      "kind": "system",
+      "name": "Altair",
+      "location": "Starfield.esm|0x061541"
+    },
+    {
+      "id": "sys.charybdis",
+      "kind": "system",
+      "name": "Charybdis",
+      "location": "Starfield.esm|0x06153C"
+    },
+    {
+      "id": "sys.cheyenne",
+      "kind": "system",
+      "name": "Cheyenne",
+      "location": "Starfield.esm|0x061572"
+    },
+    {
+      "id": "sys.denebola",
+      "kind": "system",
+      "name": "Denebola",
+      "location": "Starfield.esm|0x06159A"
+    },
+    {
+      "id": "sys.freya",
+      "kind": "system",
+      "name": "Freya",
+      "location": "Starfield.esm|0x06157F"
+    },
+    {
+      "id": "sys.ixyll",
+      "kind": "system",
+      "name": "Ixyll",
+      "location": "Starfield.esm|0x061590"
+    },
+    {
+      "id": "sys.kryx",
+      "kind": "system",
+      "name": "Kryx",
+      "location": "Starfield.esm|0x061569"
+    },
+    {
+      "id": "sys.masada",
+      "kind": "system",
+      "name": "Masada",
+      "location": "Starfield.esm|0x06155A"
+    },
+    {
+      "id": "sys.narion",
+      "kind": "system",
+      "name": "Narion",
+      "location": "Starfield.esm|0x0615B0"
+    },
+    {
+      "id": "sys.porrima",
+      "kind": "system",
+      "name": "Porrima",
+      "location": "Starfield.esm|0x061591"
+    },
+    {
+      "id": "sys.sol",
+      "kind": "system",
+      "name": "Sol",
+      "location": "Starfield.esm|0x061527"
+    },
+    {
+      "id": "sys.tau-ceti",
+      "kind": "system",
+      "name": "Tau Ceti",
+      "location": "Starfield.esm|0x061546"
+    },
+    {
+      "id": "sys.valo",
+      "kind": "system",
+      "name": "Valo",
+      "location": "Starfield.esm|0x0615AF"
+    },
+    {
+      "id": "sys.volii",
+      "kind": "system",
+      "name": "Volii",
+      "location": "Starfield.esm|0x06158E"
+    },
+    {
+      "id": "sys.wolf",
+      "kind": "system",
+      "name": "Wolf",
+      "location": "Starfield.esm|0x0615B3"
+    }
+  ],
+  "questlines": [
+    {
+      "id": "crimson-fleet",
+      "name": "Crimson Fleet",
+      "type": "faction",
+      "faction": "crimson-fleet"
+    },
+    {
+      "id": "freestar-collective",
+      "name": "Freestar Rangers",
+      "type": "faction",
+      "faction": "freestar-collective"
+    },
+    {
+      "id": "main",
+      "name": "Main Missions",
+      "type": "main",
+      "faction": "constellation"
+    },
+    {
+      "id": "ryujin-industries",
+      "name": "Ryujin Industries",
+      "type": "faction",
+      "faction": "ryujin-industries"
+    },
+    {
+      "id": "united-colonies",
+      "name": "UC Vanguard",
+      "type": "faction",
+      "faction": "united-colonies"
+    }
+  ],
+  "quests": [
+    {
+      "id": "cf01",
+      "name": "Deep Cover",
+      "form": "Starfield.esm|0x009136",
+      "editorId": "CF01",
+      "type": "faction",
+      "faction": "crimson-fleet",
+      "questline": {
+        "id": "crimson-fleet",
+        "order": 1
+      },
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Saoirse Bowden",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "cf02",
+      "name": "Rook Meets King",
+      "form": "Starfield.esm|0x0192D2",
+      "editorId": "CF02",
+      "type": "faction",
+      "faction": "crimson-fleet",
+      "questline": {
+        "id": "crimson-fleet",
+        "order": 2
+      },
+      "start": {
+        "place": "hub.the-key",
+        "giver": "Naeva Mora",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "cf03",
+      "name": "Echoes of the Past",
+      "form": "Starfield.esm|0x24EEF8",
+      "editorId": "CF03",
+      "type": "faction",
+      "faction": "crimson-fleet",
+      "questline": {
+        "id": "crimson-fleet",
+        "order": 3
+      },
+      "start": {
+        "place": "hub.the-key",
+        "giver": "Delgado",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "cf04",
+      "name": "Breaking the Bank",
+      "form": "Starfield.esm|0x23C6F1",
+      "editorId": "CF04",
+      "type": "faction",
+      "faction": "crimson-fleet",
+      "questline": {
+        "id": "crimson-fleet",
+        "order": 4
+      },
+      "start": {
+        "place": "hub.the-key",
+        "giver": "Delgado",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "cf05",
+      "name": "The Best There Is",
+      "form": "Starfield.esm|0x21D792",
+      "editorId": "CF05",
+      "type": "faction",
+      "faction": "crimson-fleet",
+      "questline": {
+        "id": "crimson-fleet",
+        "order": 5
+      },
+      "start": {
+        "place": "hub.the-key",
+        "giver": "Naeva Mora",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "cf06",
+      "name": "Absolute Power",
+      "form": "Starfield.esm|0x01BD20",
+      "editorId": "CF06",
+      "type": "faction",
+      "faction": "crimson-fleet",
+      "questline": {
+        "id": "crimson-fleet",
+        "order": 6
+      },
+      "start": {
+        "place": "hub.the-key",
+        "giver": "Naeva Mora",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "cf07",
+      "name": "Eye of the Storm",
+      "form": "Starfield.esm|0x1EF7F2",
+      "editorId": "CF07",
+      "type": "faction",
+      "faction": "crimson-fleet",
+      "questline": {
+        "id": "crimson-fleet",
+        "order": 7
+      },
+      "start": {
+        "place": "hub.the-key",
+        "giver": "Delgado",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "cf08-fleet",
+      "name": "Legacy's End",
+      "form": "Starfield.esm|0x1EF7F1",
+      "editorId": "CF08_Fleet",
+      "type": "faction",
+      "faction": "crimson-fleet",
+      "questline": {
+        "id": "crimson-fleet",
+        "order": 8
+      },
+      "start": {
+        "place": "hub.the-key",
+        "giver": "Delgado",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "cf08-sysdef",
+      "name": "Legacy's End",
+      "form": "Starfield.esm|0x1B41D0",
+      "editorId": "CF08_SysDef",
+      "type": "faction",
+      "faction": "crimson-fleet",
+      "questline": {
+        "id": "crimson-fleet",
+        "order": 9
+      },
+      "start": {
+        "place": "hub.the-key",
+        "giver": "Delgado",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "cfsd01",
+      "name": "Burden of Proof",
+      "form": "Starfield.esm|0x1E8E2A",
+      "editorId": "CFSD01",
+      "type": "faction",
+      "faction": "crimson-fleet",
+      "questline": {
+        "id": "crimson-fleet",
+        "order": 10
+      },
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Adler Kemp",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-akilalife01",
+      "name": "The Great Laredo Caper",
+      "form": "Starfield.esm|0x11463F",
+      "editorId": "City_AkilaLife01",
+      "type": "side",
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Annie Wilcox",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-akilalife02",
+      "name": "Last Will and Testament",
+      "form": "Starfield.esm|0x112ACE",
+      "editorId": "City_AkilaLife02",
+      "type": "side",
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Elias Cartwright",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-akilalife04",
+      "name": "Beer Run",
+      "form": "Starfield.esm|0x0F24FA",
+      "editorId": "City_AkilaLife04",
+      "type": "side",
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Sarah Filburn",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-akilalife05",
+      "name": "Blast Zone",
+      "form": "Starfield.esm|0x03DC10",
+      "editorId": "City_AkilaLife05",
+      "type": "side",
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Ngodup Tate",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-akilalife08",
+      "name": "Charity of the Wolf",
+      "form": "Starfield.esm|0x2D2517",
+      "editorId": "City_AkilaLife08",
+      "type": "side",
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Amira Wolf",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-cy-psych01",
+      "name": "Psyched",
+      "form": "Starfield.esm|0x225130",
+      "editorId": "City_CY_Psych01",
+      "type": "side",
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Gilly Seong",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-cy-redtape01",
+      "name": "Red Tape Blues",
+      "form": "Starfield.esm|0x237490",
+      "editorId": "City_CY_RedTape01",
+      "type": "side",
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Trevor Petyarre",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-cy-redtape02",
+      "name": "Red Tape Runaround",
+      "form": "Starfield.esm|0x237491",
+      "editorId": "City_CY_RedTape02",
+      "type": "side",
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Saoirse Bowden",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-cy-redtape03",
+      "name": "Red Tape Reclamation",
+      "form": "Starfield.esm|0x23748F",
+      "editorId": "City_CY_RedTape03",
+      "type": "side",
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Trevor Petyarre",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-cy-runaway01",
+      "name": "Runaway",
+      "form": "Starfield.esm|0x22686C",
+      "editorId": "City_CY_Runaway01",
+      "type": "side",
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Rivkah Ovadia",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-cy-startup01",
+      "name": "Start-Up Stopped",
+      "form": "Starfield.esm|0x222E40",
+      "editorId": "City_CY_StartUp01",
+      "type": "side",
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Jane Weller",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-er-dead",
+      "name": "Dead Stop",
+      "form": "Starfield.esm|0x17134F",
+      "editorId": "City_ER_Dead",
+      "type": "side",
+      "start": {
+        "place": "hub.the-eleos-retreat",
+        "giver": "Greg D'Angelo",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-er-exorcism",
+      "name": "Exorcism",
+      "form": "Starfield.esm|0x16B466",
+      "editorId": "City_ER_Exorcism",
+      "type": "side",
+      "start": {
+        "place": "hub.the-eleos-retreat",
+        "giver": "Sloan Temitope",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-er-ghost",
+      "name": "Ghost Hunt",
+      "form": "Starfield.esm|0x16D4D1",
+      "editorId": "City_ER_Ghost",
+      "type": "side",
+      "start": {
+        "place": "hub.the-eleos-retreat",
+        "giver": "Sloan Temitope",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-er-peace",
+      "name": "Peacemaker",
+      "form": "Starfield.esm|0x1699FB",
+      "editorId": "City_ER_Peace",
+      "type": "side",
+      "start": {
+        "place": "hub.the-eleos-retreat",
+        "giver": "Nevan Bohn",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-gg-bet",
+      "name": "Sure Bet",
+      "form": "Starfield.esm|0x18BC55",
+      "editorId": "City_GG_Bet",
+      "type": "side",
+      "start": {
+        "place": "hub.gagarin-landing",
+        "giver": "Lizzy Ajello",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-gg-connections",
+      "name": "Missed Connections",
+      "form": "Starfield.esm|0x18E0F9",
+      "editorId": "City_GG_Connections",
+      "type": "side",
+      "start": {
+        "place": "hub.gagarin-landing",
+        "giver": "Helena Strickland",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-gg-marines",
+      "name": "UC Wants You!",
+      "form": "Starfield.esm|0x188D25",
+      "editorId": "City_GG_Marines",
+      "type": "side",
+      "start": {
+        "place": "hub.gagarin-landing",
+        "giver": "Zinaida Kuipers",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-gg-mark",
+      "name": "Missed the Mark",
+      "form": "Starfield.esm|0x18BC56",
+      "editorId": "City_GG_Mark",
+      "type": "side",
+      "start": {
+        "place": "hub.gagarin-landing",
+        "giver": "Helena Strickland",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-na-botany01",
+      "name": "A Tree Grows in New Atlantis",
+      "form": "Starfield.esm|0x270718",
+      "editorId": "City_NA_Botany01",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Kelton Frush",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-na-botany02",
+      "name": "Out On a Limb",
+      "form": "Starfield.esm|0x27071B",
+      "editorId": "City_NA_Botany02",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Kelton Frush",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-na-botany03",
+      "name": "Late Bloomer",
+      "form": "Starfield.esm|0x270717",
+      "editorId": "City_NA_Botany03",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Kelton Frush",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-na-viewport01",
+      "name": "Distilling Confidence",
+      "form": "Starfield.esm|0x2926D2",
+      "editorId": "City_NA_Viewport01",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Nyssa Marcano",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-na-viewport02",
+      "name": "Liquid Assets",
+      "form": "Starfield.esm|0x270719",
+      "editorId": "City_NA_Viewport02",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Nyssa Marcano",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-na-viewport03",
+      "name": "Drinks on the House",
+      "form": "Starfield.esm|0x27071A",
+      "editorId": "City_NA_Viewport03",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Nyssa Marcano",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-na-well01",
+      "name": "Tapping the Grid",
+      "form": "Starfield.esm|0x27071C",
+      "editorId": "City_NA_Well01",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Louisa Reyez",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-na-well02",
+      "name": "Alternating Currents",
+      "form": "Starfield.esm|0x270716",
+      "editorId": "City_NA_Well02",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Louisa Reyez",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-neon-chem01",
+      "name": "Loose Ends",
+      "form": "Starfield.esm|0x238837",
+      "editorId": "City_Neon_Chem01",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Neshar Osmani",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-neon-chem02",
+      "name": "Fishy Business",
+      "form": "Starfield.esm|0x235C27",
+      "editorId": "City_Neon_Chem02",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Yannick Legrande",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-neon-chem03",
+      "name": "Supply Line",
+      "form": "Starfield.esm|0x233C2F",
+      "editorId": "City_Neon_Chem03",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Yannick Legrande",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-neon-gang01",
+      "name": "The Audition",
+      "form": "Starfield.esm|0x229EE7",
+      "editorId": "City_Neon_Gang01",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Digger Zemin",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-neon-gang02",
+      "name": "Display of Power",
+      "form": "Starfield.esm|0x226527",
+      "editorId": "City_Neon_Gang02",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Hatchet",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-neon-gang03",
+      "name": "The Showdown",
+      "form": "Starfield.esm|0x2250C4",
+      "editorId": "City_Neon_Gang03",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Briggs",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-newatlantis-z-aninvitation",
+      "name": "An Invitation",
+      "form": "Starfield.esm|0x0B2148",
+      "editorId": "City_NewAtlantis_Z_AnInvitation",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Tony Cowl",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-newatlantis-z-ashipmentforsalinas",
+      "name": "A Shipment for Salinas",
+      "form": "Starfield.esm|0x0158E0",
+      "editorId": "City_NewAtlantis_Z_AShipmentForSalinas",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Vicente Salinas",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-newatlantis-z-beautifulsecrets",
+      "name": "Beautiful Secrets",
+      "form": "Starfield.esm|0x0D063C",
+      "editorId": "City_NewAtlantis_Z_BeautifulSecrets",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Warner Connell",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-newatlantis-z-gemjealousy",
+      "name": "Gem Jealousy",
+      "form": "Starfield.esm|0x0C55B0",
+      "editorId": "City_NewAtlantis_Z_GemJealousy",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Guillaume DeGarmo",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-newatlantis-z-olivebranch",
+      "name": "Olive Branch",
+      "form": "Starfield.esm|0x0C68A9",
+      "editorId": "City_NewAtlantis_Z_OliveBranch",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Nilesh Sherazi",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-newatlantis-z-partinggift",
+      "name": "A Parting Gift",
+      "form": "Starfield.esm|0x0D5430",
+      "editorId": "City_NewAtlantis_Z_PartingGift",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Zawadi Wade",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-newatlantis-z-primarysources",
+      "name": "Primary Sources",
+      "form": "Starfield.esm|0x115CC3",
+      "editorId": "City_NewAtlantis_Z_PrimarySources",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Nadia Muffaz",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-newatlantis-z-reliablecare",
+      "name": "Reliable Care",
+      "form": "Starfield.esm|0x11378F",
+      "editorId": "City_NewAtlantis_Z_ReliableCare",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Talia O'Shea",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-newatlantis-z-spreadingthenews",
+      "name": "Spreading the News",
+      "form": "Starfield.esm|0x1145EE",
+      "editorId": "City_NewAtlantis_Z_SpreadingTheNews",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Tommy Bitlow",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-newatlantis-z-suspiciousactivities",
+      "name": "Suspicious Activities",
+      "form": "Starfield.esm|0x112864",
+      "editorId": "City_NewAtlantis_Z_SuspiciousActivities",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "high",
+        "source": "alias"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-newatlantis-z-terrorbrew",
+      "name": "Terror Brew",
+      "form": "Starfield.esm|0x0D249B",
+      "editorId": "City_NewAtlantis_Z_TerrorBrew",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-newatlantis-z-theartcollector",
+      "name": "The Art Dealer",
+      "form": "Starfield.esm|0x111F53",
+      "editorId": "City_NewAtlantis_z_TheArtCollector",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Samson Cebrail",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-newatlantis-z-theboot",
+      "name": "The Boot",
+      "form": "Starfield.esm|0x0D700D",
+      "editorId": "City_NewAtlantis_Z_TheBoot",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Antonio Bianchi",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "city-newatlantis-z-thekindnessofstrangers",
+      "name": "The Kindness of Strangers",
+      "form": "Starfield.esm|0x09BD47",
+      "editorId": "City_NewAtlantis_Z_TheKindnessOfStrangers",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Andy Singh",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "com-quest-andreja-commitment",
+      "name": "Commitment: Andreja",
+      "form": "Starfield.esm|0x0B8633",
+      "editorId": "COM_Quest_Andreja_Commitment",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Andreja",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "com-quest-andreja-q01",
+      "name": "Divided Loyalties",
+      "form": "Starfield.esm|0x21ECD0",
+      "editorId": "COM_Quest_Andreja_Q01",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Andreja",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "com-quest-barrett-commitment",
+      "name": "Commitment: Barrett",
+      "form": "Starfield.esm|0x1C7185",
+      "editorId": "COM_Quest_Barrett_Commitment",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Barrett",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "com-quest-barrett-q01",
+      "name": "Breach of Contract",
+      "form": "Starfield.esm|0x0369AB",
+      "editorId": "COM_Quest_Barrett_Q01",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Barrett",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "com-quest-samcoe-commitment",
+      "name": "Commitment: Sam Coe",
+      "form": "Starfield.esm|0x0DF7AD",
+      "editorId": "COM_Quest_SamCoe_Commitment",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Cora Coe",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "com-quest-samcoe-q01",
+      "name": "Matters of the Hart",
+      "form": "Starfield.esm|0x263262",
+      "editorId": "COM_Quest_SamCoe_Q01",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Cora Coe",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "com-quest-sarahmorgan-commitment",
+      "name": "Commitment: Sarah Morgan",
+      "form": "Starfield.esm|0x27B667",
+      "editorId": "COM_Quest_SarahMorgan_Commitment",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Sarah Morgan",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "com-quest-sarahmorgan-q01",
+      "name": "In Memoriam",
+      "form": "Starfield.esm|0x2C7C11",
+      "editorId": "COM_Quest_SarahMorgan_Q01",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Sarah Morgan",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "fc01",
+      "name": "Job Gone Wrong",
+      "form": "Starfield.esm|0x29A8F0",
+      "editorId": "FC01",
+      "type": "faction",
+      "faction": "freestar-collective",
+      "questline": {
+        "id": "freestar-collective",
+        "order": 1
+      },
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Marshal Daniel Blake",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "fc02",
+      "name": "Deputized",
+      "form": "Starfield.esm|0x2944B8",
+      "editorId": "FC02",
+      "type": "faction",
+      "faction": "freestar-collective",
+      "questline": {
+        "id": "freestar-collective",
+        "order": 2
+      },
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Emma Wilcox",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "fc03",
+      "name": "Where Hope is Built",
+      "form": "Starfield.esm|0x27AB1A",
+      "editorId": "FC03",
+      "type": "faction",
+      "faction": "freestar-collective",
+      "questline": {
+        "id": "freestar-collective",
+        "order": 3
+      },
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Marshal Daniel Blake",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "fc04",
+      "name": "Shadows in Neon",
+      "form": "Starfield.esm|0x26621E",
+      "editorId": "FC04",
+      "type": "faction",
+      "faction": "freestar-collective",
+      "questline": {
+        "id": "freestar-collective",
+        "order": 4
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Jaylen Pryce",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "fc05",
+      "name": "On the Run",
+      "form": "Starfield.esm|0x1F0267",
+      "editorId": "FC05",
+      "type": "faction",
+      "faction": "freestar-collective",
+      "questline": {
+        "id": "freestar-collective",
+        "order": 5
+      },
+      "start": {
+        "place": "hub.red-mile",
+        "giver": "Autumn MacMillan",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "fc06",
+      "name": "Surgical Strike",
+      "form": "Starfield.esm|0x1F0266",
+      "editorId": "FC06",
+      "type": "faction",
+      "faction": "freestar-collective",
+      "questline": {
+        "id": "freestar-collective",
+        "order": 6
+      },
+      "start": {
+        "place": "hub.the-clinic",
+        "giver": "Ben Armistead",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "fc08",
+      "name": "First to Fight, First to Die",
+      "form": "Starfield.esm|0x25613B",
+      "editorId": "FC08",
+      "type": "faction",
+      "faction": "freestar-collective",
+      "questline": {
+        "id": "freestar-collective",
+        "order": 7
+      },
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Alex Shadid",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "fc09",
+      "name": "The Hammer Falls",
+      "form": "Starfield.esm|0x1A54F9",
+      "editorId": "FC09",
+      "type": "faction",
+      "faction": "freestar-collective",
+      "questline": {
+        "id": "freestar-collective",
+        "order": 8
+      },
+      "start": {
+        "place": "hub.hopetown",
+        "giver": "Ron Hope",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffconstantr02",
+      "name": "Family Reunion",
+      "form": "Starfield.esm|0x211125",
+      "editorId": "FFConstantR02",
+      "type": "side",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffconstantz04",
+      "name": "Debt Forgiveness",
+      "form": "Starfield.esm|0x2149FA",
+      "editorId": "FFConstantZ04",
+      "type": "side",
+      "start": {
+        "place": "hub.paradiso",
+        "giver": "Oliver Campbell",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffconstantz05",
+      "name": "Escape from the Endless Voyage",
+      "form": "Starfield.esm|0x21261E",
+      "editorId": "FFConstantZ05",
+      "type": "side",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffconstantz06",
+      "name": "Dear Sister",
+      "form": "Starfield.esm|0x2117CA",
+      "editorId": "FFConstantZ06",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffcydoniar02",
+      "name": "Refurbished Goods",
+      "form": "Starfield.esm|0x224FE8",
+      "editorId": "FFCydoniaR02",
+      "type": "side",
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Denis Averin",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffcydoniar03",
+      "name": "Media Sponge",
+      "form": "Starfield.esm|0x23E9B7",
+      "editorId": "FFCydoniaR03",
+      "type": "side",
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Mitch Benjamin",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffcydoniaz01",
+      "name": "Freight Fright",
+      "form": "Starfield.esm|0x22E140",
+      "editorId": "FFCydoniaZ01",
+      "type": "side",
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Denis Averin",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffcydoniaz04",
+      "name": "Space Frog from Outer Space",
+      "form": "Starfield.esm|0x23F810",
+      "editorId": "FFCydoniaZ04",
+      "type": "side",
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Renee Shelby",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffcydoniaz05",
+      "name": "My North Star",
+      "form": "Starfield.esm|0x0D6927",
+      "editorId": "FFCydoniaZ05",
+      "type": "side",
+      "start": {
+        "place": "hub.cydonia",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffcydoniaz06",
+      "name": "Special Delivery",
+      "form": "Starfield.esm|0x037E62",
+      "editorId": "FFCydoniaZ06",
+      "type": "side",
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Chris Cullen",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffcydoniaz07",
+      "name": "Heart of Mars",
+      "form": "Starfield.esm|0x30270B",
+      "editorId": "FFCydoniaZ07",
+      "type": "side",
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Laylah Pulaski",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffcydoniaz08",
+      "name": "The Bounty That Got Away",
+      "form": "Starfield.esm|0x30B819",
+      "editorId": "FFCydoniaZ08",
+      "type": "side",
+      "start": {
+        "place": "hub.cydonia",
+        "giver": "Trackers Alliance Agent",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffdenr01",
+      "name": "Winning Hearts and Minds",
+      "form": "Starfield.esm|0x1E7942",
+      "editorId": "FFDenR01",
+      "type": "side",
+      "start": {
+        "place": "hub.the-den",
+        "giver": "Orval Romack",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffdenz01",
+      "name": "Re-Re-Application",
+      "form": "Starfield.esm|0x1E7941",
+      "editorId": "FFDenZ01",
+      "type": "side",
+      "start": {
+        "place": "hub.the-den",
+        "giver": "Bastien Graff",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffkeyz01",
+      "name": "Reclaiming the Past",
+      "form": "Starfield.esm|0x1BB164",
+      "editorId": "FFKeyZ01",
+      "type": "side",
+      "faction": "crimson-fleet",
+      "start": {
+        "place": "hub.the-key",
+        "giver": "Bog",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffkeyz02",
+      "name": "Doctor's Orders",
+      "form": "Starfield.esm|0x1B6246",
+      "editorId": "FFKeyZ02",
+      "type": "side",
+      "faction": "crimson-fleet",
+      "start": {
+        "place": "hub.the-key",
+        "giver": "Samina Mizrah",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffneonz01",
+      "name": "Superfan",
+      "form": "Starfield.esm|0x0B2A73",
+      "editorId": "FFNeonZ01",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "BorealUS",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffneonz02",
+      "name": "Hard Luck",
+      "form": "Starfield.esm|0x0A316E",
+      "editorId": "FFNeonZ02",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Clover MacKenna",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffneonz03",
+      "name": "Bare Metal",
+      "form": "Starfield.esm|0x0A935F",
+      "editorId": "FFNeonZ03",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Frank Renick",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffneonz04",
+      "name": "All for One",
+      "form": "Starfield.esm|0x0B2A74",
+      "editorId": "FFNeonZ04",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "James Newill",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffneonz05",
+      "name": "Relief Run",
+      "form": "Starfield.esm|0x089076",
+      "editorId": "FFNeonZ05",
+      "type": "side",
+      "start": {
+        "place": "hub.the-clinic",
+        "giver": "Abbie Edding",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffneonz06",
+      "name": "Unjustified",
+      "form": "Starfield.esm|0x082D5A",
+      "editorId": "FFNeonZ06",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Rusty Becker",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffneonz07",
+      "name": "Saburo's Solution",
+      "form": "Starfield.esm|0x06E0A1",
+      "editorId": "FFNeonZ07",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Saburo Okadigbo",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffneonz08",
+      "name": "Mob Mentality",
+      "form": "Starfield.esm|0x063F4C",
+      "editorId": "FFNeonZ08",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Franchesca Moore",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffneonz09",
+      "name": "Balancing the Books",
+      "form": "Starfield.esm|0x00351A",
+      "editorId": "FFNeonZ09",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Huong Le",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffneonz10",
+      "name": "Dirty Laundry",
+      "form": "Starfield.esm|0x2E8297",
+      "editorId": "FFNeonZ10",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "giver": "Manaia Adams",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffnewatlantis02",
+      "name": "Keeping the Peace",
+      "form": "Starfield.esm|0x24C46C",
+      "editorId": "FFNewAtlantis02",
+      "type": "side",
+      "faction": "united-colonies",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Sergeant Yumi",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffnewatlantis04",
+      "name": "A Break at Dawn",
+      "form": "Starfield.esm|0x091CF5",
+      "editorId": "FFNewAtlantis04",
+      "type": "side",
+      "faction": "united-colonies",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Sergeant Yumi",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffnewhomesteadr02",
+      "name": "Tourists Go Home",
+      "form": "Starfield.esm|0x21A8B0",
+      "editorId": "FFNewHomesteadR02",
+      "type": "side",
+      "start": {
+        "place": "hub.new-homestead",
+        "giver": "Dr. Giuliana Lakota",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffnewhomesteadr04",
+      "name": "Brownout",
+      "form": "Starfield.esm|0x21B1FA",
+      "editorId": "FFNewHomesteadR04",
+      "type": "side",
+      "start": {
+        "place": "hub.new-homestead",
+        "giver": "Joyce Osaka",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffnewhomesteadr05",
+      "name": "Special Sauce",
+      "form": "Starfield.esm|0x21952E",
+      "editorId": "FFNewHomesteadR05",
+      "type": "side",
+      "start": {
+        "place": "hub.new-homestead",
+        "giver": "Luthor Atlanta",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffnewhomesteadz01",
+      "name": "Starsap Tours",
+      "form": "Starfield.esm|0x21710B",
+      "editorId": "FFNewHomesteadZ01",
+      "type": "side",
+      "start": {
+        "place": "hub.new-homestead",
+        "giver": "Bill Starsap",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffparadisoz01",
+      "name": "Last Resort",
+      "form": "Starfield.esm|0x1C7689",
+      "editorId": "FFParadisoZ01",
+      "type": "side",
+      "start": {
+        "place": "hub.paradiso",
+        "giver": "Emilian Vasilescu",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffparadisoz02",
+      "name": "Lost and Found",
+      "form": "Starfield.esm|0x1C6901",
+      "editorId": "FFparadisoZ02",
+      "type": "side",
+      "start": {
+        "place": "hub.paradiso",
+        "giver": "Dirk Huddleston",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffparadisoz03",
+      "name": "Proper Tea Theft",
+      "form": "Starfield.esm|0x1C433F",
+      "editorId": "FFParadisoZ03",
+      "type": "side",
+      "start": {
+        "place": "hub.paradiso",
+        "giver": "Kumar Sharma",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffparadisoz04",
+      "name": "Wanted Guest",
+      "form": "Starfield.esm|0x1C38EA",
+      "editorId": "FFParadisoZ04",
+      "type": "side",
+      "start": {
+        "place": "hub.paradiso",
+        "giver": "Chief Sugiyama",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ffredmiler01",
+      "name": "Run the Red Mile",
+      "form": "Starfield.esm|0x2DFEDB",
+      "editorId": "FFRedMileR01",
+      "type": "side",
+      "start": {
+        "place": "hub.red-mile",
+        "giver": "Mei Devine",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "hope01",
+      "name": "The Akila Run",
+      "form": "Starfield.esm|0x2A4401",
+      "editorId": "Hope01",
+      "type": "side",
+      "start": {
+        "place": "hub.hopetown",
+        "giver": "Mr. Sood",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "hope02",
+      "name": "Captain's Bounty",
+      "form": "Starfield.esm|0x2A0790",
+      "editorId": "Hope02",
+      "type": "side",
+      "start": {
+        "place": "hub.hopetown",
+        "giver": "Adella Faheem",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq-templequest-01",
+      "name": "Power from Beyond",
+      "form": "Starfield.esm|0x0854E8",
+      "editorId": "MQ_TempleQuest_01",
+      "type": "side",
+      "faction": "constellation",
+      "start": {
+        "place": "hub.the-eye",
+        "giver": "Vladimir Sall",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq101",
+      "name": "One Small Step",
+      "form": "Starfield.esm|0x003448",
+      "editorId": "MQ101",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 1
+      },
+      "start": {
+        "place": "hub.argos-extractors-mining-outpost",
+        "giver": "Supervisor Lin",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq102",
+      "name": "The Old Neighborhood",
+      "form": "Starfield.esm|0x0114CD",
+      "editorId": "MQ102",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 2
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Sarah Morgan",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq103",
+      "name": "The Empty Nest",
+      "form": "Starfield.esm|0x0114C9",
+      "editorId": "MQ103",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 3
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Cora Coe",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq104a",
+      "name": "Into the Unknown",
+      "form": "Starfield.esm|0x0160A9",
+      "editorId": "MQ104A",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 4
+      },
+      "start": {
+        "place": "hub.the-eye",
+        "giver": "Vladimir Sall",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq104b",
+      "name": "Back to Vectera",
+      "form": "Starfield.esm|0x01638D",
+      "editorId": "MQ104B",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 5
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Barrett",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq105",
+      "name": "All That Money Can Buy",
+      "form": "Starfield.esm|0x2C1C9B",
+      "editorId": "MQ105",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 6
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Walter Stroud",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq106",
+      "name": "Starborn",
+      "form": "Starfield.esm|0x021BEF",
+      "editorId": "MQ106",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 7
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Noel",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq201",
+      "name": "Further Into the Unknown",
+      "form": "Starfield.esm|0x017CE8",
+      "editorId": "MQ201",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 8
+      },
+      "start": {
+        "place": "hub.the-eye",
+        "giver": "Vladimir Sall",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq201b",
+      "name": "Short Sighted",
+      "form": "Starfield.esm|0x1B41D1",
+      "editorId": "MQ201B",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 9
+      },
+      "start": {
+        "place": "hub.the-eye",
+        "giver": "Vladimir Sall",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq202",
+      "name": "No Sudden Moves",
+      "form": "Starfield.esm|0x017CE7",
+      "editorId": "MQ202",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 10
+      },
+      "start": {
+        "place": "hub.the-eye",
+        "giver": "Vladimir Sall",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq204",
+      "name": "High Price to Pay",
+      "form": "Starfield.esm|0x2C6D74",
+      "editorId": "MQ204",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 11
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq206a",
+      "name": "Missed Beyond Measure",
+      "form": "Starfield.esm|0x2BACF9",
+      "editorId": "MQ206A",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 12
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Noel",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq206b",
+      "name": "Unity",
+      "form": "Starfield.esm|0x2583F2",
+      "editorId": "MQ206B",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 13
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Matteo Khatri",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq207",
+      "name": "In Their Footsteps",
+      "form": "Starfield.esm|0x2B1B8E",
+      "editorId": "MQ207",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 14
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Sarah Morgan",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq207b",
+      "name": "Final Glimpses",
+      "form": "Starfield.esm|0x256B02",
+      "editorId": "MQ207B",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 15
+      },
+      "start": {
+        "place": "hub.the-eye",
+        "giver": "Vladimir Sall",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq207c",
+      "name": "Entangled",
+      "form": "Starfield.esm|0x257DE1",
+      "editorId": "MQ207C",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 16
+      },
+      "start": {
+        "place": "hub.nishina-research-station",
+        "giver": "Director Kaia Patel",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq301",
+      "name": "Unearthed",
+      "form": "Starfield.esm|0x2A8001",
+      "editorId": "MQ301",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 17
+      },
+      "start": {
+        "place": "hub.nasa-launch-tower",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq302b",
+      "name": "Revelation",
+      "form": "Starfield.esm|0x18AE76",
+      "editorId": "MQ302b",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 18
+      },
+      "start": {
+        "place": "hub.ecliptic-base",
+        "giver": "Guardian Musa",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq304b",
+      "name": "Infinity's End",
+      "form": "Starfield.esm|0x15D399",
+      "editorId": "MQ304b",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Keeper Aquilus",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq305",
+      "name": "One Giant Leap",
+      "form": "Starfield.esm|0x24EF9C",
+      "editorId": "MQ305",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 19
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Andreja",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq401a",
+      "name": "One Small Step",
+      "form": "Starfield.esm|0x1D5AD2",
+      "editorId": "MQ401a",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 20
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Vasco",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq401b",
+      "name": "One Small Step",
+      "form": "Starfield.esm|0x1A9053",
+      "editorId": "MQ401b",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 21
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Sarah Morgan",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq401c",
+      "name": "One Small Step",
+      "form": "Starfield.esm|0x17F7A5",
+      "editorId": "MQ401c",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 22
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq401d",
+      "name": "One Small Step",
+      "form": "Starfield.esm|0x17B94D",
+      "editorId": "MQ401d",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 23
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq401e",
+      "name": "One Small Step",
+      "form": "Starfield.esm|0x173104",
+      "editorId": "MQ401e",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 24
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq401f",
+      "name": "One Small Step",
+      "form": "Starfield.esm|0x172F8B",
+      "editorId": "MQ401f",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 25
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq401g",
+      "name": "One Small Step",
+      "form": "Starfield.esm|0x04BD08",
+      "editorId": "MQ401g",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 26
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq401h",
+      "name": "One Small Step",
+      "form": "Starfield.esm|0x045F9F",
+      "editorId": "MQ401h",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 27
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq401i",
+      "name": "One Small Step",
+      "form": "Starfield.esm|0x029DA1",
+      "editorId": "MQ401i",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 28
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq401j",
+      "name": "One Small Step",
+      "form": "Starfield.esm|0x025233",
+      "editorId": "MQ401j",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 29
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq402",
+      "name": "Among the Stars",
+      "form": "Starfield.esm|0x1DC418",
+      "editorId": "MQ402",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 30
+      },
+      "start": {
+        "place": "hub.the-eye",
+        "giver": "Vladimir Sall",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "mq404",
+      "name": "Foreknowledge",
+      "form": "Starfield.esm|0x06CD98",
+      "editorId": "MQ404",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 31
+      },
+      "start": {
+        "place": "hub.the-eye",
+        "giver": "Vladimir Sall",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ms01",
+      "name": "Groundpounder",
+      "form": "Starfield.esm|0x1F3A36",
+      "editorId": "MS01",
+      "type": "side",
+      "start": {
+        "place": "hub.research-outpost-u3-09",
+        "giver": "Lieutenant Torres",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ms02",
+      "name": "Operation Starseed",
+      "form": "Starfield.esm|0x29A00C",
+      "editorId": "MS02",
+      "type": "side",
+      "start": {
+        "place": "hub.crucible",
+        "giver": "Ada Lovelace",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ms03-juno",
+      "name": "Juno's Gambit",
+      "form": "Starfield.esm|0x1A03D4",
+      "editorId": "MS03_Juno",
+      "type": "side",
+      "start": {
+        "place": "hub.neon",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ms04",
+      "name": "Mantis",
+      "form": "Starfield.esm|0x1CD001",
+      "editorId": "MS04",
+      "type": "side",
+      "start": {
+        "place": "hub.lair-of-the-mantis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ms05",
+      "name": "Overdesigned",
+      "form": "Starfield.esm|0x299E79",
+      "editorId": "MS05",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Walter Stroud",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ms06",
+      "name": "First Contact",
+      "form": "Starfield.esm|0x258694",
+      "editorId": "MS06",
+      "type": "side",
+      "start": {
+        "place": "hub.paradiso",
+        "giver": "Chief Sugiyama",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "oe-terrormorphencounter",
+      "name": "Guarding the Vanguard",
+      "form": "Starfield.esm|0x050CA4",
+      "editorId": "OE_TerrormorphEncounter",
+      "type": "side",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "rad01-list",
+      "name": "Top of the L.I.S.T.",
+      "form": "Starfield.esm|0x192DD7",
+      "editorId": "Rad01_LIST",
+      "type": "side",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "rad02",
+      "name": "A Light in the Darkness",
+      "form": "Starfield.esm|0x29EF60",
+      "editorId": "RAD02",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Nadia Muffaz",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "rad05",
+      "name": "Due in Full",
+      "form": "Starfield.esm|0x2AD3D5",
+      "editorId": "RAD05",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Landry Hollifeld",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ri01",
+      "name": "Back to the Grind",
+      "form": "Starfield.esm|0x2C9C97",
+      "editorId": "RI01",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 1
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Imogene Salzo",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ri02",
+      "name": "Sowing Discord",
+      "form": "Starfield.esm|0x2AAC9C",
+      "editorId": "RI02",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 2
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Imogene Salzo",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ri03",
+      "name": "Top Secrets",
+      "form": "Starfield.esm|0x29EB12",
+      "editorId": "RI03",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 3
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Imogene Salzo",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ri04",
+      "name": "Background Checks",
+      "form": "Starfield.esm|0x1FB85C",
+      "editorId": "RI04",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 4
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Dalton Fiennes",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ri05",
+      "name": "Guilty Parties",
+      "form": "Starfield.esm|0x1EE0C8",
+      "editorId": "RI05",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 5
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Imogene Salzo",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ri06",
+      "name": "The Key Ingredient",
+      "form": "Starfield.esm|0x1A9560",
+      "editorId": "RI06",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 6
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Masako Imada",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ri07",
+      "name": "Sabotage",
+      "form": "Starfield.esm|0x18B718",
+      "editorId": "RI07",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 7
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Alexis Pryce",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ri08",
+      "name": "Executive Level",
+      "form": "Starfield.esm|0x18B717",
+      "editorId": "RI08",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 8
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Masako Imada",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "rir01",
+      "name": "One Step Ahead",
+      "form": "Starfield.esm|0x2C572B",
+      "editorId": "RIR01",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 9
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Imogene Salzo",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "rir02",
+      "name": "A New Narrative",
+      "form": "Starfield.esm|0x2C2561",
+      "editorId": "RIR02",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 10
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Imogene Salzo",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "rir03",
+      "name": "Access is Key",
+      "form": "Starfield.esm|0x2BABF3",
+      "editorId": "RIR03",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 11
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Imogene Salzo",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "rir04",
+      "name": "Accidents Happen",
+      "form": "Starfield.esm|0x2A8319",
+      "editorId": "RIR04",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 12
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Imogene Salzo",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "rir05",
+      "name": "Maintaining the Edge",
+      "form": "Starfield.esm|0x2A3945",
+      "editorId": "RIR05",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 13
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Imogene Salzo",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "rir06",
+      "name": "Managing Assets",
+      "form": "Starfield.esm|0x24FB39",
+      "editorId": "RIR06",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 14
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Imogene Salzo",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "rir07",
+      "name": "The Power of Persuasion",
+      "form": "Starfield.esm|0x17AA9A",
+      "editorId": "RIR07",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 15
+      },
+      "start": {
+        "place": "hub.neon",
+        "giver": "Masako Imada",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "staryard-deimos-z-tasteofhome",
+      "name": "Taste of Home",
+      "form": "Starfield.esm|0x10E782",
+      "editorId": "Staryard_Deimos_Z_TasteOfHome",
+      "type": "side",
+      "start": {
+        "place": "hub.deimos-staryard",
+        "giver": "Sandra Fullerton",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "staryard-trident-z-fuelinggreatness",
+      "name": "Fueling Greatness",
+      "form": "Starfield.esm|0x2E57DF",
+      "editorId": "Staryard_Trident_Z_FuelingGreatness",
+      "type": "side",
+      "start": {
+        "place": "hub.trident-luxury-lines-staryard",
+        "giver": "Gladys Coffin",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "uc01",
+      "name": "Supra et Ultra",
+      "form": "Starfield.esm|0x2C5401",
+      "editorId": "UC01",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 1
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Commander John Tuala",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "uc01-shipsimquest",
+      "name": "Vanguard Piloting Exam",
+      "form": "Starfield.esm|0x2BA648",
+      "editorId": "UC01_ShipSimQuest",
+      "type": "side",
+      "faction": "united-colonies",
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "uc02",
+      "name": "Grunt Work",
+      "form": "Starfield.esm|0x2B1808",
+      "editorId": "UC02",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 2
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Crew Chief Kane Herath",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "uc03",
+      "name": "Delivering Devils",
+      "form": "Starfield.esm|0x29D04C",
+      "editorId": "UC03",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 3
+      },
+      "start": {
+        "place": "hub.tau-gourmet-production-center",
+        "giver": "Hadrian",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "uc04",
+      "name": "Eyewitness",
+      "form": "Starfield.esm|0x2AAE8D",
+      "editorId": "UC04",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 4
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Crew Chief Kane Herath",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "uc05",
+      "name": "Friends Like These",
+      "form": "Starfield.esm|0x2A39BC",
+      "editorId": "UC05",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 5
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Deputy Elisabeth MacIntyre",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "uc06",
+      "name": "The Devils You Know",
+      "form": "Starfield.esm|0x248CF0",
+      "editorId": "UC06",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 6
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Vae Victis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "uc07",
+      "name": "War Relics",
+      "form": "Starfield.esm|0x215E93",
+      "editorId": "UC07",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 7
+      },
+      "start": {
+        "place": "hub.tau-gourmet-production-center",
+        "giver": "Hadrian",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "uc08",
+      "name": "Hostile Intelligence",
+      "form": "Starfield.esm|0x2062C3",
+      "editorId": "UC08",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 8
+      },
+      "start": {
+        "place": "hub.tau-gourmet-production-center",
+        "giver": "Hadrian",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "uc09",
+      "name": "A Legacy Forged",
+      "form": "Starfield.esm|0x1FC858",
+      "editorId": "UC09",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 9
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Vae Victis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ucr01",
+      "name": "Vanguard: Bug Hunt",
+      "form": "Starfield.esm|0x1EBDD5",
+      "editorId": "UCR01",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 10
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Commander John Tuala",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ucr03",
+      "name": "Vanguard: Safer Skies",
+      "form": "Starfield.esm|0x1E8FF7",
+      "editorId": "UCR03",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 11
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Commander John Tuala",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ucr04",
+      "name": "Apex Predator",
+      "form": "Starfield.esm|0x1E7A0A",
+      "editorId": "UCR04",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 12
+      },
+      "start": {
+        "place": "hub.abandoned-mines",
+        "giver": "Dr. Percival Walker",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ucr04-dupe00",
+      "name": "Apex Predator",
+      "form": "Starfield.esm|0x03517B",
+      "editorId": "UCR04_Dupe00",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 13
+      },
+      "start": {
+        "place": "hub.abandoned-mines",
+        "giver": "Dr. Percival Walker",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "ucr05",
+      "name": "Preventive Action",
+      "form": "Starfield.esm|0x1E7A09",
+      "editorId": "UCR05",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 14
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Vae Victis",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    }
+  ]
+}

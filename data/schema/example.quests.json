@@ -3,38 +3,93 @@
   "schema": 1,
   "id": "example.quests",
   "title": "Format example (not loaded by the plugin)",
-  "requires": ["Starfield.esm"],
+  "requires": [
+    "Starfield.esm"
+  ],
   "places": [
-    { "id": "sys.narion", "kind": "system", "name": "Narion" },
-    { "id": "pl.vectera", "kind": "planet", "name": "Vectera", "parent": "sys.narion" },
-    { "id": "sys.volii", "kind": "system", "name": "Volii" },
-    { "id": "pl.volii-alpha", "kind": "planet", "name": "Volii Alpha", "parent": "sys.volii" },
-    { "id": "hub.neon", "kind": "hub", "name": "Neon", "parent": "pl.volii-alpha" }
+    {
+      "id": "sys.narion",
+      "kind": "system",
+      "name": "Narion"
+    },
+    {
+      "id": "pl.vectera",
+      "kind": "planet",
+      "name": "Vectera",
+      "parent": "sys.narion"
+    },
+    {
+      "id": "sys.volii",
+      "kind": "system",
+      "name": "Volii"
+    },
+    {
+      "id": "pl.volii-alpha",
+      "kind": "planet",
+      "name": "Volii Alpha",
+      "parent": "sys.volii"
+    },
+    {
+      "id": "hub.neon",
+      "kind": "hub",
+      "name": "Neon",
+      "parent": "pl.volii-alpha"
+    }
   ],
   "questlines": [
-    { "id": "main", "name": "Main Missions", "type": "main", "faction": "constellation" },
-    { "id": "ryujin", "name": "Ryujin Industries", "type": "faction", "faction": "ryujin-industries" }
+    {
+      "id": "main",
+      "name": "Main Missions",
+      "type": "main",
+      "faction": "constellation"
+    },
+    {
+      "id": "ryujin",
+      "name": "Ryujin Industries",
+      "type": "faction",
+      "faction": "ryujin-industries"
+    }
   ],
   "quests": [
     {
       "id": "mq101",
       "name": "One Small Step",
       "form": "Starfield.esm|0x003448",
+      "editorId": "MQ101",
       "type": "main",
       "faction": "constellation",
-      "questline": { "id": "main", "order": 1 },
-      "start": { "place": "pl.vectera", "confidence": "high", "source": "manual" },
-      "complete": { "type": "questCompleted" }
+      "questline": {
+        "id": "main",
+        "order": 1
+      },
+      "start": {
+        "place": "pl.vectera",
+        "confidence": "high",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
     },
     {
       "id": "ri01",
       "name": "Back to the Grind",
       "form": "Starfield.esm|0x2C9C97",
+      "editorId": "RI01",
       "type": "faction",
       "faction": "ryujin-industries",
-      "questline": { "id": "ryujin", "order": 1 },
-      "start": { "place": "hub.neon", "confidence": "high", "source": "manual" },
-      "complete": { "type": "questCompleted" },
+      "questline": {
+        "id": "ryujin",
+        "order": 1
+      },
+      "start": {
+        "place": "hub.neon",
+        "confidence": "high",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      },
       "prereqs": [],
       "exclusiveGroup": null,
       "missable": null

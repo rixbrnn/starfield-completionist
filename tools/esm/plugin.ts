@@ -27,7 +27,7 @@ export interface PluginHeader {
   masters: string[];
 }
 
-const HEADER_SIZE = 24;
+export const HEADER_SIZE = 24;
 const RECORD_FLAG_COMPRESSED = 0x00040000;
 const TES4_FLAG_LOCALIZED = 0x80;
 
@@ -55,7 +55,7 @@ export function parseSubrecords(data: Buffer): Subrecord[] {
   return subrecords;
 }
 
-function parseRecord(buffer: Buffer, offset: number): PluginRecord {
+export function parseRecord(buffer: Buffer, offset: number): PluginRecord {
   const dataSize = buffer.readUInt32LE(offset + 4);
   const flags = buffer.readUInt32LE(offset + 8);
   let data = buffer.subarray(offset + HEADER_SIZE, offset + HEADER_SIZE + dataSize);

@@ -1,0 +1,464 @@
+{
+  "$schema": "../schema/quests.schema.json",
+  "schema": 1,
+  "id": "terran-armada.quests",
+  "title": "Terran Armada",
+  "requires": [
+    "Starfield.esm",
+    "SFBGS050.esm"
+  ],
+  "places": [
+    {
+      "id": "hub.akila-city",
+      "kind": "hub",
+      "name": "Akila City",
+      "parent": "pl.akila",
+      "location": "Starfield.esm|0x010DFB"
+    },
+    {
+      "id": "hub.apollo-landing-site",
+      "kind": "hub",
+      "name": "Apollo Landing Site",
+      "parent": "pl.luna",
+      "location": "Starfield.esm|0x3807DA"
+    },
+    {
+      "id": "hub.gagarin-landing",
+      "kind": "hub",
+      "name": "Gagarin Landing",
+      "parent": "pl.gagarin",
+      "location": "Starfield.esm|0x265018"
+    },
+    {
+      "id": "hub.new-atlantis",
+      "kind": "hub",
+      "name": "New Atlantis",
+      "parent": "pl.jemison",
+      "location": "Starfield.esm|0x01295A"
+    },
+    {
+      "id": "hub.opulence-of-the-stars",
+      "kind": "hub",
+      "name": "Opulence of the Stars",
+      "parent": "pl.nirvana-iv",
+      "location": "SFBGS050.esm|0x021405"
+    },
+    {
+      "id": "hub.the-unifier",
+      "kind": "hub",
+      "name": "The Unifier",
+      "parent": "pl.saturn",
+      "location": "SFBGS050.esm|0x005B55"
+    },
+    {
+      "id": "pl.akila",
+      "kind": "planet",
+      "name": "Akila",
+      "parent": "sys.cheyenne",
+      "location": "Starfield.esm|0x01ABE3"
+    },
+    {
+      "id": "pl.gagarin",
+      "kind": "planet",
+      "name": "Gagarin",
+      "parent": "sys.alpha-centauri",
+      "location": "Starfield.esm|0x01AB25"
+    },
+    {
+      "id": "pl.jemison",
+      "kind": "planet",
+      "name": "Jemison",
+      "parent": "sys.alpha-centauri",
+      "location": "Starfield.esm|0x01AB29"
+    },
+    {
+      "id": "pl.luna",
+      "kind": "planet",
+      "name": "Luna",
+      "parent": "sys.sol",
+      "location": "Starfield.esm|0x01B732"
+    },
+    {
+      "id": "pl.niira",
+      "kind": "planet",
+      "name": "Niira",
+      "parent": "sys.narion",
+      "location": "Starfield.esm|0x01B1AB"
+    },
+    {
+      "id": "pl.nirvana-iv",
+      "kind": "planet",
+      "name": "Nirvana IV",
+      "parent": "sys.nirvana",
+      "location": "Starfield.esm|0x01A80D"
+    },
+    {
+      "id": "pl.saturn",
+      "kind": "planet",
+      "name": "Saturn",
+      "parent": "sys.sol",
+      "location": "Starfield.esm|0x01B750"
+    },
+    {
+      "id": "sys.algorab",
+      "kind": "system",
+      "name": "Algorab",
+      "location": "Starfield.esm|0x061521"
+    },
+    {
+      "id": "sys.alpha-centauri",
+      "kind": "system",
+      "name": "Alpha Centauri",
+      "location": "Starfield.esm|0x061581"
+    },
+    {
+      "id": "sys.cheyenne",
+      "kind": "system",
+      "name": "Cheyenne",
+      "location": "Starfield.esm|0x061572"
+    },
+    {
+      "id": "sys.narion",
+      "kind": "system",
+      "name": "Narion",
+      "location": "Starfield.esm|0x0615B0"
+    },
+    {
+      "id": "sys.nirvana",
+      "kind": "system",
+      "name": "Nirvana",
+      "location": "Starfield.esm|0x061594"
+    },
+    {
+      "id": "sys.sol",
+      "kind": "system",
+      "name": "Sol",
+      "location": "Starfield.esm|0x061527"
+    }
+  ],
+  "questlines": [
+    {
+      "id": "terran-armada",
+      "name": "Terran Armada",
+      "type": "faction",
+      "faction": "terran-armada"
+    },
+    {
+      "id": "main",
+      "name": "Main Missions",
+      "type": "main",
+      "faction": "terran-armada"
+    },
+    {
+      "id": "freestar-collective",
+      "name": "Freestar Rangers",
+      "type": "faction",
+      "faction": "freestar-collective"
+    },
+    {
+      "id": "ryujin-industries",
+      "name": "Ryujin Industries",
+      "type": "faction",
+      "faction": "ryujin-industries"
+    },
+    {
+      "id": "united-colonies",
+      "name": "UC Vanguard",
+      "type": "faction",
+      "faction": "united-colonies"
+    }
+  ],
+  "quests": [
+    {
+      "id": "sfbgs022-minibotrescue",
+      "name": "Rescue the Bot",
+      "form": "SFBGS050.esm|0x08EBDC",
+      "editorId": "SFBGS022_MinibotRescue",
+      "type": "side",
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Model G",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-ec-robot-q01",
+      "name": "The New Space Race",
+      "form": "SFBGS050.esm|0x00F9F0",
+      "editorId": "SFTER_EC_Robot_Q01",
+      "type": "side",
+      "start": {
+        "place": "hub.apollo-landing-site",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-ec-robot-q02",
+      "name": "WIN.slate",
+      "form": "SFBGS050.esm|0x00F9F2",
+      "editorId": "SFTER_EC_Robot_Q02",
+      "type": "side",
+      "start": {
+        "place": "sys.algorab",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-ec-robot-q03",
+      "name": "The Instruments of Life",
+      "form": "SFBGS050.esm|0x00F9F3",
+      "editorId": "SFTER_EC_Robot_Q03",
+      "type": "side",
+      "start": {
+        "place": "sys.algorab",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-ec-robot-q04",
+      "name": "Power Struggle",
+      "form": "SFBGS050.esm|0x00F9F4",
+      "editorId": "SFTER_EC_Robot_Q04",
+      "type": "side",
+      "start": {
+        "place": "sys.algorab",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-mq01",
+      "name": "Lost Luxury",
+      "form": "SFBGS050.esm|0x02808F",
+      "editorId": "SFTER_MQ01",
+      "type": "faction",
+      "faction": "terran-armada",
+      "questline": {
+        "id": "terran-armada",
+        "order": 1
+      },
+      "start": {
+        "place": "hub.opulence-of-the-stars",
+        "giver": "Agent Yemoja",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-mq02a",
+      "name": "Into the VOID",
+      "form": "SFBGS050.esm|0x015670",
+      "editorId": "SFTER_MQ02A",
+      "type": "faction",
+      "faction": "terran-armada",
+      "questline": {
+        "id": "terran-armada",
+        "order": 2
+      },
+      "start": {
+        "place": "sys.algorab",
+        "giver": "Tracy Warren",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-mq02b",
+      "name": "Going Haywire",
+      "form": "SFBGS050.esm|0x01A39D",
+      "editorId": "SFTER_MQ02B",
+      "type": "faction",
+      "faction": "terran-armada",
+      "questline": {
+        "id": "terran-armada",
+        "order": 3
+      },
+      "start": {
+        "place": "sys.algorab",
+        "giver": "Percy Kanu",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-mq03",
+      "name": "Battle of The Unifier",
+      "form": "SFBGS050.esm|0x028050",
+      "editorId": "SFTER_MQ03",
+      "type": "main",
+      "faction": "terran-armada",
+      "questline": {
+        "id": "main",
+        "order": 1
+      },
+      "start": {
+        "place": "hub.the-unifier",
+        "giver": "Admiral Ode Balewa",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-mqintro",
+      "name": "Attack of the Terran Armada",
+      "form": "SFBGS050.esm|0x0059A0",
+      "editorId": "SFTER_MQIntro",
+      "type": "faction",
+      "faction": "terran-armada",
+      "questline": {
+        "id": "terran-armada",
+        "order": 4
+      },
+      "start": {
+        "place": "hub.akila-city",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-mqoutpostfc",
+      "name": "Give and Take",
+      "form": "SFBGS050.esm|0x028236",
+      "editorId": "SFTER_MQOutpostFC",
+      "type": "faction",
+      "faction": "freestar-collective",
+      "questline": {
+        "id": "freestar-collective",
+        "order": 1
+      },
+      "start": {
+        "place": "sys.algorab",
+        "giver": "Radha Dhawan",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-mqoutpostri",
+      "name": "Favors for Favors",
+      "form": "SFBGS050.esm|0x028237",
+      "editorId": "SFTER_MQOutpostRI",
+      "type": "faction",
+      "faction": "ryujin-industries",
+      "questline": {
+        "id": "ryujin-industries",
+        "order": 1
+      },
+      "start": {
+        "place": "sys.algorab",
+        "giver": "Percy Kanu",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-mqoutpostuc",
+      "name": "Quid Pro Quo",
+      "form": "SFBGS050.esm|0x028235",
+      "editorId": "SFTER_MQOutpostUC",
+      "type": "faction",
+      "faction": "united-colonies",
+      "questline": {
+        "id": "united-colonies",
+        "order": 1
+      },
+      "start": {
+        "place": "sys.algorab",
+        "giver": "Tracy Warren",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-ms01",
+      "name": "The Lost Terran",
+      "form": "SFBGS050.esm|0x030EB0",
+      "editorId": "SFTER_MS01",
+      "type": "side",
+      "start": {
+        "place": "pl.niira",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-ms02",
+      "name": "Hidden Incursion",
+      "form": "SFBGS050.esm|0x043828",
+      "editorId": "SFTER_MS02",
+      "type": "side",
+      "faction": "terran-armada",
+      "start": {
+        "place": "hub.opulence-of-the-stars",
+        "giver": "Agent Yemoja",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfter-z01",
+      "name": "Unspoken Regret",
+      "form": "SFBGS050.esm|0x005ACF",
+      "editorId": "SFTER_Z01",
+      "type": "side",
+      "start": {
+        "place": "hub.gagarin-landing",
+        "giver": "Connor Wallace",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    }
+  ]
+}

@@ -1,0 +1,169 @@
+{
+  "$schema": "../schema/quests.schema.json",
+  "schema": 1,
+  "id": "trackers-alliance.quests",
+  "title": "Trackers Alliance",
+  "requires": [
+    "Starfield.esm",
+    "SFBGS003.esm"
+  ],
+  "places": [
+    {
+      "id": "anywhere",
+      "kind": "anywhere",
+      "name": "Anywhere"
+    },
+    {
+      "id": "hub.akila-city",
+      "kind": "hub",
+      "name": "Akila City",
+      "parent": "pl.akila",
+      "location": "Starfield.esm|0x010DFB"
+    },
+    {
+      "id": "pl.akila",
+      "kind": "planet",
+      "name": "Akila",
+      "parent": "sys.cheyenne",
+      "location": "Starfield.esm|0x01ABE3"
+    },
+    {
+      "id": "sys.cheyenne",
+      "kind": "system",
+      "name": "Cheyenne",
+      "location": "Starfield.esm|0x061572"
+    }
+  ],
+  "questlines": [
+    {
+      "id": "trackers-alliance",
+      "name": "Trackers Alliance",
+      "type": "faction",
+      "faction": "trackers-alliance"
+    }
+  ],
+  "quests": [
+    {
+      "id": "sfbgs003-bountyscannerquest",
+      "name": "Bounty Hunting",
+      "form": "SFBGS003.esm|0x00556E",
+      "editorId": "SFBGS003_BountyScannerQuest",
+      "type": "side",
+      "faction": "trackers-alliance",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs003-bountyscannerquest00",
+      "name": "Bounty Hunting",
+      "form": "SFBGS003.esm|0x0066B6",
+      "editorId": "SFBGS003_BountyScannerQuest00",
+      "type": "side",
+      "faction": "trackers-alliance",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs003-bountyscannerquest01",
+      "name": "Bounty Hunting",
+      "form": "SFBGS003.esm|0x0066B5",
+      "editorId": "SFBGS003_BountyScannerQuest01",
+      "type": "side",
+      "faction": "trackers-alliance",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs003-bountyscannerquest02",
+      "name": "Bounty Hunting",
+      "form": "SFBGS003.esm|0x0066B4",
+      "editorId": "SFBGS003_BountyScannerQuest02",
+      "type": "side",
+      "faction": "trackers-alliance",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs003-bountyscannerquest03",
+      "name": "Bounty Hunting",
+      "form": "SFBGS003.esm|0x0066B3",
+      "editorId": "SFBGS003_BountyScannerQuest03",
+      "type": "side",
+      "faction": "trackers-alliance",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs003-miscpointer",
+      "name": "The Trackers Alliance",
+      "form": "SFBGS003.esm|0x000CF2",
+      "editorId": "SFBGS003_MiscPointer",
+      "type": "faction",
+      "faction": "trackers-alliance",
+      "questline": {
+        "id": "trackers-alliance",
+        "order": 1
+      },
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Inevitable",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfta00",
+      "name": "Bounty: The Starjacker",
+      "form": "SFBGS003.esm|0x00492D",
+      "editorId": "SFTA00",
+      "type": "faction",
+      "faction": "trackers-alliance",
+      "questline": {
+        "id": "trackers-alliance",
+        "order": 2
+      },
+      "start": {
+        "place": "hub.akila-city",
+        "giver": "Agent No. 1",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    }
+  ]
+}

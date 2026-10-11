@@ -1,0 +1,439 @@
+{
+  "$schema": "../schema/quests.schema.json",
+  "schema": 1,
+  "id": "shattered-space.quests",
+  "title": "Shattered Space",
+  "requires": [
+    "Starfield.esm",
+    "ShatteredSpace.esm"
+  ],
+  "places": [
+    {
+      "id": "hub.dazra",
+      "kind": "hub",
+      "name": "Dazra",
+      "parent": "pl.va-ruun-kai",
+      "location": "ShatteredSpace.esm|0x038CE7"
+    },
+    {
+      "id": "hub.dazra-groat-farms",
+      "kind": "hub",
+      "name": "Dazra Groat Farms",
+      "parent": "pl.va-ruun-kai",
+      "location": "ShatteredSpace.esm|0x03D519"
+    },
+    {
+      "id": "hub.hamadi-station",
+      "kind": "hub",
+      "name": "Hamadi Station",
+      "parent": "pl.va-ruun-kai",
+      "location": "ShatteredSpace.esm|0x03D517"
+    },
+    {
+      "id": "hub.new-atlantis",
+      "kind": "hub",
+      "name": "New Atlantis",
+      "parent": "pl.jemison",
+      "location": "Starfield.esm|0x01295A"
+    },
+    {
+      "id": "hub.scaled-citadel",
+      "kind": "hub",
+      "name": "Scaled Citadel",
+      "parent": "pl.va-ruun-kai",
+      "location": "ShatteredSpace.esm|0x01EAA3"
+    },
+    {
+      "id": "hub.tomb-of-the-fang",
+      "kind": "hub",
+      "name": "Tomb of the Fang",
+      "parent": "pl.va-ruun-kai",
+      "location": "ShatteredSpace.esm|0x03D52D"
+    },
+    {
+      "id": "hub.wayshrine-of-redemption",
+      "kind": "hub",
+      "name": "Wayshrine of Redemption",
+      "parent": "pl.va-ruun-kai",
+      "location": "ShatteredSpace.esm|0x03D512"
+    },
+    {
+      "id": "pl.jemison",
+      "kind": "planet",
+      "name": "Jemison",
+      "parent": "sys.alpha-centauri",
+      "location": "Starfield.esm|0x01AB29"
+    },
+    {
+      "id": "pl.va-ruun-kai",
+      "kind": "planet",
+      "name": "Va'ruun'kai",
+      "parent": "sys.kavnyk",
+      "location": "ShatteredSpace.esm|0x003759"
+    },
+    {
+      "id": "sys.alpha-centauri",
+      "kind": "system",
+      "name": "Alpha Centauri",
+      "location": "Starfield.esm|0x061581"
+    },
+    {
+      "id": "sys.kavnyk",
+      "kind": "system",
+      "name": "Kavnyk",
+      "location": "ShatteredSpace.esm|0x003752"
+    }
+  ],
+  "questlines": [
+    {
+      "id": "house-varuun",
+      "name": "House Va'ruun",
+      "type": "faction",
+      "faction": "house-varuun"
+    }
+  ],
+  "quests": [
+    {
+      "id": "sfbgs001-dazraz01",
+      "name": "The Missing Groats",
+      "form": "ShatteredSpace.esm|0x03AC8C",
+      "editorId": "SFBGS001_DazraZ01",
+      "type": "side",
+      "start": {
+        "place": "hub.dazra-groat-farms",
+        "giver": "Malik Vosh",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-dazraz03",
+      "name": "Sympathy for the Living",
+      "form": "ShatteredSpace.esm|0x0D5E84",
+      "editorId": "SFBGS001_DazraZ03",
+      "type": "side",
+      "start": {
+        "place": "hub.dazra",
+        "giver": "Nalada Bradi",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-mq-shell",
+      "name": "Aligning the Houses",
+      "form": "ShatteredSpace.esm|0x035E1B",
+      "editorId": "SFBGS001_MQ_Shell",
+      "type": "faction",
+      "faction": "house-varuun",
+      "questline": {
+        "id": "house-varuun",
+        "order": 1
+      },
+      "start": {
+        "place": "hub.dazra",
+        "giver": "Razma Ka'dic",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-mq01",
+      "name": "What Remains",
+      "form": "ShatteredSpace.esm|0x0121DB",
+      "editorId": "SFBGS001_MQ01",
+      "type": "faction",
+      "faction": "house-varuun",
+      "questline": {
+        "id": "house-varuun",
+        "order": 2
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Andreja",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-mq02",
+      "name": "The Promised, Broken",
+      "form": "ShatteredSpace.esm|0x0116C7",
+      "editorId": "SFBGS001_MQ02",
+      "type": "faction",
+      "faction": "house-varuun",
+      "questline": {
+        "id": "house-varuun",
+        "order": 3
+      },
+      "start": {
+        "place": "hub.dazra",
+        "giver": "Malibor Dul'kehf",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-mq03",
+      "name": "Zealous Overreach",
+      "form": "ShatteredSpace.esm|0x030C2B",
+      "editorId": "SFBGS001_MQ03",
+      "type": "faction",
+      "faction": "house-varuun",
+      "questline": {
+        "id": "house-varuun",
+        "order": 4
+      },
+      "start": {
+        "place": "hub.dazra",
+        "giver": "Razma Ka'dic",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-mq04",
+      "name": "Conflict in Conviction",
+      "form": "ShatteredSpace.esm|0x035E1A",
+      "editorId": "SFBGS001_MQ04",
+      "type": "faction",
+      "faction": "house-varuun",
+      "questline": {
+        "id": "house-varuun",
+        "order": 5
+      },
+      "start": {
+        "place": "pl.va-ruun-kai",
+        "giver": "Viktor Veth'aal",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-mq05",
+      "name": "Exhuming the Past",
+      "form": "ShatteredSpace.esm|0x035E1C",
+      "editorId": "SFBGS001_MQ05",
+      "type": "faction",
+      "faction": "house-varuun",
+      "questline": {
+        "id": "house-varuun",
+        "order": 6
+      },
+      "start": {
+        "place": "hub.dazra",
+        "giver": "Malibor Dul'kehf",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-mq06",
+      "name": "The Scaled Citadel",
+      "form": "ShatteredSpace.esm|0x01221C",
+      "editorId": "SFBGS001_MQ06",
+      "type": "faction",
+      "faction": "house-varuun",
+      "questline": {
+        "id": "house-varuun",
+        "order": 7
+      },
+      "start": {
+        "place": "hub.scaled-citadel",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-mqin",
+      "name": "The Other Side",
+      "form": "ShatteredSpace.esm|0x10AAD5",
+      "editorId": "SFBGS001_MQIN",
+      "type": "faction",
+      "faction": "house-varuun",
+      "questline": {
+        "id": "house-varuun",
+        "order": 8
+      },
+      "start": {
+        "place": "hub.dazra",
+        "giver": "Ekris Kaisir",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-ms01",
+      "name": "A House Divided",
+      "form": "ShatteredSpace.esm|0x011BFA",
+      "editorId": "SFBGS001_MS01",
+      "type": "side",
+      "start": {
+        "place": "hub.dazra",
+        "giver": "Qisrani Dul'kehf",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-ms02",
+      "name": "Twice Reformed",
+      "form": "ShatteredSpace.esm|0x03E263",
+      "editorId": "SFBGS001_MS02",
+      "type": "side",
+      "start": {
+        "place": "hub.dazra",
+        "giver": "Orahim",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-ms03",
+      "name": "The Duel",
+      "form": "ShatteredSpace.esm|0x05DAF0",
+      "editorId": "SFBGS001_MS03",
+      "type": "side",
+      "start": {
+        "place": "hub.dazra",
+        "giver": "Borhal Adlam",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-ms04",
+      "name": "Scientific Method",
+      "form": "ShatteredSpace.esm|0x040FF7",
+      "editorId": "SFBGS001_MS04",
+      "type": "side",
+      "start": {
+        "place": "hub.hamadi-station",
+        "giver": "Azad Dubas",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-ms05",
+      "name": "Legacy of the Fang",
+      "form": "ShatteredSpace.esm|0x03E8F4",
+      "editorId": "SFBGS001_MS05",
+      "type": "side",
+      "start": {
+        "place": "hub.tomb-of-the-fang",
+        "giver": "Maaliya Hajtal",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-vkaiz01",
+      "name": "Path of Redemption",
+      "form": "ShatteredSpace.esm|0x05FC73",
+      "editorId": "SFBGS001_VKaiZ01",
+      "type": "side",
+      "start": {
+        "place": "hub.wayshrine-of-redemption",
+        "giver": "Vijun Ahkmav",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-vkaiz02",
+      "name": "The Courier",
+      "form": "ShatteredSpace.esm|0x05FC74",
+      "editorId": "SFBGS001_VKaiZ02",
+      "type": "side",
+      "start": {
+        "place": "hub.dazra",
+        "giver": "Lijana Dul'kehf",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-vkaiz03a",
+      "name": "Lost and Found",
+      "form": "ShatteredSpace.esm|0x03DB1D",
+      "editorId": "SFBGS001_VKaiZ03a",
+      "type": "side",
+      "start": {
+        "place": "hub.dazra",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sfbgs001-vkaiz03b",
+      "name": "Fallen Footsteps",
+      "form": "ShatteredSpace.esm|0x040788",
+      "editorId": "SFBGS001_VkaiZ03b",
+      "type": "side",
+      "start": {
+        "place": "hub.dazra",
+        "giver": "Vassilis Voria",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    }
+  ]
+}

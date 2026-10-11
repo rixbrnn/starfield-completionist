@@ -1,0 +1,259 @@
+{
+  "$schema": "../schema/quests.schema.json",
+  "schema": 1,
+  "id": "free-lanes.quests",
+  "title": "Free Lanes update",
+  "requires": [
+    "Starfield.esm",
+    "SFBGS00D.esm"
+  ],
+  "places": [
+    {
+      "id": "anywhere",
+      "kind": "anywhere",
+      "name": "Anywhere"
+    },
+    {
+      "id": "hub.new-atlantis",
+      "kind": "hub",
+      "name": "New Atlantis",
+      "parent": "pl.jemison",
+      "location": "Starfield.esm|0x01295A"
+    },
+    {
+      "id": "pl.jemison",
+      "kind": "planet",
+      "name": "Jemison",
+      "parent": "sys.alpha-centauri",
+      "location": "Starfield.esm|0x01AB29"
+    },
+    {
+      "id": "sys.algorab",
+      "kind": "system",
+      "name": "Algorab",
+      "location": "Starfield.esm|0x061521"
+    },
+    {
+      "id": "sys.alpha-centauri",
+      "kind": "system",
+      "name": "Alpha Centauri",
+      "location": "Starfield.esm|0x061581"
+    }
+  ],
+  "questlines": [
+    {
+      "id": "main",
+      "name": "Main Missions",
+      "type": "main",
+      "faction": "constellation"
+    }
+  ],
+  "quests": [
+    {
+      "id": "sffl-anchorpointz01",
+      "name": "No Idle Threat",
+      "form": "SFBGS00D.esm|0x033A2A",
+      "editorId": "SFFL_AnchorpointZ01",
+      "type": "side",
+      "start": {
+        "place": "sys.algorab",
+        "giver": "Chan Huang",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sffl-anchorpointz02a",
+      "name": "Spare Parts",
+      "form": "SFBGS00D.esm|0x037148",
+      "editorId": "SFFL_AnchorpointZ02A",
+      "type": "side",
+      "start": {
+        "place": "sys.algorab",
+        "giver": "Maddie Wing",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sffl-anchorpointz03",
+      "name": "Old Wounds",
+      "form": "SFBGS00D.esm|0x03D1DE",
+      "editorId": "SFFL_AnchorpointZ03",
+      "type": "side",
+      "start": {
+        "place": "sys.algorab",
+        "giver": "Cutty",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sffl-anchorpointz04",
+      "name": "Reclamation Run",
+      "form": "SFBGS00D.esm|0x045E55",
+      "editorId": "SFFL_AnchorpointZ04",
+      "type": "side",
+      "start": {
+        "place": "sys.algorab",
+        "giver": "Killian Brice",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sffl-ms02",
+      "name": "Party in the Stars",
+      "form": "SFBGS00D.esm|0x04E13A",
+      "editorId": "SFFL_MS02",
+      "type": "side",
+      "start": {
+        "place": "sys.algorab",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sffl-ms03",
+      "name": "House Sitting",
+      "form": "SFBGS00D.esm|0x0357F8",
+      "editorId": "SFFL_MS03",
+      "type": "side",
+      "start": {
+        "place": "sys.algorab",
+        "giver": "Yura",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sffl-r01",
+      "name": "Hazardous Materials",
+      "form": "SFBGS00D.esm|0x0296F5",
+      "editorId": "SFFL_R01",
+      "type": "side",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sffl-r02",
+      "name": "Hired Gun",
+      "form": "SFBGS00D.esm|0x02A418",
+      "editorId": "SFFL_R02",
+      "type": "side",
+      "start": {
+        "place": "sys.algorab",
+        "giver": "The Arbitrator",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sffl-r03",
+      "name": "To the Rescue",
+      "form": "SFBGS00D.esm|0x03D1A7",
+      "editorId": "SFFL_R03",
+      "type": "side",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sffl-se-rs01",
+      "name": "Dead In The Void",
+      "form": "SFBGS00D.esm|0x05455A",
+      "editorId": "SFFL_SE_RS01",
+      "type": "side",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sffl-se-rs02",
+      "name": "Bounty Crash",
+      "form": "SFBGS00D.esm|0x06B12F",
+      "editorId": "SFFL_SE_RS02",
+      "type": "side",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sffl-z01",
+      "name": "A Missing Beloved",
+      "form": "SFBGS00D.esm|0x0325E6",
+      "editorId": "SFFL_Z01",
+      "type": "side",
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    },
+    {
+      "id": "sq-starborncontainer",
+      "name": "Before You Go: Quantum Entanglement Device",
+      "form": "SFBGS00D.esm|0x0522D4",
+      "editorId": "SQ_StarbornContainer",
+      "type": "main",
+      "faction": "constellation",
+      "questline": {
+        "id": "main",
+        "order": 1
+      },
+      "start": {
+        "place": "hub.new-atlantis",
+        "confidence": "medium",
+        "source": "alias"
+      },
+      "complete": {
+        "type": "questCompleted"
+      }
+    }
+  ]
+}
