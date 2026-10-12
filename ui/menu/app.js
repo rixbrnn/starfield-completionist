@@ -57,6 +57,7 @@
   let shownCards = []; // systems on the nothing-tracked page
   let hereLayout = "city"; // Here tab: "city", "places" (planet or system) or "nowhere"
   let tracked = new Set(); // ids of quests the player is tracking (the game's "active" quests)
+  const trackedStep = new Map(); // quest id -> objective picked when tracking it from the menu
   let inSpace = false;
   let survey = -1; // current planet's survey progress, 0-1 (-1 = no planet)
   let statuses = new Map(); // quest id -> status; quests missing here aren't in the player's load order
@@ -399,7 +400,10 @@
   }
 
   // A scrolling list with the game's scrollbar: a thin line on the left with a white thumb.
-  function scrollArea(scroller) {
+  // Lists are rebuilt on every change, so each remembers its scroll position (by key) and draws
+  // its thumb as soon as it is in the page: no jump, no flicker.
+  const scrollMemory = new Map();
+  function scrollArea(scroller, key) {
     scroller.classList.add("scroller");
     const thumb = el("span", { class: "scroll-thumb" });
     const area = el("div", { class: "scroll-area" }, el("span", { class: "scroll-track" }, thumb), scroller);
@@ -411,8 +415,16 @@
       thumb.style.height = height + "px";
       thumb.style.top = (scrollTop / (scrollHeight - clientHeight)) * (clientHeight - height) + "px";
     };
-    scroller.addEventListener("scroll", update);
-    setTimeout(update, 0);
+    scroller.addEventListener("scroll", () => {
+      if (key) scrollMemory.set(key, scroller.scrollTop);
+      update();
+    });
+    // Call once the area is in the page: restores the position, brings the selection into view.
+    area.settle = (selected) => {
+      if (key && scrollMemory.has(key)) scroller.scrollTop = scrollMemory.get(key);
+      if (selected) selected.scrollIntoView({ block: "nearest" });
+      update();
+    };
     return area;
   }
 
@@ -421,15 +433,15 @@
     const side = document.getElementById("side");
     side.hidden = false;
     side.setAttribute("aria-label", TABS.find((t) => t.id === view.tab).label);
-    side.replaceChildren(card || "", scrollArea(el("div", {}, ...rows.map((row) => {
+    const area = scrollArea(el("div", {}, ...rows.map((row) => {
       if (row.kind === "group") return el("div", { class: "group" }, el("span", { text: row.label }), el("span", { text: row.frac || "" }));
       if (row.kind === "subgroup") return el("div", { class: "subgroup", text: row.label });
       const selected = view.selected[view.tab] === row.key;
       const t = tally(row.quests);
       return placeRow(row.label, t.done + " / " + t.total, t.total ? t.done / t.total : 0, selected, selected && view.focus !== "side", () => select(row.key));
-    }))));
-    const current = side.querySelector(".place.selected");
-    if (current) current.scrollIntoView({ block: "nearest" });
+    })), "side:" + view.tab);
+    side.replaceChildren(card || "", area);
+    area.settle(side.querySelector(".place.selected"));
   }
   function placeRow(label, right, fraction, selected, inactive, onclick, ondblclick) {
     return el("button", { class: "place" + (selected ? " selected" : "") + (inactive ? " inactive" : ""), onclick, ondblclick },
@@ -549,10 +561,10 @@
       const selected = view.focus === "list" && i === view.row;
       list.append(item.step ? stepRow(item, i, selected) : questRow(item.q, i, selected, options));
     });
-    children.push(scrollArea(list));
+    const area = scrollArea(list, ["list", view.tab, view.tab === "log" ? view.selected.log : view.filter, view.selected[view.tab], hereLayout].join(":"));
+    children.push(area);
     document.getElementById("detail").replaceChildren(...children);
-    const row = list.querySelector(".row.selected, .step.selected");
-    if (row) row.scrollIntoView({ block: "nearest" });
+    area.settle(list.querySelector(".row.selected, .step.selected"));
   }
 
   function questRow(q, index, selected, options) {
@@ -573,7 +585,12 @@
   function stepRow(item, index, selected) {
     const [, text, target] = item.step;
     const optional = /^\(Optional\)\s*/i.exec(text);
-    return el("div", { class: "step" + (selected ? " selected" : "") + (item.state >= 2 ? " finished" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
+    // Cyan tile: the objective being tracked (the one picked when tracking; every open
+    // objective when the quest was tracked elsewhere, e.g. in the game's own Missions menu).
+    const picked = trackedStep.get(item.q.id);
+    const isTracked = tracked.has(item.q.id) && item.state === 1 && (picked === undefined || picked === item.step[0]);
+    return el("div", { class: "step" + (selected ? " selected" : "") + (item.state >= 2 ? " finished" : "") + (isTracked ? " tracked" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
+      el("span", { class: "tile" }),
       el("span", { class: "box" }, el("i", { class: item.state === 2 ? "done" : item.state === 3 ? "failed" : "" })),
       el("span", { class: "txt" },
         optional ? el("span", { class: "opt", text: "(Optional)" }) : null,
@@ -643,8 +660,15 @@
   function itemActions(item) {
     if (!item.step) return actionsFor(item.q);
     const [id, , target] = item.step;
-    // Same buttons as quest rows: A tracks the quest, X shows this objective on the map.
-    const actions = actionsFor(item.q).filter((a) => a.id === "track" || a.id === "untrack");
+    // A tracks the quest through this objective (remembered for the cyan tile); X shows it on the map.
+    const actions = actionsFor(item.q).filter((a) => a.id === "track" || a.id === "untrack").map((a) => ({
+      ...a,
+      run: () => {
+        if (a.id === "track") trackedStep.set(item.q.id, id);
+        else trackedStep.delete(item.q.id);
+        a.run();
+      },
+    }));
     if (item.state === 1 && target >= 0) actions.push({ id: "plot", label: "SHOW ON MAP", run: () => plotObjective(item.q, id, target) });
     return actions;
   }
@@ -878,19 +902,19 @@
     renderDetail(DATA.quests.filter((q) => available(q) && statusOf(q) === IN_PROGRESS), { tabs: false, meta: hubName, empty: "No quests in progress." });
     const side = document.getElementById("side");
     side.hidden = false;
+    const systemsArea = scrollArea(el("div", {},
+      el("div", { class: "group", text: "WHERE TO NEXT" }),
+      ...shownCards.map((s, index) => placeRow(s.label, s.t.missing + " not discovered", s.t.total ? s.t.done / s.t.total : 0,
+        view.focus === "cards" && index === view.card, false,
+        () => { view.focus = "cards"; view.card = index; render(); }, () => openCard(index)))), "side:nowhere");
     side.replaceChildren(
       el("div", { class: "card" },
         el("div", { class: "card-head" }, el("div", {},
           el("div", { class: "card-title", text: "Nothing tracked here" }),
           el("div", { class: "card-sub", text: [inSpace ? "In space" : "", systemName ? systemName + " system" : ""].filter(Boolean).join(" · ") || "Somewhere new" }))),
         el("div", { class: "card-body", text: "No quests or activities start here. These systems have the most you haven't discovered yet: pick one to set a course, or track a quest in progress." })),
-      scrollArea(el("div", {},
-        el("div", { class: "group", text: "WHERE TO NEXT" }),
-        ...shownCards.map((s, index) => placeRow(s.label, s.t.missing + " not discovered", s.t.total ? s.t.done / s.t.total : 0,
-          view.focus === "cards" && index === view.card, false,
-          () => { view.focus = "cards"; view.card = index; render(); }, () => openCard(index))))));
-    const current = side.querySelector(".place.selected");
-    if (current) current.scrollIntoView({ block: "nearest" });
+      systemsArea);
+    systemsArea.settle(side.querySelector(".place.selected"));
   }
 
   // Short message above the footer, e.g. the result of Track.
@@ -1198,16 +1222,10 @@
     };
     bridge.on("osfui.gamepadRaw", onRaw("raw"));
     bridge.on("gamepadRaw", onRaw("raw-local"));
-    const describe = (error) => (error ? (error.code || "") + " " + (error.message || String(error)) : "?");
+    // A send() endpoint (the log said "wrong-endpoint-kind" for request()).
     const requestRawMode = () => {
-      bridge.request("osfui.gamepadMode", { mode: "raw" })
-        .then((reply) => bridge.send("log", "gamepadMode {mode:raw} -> " + JSON.stringify(reply)))
-        .catch((error) => {
-          bridge.send("log", "gamepadMode {mode:raw} failed: " + describe(error));
-          return bridge.request("osfui.gamepadMode", "raw")
-            .then((reply) => bridge.send("log", "gamepadMode(raw) -> " + JSON.stringify(reply)))
-            .catch((e) => bridge.send("log", "gamepadMode(raw) failed: " + describe(e)));
-        });
+      bridge.send("osfui.gamepadMode", { mode: "raw" });
+      bridge.send("log", "gamepadMode raw sent");
     };
     requestRawMode();
     document.addEventListener("visibilitychange", () => { if (!document.hidden) requestRawMode(); });
