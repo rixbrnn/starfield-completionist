@@ -1,5 +1,11 @@
 # Completionist for Starfield
 
+**Completionist - Quest and Activity Tracker**
+
+[![Nexus Mods](https://img.shields.io/badge/Nexus%20Mods-Completionist-orange?logo=nexusmods)](https://www.nexusmods.com/starfield/mods/18434)
+[![License](https://img.shields.io/badge/License-GPL--3.0-blue)](LICENSE)
+[![Requires](https://img.shields.io/badge/Requires-SFSE%20%C2%B7%20OSF%20UI%20%C2%B7%20OSF%20Settings-555)](#install)
+
 **See exactly which quests you're still missing in every system, planet and city**, in a menu that looks like it's part of the game. Inspired by Faen90's [Completionist](https://www.nexusmods.com/skyrimspecialedition/mods/46358) for Skyrim.
 
 **[Download on Nexus Mods](https://www.nexusmods.com/starfield/mods/18434)** · PC (Steam) · version 1.0.0
