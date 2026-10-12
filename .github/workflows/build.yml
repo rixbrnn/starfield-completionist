@@ -3,7 +3,6 @@ name: build
 on:
   push:
     branches: [main]
-    tags: ["v*"]
     paths:
       - ".github/workflows/build.yml"
       - "plugin/**"
@@ -20,11 +19,13 @@ on:
       - "data/quests/**"
   workflow_dispatch:
 
+# Builds the early native SFSE plugin experiment (not part of the mod). Releases of the mod
+# itself are made from npm run package and attached by hand.
 jobs:
   plugin:
     runs-on: windows-latest
     permissions:
-      contents: write # to publish releases on version tags
+      contents: read
     env:
       # The commonlibsf.plugin rule installs into $XSE_SF_MODS_PATH/<target>/SFSE/Plugins,
       # which gives us a ready-to-install MO2 mod folder to upload.
@@ -62,16 +63,3 @@ jobs:
           name: StarfieldCompletionist-${{ env.SHORT_SHA }}
           path: dist/mods/StarfieldCompletionist
           if-no-files-found: error
-
-      # On a version tag (e.g. v0.1.0), publish a GitHub Release with an installable zip.
-      - name: zip for release
-        if: startsWith(github.ref, 'refs/tags/v')
-        shell: pwsh
-        run: Compress-Archive -Path dist/mods/StarfieldCompletionist/* -DestinationPath "StarfieldCompletionist-${{ github.ref_name }}.zip"
-
-      - name: publish release
-        if: startsWith(github.ref, 'refs/tags/v')
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release create "${{ github.ref_name }}" "StarfieldCompletionist-${{ github.ref_name }}.zip" --title "${{ github.ref_name }}" --generate-notes --prerelease
