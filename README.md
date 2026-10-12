@@ -4,6 +4,12 @@ Tracks every quest and activity in Starfield and shows what you're still missing
 
 **Status:** 1.0.0 released for PC (Steam). Found a quest tracked wrongly? [Open an issue](https://github.com/rixbrnn/starfield-completionist/issues/new/choose); see [CONTRIBUTING.md](CONTRIBUTING.md). Background: [PLAN.md](PLAN.md) and [docs/research](docs/research/README.md).
 
+## Opening the menu
+
+Press **F7** (change it in **Pause menu > Mod Settings > Keybindings**). With a controller, assign a binding there to **Open Completionist**; we recommend **clicking both sticks together (LS + RS)**, which you never press by accident and which doesn't clash with jumping, crouching or backing out of menus. There is no controller binding by default.
+
+In the menu: **LB / RB** (Q / E) switch views, a **right-stick flick** (Z / C) switches the category tabs, **A** (Enter) opens a quest and tracks an objective, **X** (R) shows it on the map.
+
 ## Repository layout
 
 | Path | What |
