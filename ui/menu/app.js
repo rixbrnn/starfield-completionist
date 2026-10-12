@@ -9,6 +9,7 @@
 
   const NOT_STARTED = 0, IN_PROGRESS = 1, COMPLETED = 2, FAILED = 3, LOCKED_OUT = 4;
   const isDone = (s) => s === COMPLETED || s === LOCKED_OUT; // locked out = the other branch of an either/or choice was completed
+  const isFinished = (s) => isDone(s) || s === FAILED; // nothing left to do
   const TABS = [
     { id: "log", label: "LOG" },
     { id: "here", label: "HERE" },
@@ -417,10 +418,20 @@
     options = options || {};
     const t = tally(quests);
     const filtered = quests.filter((q) => available(q) && (options.noFilters || FILTERS.find((f) => f.id === view.filter).test(statusOf(q))));
-    // Quests the player has found come first; the ones not discovered yet are grouped below.
-    const discovered = sortQuests(filtered.filter((q) => statusOf(q) !== NOT_STARTED));
-    const undiscovered = sortQuests(filtered.filter((q) => statusOf(q) === NOT_STARTED));
-    const shown = [...discovered, ...undiscovered];
+    // Three groups: in progress, not discovered yet, then finished (completed, failed or
+    // locked out: nothing left to do).
+    const groups = [
+      { label: "IN PROGRESS", quests: sortQuests(filtered.filter((q) => statusOf(q) === IN_PROGRESS)) },
+      { label: "NOT DISCOVERED", quests: sortQuests(filtered.filter((q) => statusOf(q) === NOT_STARTED)) },
+      { label: "FINISHED", quests: sortQuests(filtered.filter((q) => isFinished(statusOf(q)))) },
+    ].filter((g) => g.quests.length);
+    const shown = groups.flatMap((g) => g.quests);
+    // Group headers only when the list mixes groups.
+    const groupStarts = new Map();
+    if (groups.length > 1) {
+      let at = 0;
+      for (const g of groups) { groupStarts.set(at, g); at += g.quests.length; }
+    }
     const counts = { all: t.total, missing: t.missing, active: t.active, done: t.done };
     const filters = options.noFilters ? null : el("div", { class: "filters", role: "tablist", "aria-label": "Filter" },
       FILTERS.map((f) => el("button", { role: "tab", "aria-selected": view.filter === f.id ? "true" : "false", text: f.label + " " + counts[f.id], onclick: () => setFilter(f.id) })));
@@ -442,11 +453,12 @@
     const list = el("div", { class: "list" });
     if (shown.length === 0) list.append(el("div", { class: "empty", text: options.empty || "Nothing here for this filter." }));
     shown.forEach((q, index) => {
-      if (index === discovered.length) list.append(el("div", { class: "list-divider", text: "NOT DISCOVERED · " + undiscovered.length }));
+      const group = groupStarts.get(index);
+      if (group) list.append(el("div", { class: "list-divider", text: group.label + " · " + group.quests.length }));
       const s = statusOf(q);
       const hide = view.spoilers && s === NOT_STARTED;
       const selected = view.focus === "list" && index === view.row;
-      list.append(el("div", { class: "row" + (selected ? " selected" : "") + (notYetAvailable(q) ? " unavailable" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
+      list.append(el("div", { class: "row" + (selected ? " selected" : "") + (isFinished(s) ? " finished" : "") + (notYetAvailable(q) ? " unavailable" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
         statusIcon(s, selected),
         el("span", { class: "row-name" + (hide ? " hidden" : "") },
           hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name,

@@ -230,3 +230,7 @@ kbd { min-width: 28px; text-align: center; padding: 2px 6px; border: 1px solid v
 
 /* Quests not discovered yet, grouped under the ones the player has found. */
 .list-divider { padding: 18px 16px 8px; border-bottom: 1px solid var(--line); font-family: var(--condensed); font-size: 14px; letter-spacing: 0.18em; color: var(--muted); }
+
+/* Finished quests (completed, failed, locked out): crossed off, like a done item on a list. */
+.row.finished .row-name { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1px; }
+.row.finished.selected .row-name { color: #3a4651; }
