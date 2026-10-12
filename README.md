@@ -1,79 +1,71 @@
-# Starfield Completionist
+# Completionist for Starfield
 
-Tracks every quest and activity in Starfield and shows what you're still missing in each star system, planet and city, with an in-game menu built on [OSF UI](https://www.nexusmods.com/starfield/mods/17711). Inspired by Faen90's [Completionist](https://www.nexusmods.com/skyrimspecialedition/mods/46358) for Skyrim.
+**See exactly which quests you're still missing in every system, planet and city**, in a menu that looks like it's part of the game. Inspired by Faen90's [Completionist](https://www.nexusmods.com/skyrimspecialedition/mods/46358) for Skyrim.
 
-**Status:** 1.0.0 released for PC (Steam). Found a quest tracked wrongly? [Open an issue](https://github.com/rixbrnn/starfield-completionist/issues/new/choose); see [CONTRIBUTING.md](CONTRIBUTING.md). Background: [PLAN.md](PLAN.md) and [docs/research](docs/research/README.md).
+**[Download on Nexus Mods](https://www.nexusmods.com/starfield/mods/18434)** · PC (Steam) · version 1.0.0
 
-## Opening the menu
+![The Completionist menu in New Atlantis: completion ring, quests in progress and quests not discovered yet](docs/images/menu-here-new-atlantis.jpg)
 
-Press **F7** (change it in **Pause menu > Mod Settings > Keybindings**). With a controller, assign a binding there to **Open Completionist**; we recommend **X + A** (pressed together). There is no controller binding by default.
+## Features
 
-In the menu: **LB / RB** (Q / E) switch views, a **right-stick flick** (Z / C) switches the category tabs, **A** (Enter) opens a quest, and on an objective tracks the quest, **X** (R) shows it on the map.
+- **What you're missing, where you are.** Open it anywhere: it shows how much of that city, planet or system you've completed, what's still undiscovered there and what you're in the middle of.
+- **Every quest, activity and errand**, DLCs included, by place and by questline, each with its own completion %.
+- **Not available yet:** quests the story hasn't unlocked, and what unlocks them ("Unlocks during Unity"), so you know not to look for them yet.
+- **Objectives:** open a quest to see what's left to do, then track it or set a course to an objective, straight from the menu.
+- **Built-in look:** layout, fonts, colors, faction icons and controls follow the game's own Missions menu.
+- **Spoiler mode:** hides the names of quests and places you haven't found yet.
+- **Branching choices and New Game+ handled**, so 100% is always reachable. Manual "mark done" for when detection gets one wrong.
+- **Full controller support.**
+
+## Install
+
+Requires [SFSE](https://www.nexusmods.com/starfield/mods/106), [OSF UI](https://www.nexusmods.com/starfield/mods/17711) 2.0+ and OSF Settings 1.1+. Install [from Nexus Mods](https://www.nexusmods.com/starfield/mods/18434) with Vortex or Mod Organizer 2, enable `StarfieldCompletionist.esm`, and start the game through SFSE.
+
+**Open the menu** with **F7** (change it in **Pause menu > Mod Settings > Keybindings**). With a controller, assign a binding there to **Open Completionist**; we recommend **X + A** pressed together. There is no controller binding by default.
+
+**In the menu:** **LB / RB** (Q / E) switch views, a **right-stick flick** (Z / C) switches the category tabs, **A** (Enter) opens a quest and, on an objective, tracks it, **X** (R) shows it on the map, **Y** (T) sorts.
+
+## Contributing
+
+Found a quest tracked wrongly, or a bug? [Open an issue](https://github.com/rixbrnn/starfield-completionist/issues/new/choose). Most fixes are quest data and need no coding: see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Building from source
+
+You need Node.js 24+ (it runs the TypeScript tools directly), a Steam install of Starfield, and the **Starfield Creation Kit** (free on Steam) for its Papyrus compiler and the base game's script sources.
+
+```bash
+npm install
+npm run extract:quests   # dump every quest record from the game files
+npm run build:drafts     # regenerate data/quests/*.json from it and data/curation.json
+npm run build:mod        # compile scripts, generate the plugin and the menu into build/mod
+npm run package          # dist/StarfieldCompletionist-<version>.zip, the release zip
+```
+
+Other commands:
+
+- `npm run build:mod -- --install` also copies the build into your game and activates the plugin.
+- `npm run preview:menu` serves the menu at http://localhost:5173 with sample progress (`?here=<place>`, `?showcase=1`, and more options in `ui/menu/app.js`).
+- `npm run media` captures the Nexus banner and screenshots into `dist/nexus-media/`.
+- `npm run validate` checks the quest data against the schema; `npm run typecheck` type-checks the tools.
+
+The game path is found automatically for default Steam installs; otherwise pass `--game <path>` or set `STARFIELD_PATH`. Nothing taken from the game is committed: the base scripts, quest dump, name table and faction icons are extracted into `build/` from your own install.
 
 ## Repository layout
 
 | Path | What |
 |---|---|
-| `plugin/src/` | C++ SFSE plugin (built with [CommonLibSF](https://github.com/libxse/commonlibsf), included as a submodule in `lib/`) |
-| `xmake.lua` | Plugin build |
-| `data/schema/` | JSON Schema for quest collections, plus an example |
-| `data/quests/` | Curated quest collections (coming in Phase 2) |
-| `tools/esm/` | Reader for Starfield plugin files, BA2 archives and string tables |
-| `tools/extract/` | Scripts that extract quest data from the game files |
-| `tools/validate/` | Checks quest collections (run in CI) |
-| `docs/research/` | Notes from Phase 0 research spikes |
-
-## Building the plugin
-
-**Download a build:**
-
-- Every push that touches the plugin builds it on GitHub Actions. Open the run under the **Actions** tab, scroll to the bottom of its summary page, and download the zip under **Artifacts**.
-- Pushing a version tag (e.g. `git tag v0.1.0 && git push --tags`) also publishes an installable zip on the **Releases** page.
-
-**Build locally.** You need:
-
-- Visual Studio Build Tools 2026 (or Visual Studio 2022+) with the "Desktop development with C++" workload
-- [XMake](https://xmake.io) 3.0+
-
-Both install with winget:
-
-```powershell
-winget install --id Xmake-io.Xmake
-winget install --id Microsoft.VisualStudio.BuildTools --override "--quiet --wait --norestart --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
-```
-
-Then, **from PowerShell or a Developer Command Prompt (not Git Bash, where XMake fails with "cannot get program for cc")**:
-
-```powershell
-git clone --recurse-submodules https://github.com/rixbrnn/starfield-completionist.git
-cd starfield-completionist
-xmake config --mode=releasedbg
-xmake build
-```
-
-The DLL lands in `build/windows/x64/releasedbg/`. Set `XSE_SF_MODS_PATH` (your MO2 `mods` folder) or `XSE_SF_GAME_PATH` (the Starfield folder) before building, and XMake also copies it into `…/SFSE/Plugins/` there.
-
-The plugin needs [SFSE](https://sfse.silverlock.org/) and [Address Library for SFSE Plugins](https://www.nexusmods.com/starfield/mods/3256). For now it only writes research logs to `Documents/My Games/Starfield/SFSE/Logs/StarfieldCompletionist.log`.
-
-## Data tools
-
-Needs Node.js 24+ (it runs the TypeScript directly) and a Steam install of Starfield.
-
-```bash
-npm install
-npm run extract:quests
-```
-
-The first command installs the tools' dependencies. The second dumps every quest record to `build/extract/quests.json`.
-
-Other commands:
-
-- `npm run find-forms -- --from-dump QTYP` resolves the keywords that quests reference.
-- `npm run validate` checks quest collections against the schema.
-- `npm run typecheck` type-checks the tools.
-
-The game path is found automatically for default Steam installs; otherwise pass `--game <path>` or set `STARFIELD_PATH`.
+| `papyrus/Source/Completionist/` | Papyrus scripts: the quest tracker and the bridge to the menu |
+| `ui/menu/` | The menu (HTML/CSS/JS, an [OSF UI](https://www.nexusmods.com/starfield/mods/17711) view) |
+| `settings/` | OSF Settings schema (the F7 hotkey) |
+| `data/quests/`, `data/curation.json` | Quest data per plugin, and the hand-made corrections to it |
+| `data/schema/` | JSON Schema for the quest data |
+| `tools/extract/` | Extract quests, objectives, places, unlocks and icons from the game files |
+| `tools/build/` | Build the plugin, scripts and menu; package the release |
+| `tools/esm/` | Readers for Starfield plugin files, BA2 archives, string tables and SWF |
+| `tools/media/` | Nexus banner and screenshot capture |
+| `docs/` | Nexus description, research notes, quest review list |
+| `plugin/`, `xmake.lua`, `lib/` | Early native SFSE plugin experiment (not used by the mod) |
 
 ## License
 
-[GPL-3.0-or-later](LICENSE) with the modding and linking exceptions in [EXCEPTIONS](EXCEPTIONS), the same terms as CommonLibSF.
+[GPL-3.0-or-later](LICENSE) with the modding and linking exceptions in [EXCEPTIONS](EXCEPTIONS). The bundled fonts, Share Tech Mono and Inter, are under the SIL Open Font License ([ui/menu/fonts/OFL.txt](ui/menu/fonts/OFL.txt)). Starfield and its faction icons belong to Bethesda Softworks.
