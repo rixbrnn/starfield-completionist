@@ -71,6 +71,7 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .counts b { color: #fff; font-size: 18px; font-weight: 400; text-align: right; }
 .counts b.active { color: var(--tracked); }
 .counts b.failed { color: var(--failed); }
+.counts b.locked { color: var(--muted); }
 .badges { display: flex; gap: 8px; margin-top: 12px; }
 .badges span { padding: 3px 10px; border: 1px solid var(--edge); font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; }
 .note { margin-top: 12px; font-size: 14px; color: var(--soft); }

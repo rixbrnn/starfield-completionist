@@ -526,7 +526,15 @@
         "stage": 1100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "ShatteredSpace.esm|0x0116C7",
+          "quest": "SFBGS001_MQ02",
+          "name": "The Promised, Broken",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "sfbgs001-mq01",
@@ -823,7 +831,15 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "ShatteredSpace.esm|0x10AAD5",
+          "quest": "SFBGS001_MQIN",
+          "name": "The Other Side",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "sfbgs001-mq02",
@@ -1015,7 +1031,15 @@
         "stage": 2000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "ShatteredSpace.esm|0x0121DB",
+          "quest": "SFBGS001_MQ01",
+          "name": "What Remains",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "sfbgs001-mq03",
@@ -1334,7 +1358,15 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "ShatteredSpace.esm|0x035E1B",
+          "quest": "SFBGS001_MQ_Shell",
+          "name": "Aligning the Houses",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "sfbgs001-mq04",
@@ -1782,7 +1814,15 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "ShatteredSpace.esm|0x030C2B",
+          "quest": "SFBGS001_MQ03",
+          "name": "Zealous Overreach",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "sfbgs001-mq05",
@@ -2038,7 +2078,15 @@
         "stage": 2000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "ShatteredSpace.esm|0x035E1A",
+          "quest": "SFBGS001_MQ04",
+          "name": "Conflict in Conviction",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "sfbgs001-mq06",
@@ -2319,7 +2367,15 @@
         "stage": 2000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "ShatteredSpace.esm|0x035E1C",
+          "quest": "SFBGS001_MQ05",
+          "name": "Exhuming the Past",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "sfbgs001-mqin",

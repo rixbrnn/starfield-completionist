@@ -639,7 +639,14 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x015358",
+          "quest": "DialogueCFTheKey",
+          "stage": 950
+        }
+      ]
     },
     {
       "id": "cf01",
@@ -818,7 +825,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2BF365",
+          "quest": "LC082",
+          "stage": 10
+        }
+      ]
     },
     {
       "id": "cf02",
@@ -1158,7 +1172,15 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1E8E2A",
+          "quest": "CFSD01",
+          "name": "Burden of Proof",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "cf03",
@@ -1516,7 +1538,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0192D2",
+          "quest": "CF02",
+          "name": "Rook Meets King",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "cf04",
@@ -1868,7 +1898,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24EEF8",
+          "quest": "CF03",
+          "name": "Echoes of the Past",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "cf05",
@@ -2498,7 +2536,15 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x23C6F1",
+          "quest": "CF04",
+          "name": "Breaking the Bank",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "cf06",
@@ -2720,7 +2766,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x21D792",
+          "quest": "CF05",
+          "name": "The Best There Is",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "cf07",
@@ -2935,7 +2989,15 @@
         ]
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x01BD20",
+          "quest": "CF06",
+          "name": "Absolute Power",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "cf08-fleet",
@@ -3195,7 +3257,14 @@
           "side": "a"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x21E73C",
+          "quest": "LC088_Space",
+          "stage": 24
+        }
+      ]
     },
     {
       "id": "cf08-sysdef",
@@ -3426,7 +3495,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1EF7F2",
+          "quest": "CF07",
+          "name": "Eye of the Storm",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "cfsd01",
@@ -3550,7 +3627,20 @@
         ]
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x01BD20",
+          "quest": "CF06",
+          "name": "Absolute Power",
+          "stage": 0
+        },
+        {
+          "form": "Starfield.esm|0x178B1E",
+          "quest": "CF_Main",
+          "stage": 300
+        }
+      ]
     },
     {
       "id": "city-akila-ashta01",
@@ -3648,7 +3738,15 @@
         "stage": 200
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x29A8F0",
+          "quest": "FC01",
+          "name": "Job Gone Wrong",
+          "stage": 2000
+        }
+      ]
     },
     {
       "id": "city-akila-ashta02",
@@ -3762,7 +3860,15 @@
         "stage": 200
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x21625F",
+          "quest": "City_Akila_Ashta01",
+          "name": "Defensive Measures",
+          "stage": 200
+        }
+      ]
     },
     {
       "id": "city-akila-ashta03",
@@ -3861,7 +3967,15 @@
         "stage": 200
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x212B4F",
+          "quest": "City_Akila_Ashta02",
+          "name": "False Positives",
+          "stage": 200
+        }
+      ]
     },
     {
       "id": "city-akila-jansen",
@@ -3932,7 +4046,14 @@
         "stage": 600
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22342E",
+          "quest": "DialogueFCAkilaCity",
+          "stage": 50
+        }
+      ]
     },
     {
       "id": "city-akilalife01",
@@ -3993,7 +4114,14 @@
         "stage": 400
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22342E",
+          "quest": "DialogueFCAkilaCity",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "city-akilalife02",
@@ -4069,7 +4197,14 @@
         ]
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22342E",
+          "quest": "DialogueFCAkilaCity",
+          "stage": 105
+        }
+      ]
     },
     {
       "id": "city-akilalife04",
@@ -4150,7 +4285,14 @@
         "type": "questStage",
         "stage": 450
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22342E",
+          "quest": "DialogueFCAkilaCity",
+          "stage": 525
+        }
+      ]
     },
     {
       "id": "city-akilalife05",
@@ -4242,7 +4384,14 @@
         "stage": 200
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22342E",
+          "quest": "DialogueFCAkilaCity",
+          "stage": 50
+        }
+      ]
     },
     {
       "id": "city-akilalife07",
@@ -4320,7 +4469,14 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22342E",
+          "quest": "DialogueFCAkilaCity",
+          "stage": 50
+        }
+      ]
     },
     {
       "id": "city-akilalife08",
@@ -4417,7 +4573,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22342E",
+          "quest": "DialogueFCAkilaCity",
+          "stage": 50
+        }
+      ]
     },
     {
       "id": "city-cy-psych01",
@@ -4486,7 +4649,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 1400
+        }
+      ]
     },
     {
       "id": "city-cy-psych01misc",
@@ -4520,7 +4690,20 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x225130",
+          "quest": "City_CY_Psych01",
+          "name": "Psyched",
+          "stage": 100
+        },
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 1402
+        }
+      ]
     },
     {
       "id": "city-cy-redtape01",
@@ -4606,7 +4789,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 1110
+        }
+      ]
     },
     {
       "id": "city-cy-redtape01-misc",
@@ -4640,7 +4830,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 11
+        }
+      ]
     },
     {
       "id": "city-cy-redtape02",
@@ -4784,7 +4981,15 @@
         "stage": 2000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x237490",
+          "quest": "City_CY_RedTape01",
+          "name": "Red Tape Blues",
+          "stage": 10000
+        }
+      ]
     },
     {
       "id": "city-cy-redtape02-blackmail",
@@ -4822,7 +5027,25 @@
         "type": "questStage",
         "stage": 900
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1F70B4",
+          "quest": "BE_City_CY_RedTape02",
+          "stage": 200
+        },
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 500
+        },
+        {
+          "form": "Starfield.esm|0x237491",
+          "quest": "City_CY_RedTape02",
+          "name": "Red Tape Runaround",
+          "stage": 720
+        }
+      ]
     },
     {
       "id": "city-cy-redtape03",
@@ -4956,7 +5179,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x237491",
+          "quest": "City_CY_RedTape02",
+          "name": "Red Tape Runaround",
+          "stage": 10000
+        }
+      ]
     },
     {
       "id": "city-cy-runaway01",
@@ -5075,7 +5306,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 1300
+        }
+      ]
     },
     {
       "id": "city-cy-runaway01-misc",
@@ -5109,7 +5347,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 13
+        }
+      ]
     },
     {
       "id": "city-cy-startup01",
@@ -5205,7 +5450,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 1500
+        }
+      ]
     },
     {
       "id": "city-er-dead",
@@ -5281,7 +5533,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x28B932",
+          "quest": "DialogueEleosRetreat",
+          "stage": 2100
+        }
+      ]
     },
     {
       "id": "city-er-exorcism",
@@ -5378,7 +5637,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x16D4D1",
+          "quest": "City_ER_Ghost",
+          "name": "Ghost Hunt",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "city-er-ghost",
@@ -5440,7 +5707,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x17134F",
+          "quest": "City_ER_Dead",
+          "name": "Dead Stop",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "city-er-peace",
@@ -5529,7 +5804,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x16B466",
+          "quest": "City_ER_Exorcism",
+          "name": "Exorcism",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "city-gg-bet",
@@ -5649,7 +5932,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x18BC56",
+          "quest": "City_GG_Mark",
+          "name": "Missed the Mark",
+          "stage": 1
+        }
+      ]
     },
     {
       "id": "city-gg-marines",
@@ -5850,7 +6141,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x18E0F9",
+          "quest": "City_GG_Connections",
+          "name": "Missed Connections",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "city-na-aquilus01misc",
@@ -5889,7 +6188,14 @@
         "type": "questStage",
         "stage": 200
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x07BDBF",
+          "quest": "City_NA_Aquilus01",
+          "stage": 20
+        }
+      ]
     },
     {
       "id": "city-na-botany01",
@@ -6111,7 +6417,15 @@
         "stage": 200
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x270718",
+          "quest": "City_NA_Botany01",
+          "name": "A Tree Grows in New Atlantis",
+          "stage": 200
+        }
+      ]
     },
     {
       "id": "city-na-botany02-miscpointer",
@@ -6485,7 +6799,15 @@
         "stage": 200
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2926D2",
+          "quest": "City_NA_Viewport01",
+          "name": "Distilling Confidence",
+          "stage": 2000
+        }
+      ]
     },
     {
       "id": "city-na-viewport03",
@@ -6577,7 +6899,15 @@
         "stage": 200
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x270719",
+          "quest": "City_NA_Viewport02",
+          "name": "Liquid Assets",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "city-na-well01",
@@ -6840,7 +7170,15 @@
         "stage": 200
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x27071C",
+          "quest": "City_NA_Well01",
+          "name": "Tapping the Grid",
+          "stage": 200
+        }
+      ]
     },
     {
       "id": "city-neon-chem01",
@@ -7274,7 +7612,14 @@
         "stage": 500
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2111FE",
+          "quest": "City_Neon_Gang_Dialogue",
+          "stage": 50
+        }
+      ]
     },
     {
       "id": "city-neon-gang02",
@@ -7343,7 +7688,15 @@
         "stage": 700
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x229EE7",
+          "quest": "City_Neon_Gang01",
+          "name": "The Audition",
+          "stage": 500
+        }
+      ]
     },
     {
       "id": "city-neon-gang03",
@@ -7463,7 +7816,15 @@
         ]
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x226527",
+          "quest": "City_Neon_Gang02",
+          "name": "Display of Power",
+          "stage": 700
+        }
+      ]
     },
     {
       "id": "city-newatlantis-z-aninvitation",
@@ -7762,7 +8123,15 @@
         "type": "questStage",
         "stage": 66
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0A47F2",
+          "quest": "FFNewAtlantis03",
+          "name": "New Atlantis Intro",
+          "stage": 1
+        }
+      ]
     },
     {
       "id": "city-newatlantis-z-partinggift",
@@ -7830,7 +8199,21 @@
           }
         ]
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0A47F2",
+          "quest": "FFNewAtlantis03",
+          "name": "New Atlantis Intro",
+          "stage": 1
+        },
+        {
+          "form": "Starfield.esm|0x0D6927",
+          "quest": "FFCydoniaZ05",
+          "name": "My North Star",
+          "stage": 2
+        }
+      ]
     },
     {
       "id": "city-newatlantis-z-primarysources",
@@ -7912,7 +8295,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x29EF60",
+          "quest": "RAD02",
+          "name": "A Light in the Darkness",
+          "stage": 50
+        }
+      ]
     },
     {
       "id": "city-newatlantis-z-reliablecare",
@@ -9955,7 +10346,14 @@
         "type": "questStage",
         "stage": 20000
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1C7187",
+          "quest": "COM_Companion_Barrett",
+          "stage": 208
+        }
+      ]
     },
     {
       "id": "com-quest-samcoe-commitment",
@@ -10657,7 +11055,15 @@
         ]
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x29A00C",
+          "quest": "MS02",
+          "name": "Operation Starseed",
+          "stage": 900
+        }
+      ]
     },
     {
       "id": "fc-ac-home-coremanor-misc",
@@ -10721,7 +11127,14 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22342E",
+          "quest": "DialogueFCAkilaCity",
+          "stage": 810
+        }
+      ]
     },
     {
       "id": "fc01",
@@ -11057,7 +11470,15 @@
         "stage": 2000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x29A8F0",
+          "quest": "FC01",
+          "name": "Job Gone Wrong",
+          "stage": 2000
+        }
+      ]
     },
     {
       "id": "fc03",
@@ -11251,7 +11672,15 @@
         "stage": 2000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2944B8",
+          "quest": "FC02",
+          "name": "Deputized",
+          "stage": 2000
+        }
+      ]
     },
     {
       "id": "fc04",
@@ -11402,7 +11831,15 @@
         "stage": 2000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x27AB1A",
+          "quest": "FC03",
+          "name": "Where Hope is Built",
+          "stage": 2000
+        }
+      ]
     },
     {
       "id": "fc05",
@@ -11572,7 +12009,15 @@
         "stage": 2100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x26621E",
+          "quest": "FC04",
+          "name": "Shadows in Neon",
+          "stage": 2000
+        }
+      ]
     },
     {
       "id": "fc06",
@@ -11786,7 +12231,15 @@
         "stage": 2000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x26621E",
+          "quest": "FC04",
+          "name": "Shadows in Neon",
+          "stage": 2000
+        }
+      ]
     },
     {
       "id": "fc08",
@@ -11926,7 +12379,14 @@
         "stage": 2000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1D5AAF",
+          "quest": "FC_EncryptedSlateQuest",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "fc09",
@@ -12019,7 +12479,15 @@
         "stage": 2000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x25613B",
+          "quest": "FC08",
+          "name": "First to Fight, First to Die",
+          "stage": 2000
+        }
+      ]
     },
     {
       "id": "ffclinicr01",
@@ -12269,7 +12737,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2741B1",
+          "quest": "DialogueECSConstant",
+          "stage": 1401
+        }
+      ]
     },
     {
       "id": "ffconstantz04misc",
@@ -12302,7 +12777,20 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2149FA",
+          "quest": "FFConstantZ04",
+          "name": "Debt Forgiveness",
+          "stage": 200
+        },
+        {
+          "form": "Starfield.esm|0x2741B1",
+          "quest": "DialogueECSConstant",
+          "stage": 1400
+        }
+      ]
     },
     {
       "id": "ffconstantz05",
@@ -12359,7 +12847,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2741B1",
+          "quest": "DialogueECSConstant",
+          "stage": 1501
+        }
+      ]
     },
     {
       "id": "ffconstantz05misc",
@@ -12392,7 +12887,25 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x11D5CD",
+          "quest": "ECSConstantRoamingHandler",
+          "stage": 100
+        },
+        {
+          "form": "Starfield.esm|0x21261E",
+          "quest": "FFConstantZ05",
+          "name": "Escape from the Endless Voyage",
+          "stage": 200
+        },
+        {
+          "form": "Starfield.esm|0x2741B1",
+          "quest": "DialogueECSConstant",
+          "stage": 1500
+        }
+      ]
     },
     {
       "id": "ffconstantz06",
@@ -12589,7 +13102,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x23E9B7",
+          "quest": "FFCydoniaR03",
+          "name": "Media Sponge",
+          "stage": 100
+        }
+      ]
     },
     {
       "id": "ffcydoniaz01",
@@ -12648,7 +13169,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 1200
+        }
+      ]
     },
     {
       "id": "ffcydoniaz04",
@@ -12690,7 +13218,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 900
+        }
+      ]
     },
     {
       "id": "ffcydoniaz04misc",
@@ -12724,7 +13259,20 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x23F810",
+          "quest": "FFCydoniaZ04",
+          "name": "Space Frog from Outer Space",
+          "stage": 100
+        },
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 902
+        }
+      ]
     },
     {
       "id": "ffcydoniaz05",
@@ -12889,7 +13437,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 2410
+        }
+      ]
     },
     {
       "id": "ffcydoniaz07misc",
@@ -12923,7 +13478,20 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x30270B",
+          "quest": "FFCydoniaZ07",
+          "name": "Heart of Mars",
+          "stage": 100
+        },
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 2400
+        }
+      ]
     },
     {
       "id": "ffcydoniaz08",
@@ -12964,7 +13532,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 2510
+        }
+      ]
     },
     {
       "id": "ffcydoniaz08misc",
@@ -12998,7 +13573,20 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x30B819",
+          "quest": "FFCydoniaZ08",
+          "name": "The Bounty That Got Away",
+          "stage": 100
+        },
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 2500
+        }
+      ]
     },
     {
       "id": "ffdenr01",
@@ -13063,7 +13651,19 @@
         "stage": 200
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x14343A",
+          "quest": "FFDenR01_Startup",
+          "stage": 10
+        },
+        {
+          "form": "Starfield.esm|0x2A1049",
+          "quest": "DialogueUCTheDen",
+          "stage": 40
+        }
+      ]
     },
     {
       "id": "ffdenz01",
@@ -13220,7 +13820,20 @@
         "type": "questStage",
         "stage": 66
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1B41D0",
+          "quest": "CF08_SysDef",
+          "name": "Legacy's End (UC SysDef)",
+          "stage": 10
+        },
+        {
+          "form": "Starfield.esm|0x015358",
+          "quest": "DialogueCFTheKey",
+          "stage": 250
+        }
+      ]
     },
     {
       "id": "ffkeyz02",
@@ -13324,7 +13937,14 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2956BB",
+          "quest": "DialogueUCTheLodge",
+          "stage": 150
+        }
+      ]
     },
     {
       "id": "fflodge01",
@@ -13368,7 +13988,22 @@
         "stage": 200
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0114CD",
+          "quest": "MQ102",
+          "name": "The Old Neighborhood",
+          "stage": 1150
+        },
+        {
+          "form": "Starfield.esm|0x003448",
+          "quest": "MQ101",
+          "name": "One Small Step",
+          "stage": 1800,
+          "group": "one-small-step"
+        }
+      ]
     },
     {
       "id": "ffneonz01",
@@ -13434,7 +14069,14 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22DAD6",
+          "quest": "DialogueFCNeon",
+          "stage": 115
+        }
+      ]
     },
     {
       "id": "ffneonz02",
@@ -13499,7 +14141,14 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22DAD6",
+          "quest": "DialogueFCNeon",
+          "stage": 135
+        }
+      ]
     },
     {
       "id": "ffneonz03",
@@ -13560,7 +14209,14 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22DAD6",
+          "quest": "DialogueFCNeon",
+          "stage": 195
+        }
+      ]
     },
     {
       "id": "ffneonz04",
@@ -13613,7 +14269,14 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22DAD6",
+          "quest": "DialogueFCNeon",
+          "stage": 222
+        }
+      ]
     },
     {
       "id": "ffneonz05",
@@ -13666,7 +14329,14 @@
         ]
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22DAD6",
+          "quest": "DialogueFCNeon",
+          "stage": 275
+        }
+      ]
     },
     {
       "id": "ffneonz06",
@@ -13740,7 +14410,14 @@
         ]
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22DAD6",
+          "quest": "DialogueFCNeon",
+          "stage": 295
+        }
+      ]
     },
     {
       "id": "ffneonz07",
@@ -13789,7 +14466,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22DAD6",
+          "quest": "DialogueFCNeon",
+          "stage": 455
+        }
+      ]
     },
     {
       "id": "ffneonz08",
@@ -13849,7 +14533,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22DAD6",
+          "quest": "DialogueFCNeon",
+          "stage": 475
+        }
+      ]
     },
     {
       "id": "ffneonz09",
@@ -13913,7 +14604,14 @@
         "stage": 200
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22DAD6",
+          "quest": "DialogueFCNeon",
+          "stage": 498
+        }
+      ]
     },
     {
       "id": "ffneonz10",
@@ -13966,7 +14664,15 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2250C4",
+          "quest": "City_Neon_Gang03",
+          "name": "The Showdown",
+          "stage": 1100
+        }
+      ]
     },
     {
       "id": "ffneonz12",
@@ -14054,7 +14760,14 @@
         "type": "questStage",
         "stage": 200
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22DAD6",
+          "quest": "DialogueFCNeon",
+          "stage": 360
+        }
+      ]
     },
     {
       "id": "ffnewatlantis01",
@@ -14135,7 +14848,15 @@
           }
         ]
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0A47F2",
+          "quest": "FFNewAtlantis03",
+          "name": "New Atlantis Intro",
+          "stage": 100
+        }
+      ]
     },
     {
       "id": "ffnewatlantis01misc",
@@ -14170,7 +14891,15 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24C3A1",
+          "quest": "FFNewAtlantis01",
+          "name": "Diplomatic Immunity",
+          "stage": 30
+        }
+      ]
     },
     {
       "id": "ffnewatlantis02",
@@ -14274,7 +15003,21 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24C46C",
+          "quest": "FFNewAtlantis02",
+          "name": "Keeping the Peace",
+          "stage": 0
+        },
+        {
+          "form": "Starfield.esm|0x091CF5",
+          "quest": "FFNewAtlantis04",
+          "name": "A Break at Dawn",
+          "stage": 9
+        }
+      ]
     },
     {
       "id": "ffnewatlantis04",
@@ -14333,7 +15076,15 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24C46C",
+          "quest": "FFNewAtlantis02",
+          "name": "Keeping the Peace",
+          "stage": 100
+        }
+      ]
     },
     {
       "id": "ffnewatlantis05",
@@ -14436,7 +15187,21 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x091CF5",
+          "quest": "FFNewAtlantis04",
+          "name": "A Break at Dawn",
+          "stage": 100
+        },
+        {
+          "form": "Starfield.esm|0x21D792",
+          "quest": "CF05",
+          "name": "The Best There Is",
+          "stage": 500
+        }
+      ]
     },
     {
       "id": "ffnewatlantis06",
@@ -14565,7 +15330,15 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x08E2D9",
+          "quest": "FFNewAtlantis05",
+          "name": "Search and Seizure",
+          "stage": 100
+        }
+      ]
     },
     {
       "id": "ffnewhomesteadr02",
@@ -14647,7 +15420,20 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x21A8B0",
+          "quest": "FFNewHomesteadR02",
+          "name": "Tourists Go Home",
+          "stage": 200
+        },
+        {
+          "form": "Starfield.esm|0x240431",
+          "quest": "DialogueNewHomestead",
+          "stage": 201
+        }
+      ]
     },
     {
       "id": "ffnewhomesteadr04",
@@ -14734,7 +15520,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x240431",
+          "quest": "DialogueNewHomestead",
+          "stage": 401
+        }
+      ]
     },
     {
       "id": "ffnewhomesteadr05",
@@ -14812,7 +15605,20 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x21952E",
+          "quest": "FFNewHomesteadR05",
+          "name": "Special Sauce",
+          "stage": 200
+        },
+        {
+          "form": "Starfield.esm|0x240431",
+          "quest": "DialogueNewHomestead",
+          "stage": 501
+        }
+      ]
     },
     {
       "id": "ffnewhomesteadz00misc",
@@ -14845,7 +15651,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x240431",
+          "quest": "DialogueNewHomestead",
+          "stage": 51
+        }
+      ]
     },
     {
       "id": "ffnewhomesteadz01",
@@ -15001,7 +15814,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x240431",
+          "quest": "DialogueNewHomestead",
+          "stage": 102
+        }
+      ]
     },
     {
       "id": "ffnewhomesteadz01misc",
@@ -15035,7 +15855,20 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x21710B",
+          "quest": "FFNewHomesteadZ01",
+          "name": "Starsap Tours",
+          "stage": 100
+        },
+        {
+          "form": "Starfield.esm|0x240431",
+          "quest": "DialogueNewHomestead",
+          "stage": 101
+        }
+      ]
     },
     {
       "id": "ffparadisoz01",
@@ -15109,7 +15942,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x263194",
+          "quest": "DialogueParadiso",
+          "stage": 1110
+        }
+      ]
     },
     {
       "id": "ffparadisoz01misc",
@@ -15143,7 +15983,20 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1C7689",
+          "quest": "FFParadisoZ01",
+          "name": "Last Resort",
+          "stage": 100
+        },
+        {
+          "form": "Starfield.esm|0x263194",
+          "quest": "DialogueParadiso",
+          "stage": 1101
+        }
+      ]
     },
     {
       "id": "ffparadisoz02",
@@ -15210,7 +16063,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1C6902",
+          "quest": "FFParadisoZ02Misc",
+          "name": "Speak with Dirk",
+          "stage": 200
+        }
+      ]
     },
     {
       "id": "ffparadisoz02misc",
@@ -15252,7 +16113,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x263194",
+          "quest": "DialogueParadiso",
+          "stage": 1200
+        }
+      ]
     },
     {
       "id": "ffparadisoz03",
@@ -15299,7 +16167,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x263194",
+          "quest": "DialogueParadiso",
+          "stage": 1310
+        }
+      ]
     },
     {
       "id": "ffparadisoz03misc",
@@ -15333,7 +16208,20 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1C433F",
+          "quest": "FFParadisoZ03",
+          "name": "Proper Tea Theft",
+          "stage": 100
+        },
+        {
+          "form": "Starfield.esm|0x263194",
+          "quest": "DialogueParadiso",
+          "stage": 1301
+        }
+      ]
     },
     {
       "id": "ffparadisoz04",
@@ -15387,7 +16275,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x263194",
+          "quest": "DialogueParadiso",
+          "stage": 1410
+        }
+      ]
     },
     {
       "id": "ffparadisoz04misc",
@@ -15421,7 +16316,20 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1C38EA",
+          "quest": "FFParadisoZ04",
+          "name": "Wanted Guest",
+          "stage": 100
+        },
+        {
+          "form": "Starfield.esm|0x263194",
+          "quest": "DialogueParadiso",
+          "stage": 1402
+        }
+      ]
     },
     {
       "id": "ffredmiler01",
@@ -15517,7 +16425,20 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2B2C2B",
+          "quest": "DialogueRedMile",
+          "stage": 350
+        },
+        {
+          "form": "Starfield.esm|0x1F0267",
+          "quest": "FC05",
+          "name": "On the Run",
+          "stage": 1200
+        }
+      ]
     },
     {
       "id": "hope01",
@@ -15579,7 +16500,14 @@
           }
         ]
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2A823E",
+          "quest": "DialogueHopeTown",
+          "stage": 50
+        }
+      ]
     },
     {
       "id": "hope02",
@@ -15649,7 +16577,14 @@
         ]
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2A823E",
+          "quest": "DialogueHopeTown",
+          "stage": 50
+        }
+      ]
     },
     {
       "id": "landmark-apollo",
@@ -16099,7 +17034,15 @@
         "stage": 60
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1DC418",
+          "quest": "MQ402",
+          "name": "Among the Stars",
+          "stage": 100
+        }
+      ]
     },
     {
       "id": "mq-tutorialquest-misc01",
@@ -16133,7 +17076,16 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x003448",
+          "quest": "MQ101",
+          "name": "One Small Step",
+          "stage": 1330,
+          "group": "one-small-step"
+        }
+      ]
     },
     {
       "id": "mq-tutorialquest-misc02",
@@ -16166,7 +17118,20 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1ED71C",
+          "quest": "OutpostTutorial",
+          "name": "Outpost Tutorial (should be a Misc Objective)",
+          "stage": 10
+        },
+        {
+          "form": "Starfield.esm|0x2956BB",
+          "quest": "DialogueUCTheLodge",
+          "stage": 40
+        }
+      ]
     },
     {
       "id": "mq-tutorialquest-misc04",
@@ -16200,7 +17165,16 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x003448",
+          "quest": "MQ101",
+          "name": "One Small Step",
+          "stage": 9000,
+          "group": "one-small-step"
+        }
+      ]
     },
     {
       "id": "mq-tutorialquest-misc05",
@@ -16234,7 +17208,14 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2956BB",
+          "quest": "DialogueUCTheLodge",
+          "stage": 20
+        }
+      ]
     },
     {
       "id": "mq-tutorialquest-misc06",
@@ -16267,7 +17248,14 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2956BB",
+          "quest": "DialogueUCTheLodge",
+          "stage": 20
+        }
+      ]
     },
     {
       "id": "mq-tutorialquest-misc07",
@@ -17026,7 +18014,16 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x003448",
+          "quest": "MQ101",
+          "name": "One Small Step",
+          "stage": 1800,
+          "group": "one-small-step"
+        }
+      ]
     },
     {
       "id": "mq103",
@@ -17273,7 +18270,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0114CD",
+          "quest": "MQ102",
+          "name": "The Old Neighborhood",
+          "stage": 1150
+        }
+      ]
     },
     {
       "id": "mq104a",
@@ -17438,7 +18443,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0114C9",
+          "quest": "MQ103",
+          "name": "The Empty Nest",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "mq104b",
@@ -17639,7 +18652,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0114CD",
+          "quest": "MQ102",
+          "name": "The Old Neighborhood",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "mq105",
@@ -17993,7 +19014,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0160A9",
+          "quest": "MQ104A",
+          "name": "Into the Unknown",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "mq106",
@@ -18093,7 +19122,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2C1C9B",
+          "quest": "MQ105",
+          "name": "All That Money Can Buy",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "mq201",
@@ -18203,7 +19240,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x021BEF",
+          "quest": "MQ106",
+          "name": "Starborn",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "mq201b",
@@ -18314,7 +19359,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x017CE8",
+          "quest": "MQ201",
+          "name": "Further Into the Unknown",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "mq202",
@@ -18528,7 +19581,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1B41D1",
+          "quest": "MQ201B",
+          "name": "Short Sighted",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "mq204",
@@ -18779,7 +19840,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x017CE7",
+          "quest": "MQ202",
+          "name": "No Sudden Moves",
+          "stage": 500
+        }
+      ]
     },
     {
       "id": "mq206a",
@@ -18895,7 +19964,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2C6D74",
+          "quest": "MQ204",
+          "name": "High Price to Pay",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "mq206b",
@@ -19061,7 +20138,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2C6D74",
+          "quest": "MQ204",
+          "name": "High Price to Pay",
+          "stage": 650
+        }
+      ]
     },
     {
       "id": "mq207",
@@ -19162,7 +20247,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2583F2",
+          "quest": "MQ206B",
+          "name": "Unity",
+          "stage": 800
+        }
+      ]
     },
     {
       "id": "mq207b",
@@ -19271,7 +20364,20 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x257DE1",
+          "quest": "MQ207C",
+          "name": "Entangled",
+          "stage": 0
+        },
+        {
+          "form": "Starfield.esm|0x255DAB",
+          "quest": "MQ302a",
+          "stage": 0
+        }
+      ]
     },
     {
       "id": "mq207c",
@@ -19669,7 +20775,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x256B02",
+          "quest": "MQ207B",
+          "name": "Final Glimpses",
+          "stage": 20
+        }
+      ]
     },
     {
       "id": "mq301",
@@ -19839,7 +20953,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2B1B8E",
+          "quest": "MQ207",
+          "name": "In Their Footsteps",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "mq302b",
@@ -20167,7 +21289,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x257DE1",
+          "quest": "MQ207C",
+          "name": "Entangled",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "mq304b",
@@ -20238,7 +21368,14 @@
         ]
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x255DAB",
+          "quest": "MQ302a",
+          "stage": 10
+        }
+      ]
     },
     {
       "id": "mq305",
@@ -20355,7 +21492,15 @@
           "side": "b"
         }
       ],
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x18AE76",
+          "quest": "MQ302b",
+          "name": "Revelation",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "mq401a",
@@ -21204,7 +22349,15 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2C6D74",
+          "quest": "MQ204",
+          "name": "High Price to Pay",
+          "stage": 650
+        }
+      ]
     },
     {
       "id": "ms01",
@@ -21689,7 +22842,14 @@
         "type": "questStage",
         "stage": 8900
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2534D2",
+          "quest": "MS02_Intro",
+          "stage": 200
+        }
+      ]
     },
     {
       "id": "ms03-juno",
@@ -22089,7 +23249,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x299E7A",
+          "quest": "MS05Intro",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "ms06",
@@ -22386,7 +23553,19 @@
         "type": "questStage",
         "stage": 3330
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2741B1",
+          "quest": "DialogueECSConstant",
+          "stage": 1
+        },
+        {
+          "form": "Starfield.esm|0x258695",
+          "quest": "MS06Intro",
+          "stage": 200
+        }
+      ]
     },
     {
       "id": "oe-terrormorphencounter",
@@ -22707,7 +23886,15 @@
         "stage": 8100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0114CD",
+          "quest": "MQ102",
+          "name": "The Old Neighborhood",
+          "stage": 1150
+        }
+      ]
     },
     {
       "id": "rad03",
@@ -22739,7 +23926,29 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x22342E",
+          "quest": "DialogueFCAkilaCity",
+          "stage": 200
+        },
+        {
+          "form": "Starfield.esm|0x22DAD6",
+          "quest": "DialogueFCNeon",
+          "stage": 315
+        },
+        {
+          "form": "Starfield.esm|0x013497",
+          "quest": "DialogueUCNewAtlantis",
+          "stage": 341
+        },
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 1700
+        }
+      ]
     },
     {
       "id": "rad04",
@@ -22771,7 +23980,14 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24AFED",
+          "quest": "DialogueCydonia",
+          "stage": 9
+        }
+      ]
     },
     {
       "id": "rad05",
@@ -23044,7 +24260,15 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2C572B",
+          "quest": "RIR01",
+          "name": "One Step Ahead",
+          "stage": 0
+        }
+      ]
     },
     {
       "id": "ri02",
@@ -23182,7 +24406,21 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2A8319",
+          "quest": "RIR04",
+          "name": "Accidents Happen",
+          "stage": 0
+        },
+        {
+          "form": "Starfield.esm|0x2BABF3",
+          "quest": "RIR03",
+          "name": "Access is Key",
+          "stage": 300
+        }
+      ]
     },
     {
       "id": "ri03",
@@ -23429,7 +24667,15 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2A3945",
+          "quest": "RIR05",
+          "name": "Maintaining the Edge",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "ri04",
@@ -23625,7 +24871,15 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x29EB12",
+          "quest": "RI03",
+          "name": "Top Secrets",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "ri05",
@@ -23923,7 +25177,15 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1FB85C",
+          "quest": "RI04",
+          "name": "Background Checks",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "ri06",
@@ -24183,7 +25445,15 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1EE0C8",
+          "quest": "RI05",
+          "name": "Guilty Parties",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "ri07",
@@ -24623,7 +25893,15 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1A9560",
+          "quest": "RI06",
+          "name": "The Key Ingredient",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "ri08",
@@ -24841,7 +26119,15 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x18B718",
+          "quest": "RI07",
+          "name": "Sabotage",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "ri08-postquest",
@@ -24887,7 +26173,15 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x18B717",
+          "quest": "RI08",
+          "name": "Executive Level",
+          "stage": 10000
+        }
+      ]
     },
     {
       "id": "rir01",
@@ -24951,7 +26245,15 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2C9C97",
+          "quest": "RI01",
+          "name": "Back to the Grind",
+          "stage": 1300
+        }
+      ]
     },
     {
       "id": "rir02",
@@ -25014,7 +26316,21 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2BABF3",
+          "quest": "RIR03",
+          "name": "Access is Key",
+          "stage": 0
+        },
+        {
+          "form": "Starfield.esm|0x2C572B",
+          "quest": "RIR01",
+          "name": "One Step Ahead",
+          "stage": 300
+        }
+      ]
     },
     {
       "id": "rir03",
@@ -25092,7 +26408,14 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2A8318",
+          "quest": "RI_Support",
+          "stage": 310
+        }
+      ]
     },
     {
       "id": "rir04",
@@ -25161,7 +26484,26 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2A3945",
+          "quest": "RIR05",
+          "name": "Maintaining the Edge",
+          "stage": 0
+        },
+        {
+          "form": "Starfield.esm|0x2A8318",
+          "quest": "RI_Support",
+          "stage": 500
+        },
+        {
+          "form": "Starfield.esm|0x2AAC9C",
+          "quest": "RI02",
+          "name": "Sowing Discord",
+          "stage": 600
+        }
+      ]
     },
     {
       "id": "rir05",
@@ -25232,7 +26574,14 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2A8318",
+          "quest": "RI_Support",
+          "stage": 510
+        }
+      ]
     },
     {
       "id": "rir06",
@@ -25340,7 +26689,14 @@
         "stage": 900
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2A8318",
+          "quest": "RI_Support",
+          "stage": 610
+        }
+      ]
     },
     {
       "id": "rir06-yukofollowup",
@@ -25376,7 +26732,15 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x24FB39",
+          "quest": "RIR06",
+          "name": "Managing Assets",
+          "stage": 10000
+        }
+      ]
     },
     {
       "id": "rir07",
@@ -25455,7 +26819,14 @@
         "stage": 10000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2A8318",
+          "quest": "RI_Support",
+          "stage": 700
+        }
+      ]
     },
     {
       "id": "rl040quest",
@@ -25778,7 +27149,14 @@
         "type": "questStage",
         "stage": 66
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0277A3",
+          "quest": "BE_KT03",
+          "stage": 6
+        }
+      ]
     },
     {
       "id": "se-kt04",
@@ -26341,7 +27719,15 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x18E0F9",
+          "quest": "City_GG_Connections",
+          "name": "Missed Connections",
+          "stage": 100
+        }
+      ]
     },
     {
       "id": "uc-gg-marines-misc",
@@ -26374,7 +27760,15 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x188D25",
+          "quest": "City_GG_Marines",
+          "name": "UC Wants You!",
+          "stage": 100
+        }
+      ]
     },
     {
       "id": "uc-na-home-penthouse-misc",
@@ -26406,7 +27800,14 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x013497",
+          "quest": "DialogueUCNewAtlantis",
+          "stage": 365
+        }
+      ]
     },
     {
       "id": "uc-na-home-well-misc",
@@ -26438,7 +27839,14 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x013497",
+          "quest": "DialogueUCNewAtlantis",
+          "stage": 364
+        }
+      ]
     },
     {
       "id": "uc01",
@@ -26626,7 +28034,21 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2B1808",
+          "quest": "UC02",
+          "name": "Grunt Work",
+          "stage": 1
+        },
+        {
+          "form": "Starfield.esm|0x0114CD",
+          "quest": "MQ102",
+          "name": "The Old Neighborhood",
+          "stage": 120
+        }
+      ]
     },
     {
       "id": "uc01-shipsimquest",
@@ -26961,7 +28383,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2C5401",
+          "quest": "UC01",
+          "name": "Supra et Ultra",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "uc03",
@@ -27289,7 +28719,15 @@
         ]
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2B1808",
+          "quest": "UC02",
+          "name": "Grunt Work",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "uc04",
@@ -27590,7 +29028,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x29D04C",
+          "quest": "UC03",
+          "name": "Delivering Devils",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "uc05",
@@ -28006,7 +29452,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2AAE8D",
+          "quest": "UC04",
+          "name": "Eyewitness",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "uc05-realty-misc",
@@ -28039,7 +29493,15 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2A39BC",
+          "quest": "UC05",
+          "name": "Friends Like These",
+          "stage": 997
+        }
+      ]
     },
     {
       "id": "uc06",
@@ -28233,7 +29695,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2A39BC",
+          "quest": "UC05",
+          "name": "Friends Like These",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "uc07",
@@ -28555,7 +30025,20 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1E7A0B",
+          "quest": "DialogueRedDevilsHQ",
+          "stage": 2
+        },
+        {
+          "form": "Starfield.esm|0x248CF0",
+          "quest": "UC06",
+          "name": "The Devils You Know",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "uc08",
@@ -29095,7 +30578,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x215E93",
+          "quest": "UC07",
+          "name": "War Relics",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "uc09",
@@ -29227,7 +30718,20 @@
         "stage": 500
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1E7A0B",
+          "quest": "DialogueRedDevilsHQ",
+          "stage": 1
+        },
+        {
+          "form": "Starfield.esm|0x2062C3",
+          "quest": "UC08",
+          "name": "Hostile Intelligence",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "uc09-postquest-percival-misc",
@@ -29385,7 +30889,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1FC858",
+          "quest": "UC09",
+          "name": "A Legacy Forged",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "ucr03",
@@ -29429,7 +30941,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1EBDD5",
+          "quest": "UCR01",
+          "name": "Vanguard: Bug Hunt",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "ucr04",
@@ -29488,7 +31008,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1E8FF7",
+          "quest": "UCR03",
+          "name": "Vanguard: Safer Skies",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "ucr04-miscpointer",
@@ -29521,7 +31049,19 @@
         "type": "questCompleted"
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1B3F7E",
+          "quest": "CREW_EliteCrew_Hadrian",
+          "stage": 50
+        },
+        {
+          "form": "Starfield.esm|0x1E7A0B",
+          "quest": "DialogueRedDevilsHQ",
+          "stage": 120
+        }
+      ]
     },
     {
       "id": "ucr05",
@@ -29569,7 +31109,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1E7A0A",
+          "quest": "UCR04",
+          "name": "Apex Predator",
+          "stage": -1
+        }
+      ]
     }
   ]
 }

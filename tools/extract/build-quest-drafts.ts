@@ -12,6 +12,7 @@ import { loadPluginStrings, readLString, type StringTable } from "../esm/strings
 import { scanWorld, type CellInfo, type Placement } from "../esm/world.ts";
 import { officialPlugins, resolveGamePath } from "./game.ts";
 import { loadLocations, resolvePlace, type LocationInfo, type ResolvedPlace } from "./locations.ts";
+import { findUnlocks } from "./unlocks.ts";
 
 interface DumpAlias {
   kind: "ref" | "location";
@@ -79,6 +80,18 @@ if (!existsSync(args.dump)) {
 // ---------------------------------------------------------------- pick quests
 
 const dump = JSON.parse(readFileSync(args.dump, "utf8")) as { quests: DumpQuest[] };
+
+// Which quest stages start each quest, from the game's stage fragments (script sources that
+// `npm run build:mod` extracts to build/sf-scripts). Without them, no quest is marked
+// "not available yet".
+const scriptsDir = resolve("build/sf-scripts");
+if (!existsSync(join(scriptsDir, "Fragments", "Quests"))) {
+  console.warn("build/sf-scripts not found: run npm run build:mod once, then build:drafts again, to know when quests unlock");
+}
+const unlocks = findUnlocks(scriptsDir, dump.quests);
+const dumpByEditorId = new Map(dump.quests.map((q) => [q.editorId.toLowerCase(), q]));
+// At most this many quests can unlock one; more means it can start in too many ways to tell.
+const MAX_UNLOCK_SOURCES = 4;
 const playerFacing = (q: DumpQuest) => q.name && q.objectives > 0 && !q.name.includes("<Alias=") && !/^\[.*\]$/.test(q.name);
 const NOT_A_QUEST = /(_OLD|Debug|Test|Template)\b|^(OE|SE|BE|RQ|MB|RAD|DialogueGeneric)_?/i;
 // Untagged quests that are engine machinery or cut content rather than player quests
@@ -450,6 +463,51 @@ for (const [owner, quests] of byOwner) {
       if (curated === undefined) counters.set(entry.questline.id, next);
       entry.questline.order = curated ?? next;
     }
+  }
+
+  // When each quest can be found: once one of the quest stages that start it is done, or else,
+  // in a questline, once the previous quest has started (stage -1). The other branch of an
+  // either/or choice is skipped, so the two endings don't wait on each other.
+  // group: the source's equivalence group (e.g. One Small Step and its NG+ variants), so any
+  // member completing counts.
+  type After = { form: string; quest: string; name?: string; stage: number; group?: string };
+  const groupOf = (editorId: string) => (equivalentOf.get(editorId) ? { group: equivalentOf.get(editorId)!.group } : {});
+  const availability = new Map<string, After[]>();
+  const sourceName = (editorId: string) => {
+    const source = dumpByEditorId.get(editorId.toLowerCase());
+    return source && playerFacing(source) ? source.name : undefined;
+  };
+  // NG+-only and hidden quests have their own rules (Unity, equivalent groups).
+  const ownRules = (q: (typeof entries)[number]) => !!(q.ngPlusOnly || q.hidden);
+  for (const entry of entries) {
+    if (ownRules(entry)) continue;
+    const firstStage = new Map<string, number>();
+    for (const u of unlocks.get(entry.editorId.toLowerCase()) ?? []) if (!firstStage.has(u.editorId)) firstStage.set(u.editorId, u.stage);
+    if (firstStage.size === 0 || firstStage.size > MAX_UNLOCK_SOURCES) continue;
+    const after = [...firstStage].flatMap(([editorId, stage]) => {
+      const source = dumpByEditorId.get(editorId.toLowerCase());
+      return source ? [{ form: source.form, quest: editorId, ...(sourceName(editorId) ? { name: sourceName(editorId) } : {}), stage, ...groupOf(editorId) }] : [];
+    });
+    if (after.length) availability.set(entry.editorId, after);
+  }
+  const lines = new Map<string, typeof entries>();
+  for (const entry of entries) if (entry.questline) lines.set(entry.questline.id, [...(lines.get(entry.questline.id) ?? []), entry]);
+  for (const line of lines.values()) {
+    line.sort((a, b) => a.questline!.order - b.questline!.order);
+    line.forEach((entry, i) => {
+      if (availability.has(entry.editorId) || ownRules(entry)) return;
+      // Skip only quests on the other side of one of this quest's choices.
+      const otherSide = (q: (typeof line)[number]) => (q.choices ?? []).some((c) => (entry.choices ?? []).some((mine) => mine.group === c.group && mine.side !== c.side));
+      let prev = i - 1;
+      while (prev >= 0 && (otherSide(line[prev]) || ownRules(line[prev]))) prev--;
+      if (prev < 0) return;
+      const before = line[prev];
+      availability.set(entry.editorId, [{ form: before.form, quest: before.editorId, name: before.name, stage: -1, ...groupOf(before.editorId) }]);
+    });
+  }
+  for (const entry of entries) {
+    const after = availability.get(entry.editorId);
+    if (after) Object.assign(entry, { availableAfter: after });
   }
 
   const usedPlaces = [...places.values()];

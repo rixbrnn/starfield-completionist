@@ -1253,7 +1253,15 @@
         "stage": 1700
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "SFBGS050.esm|0x0059A0",
+          "quest": "SFTER_MQIntro",
+          "name": "Attack of the Terran Armada",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "sfter-mq02a",
@@ -1391,7 +1399,15 @@
         "stage": 9999
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "SFBGS050.esm|0x02808F",
+          "quest": "SFTER_MQ01",
+          "name": "Lost Luxury",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "sfter-mq02b",
@@ -1636,7 +1652,15 @@
         "stage": 9999
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "SFBGS050.esm|0x015670",
+          "quest": "SFTER_MQ02A",
+          "name": "Into the VOID",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "sfter-mq03",
@@ -1848,7 +1872,15 @@
         "stage": 1700
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "SFBGS050.esm|0x01A39D",
+          "quest": "SFTER_MQ02B",
+          "name": "Going Haywire",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "sfter-mqintro",

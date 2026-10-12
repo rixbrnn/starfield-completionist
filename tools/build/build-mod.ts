@@ -42,7 +42,7 @@ interface Condition {
 
 interface Collection {
   places?: Array<{ id: string; name: string; parent?: string; location?: string }>;
-  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null; objectives?: number[]; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; equivalentGroup?: string | null; hidden?: boolean }>;
+  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null; objectives?: number[]; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; equivalentGroup?: string | null; hidden?: boolean; availableAfter?: Array<{ form: string; name?: string; stage: number; group?: string }> }>;
 }
 
 /** Stages from a questStage / anyOf-of-questStage condition. */
@@ -106,6 +106,14 @@ for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort(
       ...startLocation(quest.start.place),
       ...pad(complete, MAX_COMPLETE_STAGES),
       ...pad(fail, MAX_FAIL_STAGES),
+      // When the quest can be found: up to 4 (quest, stage) pairs, stage -1 = that quest started.
+      ...Array.from({ length: 4 }, (_, i) => {
+        const after = quest.availableAfter?.[i];
+        if (!after) return [0, papyrusString(""), -1];
+        const [afterPlugin, afterHex] = after.form.split("|");
+        return [Number.parseInt(afterHex, 16), papyrusString(afterPlugin), after.stage];
+      }).flat(),
+      papyrusString(quest.availableAfter?.find((a) => a.group)?.group ?? ""),
     ];
     calls.push(`Add(entries, ${args.join(", ")}) ; ${file}`);
   }
@@ -163,6 +171,18 @@ Struct Entry
   Int fail2 = -1
   Int status = 0 ; set by QuestTracker
   Int raw = 0 ; status from the quest itself, before overrides, equivalents and choices (QuestTracker)
+  ; When the quest can be found (availableAfter in data/quests): once any of these quest stages
+  ; is done (stage -1: once that quest has started), or a quest of afterGroup is completed.
+  ; No after1 = any time.
+  Quest after1
+  Int after1Stage = -1
+  Quest after2
+  Int after2Stage = -1
+  Quest after3
+  Int after3Stage = -1
+  Quest after4
+  Int after4Stage = -1
+  String afterGroup
 EndStruct
 
 ; Papyrus arrays hold at most 128 elements, so quests come in pages of up to ${PAGE_SIZE}.
@@ -178,7 +198,7 @@ ${pageBlocks}
   Return entries
 EndFunction
 
-Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asChoice1Group, String asChoice1Side, String asChoice2Group, String asChoice2Side, Bool abNgPlusOnly, Int aiObj1, Int aiObj2, Int aiObj3, Int aiObj4, Int aiObj5, Int aiObj6, Int aiObj7, Int aiObj8, Bool abObjectivesMany, String asEquivalent, Bool abHidden, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2) Global
+Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asChoice1Group, String asChoice1Side, String asChoice2Group, String asChoice2Side, Bool abNgPlusOnly, Int aiObj1, Int aiObj2, Int aiObj3, Int aiObj4, Int aiObj5, Int aiObj6, Int aiObj7, Int aiObj8, Bool abObjectivesMany, String asEquivalent, Bool abHidden, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2, Int aiAfter1, String asAfter1Plugin, Int aiAfter1Stage, Int aiAfter2, String asAfter2Plugin, Int aiAfter2Stage, Int aiAfter3, String asAfter3Plugin, Int aiAfter3Stage, Int aiAfter4, String asAfter4Plugin, Int aiAfter4Stage, String asAfterGroup) Global
   Quest found = Game.GetFormFromFile(aiFormID, asPlugin) as Quest
   If found
     Entry entry = new Entry
@@ -213,6 +233,23 @@ Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, Stri
     entry.complete4 = aiComplete4
     entry.fail1 = aiFail1
     entry.fail2 = aiFail2
+    If aiAfter1 > 0
+      entry.after1 = Game.GetFormFromFile(aiAfter1, asAfter1Plugin) as Quest
+      entry.after1Stage = aiAfter1Stage
+    EndIf
+    If aiAfter2 > 0
+      entry.after2 = Game.GetFormFromFile(aiAfter2, asAfter2Plugin) as Quest
+      entry.after2Stage = aiAfter2Stage
+    EndIf
+    If aiAfter3 > 0
+      entry.after3 = Game.GetFormFromFile(aiAfter3, asAfter3Plugin) as Quest
+      entry.after3Stage = aiAfter3Stage
+    EndIf
+    If aiAfter4 > 0
+      entry.after4 = Game.GetFormFromFile(aiAfter4, asAfter4Plugin) as Quest
+      entry.after4Stage = aiAfter4Stage
+    EndIf
+    entry.afterGroup = asAfterGroup
     akEntries.Add(entry)
   EndIf
 EndFunction
@@ -266,7 +303,7 @@ collectionFiles.forEach((file, fileIndex) => {
     title?: string;
     places?: Array<{ id: string; name: string; kind: string; parent?: string; location?: string }>;
     questlines?: Array<{ id: string; name: string }>;
-    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string }; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; hidden?: boolean; steps?: Array<{ id: number; text: string; target?: number }> }>;
+    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string }; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; hidden?: boolean; steps?: Array<{ id: number; text: string; target?: number }>; availableAfter?: Array<{ name?: string; stage: number }> }>;
   };
   const keyOf = new Map((collection.places ?? []).map((p) => [p.id, p.location ?? `${file}:${p.id}`]));
   for (const place of collection.places ?? []) {
@@ -291,6 +328,8 @@ collectionFiles.forEach((file, fileIndex) => {
       ngPlusOnly: quest.ngPlusOnly || undefined,
       // Objectives as [index, text, target alias or -1], for the expanded quest row.
       steps: quest.steps?.length ? quest.steps.map((s) => [s.id, s.text, s.target ?? -1]) : undefined,
+      // What makes it available: [name of the quest, true if just starting it is enough].
+      unlock: quest.availableAfter?.length ? [quest.availableAfter.find((a) => a.name)?.name ?? "", quest.availableAfter[0].stage < 0] : undefined,
     });
     if (quest.questline) {
       menuLines.get(quest.questline.id)?.quests.push({ id: quest.id, order: quest.questline.order, file: fileIndex });

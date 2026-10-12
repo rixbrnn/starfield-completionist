@@ -8,6 +8,7 @@ Int Property kInProgress = 1 AutoReadOnly
 Int Property kCompleted = 2 AutoReadOnly
 Int Property kFailed = 3 AutoReadOnly
 Int Property kLockedOut = 4 AutoReadOnly ; the other branch of an either/or group was completed
+Int Property kNotAvailable = 5 AutoReadOnly ; not started, and can't be found yet (see Entry.after1)
 
 Float Property CheckInterval = 30.0 AutoReadOnly
 Int Property kCheckTimer = 1 AutoReadOnly
@@ -214,7 +215,45 @@ Int Function Resolve(Completionist:QuestData:Entry akEntry)
   If status != kCompleted && akEntry.choice1Group != "" && LockedByChoice(akEntry)
     Return kLockedOut
   EndIf
+  If status == kNotStarted && akEntry.after1 != None && !Unlocked(akEntry)
+    Return kNotAvailable
+  EndIf
   Return status
+EndFunction
+
+; Whether a quest that hasn't started can be found yet: one of the quest stages that start it is
+; done (stage -1: that quest has started), or a quest of its after-group (One Small Step or one
+; of its New Game+ variants) is completed.
+Bool Function Unlocked(Completionist:QuestData:Entry akEntry)
+  If AfterReached(akEntry.after1, akEntry.after1Stage) || AfterReached(akEntry.after2, akEntry.after2Stage) || AfterReached(akEntry.after3, akEntry.after3Stage) || AfterReached(akEntry.after4, akEntry.after4Stage)
+    Return True
+  EndIf
+  Return akEntry.afterGroup != "" && GroupCompleted(akEntry.afterGroup)
+EndFunction
+
+Bool Function AfterReached(Quest akQuest, Int aiStage)
+  If akQuest == None
+    Return False
+  ElseIf aiStage < 0
+    Return akQuest.IsRunning() || akQuest.IsCompleted() || akQuest.GetStage() > 0
+  EndIf
+  Return akQuest.IsStageDone(aiStage)
+EndFunction
+
+Bool Function GroupCompleted(String asGroup)
+  Int p = 0
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    Int i = 0
+    While i < entries.Length
+      If entries[i].equivalent == asGroup && entries[i].raw == kCompleted
+        Return True
+      EndIf
+      i += 1
+    EndWhile
+    p += 1
+  EndWhile
+  Return False
 EndFunction
 
 ; Equivalent quests are versions of the same content, e.g. the New Game+ variants of
@@ -385,6 +424,8 @@ String Function StatusName(Int aiStatus)
     Return "failed"
   ElseIf aiStatus == kLockedOut
     Return "locked out"
+  ElseIf aiStatus == kNotAvailable
+    Return "not available yet"
   EndIf
   Return "not started"
 EndFunction

@@ -7,7 +7,9 @@
   const bridge = window.osfui;
   const demo = !bridge; // previewing in a browser: fake progress so the layout can be checked
 
-  const NOT_STARTED = 0, IN_PROGRESS = 1, COMPLETED = 2, FAILED = 3, LOCKED_OUT = 4;
+  const NOT_STARTED = 0, IN_PROGRESS = 1, COMPLETED = 2, FAILED = 3, LOCKED_OUT = 4, NOT_AVAILABLE = 5;
+  // Not discovered: not started, whether it can be found yet or not.
+  const isUndiscovered = (s) => s === NOT_STARTED || s === NOT_AVAILABLE;
   const isDone = (s) => s === COMPLETED || s === LOCKED_OUT; // locked out = the other branch of an either/or choice was completed
   const isFinished = (s) => isDone(s) || s === FAILED; // nothing left to do
   const TABS = [
@@ -27,7 +29,7 @@
   ];
   const FILTERS = [
     { id: "all", label: "ALL", test: () => true },
-    { id: "missing", label: "NOT STARTED", test: (s) => s === NOT_STARTED },
+    { id: "missing", label: "NOT STARTED", test: isUndiscovered },
     { id: "active", label: "IN PROGRESS", test: (s) => s === IN_PROGRESS },
     { id: "done", label: "COMPLETED", test: isDone },
   ];
@@ -120,7 +122,7 @@
     const rand = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
     DATA.quests.forEach((q) => {
       const r = rand();
-      statuses.set(q.id, r < 0.38 ? COMPLETED : r < 0.48 ? IN_PROGRESS : r < 0.5 ? FAILED : NOT_STARTED);
+      statuses.set(q.id, r < 0.38 ? COMPLETED : r < 0.48 ? IN_PROGRESS : r < 0.5 ? FAILED : q.unlock && r > 0.75 ? NOT_AVAILABLE : NOT_STARTED);
     });
     // Preview only: ?here=<place name> (or "none") fakes the player's location, &space=1 "in space",
     // &survey=0.63 a planet's survey progress.
@@ -212,7 +214,7 @@
     if (exploredPlaces.has(key)) return true;
     if (!discoveredPlaces) {
       discoveredPlaces = new Set();
-      for (const q of DATA.quests) if (available(q) && statusOf(q) !== NOT_STARTED) for (const p of placeChain(q.place)) discoveredPlaces.add(p.key);
+      for (const q of DATA.quests) if (available(q) && !isUndiscovered(statusOf(q))) for (const p of placeChain(q.place)) discoveredPlaces.add(p.key);
     }
     return discoveredPlaces.has(key);
   }
@@ -261,7 +263,7 @@
   const notYetAvailable = (q) => q.ngPlusOnly && !unityEntered;
 
   function tally(quests) {
-    const t = { total: 0, done: 0, active: 0, failed: 0 };
+    const t = { total: 0, done: 0, active: 0, failed: 0, locked: 0 };
     for (const q of quests) {
       if (!available(q) || notYetAvailable(q)) continue;
       t.total++;
@@ -269,8 +271,9 @@
       if (isDone(s)) t.done++;
       else if (s === IN_PROGRESS) t.active++;
       else if (s === FAILED) t.failed++;
+      else if (s === NOT_AVAILABLE) t.locked++;
     }
-    t.missing = t.total - t.done - t.active - t.failed;
+    t.missing = t.total - t.done - t.active - t.failed - t.locked; // not discovered, but can be found now
     return t;
   }
 
@@ -529,6 +532,7 @@
       el("div", { class: "card-body" },
         el("div", { class: "counts" },
           count(t.done, "Completed"), count(t.active, "In progress", "active"), count(t.missing, "Not discovered"),
+          t.locked ? count(t.locked, "Not available yet", "locked") : null,
           t.failed ? count(t.failed, "Failed", "failed") : null),
         options.badges && options.badges.length ? el("div", { class: "badges" }, options.badges.map((b) => el("span", { text: b }))) : null,
         chain,
@@ -544,7 +548,8 @@
     const states = objectiveStates.get(q.id);
     const leftSteps = states && q.steps ? q.steps.filter((step) => states.get(step[0]) === 1).length : 0;
     const status = s === IN_PROGRESS ? (tracked.has(q.id) ? "In progress · tracked" : "In progress")
-      : s === COMPLETED ? "Completed" : s === FAILED ? "Failed" : s === LOCKED_OUT ? "Not taken: " + lockedReason(q) : "Not discovered";
+      : s === COMPLETED ? "Completed" : s === FAILED ? "Failed" : s === LOCKED_OUT ? "Not taken: " + lockedReason(q)
+      : s === NOT_AVAILABLE ? "Not available yet. " + unlockText(q) : "Not discovered";
     const noun = TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission";
     const fact = (label, text) => [el("div", { class: "kicker", text: label }), el("div", { text })];
     return el("div", { class: "card" },
@@ -569,6 +574,7 @@
     const groups = [
       { label: "IN PROGRESS", quests: sortQuests(filtered.filter((q) => statusOf(q) === IN_PROGRESS)) },
       { label: "NOT DISCOVERED", quests: sortQuests(filtered.filter((q) => statusOf(q) === NOT_STARTED)) },
+      { label: "NOT AVAILABLE YET", quests: sortQuests(filtered.filter((q) => statusOf(q) === NOT_AVAILABLE)) },
       { label: "FINISHED", quests: sortQuests(filtered.filter((q) => isFinished(statusOf(q)))) },
     ].filter((g) => g.quests.length);
     const shown = groups.flatMap((g) => g.quests);
@@ -577,7 +583,7 @@
 
     const children = [];
     if (options.tabs !== false) {
-      const counts = { all: t.total, missing: t.missing, active: t.active, done: t.done };
+      const counts = { all: t.total, missing: t.missing + t.locked, active: t.active, done: t.done };
       const list = options.tabs || FILTERS.map((f) => ({ id: f.id, label: f.label, count: counts[f.id] }));
       const current = options.tabs ? view.selected[view.tab] : view.filter;
       children.push(el("div", { class: "tabs", role: "tablist", "aria-label": "Filter" },
@@ -628,9 +634,9 @@
 
   function questRow(q, index, selected, options) {
     const s = statusOf(q);
-    const hide = view.spoilers && s === NOT_STARTED;
+    const hide = view.spoilers && isUndiscovered(s);
     const expandable = isExpandable(q);
-    const cls = "row" + (selected ? " selected" : "") + (tracked.has(q.id) ? " tracked" : "") + (isFinished(s) ? " finished" : "") + (notYetAvailable(q) ? " unavailable" : "");
+    const cls = "row" + (selected ? " selected" : "") + (tracked.has(q.id) ? " tracked" : "") + (isFinished(s) ? " finished" : "") + (notYetAvailable(q) || s === NOT_AVAILABLE ? " unavailable" : "");
     // Like the game: clicking a quest opens / closes it (when it has objectives), otherwise selects it.
     return el("div", { class: cls, onclick: () => { selectRow(index); if (expandable) toggleOpen(q); } },
       el("span", { class: "tile" }),
@@ -654,7 +660,7 @@
 
   // Order within each group. Default keeps the data's order: story order for questlines,
   // quest-giver order for places.
-  const STATUS_ORDER = { [IN_PROGRESS]: 0, [COMPLETED]: 1, [LOCKED_OUT]: 2, [FAILED]: 3, [NOT_STARTED]: 4 };
+  const STATUS_ORDER = { [IN_PROGRESS]: 0, [COMPLETED]: 1, [LOCKED_OUT]: 2, [FAILED]: 3, [NOT_STARTED]: 4, [NOT_AVAILABLE]: 5 };
   const placePath = (q) => placeChain(q.place).reverse().map((p) => p.name).join(" / ");
   function sortQuests(list) {
     if (view.sort === "default") return list;
@@ -799,8 +805,16 @@
     return "Other path chosen";
   }
 
+  // "Unlocks during Unity" / "After The Empty Nest starts" / "Unlocks later in the story".
+  function unlockText(q) {
+    const [name, starting] = q.unlock || ["", false];
+    if (!name) return "Unlocks later in the story";
+    return starting ? "After " + name + " starts" : "Unlocks during " + name;
+  }
+
   function rowMeta(q, s, options) {
     if (notYetAvailable(q)) return "Available in New Game+";
+    if (s === NOT_AVAILABLE) return unlockText(q);
     if (manual.has(q.id)) return "Marked manually";
     if (s === LOCKED_OUT) return lockedReason(q);
     return options.meta ? options.meta(q) : q.giver || "";

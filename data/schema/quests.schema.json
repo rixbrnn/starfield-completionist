@@ -254,6 +254,23 @@
           },
           "description": "Objective indices; a quest is in progress while one of them is displayed and not completed."
         },
+        "availableAfter": {
+          "type": "array",
+          "maxItems": 4,
+          "description": "When the quest can be found: once any of these quest stages is done (stage -1: once that quest has started). Absent: can be found any time.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["form", "quest", "stage"],
+            "properties": {
+              "form": { "type": "string", "description": "Plugin|FormID of the quest whose stage unlocks this one." },
+              "quest": { "type": "string", "description": "Its editor ID." },
+              "name": { "type": "string", "description": "Its player-facing name, when it has one." },
+              "stage": { "type": "integer", "minimum": -1, "maximum": 65535 },
+              "group": { "type": "string", "description": "Equivalence group of that quest: any member completing also counts." }
+            }
+          }
+        },
         "steps": {
           "type": "array",
           "description": "Objectives as the mission log shows them, for the menu's expanded quest rows.",

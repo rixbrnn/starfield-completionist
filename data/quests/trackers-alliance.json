@@ -901,7 +901,15 @@
         "stage": 2000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "SFBGS003.esm|0x000CF2",
+          "quest": "SFBGS003_MiscPointer",
+          "name": "The Trackers Alliance",
+          "stage": -1
+        }
+      ]
     }
   ]
 }
