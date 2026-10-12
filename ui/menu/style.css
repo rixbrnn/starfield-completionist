@@ -47,6 +47,7 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .views button { padding: 6px 16px; font-size: 19px; color: rgba(255, 255, 255, 0.6); border: 1px solid transparent; }
 .views button:hover { color: #fff; }
 .views button[aria-current="page"] { background: var(--light); color: var(--on-light); }
+.views .num { margin-right: 8px; font-size: 13px; padding: 0 5px; border: 1px solid currentColor; border-radius: 4px; opacity: 0.8; }
 .views kbd { min-width: 30px; height: 28px; border: 1.5px solid rgba(255, 255, 255, 0.8); border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 0 6px; font-family: inherit; font-size: 12px; margin: 0 6px; }
 .totals { display: flex; gap: 28px; }
 .total { display: flex; align-items: center; gap: 10px; }
@@ -148,9 +149,9 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .step .opt { color: #c3ccd8; }
 .step .tag { margin-left: auto; font-size: 12px; color: var(--soft); letter-spacing: 0.12em; white-space: nowrap; }
 .step.finished .label { text-decoration: line-through; color: #c9d1dc; }
-.step.selected .box, .step.selected .txt { background: var(--light); color: var(--on-light); }
+.step.selected .box, .step.selected .txt { background: var(--light); color: #3d4554; }
 .step.selected .box i { border-color: var(--on-light); }
-.step.selected .opt, .step.selected .tag { color: #7d8697; }
+.step.selected .opt, .step.selected .tag { color: #5f6878; }
 
 /* Footer prompts, right-aligned like the game's: label then key. */
 .keys { grid-column: 2 / 4; grid-row: 3; display: flex; align-items: center; justify-content: flex-end; gap: 26px; padding: 0 40px 10px 0; font-size: 15px; }

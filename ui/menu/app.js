@@ -15,6 +15,7 @@
     { id: "here", label: "HERE" },
     { id: "locations", label: "LOCATIONS" },
     { id: "questlines", label: "QUESTS" },
+    { id: "side", label: "SIDE QUESTS" },
     { id: "activities", label: "ACTIVITIES" },
   ];
   const SORTS = [
@@ -39,7 +40,7 @@
 
   const view = {
     tab: "here",
-    selected: { log: "active", here: "all", locations: null, questlines: null, activities: "all" },
+    selected: { log: "active", here: "all", locations: null, questlines: null, side: "all", activities: "all" },
     filter: "all",
     spoilers: readSetting("spoilers", false), // true = hide names of quests you haven't started
     sort: readSetting("sort", "default"), // see SORTS (checked below)
@@ -140,6 +141,7 @@
     bridge.state.on("gameActivities", (value) => { gameActivities = typeof value === "number" ? value : null; queueRender(); });
     bridge.state.on("tracked", (ids) => {
       tracked = new Set((Array.isArray(ids) ? ids : []).map((id) => String(id).toLowerCase()));
+      for (const id of [...trackedStep.keys()]) if (!tracked.has(id)) trackedStep.delete(id);
       queueRender();
     });
     bridge.on("tracked", (event) => {
@@ -231,8 +233,9 @@
   }
 
   // Location tree: systems (by size) > planets > selectable places that hold quests directly.
-  function locationRows(onlyActivities) {
-    const pool = DATA.quests.filter((q) => available(q) && (!onlyActivities || q.activity));
+  // keep: which quests to list (all of them by default).
+  function locationRows(keep) {
+    const pool = DATA.quests.filter((q) => available(q) && (!keep || keep(q)));
     const systems = new Map();
     const anywhere = [];
     for (const q of pool) {
@@ -280,7 +283,14 @@
 
   function activityRows() {
     const all = DATA.quests.filter((q) => q.activity && available(q));
-    return [{ kind: "item", key: "all", label: "All activities", quests: all }, ...locationRows(true)];
+    return [{ kind: "item", key: "all", label: "All activities", quests: all }, ...locationRows((q) => q.activity)];
+  }
+
+  // Side quests (and the odd companion quest) belong to no questline: all of them, then by place.
+  const isSideQuest = (q) => !q.activity && (q.type === "side" || q.type === "companion");
+  function sideQuestRows() {
+    const all = DATA.quests.filter((q) => isSideQuest(q) && available(q));
+    return [{ kind: "item", key: "all", label: "All side quests", quests: all }, ...locationRows(isSideQuest)];
   }
 
   // Log: only quests the player has found (started, finished or failed), like the game's Missions
@@ -319,6 +329,7 @@
     if (view.tab === "locations") return locationRows(false);
     if (view.tab === "questlines") return questlineRows();
     if (view.tab === "activities") return activityRows();
+    if (view.tab === "side") return sideQuestRows();
     return [];
   }
 
@@ -385,10 +396,13 @@
 
   function renderHeader() {
     const pad = view.input === "gamepad";
-    document.getElementById("tabs").replaceChildren(
-      el("kbd", { text: pad ? "LT" : "Z" }),
-      ...TABS.map((t) => el("button", { "aria-current": view.tab === t.id ? "page" : null, text: t.label, onclick: () => setTab(t.id) })),
-      el("kbd", { text: pad ? "RT" : "C" }));
+    // Keyboard: each view's number key on its tab. Controller: LT / RT at the ends.
+    document.getElementById("tabs").replaceChildren(...[
+      pad ? el("kbd", { text: "LT" }) : null,
+      ...TABS.map((t, i) => el("button", { "aria-current": view.tab === t.id ? "page" : null, onclick: () => setTab(t.id) },
+        pad ? null : el("span", { class: "num", text: String(i + 1) }), t.label)),
+      pad ? el("kbd", { text: "RT" }) : null,
+    ].filter(Boolean));
     const quests = tally(DATA.quests.filter((q) => !q.activity));
     const activities = tally(DATA.quests.filter((q) => q.activity));
     const total = (t, label, color) => el("div", { class: "total" },
@@ -660,15 +674,19 @@
   function itemActions(item) {
     if (!item.step) return actionsFor(item.q);
     const [id, , target] = item.step;
-    // A tracks the quest through this objective (remembered for the cyan tile); X shows it on the map.
-    const actions = actionsFor(item.q).filter((a) => a.id === "track" || a.id === "untrack").map((a) => ({
-      ...a,
-      run: () => {
-        if (a.id === "track") trackedStep.set(item.q.id, id);
-        else trackedStep.delete(item.q.id);
-        a.run();
-      },
-    }));
+    // A on an objective: track the quest through it, or move tracking to it when another objective
+    // of the quest is the tracked one; A on the tracked objective stops tracking. X: show it on the map.
+    const actions = [];
+    if (item.state === 1) {
+      const thisOne = tracked.has(item.q.id) && trackedStep.get(item.q.id) === id;
+      actions.push(thisOne
+        ? { id: "untrack", label: "UNTRACK", run: () => { trackedStep.delete(item.q.id); send("untrack", item.q); } }
+        : { id: "track", label: "TRACK", run: () => {
+          trackedStep.set(item.q.id, id);
+          if (tracked.has(item.q.id)) render(); // already the active quest: only the objective changes
+          else send("track", item.q);
+        } });
+    }
     if (item.state === 1 && target >= 0) actions.push({ id: "plot", label: "SHOW ON MAP", run: () => plotObjective(item.q, id, target) });
     return actions;
   }
@@ -802,7 +820,7 @@
     }
     const chain = row.key === "all" || row.key === "anywhere" ? [] : placeChain(row.key);
     const sub = chain.slice(1).map((p) => p.name + (p.kind === "system" ? " system" : "")).join(" · ");
-    const options = view.tab === "activities" && row.key === "all" ? { meta: hubName } : {};
+    const options = (view.tab === "activities" || view.tab === "side") && row.key === "all" ? { meta: hubName } : {};
     // The game's stat (and the Fixer achievement) also counts small errands and repeatable activities.
     const note = view.tab === "activities" && gameActivities !== null
       ? "Game count: " + gameActivities + " activities completed, including small errands and repeatable activities this list leaves out."
@@ -969,7 +987,7 @@
       nowhere ? null : key(view.tab === "log" ? "CATEGORY" : "FILTER", pad ? "LB / RB" : "Q / E", () => cycleFilter(1)),
       key("SORT", pad ? "Y" : "T", cycleSort),
       view.tab !== "log" ? key(view.spoilers ? "SHOW NAMES" : "HIDE SPOILERS", pad ? "VIEW" : "X", toggleSpoilers) : null,
-      key("VIEWS", pad ? "LT / RT" : "Z / C", () => cycleTab(1)),
+      key("VIEWS", pad ? "LT / RT" : "1-" + TABS.length, () => cycleTab(1)),
       key("BACK", pad ? "B" : "ESC", () => { if (bridge) bridge.send("close"); }),
     ];
     document.getElementById("keys").replaceChildren(...keys.filter(Boolean));
@@ -1221,6 +1239,26 @@
       if (values) handleTriggers(values);
     };
     bridge.on("osfui.gamepadRaw", onRaw("raw"));
+    // Raw mode stops the usual ui.gamepad events and sends something else: log the name and
+    // content of every event the menu doesn't know (first three of each) to find it.
+    const known = ["tracked", "objectives", "plotfailed", "ui.gamepad", "osfui.gamepadraw", "gamepadraw"];
+    const seenEvents = new Map();
+    const deliver = bridge.onMessage;
+    if (typeof deliver === "function") {
+      bridge.onMessage = function (json) {
+        try {
+          const message = typeof json === "string" ? JSON.parse(json) : json;
+          const name = String((message && (message.name || message.kind)) || "?").toLowerCase();
+          const local = name.split("/").pop();
+          if (message && message.kind !== "state" && message.kind !== "reply" && !known.includes(local)) {
+            const count = (seenEvents.get(name) || 0) + 1;
+            seenEvents.set(name, count);
+            if (count <= 3) bridge.send("log", "message " + JSON.stringify(message).slice(0, 400));
+          }
+        } catch (e) { /* not JSON: leave it to the helper */ }
+        return deliver.apply(this, arguments);
+      };
+    }
     bridge.on("gamepadRaw", onRaw("raw-local"));
     // A send() endpoint (the log said "wrong-endpoint-kind" for request()).
     const requestRawMode = () => {
@@ -1251,11 +1289,7 @@
       cycleFilter(-1);
     } else if (key === "e") {
       cycleFilter(1);
-    } else if (key === "z") {
-      cycleTab(-1);
-    } else if (key === "c") {
-      cycleTab(1);
-    } else if (/^[1-5]$/.test(key)) {
+    } else if (/^[1-9]$/.test(key) && Number(key) <= TABS.length) {
       setTab(TABS[Number(key) - 1].id);
     } else if (key === "arrowup" || key === "w") {
       event.preventDefault();
@@ -1271,7 +1305,7 @@
       right();
     } else if (key === "enter") {
       event.preventDefault();
-      activate();
+      if (!event.repeat) activate();
     } else if (key === "m") {
       overrideSelected();
     } else if (key === "r") {
