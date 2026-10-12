@@ -6,9 +6,9 @@ Tracks every quest and activity in Starfield and shows what you're still missing
 
 ## Opening the menu
 
-Press **F7** (change it in **Pause menu > Mod Settings > Keybindings**). With a controller, assign a binding there to **Open Completionist**; we recommend **clicking both sticks together (LS + RS)**, which you never press by accident and which doesn't clash with jumping, crouching or backing out of menus. There is no controller binding by default.
+Press **F7** (change it in **Pause menu > Mod Settings > Keybindings**). With a controller, assign a binding there to **Open Completionist**; we recommend **X + A** (pressed together). There is no controller binding by default.
 
-In the menu: **LB / RB** (Q / E) switch views, a **right-stick flick** (Z / C) switches the category tabs, **A** (Enter) opens a quest and tracks an objective, **X** (R) shows it on the map.
+In the menu: **LB / RB** (Q / E) switch views, a **right-stick flick** (Z / C) switches the category tabs, **A** (Enter) opens a quest, and on an objective tracks the quest, **X** (R) shows it on the map.
 
 ## Repository layout
 

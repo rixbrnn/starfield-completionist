@@ -58,7 +58,6 @@
   let shownCards = []; // systems on the nothing-tracked page
   let hereLayout = "city"; // Here tab: "city", "places" (planet or system) or "nowhere"
   let tracked = new Set(); // ids of quests the player is tracking (the game's "active" quests)
-  const trackedStep = new Map(); // quest id -> objective picked when tracking it from the menu
   let inSpace = false;
   let survey = -1; // current planet's survey progress, 0-1 (-1 = no planet)
   let statuses = new Map(); // quest id -> status; quests missing here aren't in the player's load order
@@ -141,7 +140,6 @@
     bridge.state.on("gameActivities", (value) => { gameActivities = typeof value === "number" ? value : null; queueRender(); });
     bridge.state.on("tracked", (ids) => {
       tracked = new Set((Array.isArray(ids) ? ids : []).map((id) => String(id).toLowerCase()));
-      for (const id of [...trackedStep.keys()]) if (!tracked.has(id)) trackedStep.delete(id);
       queueRender();
     });
     bridge.on("tracked", (event) => {
@@ -597,12 +595,7 @@
   function stepRow(item, index, selected) {
     const [, text, target] = item.step;
     const optional = /^\(Optional\)\s*/i.exec(text);
-    // Cyan tile: the objective being tracked (the one picked when tracking; every open
-    // objective when the quest was tracked elsewhere, e.g. in the game's own Missions menu).
-    const picked = trackedStep.get(item.q.id);
-    const isTracked = tracked.has(item.q.id) && item.state === 1 && (picked === undefined || picked === item.step[0]);
-    return el("div", { class: "step" + (selected ? " selected" : "") + (item.state >= 2 ? " finished" : "") + (isTracked ? " tracked" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
-      el("span", { class: "tile" }),
+    return el("div", { class: "step" + (selected ? " selected" : "") + (item.state >= 2 ? " finished" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
       el("span", { class: "box" }, el("i", { class: item.state === 2 ? "done" : item.state === 3 ? "failed" : "" })),
       el("span", { class: "txt" },
         optional ? el("span", { class: "opt", text: "(Optional)" }) : null,
@@ -672,19 +665,9 @@
   function itemActions(item) {
     if (!item.step) return actionsFor(item.q);
     const [id, , target] = item.step;
-    // A on an objective: track the quest through it, or move tracking to it when another objective
-    // of the quest is the tracked one; A on the tracked objective stops tracking. X: show it on the map.
-    const actions = [];
-    if (item.state === 1) {
-      const thisOne = tracked.has(item.q.id) && trackedStep.get(item.q.id) === id;
-      actions.push(thisOne
-        ? { id: "untrack", label: "UNTRACK", run: () => { trackedStep.delete(item.q.id); send("untrack", item.q); } }
-        : { id: "track", label: "TRACK", run: () => {
-          trackedStep.set(item.q.id, id);
-          if (tracked.has(item.q.id)) render(); // already the active quest: only the objective changes
-          else send("track", item.q);
-        } });
-    }
+    // A on an objective tracks (or stops tracking) its quest: like the game, that tracks all of
+    // the quest's objectives at once. X shows this objective on the map.
+    const actions = item.state === 1 ? actionsFor(item.q).filter((a) => a.id === "track" || a.id === "untrack") : [];
     if (item.state === 1 && target >= 0) actions.push({ id: "plot", label: "SHOW ON MAP", run: () => plotObjective(item.q, id, target) });
     return actions;
   }

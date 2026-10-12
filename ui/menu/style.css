@@ -139,8 +139,6 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 
 /* Objectives of an open quest: a checkbox cell and the text, indented under the quest. */
 .step { flex-shrink: 0; display: flex; gap: 3px; height: 46px; margin-left: 76px; cursor: pointer; font-size: 16px; }
-.step .tile { width: 8px; flex-shrink: 0; background: var(--panel); }
-.step.tracked .tile { background: var(--tracked); }
 .step .box { width: 46px; flex-shrink: 0; background: var(--panel); display: flex; align-items: center; justify-content: center; }
 .step .box i { position: relative; width: 20px; height: 20px; border: 1.5px solid var(--text); }
 .step .txt { flex: 1; min-width: 0; background: var(--panel); display: flex; align-items: center; gap: 10px; padding: 0 16px; }
