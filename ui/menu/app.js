@@ -471,8 +471,7 @@
     const line = DATA.questlines.find((l) => l.quests.includes(q.id));
     const where = placeChain(q.place).map((p) => p.name).join(", ") || "Anywhere";
     const states = objectiveStates.get(q.id);
-    const shownSteps = states && q.steps ? q.steps.filter((step) => states.get(step[0]) > 0) : [];
-    const doneSteps = shownSteps.filter((step) => states.get(step[0]) === 2).length;
+    const leftSteps = states && q.steps ? q.steps.filter((step) => states.get(step[0]) === 1).length : 0;
     const status = s === IN_PROGRESS ? (tracked.has(q.id) ? "In progress · tracked" : "In progress")
       : s === COMPLETED ? "Completed" : s === FAILED ? "Failed" : s === LOCKED_OUT ? "Not taken: " + lockedReason(q) : "Not discovered";
     const noun = TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission";
@@ -482,7 +481,7 @@
         el("div", {}, el("div", { class: "card-title", text: q.name }), el("div", { class: "card-sub", text: line ? line.name : noun.charAt(0).toUpperCase() + noun.slice(1) }))),
       el("div", { class: "card-body" },
         fact("Starts at", where + (q.giver ? " · " + q.giver : "")),
-        shownSteps.length ? fact("Objectives", doneSteps + " of " + shownSteps.length + " shown objectives done") : null,
+        s === IN_PROGRESS && states ? fact("Objectives", leftSteps === 1 ? "1 objective to do" : leftSteps + " objectives to do") : null,
         line && line.quests.length > 1 ? fact("Questline", "Mission " + (line.quests.indexOf(q.id) + 1) + " of " + line.quests.length + " in " + line.name) : null,
         fact("Status", status + (manual.has(q.id) ? " (marked manually)" : ""))));
   }
@@ -657,25 +656,37 @@
   const objectiveStates = new Map(); // quest id -> Map(objective index -> 0 hidden, 1 shown, 2 completed, 3 failed)
   const objectivesAsked = new Map(); // quest id -> time of the last request
 
+  // In progress or finished (completed / failed): the quests whose objectives are worth asking about.
+  const hasObjectiveLog = (q) => !q.activity && !!q.steps && (statusOf(q) === IN_PROGRESS || statusOf(q) === COMPLETED || statusOf(q) === FAILED);
   // Asks Papyrus which objectives the mission log shows, when the last answer is older than maxAge.
   function ensureObjectives(q, maxAge) {
-    if (statusOf(q) === IN_PROGRESS && q.steps && Date.now() - (objectivesAsked.get(q.id) || 0) > maxAge) requestObjectives(q);
+    if (hasObjectiveLog(q) && Date.now() - (objectivesAsked.get(q.id) || 0) > maxAge) requestObjectives(q);
   }
-  // The objectives of q that the mission log shows, or null while Papyrus hasn't said.
+  // The objectives to list under q, or null while Papyrus hasn't said: for a quest in progress
+  // only the ones still to do; for a finished quest every objective that led to the end.
   function shownSteps(q) {
     const states = objectiveStates.get(q.id);
-    if (statusOf(q) !== IN_PROGRESS || !q.steps || !states) return null;
-    return q.steps.filter((step) => states.get(step[0]) > 0).map((step) => ({ q, step, state: states.get(step[0]) }));
+    if (!hasObjectiveLog(q) || !states) return null;
+    const keep = statusOf(q) === IN_PROGRESS ? (state) => state === 1 : (state) => state > 0;
+    return q.steps.filter((step) => keep(states.get(step[0]))).map((step) => ({ q, step, state: states.get(step[0]) }));
   }
-  // Quests open into the objectives the game shows; activities have none to show.
+  // Quests open into their objectives; activities have none to show. A finished quest can always
+  // be opened (its objectives are only asked for then); one in progress needs an objective left.
   function isExpandable(q) {
-    if (q.activity) return false;
+    if (!hasObjectiveLog(q)) return false;
+    if (statusOf(q) !== IN_PROGRESS) return true;
     const steps = shownSteps(q);
     return !!steps && steps.length > 0;
   }
   function stepItems(q) {
-    ensureObjectives(q, 2000);
-    return isExpandable(q) ? shownSteps(q) : [];
+    ensureObjectives(q, statusOf(q) === IN_PROGRESS ? 2000 : 60000);
+    const steps = shownSteps(q);
+    // The game kept no objectives for this finished quest: close it again and say so.
+    if (steps && steps.length === 0 && statusOf(q) !== IN_PROGRESS && view.open.has(q.id)) {
+      view.open.delete(q.id);
+      setTimeout(() => showToast("The game kept no objectives for " + q.name + "."), 0);
+    }
+    return steps || [];
   }
   function requestObjectives(q) {
     objectivesAsked.set(q.id, Date.now());
@@ -685,7 +696,8 @@
       return;
     }
     // Preview: a single objective is shown as is; otherwise the first is done and the next two shown.
-    objectiveStates.set(q.id, new Map(ids.map((id, i) => [id, ids.length === 1 ? 1 : i === 0 ? 2 : i < 3 ? 1 : 0])));
+    const finished = statusOf(q) !== IN_PROGRESS;
+    objectiveStates.set(q.id, new Map(ids.map((id, i) => [id, finished ? (i < 4 ? 2 : 0) : ids.length === 1 ? 1 : i === 0 ? 2 : i < 3 ? 1 : 0])));
   }
   function plotObjective(q, objective, alias) {
     if (bridge) bridge.send("plotObjective", q.id, alias);
