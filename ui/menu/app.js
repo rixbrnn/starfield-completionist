@@ -657,7 +657,6 @@
   }
 
   function stepRow(item, index, selected) {
-    const [, , target] = item.step;
     const { text, unknown } = stepText(item.q, item.step);
     const optional = /^\(Optional\)\s*/i.exec(text);
     return el("div", { class: "step" + (selected ? " selected" : "") + (item.state >= 2 ? " finished" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
@@ -666,7 +665,7 @@
         optional ? el("span", { class: "opt", text: "(Optional)" }) : null,
         el("span", { class: "label", text: optional ? text.slice(optional[0].length) : text }),
         unknown && item.state === 1 ? el("span", { class: "tag hint", text: "DETAILS IN MISSIONS MENU" }) : null,
-        item.state === 1 && target >= 0 ? el("span", { class: "tag", text: "ON MAP" }) : null));
+        item.state === 1 && mapAlias(item.step) >= 0 ? el("span", { class: "tag", text: "ON MAP" }) : null));
   }
 
   // Order within each group. Default keeps the data's order: story order for questlines,
@@ -730,11 +729,12 @@
   // Objective row: a course to where its target is now, and tracking for the quest it belongs to.
   function itemActions(item) {
     if (!item.step) return actionsFor(item.q);
-    const [id, , target] = item.step;
+    const [id] = item.step;
     // A on an objective tracks (or stops tracking) its quest: like the game, that tracks all of
     // the quest's objectives at once. X shows this objective on the map.
     const actions = item.state === 1 ? actionsFor(item.q).filter((a) => a.id === "track" || a.id === "untrack") : [];
-    if (item.state === 1 && target >= 0) actions.push({ id: "plot", label: "SHOW ON MAP", run: () => plotObjective(item.q, id, target) });
+    const alias = mapAlias(item.step);
+    if (item.state === 1 && alias >= 0) actions.push({ id: "plot", label: "SHOW ON MAP", run: () => plotObjective(item.q, id, alias) });
     return actions;
   }
   const selectedItem = () => (view.focus === "list" ? shownItems[view.row] : undefined);
@@ -873,6 +873,13 @@
     // Preview: a single objective is shown as is; otherwise the first is done and the next two shown.
     const finished = statusOf(q) !== IN_PROGRESS;
     objectiveStates.set(q.id, new Map(ids.map((id, i) => [id, finished ? (i < 4 ? 2 : 0) : ids.length === 1 ? 1 : i === 0 ? 2 : i < 3 ? 1 : 0])));
+  }
+  // Where an objective is on the map: the location its text names ("Go to {0}"), when it names
+  // one; otherwise its target. Targets are often markers that only move into place later (an
+  // artifact cave), so before that they would point at the wrong place.
+  function mapAlias(step) {
+    const named = (step[3] || []).find((token) => token[0] === "location");
+    return named ? Number(named[1]) : step[2];
   }
   function plotObjective(q, objective, alias) {
     if (bridge) bridge.send("plotObjective", q.id, alias);
