@@ -16,6 +16,7 @@ const types: Record<string, string> = {
   ".css": "text/css; charset=utf-8",
   ".json": "application/json",
   ".woff2": "font/woff2",
+  ".svg": "image/svg+xml",
 };
 
 if (!existsSync(root)) {
