@@ -992,7 +992,10 @@
       const category = categories.find((c) => c.id === view.selected.log);
       if (view.focus !== "list") view.focus = "list";
       renderDetail(category.quests, { tabs: categories.map((c) => ({ id: c.id, label: c.label, count: c.quests.length })), meta: hubName, empty: "Nothing here yet." });
-      renderSide([], questCard(selectedQuest() || shownQuests[0]));
+      // Overall progress first, like the other views' cards, then the selected quest.
+      renderSide([], el("div", {},
+        summaryCard("All quests and activities", "This playthrough", DATA.quests),
+        questCard(selectedQuest() || shownQuests[0])));
       return;
     }
     const row = items.find((r) => r.key === view.selected[view.tab]);
