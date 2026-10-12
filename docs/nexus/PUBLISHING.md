@@ -29,7 +29,7 @@ The version comes from `package.json`; bump it before packaging.
 4. **Category:** Utilities (or User Interface). **Tags:** Quests, User Interface, Quality of Life.
 5. **Requirements:** add SFSE (106), Address Library for SFSE Plugins (3256), OSF Settings (18326), OSF UI (17711).
 6. **Permissions:** the code is GPL-3.0-or-later; credit the inspiration (Faen90's Completionist).
-7. **Images:** in-game screenshots of the menu (Log, Here, Locations, Quests tabs) at 1080p or higher.
+7. **Images:** `npm run build:mod` then `npm run media` writes the header banner (1300x372) and 1920x1080 gallery shots of the menu to `dist/nexus-media/` (preview showcase mode; they contain the game's icons, so they are not committed). Add in-game screenshots too if you can.
 8. **Files:** upload the zip as a Main file, with the version and a changelog. Leave the "Mod manager download" option on.
 9. Publish (or keep hidden while testing with friends: Nexus lets you upload while the page is unpublished).
 

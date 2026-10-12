@@ -69,6 +69,7 @@
   let unityEntered = false; // NG+-only quests count once the player has entered Unity
   let gameActivities = null; // the game's own "Activities Completed" stat
   const demoAuto = new Map(); // preview only: detected status to restore on "reset to auto"
+  let previewPlace = null; // preview only: left-column item to select, by name
 
   const questsById = new Map(DATA.quests.map((q) => [q.id, q]));
 
@@ -127,6 +128,38 @@
     // Preview only: ?here=<place name> (or "none") fakes the player's location, &space=1 "in space",
     // &survey=0.63 a planet's survey progress.
     const params = new URLSearchParams(location.search);
+    // &showcase=1: believable progress for screenshots. Each questline is done in story order up
+    // to a point, the next quest in progress, the rest not started or not available yet; other
+    // quests about a third done.
+    if (params.get("showcase") === "1") {
+      const reached = [0.36, 0.7, 0.45, 0.2, 0.55, 0.3, 0.6, 0.5];
+      const inLine = new Set();
+      DATA.questlines.forEach((line, n) => {
+        const done = Math.floor(line.quests.length * reached[n % reached.length]);
+        line.quests.forEach((id, i) => {
+          inLine.add(id);
+          const q = questsById.get(id);
+          statuses.set(id, i < done ? COMPLETED : i === done ? IN_PROGRESS : i <= done + 1 || !(q && q.unlock) ? NOT_STARTED : NOT_AVAILABLE);
+        });
+      });
+      for (const q of DATA.quests) {
+        if (inLine.has(q.id)) continue;
+        const r = rand();
+        statuses.set(q.id, r < 0.33 ? COMPLETED : r < 0.42 ? IN_PROGRESS : r < 0.44 ? FAILED : q.unlock && r > 0.85 ? NOT_AVAILABLE : NOT_STARTED);
+      }
+    }
+    // &tab=<view id> &cat=<filter / Log category> &place=<left-column item name> &sel=<quest name>
+    // &open=<quest name>,... &track=<quest name> &spoilers=0|1 &sort=<sort id>: the menu's state.
+    const byName = (name) => DATA.quests.find((q) => q.name.toLowerCase() === String(name).toLowerCase());
+    if (params.has("tab")) view.tab = params.get("tab");
+    if (params.has("cat")) { if (view.tab === "log") view.selected.log = params.get("cat"); else view.filter = params.get("cat"); }
+    if (params.has("place")) previewPlace = params.get("place");
+    if (params.has("spoilers")) view.spoilers = params.get("spoilers") === "1";
+    if (params.has("sort")) view.sort = params.get("sort");
+    for (const name of (params.get("open") || "").split(",").filter(Boolean)) { const q = byName(name); if (q) view.open.add(q.id); }
+    if (params.has("track")) { const q = byName(params.get("track")); if (q) tracked.add(q.id); }
+    if (params.has("sel")) { const q = byName(params.get("sel")); if (q) { view.selQuest = q.id; view.focus = "list"; } }
+    else if (params.has("tab") && view.tab !== "here" && view.tab !== "log") view.focus = "side";
     const hereName = params.get("here") || "Neon";
     const herePlaceData = Object.values(DATA.places).find((p) => p.name === hereName && p.loc);
     locationChain = herePlaceData ? [runtimeIdFor(herePlaceData.loc)] : [];
@@ -944,6 +977,11 @@
     shownCards = [];
     const rows = sideRows();
     const items = rows.filter((r) => r.kind === "item");
+    if (previewPlace) {
+      const hit = items.find((r) => r.label.toLowerCase() === previewPlace.toLowerCase());
+      if (hit) view.selected[view.tab] = hit.key;
+      previewPlace = null;
+    }
     if (!items.some((r) => r.key === view.selected[view.tab]) && items.length) view.selected[view.tab] = items[0].key;
 
     if (view.tab === "here") return renderHere(rows);
