@@ -1,6 +1,10 @@
 <!doctype html>
 <!-- Nexus Mods header banner (1300x372), captured by tools/media/capture-nexus.ts from the built
-     menu folder, so it uses the menu's fonts and the game icons extracted at build time. -->
+     menu folder, so it uses the menu's fonts and the game icons extracted at build time.
+     Nexus draws over it: the mod name, breadcrumbs and stats over the lower left, the download
+     buttons over the lower right and "Manage" in the top right corner, and it scales the banner
+     up with a slight crop. So the content sits in the top two thirds, clear of those, and the
+     mod name isn't repeated. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -9,75 +13,77 @@
   @font-face { font-family: "Share Tech Mono"; src: url("fonts/ShareTechMono-400.woff2") format("woff2"); }
   @font-face { font-family: "Inter"; font-weight: 100 900; src: url("fonts/Inter.woff2") format("woff2"); }
   html, body { margin: 0; }
-  body { width: 1300px; height: 372px; overflow: hidden; color: #f2f4f7; font-family: "Inter", sans-serif;
+  body { position: relative; width: 1300px; height: 372px; overflow: hidden; color: #f2f4f7; font-family: "Inter", sans-serif;
     background:
+      linear-gradient(180deg, rgba(10, 16, 28, 0) 50%, rgba(10, 16, 28, 0.7) 100%),
       url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
-      radial-gradient(ellipse at 72% 45%, #2e4266 0%, #213354 45%, #16223a 100%); }
+      radial-gradient(ellipse at 70% 30%, #2f4468 0%, #213354 45%, #16223a 100%); }
   .mono { font-family: "Share Tech Mono", monospace; text-transform: uppercase; }
-  .wrap { position: relative; height: 100%; display: flex; align-items: center; padding: 0 64px; gap: 56px; box-sizing: border-box; }
-  .left { flex: 0 0 560px; }
-  .kicker { font-size: 15px; letter-spacing: 0.32em; color: #aab6c8; }
-  h1 { margin: 10px 0 0; font-family: "Share Tech Mono", monospace; font-weight: 400; font-size: 76px; letter-spacing: 0.1em; line-height: 1; }
-  .rule { display: flex; gap: 4px; margin: 18px 0 16px; }
-  .rule i { height: 4px; width: 46px; background: rgba(255, 255, 255, 0.25); }
-  .rule i:first-child { background: #34d8e8; width: 92px; }
-  .tag { font-size: 19px; line-height: 1.45; color: #d5dbe4; }
-  .emblems { display: flex; gap: 14px; margin-top: 22px; }
-  .emblems img { width: 34px; height: 34px; }
-  /* Right: what the game's own mission log doesn't show: completion per place, quests not
-     found yet, and quests the story hasn't unlocked yet. */
-  .right { flex: 1; display: flex; flex-direction: column; gap: 4px; }
-  .place { display: flex; align-items: center; gap: 20px; margin-bottom: 8px; }
-  .place svg { width: 84px; height: 84px; flex-shrink: 0; }
+
+  /* Top left: what it is, and whose quests. */
+  .intro { position: absolute; left: 64px; top: 46px; width: 560px; }
+  .kicker { font-size: 17px; letter-spacing: 0.3em; color: #c9d3e2; }
+  .rule { display: flex; gap: 4px; margin: 14px 0 16px; }
+  .rule i { height: 3px; width: 40px; background: rgba(255, 255, 255, 0.25); }
+  .rule i:first-child { background: #34d8e8; width: 80px; }
+  .emblems { display: flex; gap: 12px; }
+  .emblems img { width: 30px; height: 30px; }
+
+  /* A faint ring behind the intro, echoing the completion rings. */
+  .deco { position: absolute; left: -120px; top: -150px; width: 520px; height: 520px; opacity: 0.08; }
+
+  /* Right: what the game's own mission log doesn't show. */
+  .panel { position: absolute; left: 700px; top: 26px; width: 450px; display: flex; flex-direction: column; gap: 3px; }
+  .place { display: flex; align-items: center; gap: 16px; margin-bottom: 6px; }
+  .place svg { width: 66px; height: 66px; flex-shrink: 0; }
   .place .pct { fill: #f2f4f7; font-family: "Share Tech Mono", monospace; font-size: 15px; }
-  .pname { font-size: 26px; letter-spacing: 0.08em; }
-  .psub { font-family: "Inter", sans-serif; text-transform: none; font-size: 14px; color: #d5dbe4; margin-top: 2px; }
-  .pcounts { display: flex; gap: 16px; margin-top: 8px; font-size: 13px; letter-spacing: 0.1em; color: #aab6c8; white-space: nowrap; }
-  .pcounts b { font-weight: 400; font-size: 17px; color: #fff; margin-right: 5px; }
+  .pname { font-size: 21px; letter-spacing: 0.08em; }
+  .pcounts { display: flex; gap: 14px; margin-top: 6px; font-size: 12px; letter-spacing: 0.1em; color: #aab6c8; white-space: nowrap; }
+  .pcounts b { font-weight: 400; font-size: 15px; color: #fff; margin-right: 4px; }
   .pcounts b.c { color: #34d8e8; }
-  .group { font-size: 13px; letter-spacing: 0.16em; color: #b8c3d4; margin: 6px 0 2px 2px; }
-  .row { display: flex; gap: 3px; height: 40px; }
-  .row .tile { width: 7px; background: rgba(118, 136, 166, 0.55); }
-  .row .panel { flex: 1; display: flex; align-items: center; gap: 14px; padding: 0 16px; background: rgba(118, 136, 166, 0.55); font-size: 15px; letter-spacing: 0.06em; }
-  .row .panel img { width: 22px; height: 22px; }
+  .group { font-size: 11px; letter-spacing: 0.16em; color: #b8c3d4; margin: 5px 0 1px 2px; }
+  .row { display: flex; gap: 3px; height: 32px; }
+  .row .tile { width: 6px; background: rgba(118, 136, 166, 0.55); }
+  .row .panelrow { flex: 1; display: flex; align-items: center; gap: 12px; padding: 0 12px; background: rgba(118, 136, 166, 0.55); font-size: 13px; letter-spacing: 0.06em; }
+  .row img { width: 18px; height: 18px; }
   .row .name { flex: 1; white-space: nowrap; }
-  .row .meta { font-family: "Inter", sans-serif; text-transform: none; letter-spacing: 0; font-size: 13px; color: #d5dbe4; white-space: nowrap; }
+  .row .meta { font-family: "Inter", sans-serif; text-transform: none; letter-spacing: 0; font-size: 11px; color: #d5dbe4; white-space: nowrap; }
   .row.locked { opacity: 0.6; }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="left">
-      <div class="kicker mono">Mission tracker for Starfield</div>
-      <h1>COMPLETIONIST</h1>
-      <div class="rule"><i></i><i></i><i></i><i></i></div>
-      <div class="tag">Every quest, activity and errand, by system, planet and city. Find what you missed, see what unlocks next, and set a course from one menu.</div>
-      <div class="emblems">
-        <img src="icons/constellation-color.svg" alt=""><img src="icons/united-colonies-color.svg" alt=""><img src="icons/freestar-color.svg" alt="">
-        <img src="icons/ryujin-industries-color.svg" alt=""><img src="icons/blackfleet-color.svg" alt=""><img src="icons/varuun-color.svg" alt="">
-        <img src="icons/trackers-alliance-color.svg" alt=""><img src="icons/terran-armada-color.svg" alt=""><img src="icons/activities-color.svg" alt="">
+  <svg class="deco" viewBox="0 0 52 52" aria-hidden="true">
+    <circle cx="26" cy="26" r="22" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+    <circle cx="26" cy="26" r="22" fill="none" stroke="#34d8e8" stroke-width="2.4" stroke-dasharray="90 138.2" transform="rotate(-90 26 26)"/>
+  </svg>
+
+  <div class="intro">
+    <div class="kicker mono">Mission tracker for Starfield</div>
+    <div class="rule"><i></i><i></i><i></i><i></i></div>
+    <div class="emblems">
+      <img src="icons/constellation-color.svg" alt=""><img src="icons/united-colonies-color.svg" alt=""><img src="icons/freestar-color.svg" alt="">
+      <img src="icons/ryujin-industries-color.svg" alt=""><img src="icons/blackfleet-color.svg" alt=""><img src="icons/varuun-color.svg" alt="">
+      <img src="icons/trackers-alliance-color.svg" alt=""><img src="icons/terran-armada-color.svg" alt=""><img src="icons/activities-color.svg" alt="">
+    </div>
+  </div>
+
+  <div class="panel mono">
+    <div class="place">
+      <svg viewBox="0 0 52 52" role="img" aria-label="39% complete">
+        <circle cx="26" cy="26" r="22" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="4"/>
+        <circle cx="26" cy="26" r="22" fill="none" stroke="#f2f4f7" stroke-width="4" stroke-dasharray="53.9 138.2" transform="rotate(-90 26 26)"/>
+        <circle cx="26" cy="26" r="22" fill="none" stroke="#34d8e8" stroke-width="4" stroke-dasharray="10.7 138.2" stroke-dashoffset="-53.9" transform="rotate(-90 26 26)"/>
+        <text class="pct" x="26" y="26" text-anchor="middle" dominant-baseline="central">39%</text>
+      </svg>
+      <div>
+        <div class="pname">New Atlantis</div>
+        <div class="pcounts"><span><b>35</b>DONE</span><span><b class="c">7</b>IN PROGRESS</span><span><b>34</b>TO FIND</span><span><b>14</b>NOT YET</span></div>
       </div>
     </div>
-    <div class="right mono">
-      <div class="place">
-        <svg viewBox="0 0 52 52" role="img" aria-label="39% complete">
-          <circle cx="26" cy="26" r="22" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="4"/>
-          <circle cx="26" cy="26" r="22" fill="none" stroke="#f2f4f7" stroke-width="4" stroke-dasharray="53.9 138.2" transform="rotate(-90 26 26)"/>
-          <circle cx="26" cy="26" r="22" fill="none" stroke="#34d8e8" stroke-width="4" stroke-dasharray="10.7 138.2" stroke-dashoffset="-53.9" transform="rotate(-90 26 26)"/>
-          <text class="pct" x="26" y="26" text-anchor="middle" dominant-baseline="central">39%</text>
-        </svg>
-        <div>
-          <div class="pname">New Atlantis</div>
-          <div class="psub">Jemison · Alpha Centauri system</div>
-          <div class="pcounts"><span><b>35</b>DONE</span><span><b class="c">7</b>IN PROGRESS</span><span><b>34</b>TO FIND</span><span><b>14</b>NOT YET</span></div>
-        </div>
-      </div>
-      <div class="group">NOT DISCOVERED · 34</div>
-      <div class="row"><span class="tile"></span><span class="panel"><img src="icons/no-faction-color.svg" alt=""><span class="name">Distilling Confidence</span><span class="meta">Nyssa Marcano</span></span></div>
-      <div class="row"><span class="tile"></span><span class="panel"><img src="icons/united-colonies-color.svg" alt=""><span class="name">Supra et Ultra</span><span class="meta">MAST District</span></span></div>
-      <div class="group">NOT AVAILABLE YET · 14</div>
-      <div class="row locked"><span class="tile"></span><span class="panel"><img src="icons/constellation-color.svg" alt=""><span class="name">Unity</span><span class="meta">Unlocks during High Price to Pay</span></span></div>
-    </div>
+    <div class="group">NOT DISCOVERED · 34</div>
+    <div class="row"><span class="tile"></span><span class="panelrow"><img src="icons/no-faction-color.svg" alt=""><span class="name">Distilling Confidence</span><span class="meta">Nyssa Marcano</span></span></div>
+    <div class="group">NOT AVAILABLE YET · 14</div>
+    <div class="row locked"><span class="tile"></span><span class="panelrow"><img src="icons/constellation-color.svg" alt=""><span class="name">Unity</span><span class="meta">Unlocks during High Price to Pay</span></span></div>
   </div>
 </body>
 </html>
