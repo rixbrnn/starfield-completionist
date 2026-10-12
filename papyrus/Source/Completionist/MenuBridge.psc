@@ -37,6 +37,7 @@ Function Register()
   OSFUI.RegisterSend(Self, ModId, "plotLocation")
   OSFUI.RegisterSend(Self, ModId, "objectives")
   OSFUI.RegisterSend(Self, ModId, "plotObjective")
+  OSFUI.RegisterSend(Self, ModId, "log")
   OSFSettings.RegisterHotkey(Self, ModId, OpenHotkey)
   ; Until the tracker's refresh finishes, statuses are incomplete; StatusChanged publishes them then.
   If Tracker().IsReady()
@@ -80,6 +81,11 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
       OSFUI.Close(MenuView)
       Game.ShowGalaxyStarMapMenuAndPlotToLocation(target)
     EndIf
+    Return
+  EndIf
+  ; osfui.send("log", text): a diagnostic line from the menu, written to the mod's user log.
+  If asName == "log"
+    Debug.TraceUser("Completionist", "menu: " + (akArgs[0] as String))
     Return
   EndIf
   ; osfui.send("override", questId, value): 0 = automatic, 1 = mark done, 2 = mark not done.

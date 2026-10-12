@@ -358,8 +358,6 @@
     if (q.type === "faction") return (FACTION_ICONS[q.faction] || "no-faction") + "-color";
     return "no-faction-color";
   }
-  // Arrows are drawn: the menu fonts have no arrow glyphs.
-  const chevron = (direction) => el("span", { class: "chev " + direction, "aria-hidden": "true" });
   const emblem = (name) => el("img", { class: "emblem", src: "icons/" + name + ".svg", alt: "", onerror: (e) => { e.target.style.visibility = "hidden"; } });
 
   // Completion ring with the percentage inside.
@@ -563,13 +561,14 @@
     const hide = view.spoilers && s === NOT_STARTED;
     const expandable = isExpandable(q);
     const cls = "row" + (selected ? " selected" : "") + (tracked.has(q.id) ? " tracked" : "") + (isFinished(s) ? " finished" : "") + (notYetAvailable(q) ? " unavailable" : "");
-    return el("div", { class: cls, onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
+    // Like the game: clicking a quest opens / closes it (when it has objectives), otherwise selects it.
+    return el("div", { class: cls, onclick: () => { selectRow(index); if (expandable) toggleOpen(q); } },
       el("span", { class: "tile" }),
       el("span", { class: "panel" },
         emblem(iconName(q)),
         el("span", { class: "name" + (hide ? " hidden" : ""), text: hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name }),
         el("span", { class: "meta", text: hide ? "" : rowMeta(q, s, options) }),
-        el("span", { class: "caret" + (expandable ? (view.open.has(q.id) ? " open" : " closed") : ""), onclick: expandable ? (e) => { e.stopPropagation(); toggleOpen(q); } : null })));
+        el("span", { class: "caret" + (expandable ? (view.open.has(q.id) ? " open" : " closed") : "") })));
   }
 
   function stepRow(item, index, selected) {
@@ -923,13 +922,12 @@
     const q = item && !item.step ? item.q : null; // manual override and expanding only on quest rows
     const onCard = view.focus === "cards" && shownCards.length > 0;
     const sideLoc = sideItemLocation(selectedSideItem());
-    const primary = view.focus === "side" ? "OPEN" : onCard ? "SET COURSE" : item ? (primaryAction(item) || {}).label : null;
-    const canPlot = view.focus === "side" ? !!sideLoc : !onCard && item && itemActions(item).some((a) => a.id === "plot");
     const expandable = q && isExpandable(q);
+    const primary = view.focus === "side" ? "OPEN" : onCard ? "SET COURSE" : expandable ? (view.open.has(q.id) ? "COLLAPSE" : "EXPAND") : item ? (primaryAction(item) || {}).label : null;
+    const canPlot = view.focus === "side" ? !!sideLoc : !onCard && item && itemActions(item).some((a) => a.id === "plot");
     const nowhere = view.tab === "here" && hereLayout === "nowhere";
     const keys = [
       primary ? key(primary, pad ? "A" : "ENTER", activate) : null,
-      expandable ? (view.open.has(q.id) ? key("COLLAPSE", chevron("left"), collapse) : key("EXPAND", chevron("right"), expand)) : null,
       canPlot && primary !== "SHOW ON MAP" ? key(view.focus === "side" ? "SET COURSE" : "SHOW ON MAP", pad ? "X" : "R", plotSelected) : null,
       q ? key(overrideAction(q).label, pad ? "RS" : "M", overrideSelected) : null,
       nowhere ? null : key(view.tab === "log" ? "CATEGORY" : "FILTER", pad ? "LB / RB" : "Q / E", () => cycleFilter(1)),
@@ -967,7 +965,7 @@
     view.step = null;
     render();
   }
-  // Selecting a row never opens it: quests open and close with → / ← (or the ▸), like the game.
+  // Moving the selection never opens a quest: A (or a click) opens and closes it, like the game.
   function selectRow(index) {
     view.focus = "list";
     view.row = index;
@@ -985,14 +983,6 @@
     view.selQuest = q.id;
     view.step = null;
     render();
-  }
-  function expand() {
-    const item = selectedItem();
-    if (item && !item.step && isExpandable(item.q) && !view.open.has(item.q.id)) toggleOpen(item.q);
-  }
-  function collapse() {
-    const item = selectedItem();
-    if (item && view.open.has(item.q.id)) toggleOpen(item.q);
   }
   function setFilter(id) {
     view.filter = id;
@@ -1042,22 +1032,9 @@
     const at = Math.max(0, items.findIndex((r) => r.key === view.selected[view.tab]));
     select(items[Math.min(items.length - 1, Math.max(0, at + delta))].key);
   }
-  // Right: from the left column into the list, or open the selected quest.
-  function right() {
-    if (view.focus !== "list") return focusColumn("list");
-    expand();
-  }
-  // Left: from an objective to its quest, close an open quest, or back to the left column.
-  function left() {
-    if (view.focus !== "list") return;
-    const item = selectedItem();
-    if (item && item.step) {
-      view.step = null;
-      return render();
-    }
-    if (item && view.open.has(item.q.id)) return toggleOpen(item.q);
-    focusColumn("side");
-  }
+  // Left / right move between the left column and the list.
+  const right = () => focusColumn("list");
+  const left = () => focusColumn("side");
   function focusColumn(column) {
     if (view.tab === "here" && hereLayout === "nowhere") {
       // Left: the systems list; right: quests in progress.
@@ -1078,6 +1055,7 @@
     if (view.focus === "cards") return openCard(view.card);
     if (view.focus === "side") return focusColumn("list");
     const item = selectedItem();
+    if (item && !item.step && isExpandable(item.q)) return toggleOpen(item.q);
     const action = item && primaryAction(item);
     if (action) action.run();
   }
@@ -1131,15 +1109,31 @@
     }
     return out.lt !== undefined || out.rt !== undefined ? out : null;
   }
-  // Temporary diagnostic: shows controller input the menu doesn't recognize (once per kind),
-  // so the LT / RT codes can be found in game.
-  const reported = new Set();
-  function reportUnknown(event, kind) {
-    const text = JSON.stringify(event).slice(0, 160);
-    const key = kind === "stick" ? "stick" : text;
-    if (reported.has(key)) return;
-    reported.add(key);
-    showToast("Controller " + kind + ": " + text);
+  // Temporary diagnostic: writes controller input to the mod's log (Logs/Script/User/
+  // Completionist.0.log) to find how OSF UI reports LT / RT. Each distinct button once; stick
+  // events whenever the set of fields that are non-zero changes. At most 300 lines a session.
+  const logged = new Set();
+  let logLines = 0;
+  function logGamepad(event) {
+    if (logLines >= 300) return;
+    let key;
+    if (event.kind === "button" && event.button) key = "button " + event.button.id + " " + !!event.button.down;
+    else {
+      const active = [];
+      const visit = (obj, path) => {
+        for (const [k, v] of Object.entries(obj || {})) {
+          if (v && typeof v === "object") visit(v, path + k + ".");
+          else if (typeof v === "number" && Math.abs(v) > 0.2) active.push(path + k);
+          else if (v === true) active.push(path + k);
+        }
+      };
+      visit(event, "");
+      key = event.kind + " " + active.sort().join(",");
+    }
+    if (logged.has(key)) return;
+    logged.add(key);
+    logLines++;
+    bridge.send("log", "gamepad " + JSON.stringify(event).slice(0, 400));
   }
 
   function usePad() {
@@ -1150,6 +1144,7 @@
   if (bridge) {
     bridge.on("ui.gamepad", (event) => {
       if (!event) return;
+      logGamepad(event);
       // Triggers as analog values (a "trigger" event, or fields of a "stick" event): act once
       // when pressed past halfway.
       const values = triggerValues(event);
@@ -1161,13 +1156,10 @@
         }
         return;
       }
-      if (event.kind === "stick") return reportUnknown(event, "stick");
-      if (event.kind !== "button" || !event.button) return reportUnknown(event, "other");
+      if (event.kind !== "button" || !event.button) return;
       if (!event.button.down) return;
       usePad();
       const id = event.button.id;
-      // D-pad (0x1-0x8), Start (0x10) and B (0x2000) are handled by OSF UI itself.
-      if (!Object.values(PAD).includes(id) && ![0x1, 0x2, 0x4, 0x8, 0x10, 0x2000].includes(id)) reportUnknown(event, "button");
       if (id === PAD.LT) cycleTab(-1);
       else if (id === PAD.RT) cycleTab(1);
       else if (id === PAD.LB) cycleFilter(-1);
