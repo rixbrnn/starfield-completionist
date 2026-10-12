@@ -148,13 +148,32 @@
       "steps": [
         {
           "id": 10,
-          "text": "Travel anywhere in the the system system",
-          "target": 15
+          "text": "Travel anywhere in the {0} system",
+          "target": 15,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 8,
+              "word": "the system"
+            }
+          ]
         },
         {
           "id": 20,
-          "text": "Travel to the the target near the planet",
-          "target": 3
+          "text": "Travel to the {0} near {1}",
+          "target": 3,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 3,
+              "word": "the target"
+            },
+            {
+              "kind": "location",
+              "alias": 25,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 30,
@@ -1363,18 +1382,49 @@
       "steps": [
         {
           "id": 400,
-          "text": "Get the the target from the location",
-          "target": 100
+          "text": "Get the {0} from {1}",
+          "target": 100,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 100,
+              "word": "the target"
+            },
+            {
+              "kind": "location",
+              "alias": 96,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 401,
-          "text": "Get the the target from the location",
-          "target": 101
+          "text": "Get the {0} from {1}",
+          "target": 101,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 101,
+              "word": "the target"
+            },
+            {
+              "kind": "location",
+              "alias": 97,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 500,
-          "text": "Deliver Contraband to the location",
-          "target": 102
+          "text": "Deliver Contraband to {0}",
+          "target": 102,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 103,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 501,
@@ -1435,13 +1485,27 @@
       "steps": [
         {
           "id": 200,
-          "text": "Kill the target at the location",
-          "target": 5
+          "text": "Kill the target at {0}",
+          "target": 5,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 3,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 201,
-          "text": "Kill the target at the location",
-          "target": 11
+          "text": "Kill the target at {0}",
+          "target": 11,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 4,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 225,
@@ -1521,8 +1585,15 @@
         },
         {
           "id": 300,
-          "text": "Deliver passengers to the location",
-          "target": 111
+          "text": "Deliver passengers to {0}",
+          "target": 111,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 110,
+              "word": "the location"
+            }
+          ]
         }
       ],
       "complete": {
@@ -1653,8 +1724,15 @@
       "steps": [
         {
           "id": 300,
-          "text": "Bring the target to New Atlantis",
-          "target": 122
+          "text": "Bring {0} to New Atlantis",
+          "target": 122,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 110,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -1716,8 +1794,15 @@
       "steps": [
         {
           "id": 300,
-          "text": "Bring the target to Neon",
-          "target": 115
+          "text": "Bring {0} to Neon",
+          "target": 115,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 100,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -1806,33 +1891,85 @@
         },
         {
           "id": 210,
-          "text": "Talk to the target",
-          "target": 42
+          "text": "Talk to {0}",
+          "target": 42,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 42,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 220,
-          "text": "Bring the target to New Atlantis",
-          "target": 54
+          "text": "Bring {0} to New Atlantis",
+          "target": 54,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 42,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 225,
-          "text": "Talk to the target",
-          "target": 43
+          "text": "Talk to {0}",
+          "target": 43,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 43,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 230,
-          "text": "Bring the target and the target to New Atlantis",
-          "target": 54
+          "text": "Bring {0} and {1} to New Atlantis",
+          "target": 54,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 42,
+              "word": "the target"
+            },
+            {
+              "kind": "ref",
+              "alias": 43,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 660,
-          "text": "(Optional) Say goodbye to the target",
-          "target": 42
+          "text": "(Optional) Say goodbye to {0}",
+          "target": 42,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 42,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 700,
-          "text": "(Optional) Say goodbye to the target and the target",
-          "target": 42
+          "text": "(Optional) Say goodbye to {0} and {1}",
+          "target": 42,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 42,
+              "word": "the target"
+            },
+            {
+              "kind": "ref",
+              "alias": 43,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {

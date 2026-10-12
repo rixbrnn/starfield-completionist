@@ -288,18 +288,39 @@
       "steps": [
         {
           "id": 100,
-          "text": "the target: Place the kibble at the coordinates",
-          "target": 2
+          "text": "{0}: Place the kibble at the coordinates",
+          "target": 2,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 200,
-          "text": "the target: Check the kibble later",
-          "target": 4
+          "text": "{0}: Check the kibble later",
+          "target": 4,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 400,
-          "text": "the target: Check the kibble",
-          "target": 17
+          "text": "{0}: Check the kibble",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -337,18 +358,39 @@
       "steps": [
         {
           "id": 100,
-          "text": "the target: Place the kibble at the coordinates",
-          "target": 2
+          "text": "{0}: Place the kibble at the coordinates",
+          "target": 2,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 200,
-          "text": "the target: Check the kibble later",
-          "target": 4
+          "text": "{0}: Check the kibble later",
+          "target": 4,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 400,
-          "text": "the target: Check the kibble",
-          "target": 17
+          "text": "{0}: Check the kibble",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -386,18 +428,39 @@
       "steps": [
         {
           "id": 100,
-          "text": "the target: Place the kibble at the coordinates",
-          "target": 2
+          "text": "{0}: Place the kibble at the coordinates",
+          "target": 2,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 200,
-          "text": "the target: Check the kibble later",
-          "target": 4
+          "text": "{0}: Check the kibble later",
+          "target": 4,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 400,
-          "text": "the target: Check the kibble",
-          "target": 17
+          "text": "{0}: Check the kibble",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -435,18 +498,39 @@
       "steps": [
         {
           "id": 100,
-          "text": "the target: Place the kibble at the coordinates",
-          "target": 2
+          "text": "{0}: Place the kibble at the coordinates",
+          "target": 2,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 200,
-          "text": "the target: Check the kibble later",
-          "target": 4
+          "text": "{0}: Check the kibble later",
+          "target": 4,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 400,
-          "text": "the target: Check the kibble",
-          "target": 17
+          "text": "{0}: Check the kibble",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -484,18 +568,39 @@
       "steps": [
         {
           "id": 100,
-          "text": "the target: Place the kibble at the coordinates",
-          "target": 2
+          "text": "{0}: Place the kibble at the coordinates",
+          "target": 2,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 200,
-          "text": "the target: Check the kibble later",
-          "target": 4
+          "text": "{0}: Check the kibble later",
+          "target": 4,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 400,
-          "text": "the target: Check the kibble",
-          "target": 17
+          "text": "{0}: Check the kibble",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -533,18 +638,39 @@
       "steps": [
         {
           "id": 100,
-          "text": "the target: Place the kibble at the coordinates",
-          "target": 2
+          "text": "{0}: Place the kibble at the coordinates",
+          "target": 2,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 200,
-          "text": "the target: Check the kibble later",
-          "target": 4
+          "text": "{0}: Check the kibble later",
+          "target": 4,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 400,
-          "text": "the target: Check the kibble",
-          "target": 17
+          "text": "{0}: Check the kibble",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 16,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -1385,8 +1511,20 @@
         },
         {
           "id": 200,
-          "text": "Acquire Terran Black Boxes [#/#]",
-          "target": 23
+          "text": "Acquire Terran Black Boxes [{0}/{1}]",
+          "target": 23,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "SFBGS050.esm|0x078558",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "SFBGS050.esm|0x078557",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 800,
@@ -1769,8 +1907,20 @@
       "steps": [
         {
           "id": 100,
-          "text": "Acquire Terran Black Boxes [#/#]",
-          "target": 134
+          "text": "Acquire Terran Black Boxes [{0}/{1}]",
+          "target": 134,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "SFBGS050.esm|0x078F9F",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "SFBGS050.esm|0x079D1A",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 400,
@@ -1998,8 +2148,20 @@
         },
         {
           "id": 2100,
-          "text": "Build powered turrets",
-          "target": 6
+          "text": "Build powered turrets ({0}/{1})",
+          "target": 6,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "SFBGS050.esm|0x042EA3",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "SFBGS050.esm|0x042EA2",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 9000,
@@ -2062,13 +2224,32 @@
         },
         {
           "id": 2100,
-          "text": "Build powered turrets",
-          "target": 7
+          "text": "Build powered turrets ({0}/{1})",
+          "target": 7,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "SFBGS050.esm|0x07DC1B",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "SFBGS050.esm|0x07DC1C",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 9000,
-          "text": "Return to the target at Anchorpoint",
-          "target": 1
+          "text": "Return to {0} at Anchorpoint",
+          "target": 1,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 1,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -2125,8 +2306,20 @@
         },
         {
           "id": 2100,
-          "text": "Build powered turrets",
-          "target": 5
+          "text": "Build powered turrets ({0}/{1})",
+          "target": 5,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "SFBGS050.esm|0x07DC1D",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "SFBGS050.esm|0x07DC1E",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 9000,

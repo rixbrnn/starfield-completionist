@@ -303,7 +303,7 @@ collectionFiles.forEach((file, fileIndex) => {
     title?: string;
     places?: Array<{ id: string; name: string; kind: string; parent?: string; location?: string }>;
     questlines?: Array<{ id: string; name: string }>;
-    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string }; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; hidden?: boolean; steps?: Array<{ id: number; text: string; target?: number }>; availableAfter?: Array<{ name?: string; stage: number }> }>;
+    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string }; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; hidden?: boolean; steps?: Array<{ id: number; text: string; target?: number; tokens?: Array<{ kind: string; alias?: number; form?: string; word: string }> }>; availableAfter?: Array<{ name?: string; stage: number }> }>;
   };
   const keyOf = new Map((collection.places ?? []).map((p) => [p.id, p.location ?? `${file}:${p.id}`]));
   for (const place of collection.places ?? []) {
@@ -327,7 +327,15 @@ collectionFiles.forEach((file, fileIndex) => {
       choices: quest.choices,
       ngPlusOnly: quest.ngPlusOnly || undefined,
       // Objectives as [index, text, target alias or -1], for the expanded quest row.
-      steps: quest.steps?.length ? quest.steps.map((s) => [s.id, s.text, s.target ?? -1]) : undefined,
+      // Objectives as [index, text, target alias or -1, tokens?]; a token is [kind, alias id or
+      // "Plugin|0xFormID" of a global, fallback word], filled in game (see "resolve" in MenuBridge).
+      steps: quest.steps?.length
+        ? quest.steps.map((s) => {
+          const step: unknown[] = [s.id, s.text, s.target ?? -1];
+          if (s.tokens?.length) step.push(s.tokens.map((t) => [t.kind, t.kind === "global" ? t.form : t.alias, t.word]));
+          return step;
+        })
+        : undefined,
       // What makes it available: [name of the quest, true if just starting it is enough].
       unlock: quest.availableAfter?.length ? [quest.availableAfter.find((a) => a.name)?.name ?? "", quest.availableAfter[0].stage < 0] : undefined,
     });
@@ -348,9 +356,14 @@ const choiceLabels = Object.fromEntries(
 );
 // All star systems (LCTN key -> name), to name systems that have no tracked quests.
 const systems = JSON.parse(readFileSync(join(repo, "data/systems.json"), "utf8")) as Record<string, string>;
+// Location and actor names from the player's game files (written by build:drafts), for the
+// placeholders in objective text; without them the generic words are shown.
+const namesFile = join(repo, "build/extract/names.json");
+const names = existsSync(namesFile) ? (JSON.parse(readFileSync(namesFile, "utf8")) as Record<string, string>) : {};
 const menuData = {
   choiceLabels,
   systems,
+  names,
   places: menuPlaces,
   quests: menuQuests,
   questlines: [...menuLines.values()].map((line) => ({

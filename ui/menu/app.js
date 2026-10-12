@@ -161,6 +161,15 @@
       objectiveStates.set(q.id, new Map(q.steps.slice(0, states.length).map((step, i) => [step[0], Number(states[i]) || 0])));
       queueRender();
     });
+    bridge.on("resolved", (event) => {
+      const [rawId, ...values] = (event && event.args) || [];
+      const q = questsById.get(String(rawId).toLowerCase());
+      const keys = q && pendingTokens.get(q.id);
+      if (!keys) return;
+      pendingTokens.delete(q.id);
+      resolvedTokens.set(q.id, new Map(keys.map((key, i) => [key, [Number(values[i * 2]) || 0, Number(values[i * 2 + 1]) || 0]])));
+      queueRender();
+    });
     bridge.on("plotFailed", () => showToast("This objective has no place on the map right now."));
     bridge.on("explored", (event) => {
       const [batch, ...flags] = (event && event.args) || [];
@@ -648,13 +657,15 @@
   }
 
   function stepRow(item, index, selected) {
-    const [, text, target] = item.step;
+    const [, , target] = item.step;
+    const { text, unknown } = stepText(item.q, item.step);
     const optional = /^\(Optional\)\s*/i.exec(text);
     return el("div", { class: "step" + (selected ? " selected" : "") + (item.state >= 2 ? " finished" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
       el("span", { class: "box" }, el("i", { class: item.state === 2 ? "done" : item.state === 3 ? "failed" : "" })),
       el("span", { class: "txt" },
         optional ? el("span", { class: "opt", text: "(Optional)" }) : null,
         el("span", { class: "label", text: optional ? text.slice(optional[0].length) : text }),
+        unknown && item.state === 1 ? el("span", { class: "tag hint", text: "DETAILS IN MISSIONS MENU" }) : null,
         item.state === 1 && target >= 0 ? el("span", { class: "tag", text: "ON MAP" }) : null));
   }
 
@@ -766,8 +777,94 @@
     }
     return steps || [];
   }
+  // Placeholders in objective text ("Go to {0}") are filled in game: Papyrus reports what fills
+  // each alias or counter, and names come from DATA.names (location and actor names by form).
+  const resolvedTokens = new Map(); // quest id -> Map(token key -> [a, b])
+  const tokenKey = (token) => token[0] + ":" + token[1];
+  function requestTokens(q) {
+    const tokens = new Map();
+    for (const step of q.steps || []) for (const token of step[3] || []) tokens.set(tokenKey(token), token);
+    if (!tokens.size) return;
+    const list = [...tokens.values()].slice(0, 40);
+    if (!bridge) {
+      // Preview: some locations and actors from the name table.
+      const sample = Object.values(DATA.names || {});
+      resolvedTokens.set(q.id, new Map(list.map((token, i) => [tokenKey(token), token[0] === "global" ? [i + 1, 1] : [0, 0]])));
+      resolvedTokens.get(q.id).preview = sample;
+      return;
+    }
+    const args = [];
+    for (const token of list) {
+      if (token[0] === "global") {
+        const [plugin, hex] = String(token[1]).split("|");
+        args.push(3, parseInt(hex, 16), plugin);
+      } else args.push(token[0] === "location" ? 1 : 2, Number(token[1]), "");
+    }
+    pendingTokens.set(q.id, list.map(tokenKey));
+    bridge.send("resolve", q.id, ...args);
+  }
+  const pendingTokens = new Map(); // quest id -> token keys in the order sent
+
+  // Names by runtime FormID. Starfield.esm forms keep their ID; other plugins get a load-order
+  // prefix, so they match on the low 24 bits (12 / 16 for small / medium masters).
+  let nameIndex = null;
+  function nameOf(runtimeId) {
+    if (!runtimeId) return null;
+    if (!nameIndex) {
+      nameIndex = { exact: new Map(), low24: new Map(), low16: new Map(), low12: new Map() };
+      for (const [key, name] of Object.entries(DATA.names || {})) {
+        const [plugin, hex] = key.split("|");
+        const id = parseInt(hex, 16);
+        if (plugin.toLowerCase() === "starfield.esm") nameIndex.exact.set(id, name);
+        else {
+          nameIndex.low24.set(id & 0xffffff, name);
+          nameIndex.low16.set(id & 0xffff, name);
+          nameIndex.low12.set(id & 0xfff, name);
+        }
+      }
+    }
+    const id = runtimeId >>> 0;
+    const top = id >>> 24;
+    if (top === 0) return nameIndex.exact.get(id) || null;
+    if (top === 0xfe) return nameIndex.low12.get(id & 0xfff) || null;
+    if (top === 0xfd) return nameIndex.low16.get(id & 0xffff) || null;
+    return nameIndex.low24.get(id & 0xffffff) || null;
+  }
+
+  // An objective's text with its placeholders filled in; unknown: whether any couldn't be.
+  function stepText(q, step) {
+    const tokens = step[3] || [];
+    if (!tokens.length) return { text: step[1], unknown: false };
+    const resolved = resolvedTokens.get(q.id);
+    let unknown = false;
+    const text = step[1].replace(/\{(\d+)\}/g, (match, n, offset, whole) => {
+      const token = tokens[Number(n)];
+      if (!token) return match;
+      const [a, b] = (resolved && resolved.get(tokenKey(token))) || [0, 0];
+      if (token[0] === "global") {
+        if (b) return String(a);
+        unknown = true;
+        return token[2];
+      }
+      const name = nameOf(a) || (resolved && resolved.preview && token[0] === "location" ? resolved.preview[(Number(n) * 7 + 3) % resolved.preview.length] : null);
+      if (name) return name;
+      // A reference whose base has no name: say where it is, if known.
+      const where = token[0] === "ref" ? nameOf(b) : null;
+      unknown = !where;
+      // Generic word, without doubling "the" ("the {0} system" -> "the system", not "the the system system").
+      const noun = token[2].replace(/^the /, "");
+      const before = whole.slice(0, offset);
+      const after = whole.slice(offset + match.length);
+      let word = /\bthe $/i.test(before) ? noun : token[2];
+      if (after.toLowerCase().startsWith(" " + noun)) word = /\bthe $/i.test(before) ? "one" : "a";
+      return where ? word + " at " + where : word;
+    });
+    return { text, unknown };
+  }
+
   function requestObjectives(q) {
     objectivesAsked.set(q.id, Date.now());
+    requestTokens(q);
     const ids = q.steps.map((step) => step[0]).slice(0, 127);
     if (bridge) {
       bridge.send("objectives", q.id, ...ids);

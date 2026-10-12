@@ -1090,8 +1090,15 @@
         },
         {
           "id": 740,
-          "text": "Pay # Credits to Naeva",
-          "target": 8
+          "text": "Pay {0} Credits to Naeva",
+          "target": 8,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x0C90E8",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 750,
@@ -1119,8 +1126,15 @@
         },
         {
           "id": 1150,
-          "text": "Follow the the target",
-          "target": 52
+          "text": "Follow the {0}",
+          "target": 52,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 52,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 1200,
@@ -4332,8 +4346,15 @@
         },
         {
           "id": 300,
-          "text": "Clear out the hard rock on Tate's land",
-          "target": 3
+          "text": "Clear out the hard rock on Tate's land ({0}/6)",
+          "target": 3,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x20A82A",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 400,
@@ -4750,13 +4771,32 @@
       "steps": [
         {
           "id": 100,
-          "text": "Gather Iron",
-          "target": 9
+          "text": "Gather Iron ({0}/{1})",
+          "target": 9,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2373F6",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2373F5",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 200,
-          "text": "Deposit # units of Iron",
-          "target": 12
+          "text": "Deposit {0} units of Iron",
+          "target": 12,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2373F5",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 250,
@@ -5913,8 +5953,20 @@
         },
         {
           "id": 200,
-          "text": "Search for the courier along his route",
-          "target": 14
+          "text": "Search for the courier along his route ({0}/{1})",
+          "target": 14,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x18E0AD",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x18E0AE",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 250,
@@ -5990,8 +6042,20 @@
       "steps": [
         {
           "id": 100,
-          "text": "Drop off the recruitment materials",
-          "target": 4
+          "text": "Drop off the recruitment materials ({0}/{1})",
+          "target": 4,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x188CE0",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x188CE1",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 110,
@@ -10296,8 +10360,15 @@
         },
         {
           "id": 8300,
-          "text": "Take Barrett to the planet",
-          "target": 101
+          "text": "Take Barrett to {0}",
+          "target": 101,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 97,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 8400,
@@ -10900,8 +10971,20 @@
         },
         {
           "id": 160,
-          "text": "Collect Genetags",
-          "target": 35
+          "text": "Collect Genetags ({0}/{1})",
+          "target": 35,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2733BF",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2733BE",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 170,
@@ -12512,8 +12595,20 @@
       "steps": [
         {
           "id": 10,
-          "text": "Deliver the Slate to the target in the location",
-          "target": 0
+          "text": "Deliver the Slate to {0} in {1}",
+          "target": 0,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 0,
+              "word": "the target"
+            },
+            {
+              "kind": "location",
+              "alias": 1,
+              "word": "the location"
+            }
+          ]
         }
       ],
       "complete": {
@@ -12547,8 +12642,25 @@
       "steps": [
         {
           "id": 10,
-          "text": "Collect the target for Dr. Darvish",
-          "target": 2
+          "text": "Collect {2} for Dr. Darvish ( {0} / {1} )",
+          "target": 2,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x1C2BBB",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x1C2BBA",
+              "word": "#"
+            },
+            {
+              "kind": "ref",
+              "alias": 0,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -12630,8 +12742,15 @@
       "steps": [
         {
           "id": 100,
-          "text": "Deliver message to the target",
-          "target": 3
+          "text": "Deliver message to {0}",
+          "target": 3,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 3,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 200,
@@ -12833,8 +12952,15 @@
         },
         {
           "id": 250,
-          "text": "Bring # Potatoes to Diana",
-          "target": 1
+          "text": "Bring {0} Potatoes to Diana",
+          "target": 1,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2125AF",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 300,
@@ -12989,28 +13115,78 @@
       "steps": [
         {
           "id": 100,
-          "text": "Go to the location",
-          "target": 7
+          "text": "Go to {0}",
+          "target": 7,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 1,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 150,
-          "text": "(Optional) Go to the location",
-          "target": 7
+          "text": "(Optional) Go to {0}",
+          "target": 7,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 1,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 200,
-          "text": "Obtain # Items: (the target)",
-          "target": 7
+          "text": "Obtain {0} Items: ({1})",
+          "target": 7,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x224A9F",
+              "word": "#"
+            },
+            {
+              "kind": "ref",
+              "alias": 10,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 250,
-          "text": "(Optional) Obtain # Items: (the target)",
-          "target": 7
+          "text": "(Optional) Obtain {0} Items: ({1})",
+          "target": 7,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x224A9F",
+              "word": "#"
+            },
+            {
+              "kind": "ref",
+              "alias": 10,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 300,
-          "text": "Deposit # Items: (the target)",
-          "target": 11
+          "text": "Deposit {0} Items: ({1})",
+          "target": 11,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x224A9F",
+              "word": "#"
+            },
+            {
+              "kind": "ref",
+              "alias": 10,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 400,
@@ -13204,8 +13380,20 @@
       "steps": [
         {
           "id": 100,
-          "text": "Post Space Frog Drawings",
-          "target": 3
+          "text": "Post Space Frog Drawings ({0}/{1})",
+          "target": 3,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x23F7DB",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x23F7DC",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 200,
@@ -13762,8 +13950,15 @@
         },
         {
           "id": 200,
-          "text": "Retrieve Maddie's Ring at the the location",
-          "target": 10
+          "text": "Retrieve Maddie's Ring at the {0}",
+          "target": 10,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 1,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 300,
@@ -14453,7 +14648,14 @@
       "steps": [
         {
           "id": 10,
-          "text": "Distribute Flyers to Neon Merchants"
+          "text": "Distribute Flyers to Neon Merchants ( {0} / 5)",
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x06E078",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 120,
@@ -14580,8 +14782,15 @@
         },
         {
           "id": 20,
-          "text": "Find the spreadsheets near the Employee Break Area",
-          "target": 7
+          "text": "Find the spreadsheets near the Employee Break Area ({0}/3)",
+          "target": 7,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x057984",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 60,
@@ -15470,8 +15679,20 @@
         },
         {
           "id": 200,
-          "text": "Clear the Ice Deposits",
-          "target": 9
+          "text": "Clear the Ice Deposits ({0}/{1})",
+          "target": 9,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x143B74",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x143B73",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 300,
@@ -15557,8 +15778,15 @@
       "steps": [
         {
           "id": 200,
-          "text": "Get the Chunks Special Sauce in the location",
-          "target": 3
+          "text": "Get the Chunks Special Sauce in {0}",
+          "target": 3,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 1,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 300,
@@ -17021,8 +17249,15 @@
         },
         {
           "id": 10,
-          "text": "Acquire the Power on the planet",
-          "target": 5
+          "text": "Acquire the Power on {0}",
+          "target": 5,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 2,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 15,
@@ -18358,23 +18593,51 @@
         },
         {
           "id": 12,
-          "text": "Go to the planet",
-          "target": 10
+          "text": "Go to {0}",
+          "target": 10,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 27,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 20,
-          "text": "Find the Artifact on the planet",
-          "target": 10
+          "text": "Find the Artifact on {0}",
+          "target": 10,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 27,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 22,
-          "text": "Go to the planet",
-          "target": 12
+          "text": "Go to {0}",
+          "target": 12,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 29,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 30,
-          "text": "Find the Artifact on the planet",
-          "target": 12
+          "text": "Find the Artifact on {0}",
+          "target": 12,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 29,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 40,
@@ -18398,8 +18661,15 @@
         },
         {
           "id": 70,
-          "text": "Go to the planet",
-          "target": 46
+          "text": "Go to {0}",
+          "target": 46,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 47,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 71,
@@ -18578,8 +18848,15 @@
         },
         {
           "id": 65,
-          "text": "Travel to the planet",
-          "target": 1
+          "text": "Travel to {0}",
+          "target": 1,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 30,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 67,
@@ -19186,23 +19463,51 @@
         },
         {
           "id": 12,
-          "text": "Go to the planet",
-          "target": 16
+          "text": "Go to {0}",
+          "target": 16,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 19,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 20,
-          "text": "Find the Artifact on the planet",
-          "target": 16
+          "text": "Find the Artifact on {0}",
+          "target": 16,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 19,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 22,
-          "text": "Go to the planet",
-          "target": 17
+          "text": "Go to {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 20,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 30,
-          "text": "Find the Artifact on the planet",
-          "target": 17
+          "text": "Find the Artifact on {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 20,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 50,
@@ -19921,8 +20226,15 @@
       "steps": [
         {
           "id": 10,
-          "text": "Wait for the Service",
-          "target": 22
+          "text": "Wait for the Service ({0} UT Days)",
+          "target": 22,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2271D5",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 20,
@@ -20322,13 +20634,27 @@
         },
         {
           "id": 12,
-          "text": "Go to the planet",
-          "target": 10
+          "text": "Go to {0}",
+          "target": 10,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 27,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 20,
-          "text": "Find the Artifact on the planet",
-          "target": 10
+          "text": "Find the Artifact on {0}",
+          "target": 10,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 27,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 22,
@@ -20726,8 +21052,20 @@
         },
         {
           "id": 700,
-          "text": "Disengage Power Interlocks OR Switch Universes",
-          "target": 136
+          "text": "Disengage Power Interlocks ({0}/{1}) OR Switch Universes",
+          "target": 136,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x22D3CB",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x22D3CA",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 710,
@@ -21141,8 +21479,15 @@
         },
         {
           "id": 20,
-          "text": "Hail the the ship",
-          "target": 11
+          "text": "Hail the {0}",
+          "target": 11,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 11,
+              "word": "the ship"
+            }
+          ]
         },
         {
           "id": 30,
@@ -21150,8 +21495,15 @@
         },
         {
           "id": 40,
-          "text": "Hail the the ship",
-          "target": 10
+          "text": "Hail the {0}",
+          "target": 10,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 10,
+              "word": "the ship"
+            }
+          ]
         },
         {
           "id": 50,
@@ -22150,33 +22502,75 @@
         },
         {
           "id": 110,
-          "text": "Find the Artifact on the planet",
-          "target": 34
+          "text": "Find the Artifact on {0}",
+          "target": 34,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 43,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 120,
-          "text": "Find the Artifact on the planet",
-          "target": 35
+          "text": "Find the Artifact on {0}",
+          "target": 35,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 44,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 130,
-          "text": "Find the Artifact on the planet",
-          "target": 36
+          "text": "Find the Artifact on {0}",
+          "target": 36,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 45,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 140,
-          "text": "Find the Artifact on the planet",
-          "target": 37
+          "text": "Find the Artifact on {0}",
+          "target": 37,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 46,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 150,
-          "text": "Find the Artifact on the planet",
-          "target": 38
+          "text": "Find the Artifact on {0}",
+          "target": 38,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 47,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 160,
-          "text": "Find the Artifact on the planet",
-          "target": 39
+          "text": "Find the Artifact on {0}",
+          "target": 39,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 48,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 500,
@@ -22340,8 +22734,15 @@
       "steps": [
         {
           "id": 10,
-          "text": "Retrieve the target's Belongings",
-          "target": 0
+          "text": "Retrieve {0}'s Belongings",
+          "target": 0,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 2,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -22707,8 +23108,15 @@
         },
         {
           "id": 1000,
-          "text": "Find clues about the Facility",
-          "target": 12
+          "text": "Find clues about the Facility ({0} / 7)",
+          "target": 12,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x29554D",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 1100,
@@ -23443,19 +23851,67 @@
         },
         {
           "id": 1010,
-          "text": "Gather Fiber"
+          "text": "Gather Fiber ({0}/{1})",
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2584EA",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2584E9",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 1020,
-          "text": "Gather Sealant"
+          "text": "Gather Sealant ({0}/{1})",
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2584E8",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2584E6",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 1030,
-          "text": "Gather Iron"
+          "text": "Gather Iron ({0}/{1})",
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2584E5",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2584E3",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 1040,
-          "text": "Gather Lithium"
+          "text": "Gather Lithium ({0}/{1})",
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2584E4",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2584E2",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 1050,
@@ -23628,18 +24084,39 @@
       "steps": [
         {
           "id": 150,
-          "text": "Report to the the target",
-          "target": 225
+          "text": "Report to the {0}",
+          "target": 225,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 225,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 400,
-          "text": "Patrol with the the target",
-          "target": 345
+          "text": "Patrol with the {0}",
+          "target": 345,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 225,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 500,
-          "text": "Patrol the the location",
-          "target": 345
+          "text": "Patrol the {0}",
+          "target": 345,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 3,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 700,
@@ -24027,13 +24504,27 @@
       "steps": [
         {
           "id": 100,
-          "text": "Collect the target's debt",
-          "target": 1
+          "text": "Collect {0}'s debt",
+          "target": 1,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 1,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 145,
-          "text": "Kill Delinquent Spacer Ship orbiting the location",
-          "target": 1
+          "text": "Kill Delinquent Spacer Ship orbiting {0}",
+          "target": 1,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 8,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 200,
@@ -26073,20 +26564,68 @@
         },
         {
           "id": 200,
-          "text": "Lobby Board Members",
-          "target": 3
+          "text": "Lobby Board Members ({0}/{1})",
+          "target": 3,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x17F7BF",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x17F7BE",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 201,
-          "text": "For Infinity LTD"
+          "text": "For Infinity LTD (Y:{0} N:{1})",
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x150209",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x150208",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 202,
-          "text": "For Internal Neuroamp"
+          "text": "For Internal Neuroamp (Y:{0} N:{1})",
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x150206",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x150207",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 203,
-          "text": "For Ularu as CEO"
+          "text": "For Ularu as CEO (Y:{0} N:{1})",
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x150204",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x150205",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 900,
@@ -26380,8 +26919,15 @@
       "steps": [
         {
           "id": 100,
-          "text": "Talk to the target",
-          "target": 3
+          "text": "Talk to {0}",
+          "target": 3,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 3,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 110,
@@ -26389,8 +26935,15 @@
         },
         {
           "id": 150,
-          "text": "Travel to the location",
-          "target": 6
+          "text": "Travel to {0}",
+          "target": 6,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 15,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 200,
@@ -26399,8 +26952,15 @@
         },
         {
           "id": 300,
-          "text": "Return to the target at Ryujin Tower",
-          "target": 3
+          "text": "Return to {0} at Ryujin Tower",
+          "target": 3,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 3,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -26465,8 +27025,15 @@
         },
         {
           "id": 150,
-          "text": "Travel to the location",
-          "target": 19
+          "text": "Travel to {0}",
+          "target": 19,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 13,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 200,
@@ -26550,13 +27117,27 @@
       "steps": [
         {
           "id": 100,
-          "text": "Talk to the target",
-          "target": 22
+          "text": "Talk to {0}",
+          "target": 22,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 22,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 150,
-          "text": "Travel to the location",
-          "target": 19
+          "text": "Travel to {0}",
+          "target": 19,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 11,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 200,
@@ -26565,8 +27146,15 @@
         },
         {
           "id": 300,
-          "text": "Return to the target at Ryujin Tower",
-          "target": 22
+          "text": "Return to {0} at Ryujin Tower",
+          "target": 22,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 22,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -26655,13 +27243,27 @@
       "steps": [
         {
           "id": 100,
-          "text": "Talk to the target",
-          "target": 3
+          "text": "Talk to {0}",
+          "target": 3,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 3,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 150,
-          "text": "Travel to the location",
-          "target": 6
+          "text": "Travel to {0}",
+          "target": 6,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 10,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 200,
@@ -26670,8 +27272,15 @@
         },
         {
           "id": 300,
-          "text": "Return to the target at Ryujin Tower",
-          "target": 3
+          "text": "Return to {0} at Ryujin Tower",
+          "target": 3,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 3,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 350,
@@ -26795,13 +27404,27 @@
       "steps": [
         {
           "id": 100,
-          "text": "Talk to the target",
-          "target": 2
+          "text": "Talk to {0}",
+          "target": 2,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 2,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 150,
-          "text": "Travel to the location",
-          "target": 9
+          "text": "Travel to {0}",
+          "target": 9,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 5,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 200,
@@ -26810,8 +27433,15 @@
         },
         {
           "id": 300,
-          "text": "Return to the target at Ryujin Tower",
-          "target": 2
+          "text": "Return to {0} at Ryujin Tower",
+          "target": 2,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 2,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -27193,8 +27823,15 @@
       "steps": [
         {
           "id": 10,
-          "text": "Board the the ship",
-          "target": 95
+          "text": "Board the {0}",
+          "target": 95,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 95,
+              "word": "the ship"
+            }
+          ]
         }
       ],
       "complete": {
@@ -27441,8 +28078,15 @@
       "steps": [
         {
           "id": 100,
-          "text": "Talk to Alban Lopez on the location",
-          "target": 0
+          "text": "Talk to Alban Lopez on {0}",
+          "target": 0,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 12,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 200,
@@ -27451,18 +28095,39 @@
         },
         {
           "id": 400,
-          "text": "Repair the Lemaire Communication Satellite orbiting the location",
-          "target": 26
+          "text": "Repair the Lemaire Communication Satellite orbiting {0}",
+          "target": 26,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 8,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 500,
-          "text": "Repair the Banda Communication Satellite orbiting the location",
-          "target": 28
+          "text": "Repair the Banda Communication Satellite orbiting {0}",
+          "target": 28,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 10,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 600,
-          "text": "Repair the Wen Communication Satellite orbiting the location",
-          "target": 29
+          "text": "Repair the Wen Communication Satellite orbiting {0}",
+          "target": 29,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 11,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 700,
@@ -27491,23 +28156,51 @@
         },
         {
           "id": 900,
-          "text": "Eliminate Spacer ships orbiting the location",
-          "target": 41
+          "text": "Eliminate Spacer ships orbiting {0}",
+          "target": 41,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 37,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 950,
-          "text": "Eliminate Spacer ships orbiting the location",
-          "target": 42
+          "text": "Eliminate Spacer ships orbiting {0}",
+          "target": 42,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 45,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 1000,
-          "text": "Report back to Alban Lopez on the location",
-          "target": 0
+          "text": "Report back to Alban Lopez on {0}",
+          "target": 0,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 12,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 1100,
-          "text": "Clear out Spacer ships orbiting the location",
-          "target": 48
+          "text": "Clear out Spacer ships orbiting {0}",
+          "target": 48,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 38,
+              "word": "the location"
+            }
+          ]
         },
         {
           "id": 1200,
@@ -27989,7 +28682,14 @@
         },
         {
           "id": 310,
-          "text": "Throw all Sector Switches to complete the exam"
+          "text": "Throw all Sector Switches to complete the exam ({0}/3)",
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2C53C7",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 311,
@@ -28102,8 +28802,20 @@
         },
         {
           "id": 300,
-          "text": "Defeat all targets",
-          "target": 18
+          "text": "Defeat all targets ({0}/{1})",
+          "target": 18,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x132C31",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x132C32",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 350,
@@ -28324,8 +29036,20 @@
         },
         {
           "id": 601,
-          "text": "(Optional) Restore power to the \"Kill Lanes\"",
-          "target": 54
+          "text": "(Optional) Restore power to the \"Kill Lanes\" ({0}/{1})",
+          "target": 54,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2B17CA",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x2B17CB",
+              "word": "#"
+            }
+          ]
         },
         {
           "id": 602,
@@ -30870,18 +31594,39 @@
       "steps": [
         {
           "id": 100,
-          "text": "Eliminate the Terrormorphs on the planet",
-          "target": 21
+          "text": "Eliminate the Terrormorphs on {0}",
+          "target": 21,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 14,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 110,
-          "text": "Subdue the Terrormorph on the planet",
-          "target": 13
+          "text": "Subdue the Terrormorph on {0}",
+          "target": 13,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 14,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 150,
-          "text": "Make contact with the Aceles Officer on the planet",
-          "target": 10
+          "text": "Make contact with the Aceles Officer on {0}",
+          "target": 10,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 14,
+              "word": "the planet"
+            }
+          ]
         }
       ],
       "complete": {
@@ -30986,8 +31731,25 @@
       "steps": [
         {
           "id": 100,
-          "text": "Collect samples on the planet",
-          "target": 10
+          "text": "Collect samples on {2} ({0}/{1})",
+          "target": 10,
+          "tokens": [
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x1E79B1",
+              "word": "#"
+            },
+            {
+              "kind": "global",
+              "form": "Starfield.esm|0x1E79B2",
+              "word": "#"
+            },
+            {
+              "kind": "location",
+              "alias": 7,
+              "word": "the planet"
+            }
+          ]
         },
         {
           "id": 110,
@@ -31100,8 +31862,15 @@
         },
         {
           "id": 100,
-          "text": "Eliminate the target on the planet",
-          "target": 1
+          "text": "Eliminate the target on {0}",
+          "target": 1,
+          "tokens": [
+            {
+              "kind": "location",
+              "alias": 5,
+              "word": "the planet"
+            }
+          ]
         }
       ],
       "complete": {

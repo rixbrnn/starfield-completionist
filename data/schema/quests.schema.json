@@ -281,7 +281,22 @@
             "properties": {
               "id": { "type": "integer", "minimum": 0, "maximum": 65535, "description": "Objective index." },
               "text": { "type": "string", "description": "Display text, placeholders filled in." },
-              "target": { "type": "integer", "minimum": 0, "description": "Alias id of the objective's map target (for Show on map)." }
+              "target": { "type": "integer", "minimum": 0, "description": "Alias id of the objective's map target (for Show on map)." },
+              "tokens": {
+                "type": "array",
+                "description": "Placeholders {0}, {1}... in text, filled in game: a location or reference alias, or a global's value; word is shown when that fails.",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["kind", "word"],
+                  "properties": {
+                    "kind": { "enum": ["location", "ref", "global"] },
+                    "alias": { "type": "integer", "minimum": 0 },
+                    "form": { "type": "string" },
+                    "word": { "type": "string" }
+                  }
+                }
+              }
             }
           }
         },

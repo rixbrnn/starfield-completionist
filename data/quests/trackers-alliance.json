@@ -91,22 +91,50 @@
       "steps": [
         {
           "id": 100,
-          "text": "Confront the target",
-          "target": 17
+          "text": "Confront {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 200,
-          "text": "Arrest the target",
-          "target": 17
+          "text": "Arrest {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 250,
-          "text": "(Optional) Kill the target"
+          "text": "(Optional) Kill {0}",
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 300,
-          "text": "Kill the target",
-          "target": 17
+          "text": "Kill {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -189,22 +217,50 @@
       "steps": [
         {
           "id": 100,
-          "text": "Confront the target",
-          "target": 17
+          "text": "Confront {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 200,
-          "text": "Arrest the target",
-          "target": 17
+          "text": "Arrest {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 250,
-          "text": "(Optional) Kill the target"
+          "text": "(Optional) Kill {0}",
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 300,
-          "text": "Kill the target",
-          "target": 17
+          "text": "Kill {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -287,22 +343,50 @@
       "steps": [
         {
           "id": 100,
-          "text": "Confront the target",
-          "target": 17
+          "text": "Confront {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 200,
-          "text": "Arrest the target",
-          "target": 17
+          "text": "Arrest {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 250,
-          "text": "(Optional) Kill the target"
+          "text": "(Optional) Kill {0}",
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 300,
-          "text": "Kill the target",
-          "target": 17
+          "text": "Kill {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -385,22 +469,50 @@
       "steps": [
         {
           "id": 100,
-          "text": "Confront the target",
-          "target": 17
+          "text": "Confront {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 200,
-          "text": "Arrest the target",
-          "target": 17
+          "text": "Arrest {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 250,
-          "text": "(Optional) Kill the target"
+          "text": "(Optional) Kill {0}",
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 300,
-          "text": "Kill the target",
-          "target": 17
+          "text": "Kill {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {
@@ -483,22 +595,50 @@
       "steps": [
         {
           "id": 100,
-          "text": "Confront the target",
-          "target": 17
+          "text": "Confront {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 200,
-          "text": "Arrest the target",
-          "target": 17
+          "text": "Arrest {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 250,
-          "text": "(Optional) Kill the target"
+          "text": "(Optional) Kill {0}",
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         },
         {
           "id": 300,
-          "text": "Kill the target",
-          "target": 17
+          "text": "Kill {0}",
+          "target": 17,
+          "tokens": [
+            {
+              "kind": "ref",
+              "alias": 17,
+              "word": "the target"
+            }
+          ]
         }
       ],
       "complete": {

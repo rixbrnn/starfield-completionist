@@ -7,7 +7,8 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
-import { findRecords, formKey, type PluginHeader } from "../esm/plugin.ts";
+import { zstring } from "../esm/io.ts";
+import { findRecords, forEachRecord, formKey, type PluginHeader } from "../esm/plugin.ts";
 import { loadPluginStrings, readLString, type StringTable } from "../esm/strings.ts";
 import { scanWorld, type CellInfo, type Placement } from "../esm/world.ts";
 import { officialPlugins, resolveGamePath } from "./game.ts";
@@ -243,31 +244,74 @@ for (const plugin of plugins) {
 // ---------------------------------------------------------------- objective text
 
 // Objective text as the mission log would show it. <Alias=…> placeholders get the NPC or
-// location name when the alias is fixed in the game data; aliases filled at runtime
-// (random planets, bounty targets) get a generic word, since Papyrus can't read names.
-// Counters such as "(<Global=…>/3)" are dropped.
+// location name when the alias is fixed in the game data. Aliases filled at runtime (random
+// planets, bounty targets) and counters (<Global=…>) become numbered tokens ("{0}") that the
+// menu fills in game: Papyrus reports the alias's location / base object or the global's value,
+// and the menu looks the name up in build/extract/names.json. Each token keeps a generic word
+// ("the planet") for when that fails.
 function aliasWord(alias: DumpAlias | undefined, name: string): string {
-  if (alias?.uniqueActor && actorNames.has(alias.uniqueActor)) return actorNames.get(alias.uniqueActor)!;
-  if (alias?.forcedLocation && locations.get(alias.forcedLocation)?.name) return locations.get(alias.forcedLocation)!.name;
   if (/planet|moon/i.test(name)) return "the planet";
   if (/system/i.test(name)) return "the system";
   if (alias?.kind === "location" || /loc(ation)?/i.test(name)) return "the location";
   if (/ship/i.test(name)) return "the ship";
   return "the target";
 }
-function objectiveText(quest: DumpQuest, text: string): string {
-  return text
-    .replace(/\s*\([^()]*<Global=[^>]*>[^()]*\)/g, "")
-    .replace(/<Global=[^>]*>/g, "#")
-    .replace(/<Alias(?:\.[A-Za-z]+)?=([^>]*)>/g, (_, name: string) => aliasWord(quest.aliases.find((a) => a.name === name), name))
+const fixedName = (alias: DumpAlias | undefined) =>
+  (alias?.uniqueActor && actorNames.get(alias.uniqueActor)) || (alias?.forcedLocation && locations.get(alias.forcedLocation)?.name) || undefined;
+
+// Global variables by editor ID, for counters in objective text ("(<Global=X>/3)").
+const globalForms = new Map<string, string>();
+for (const plugin of plugins) {
+  forEachRecord(plugin.path, ["GLOB"], (record) => {
+    const editorId = record.subrecords.find((s) => s.type === "EDID");
+    if (editorId) globalForms.set(zstring(editorId.data).toLowerCase(), formKey(record.formId, plugin));
+  });
+}
+
+type Token = { kind: "location" | "ref"; alias: number; word: string } | { kind: "global"; form: string; word: string };
+function objectiveText(quest: DumpQuest, raw: string): { text: string; tokens: Token[] } {
+  const tokens: Token[] = [];
+  const token = (t: Token) => `{${tokens.push(t) - 1}}`;
+  const text = raw
+    .replace(/<Global=([^>]*)>/g, (_, name: string) => {
+      const form = globalForms.get(name.toLowerCase());
+      return form ? token({ kind: "global", form, word: "#" }) : "#";
+    })
+    .replace(/<Alias(?:\.[A-Za-z]+)?=([^>]*)>/g, (_, name: string) => {
+      const alias = quest.aliases.find((a) => a.name === name);
+      const fixed = fixedName(alias);
+      if (fixed) return fixed;
+      const word = aliasWord(alias, name);
+      return alias ? token({ kind: alias.kind === "location" ? "location" : "ref", alias: alias.id, word }) : word;
+    })
     .replace(/\s+/g, " ")
     .trim();
+  return { text, tokens };
 }
 function stepsOf(quest: DumpQuest) {
   return (quest.objectiveList ?? [])
     .filter((o) => o.text)
     .sort((a, b) => a.id - b.id)
-    .map((o) => ({ id: o.id, text: objectiveText(quest, o.text), ...(o.targets.length ? { target: o.targets[0] } : {}) }));
+    .map((o) => {
+      const { text, tokens } = objectiveText(quest, o.text);
+      return { id: o.id, text, ...(o.targets.length ? { target: o.targets[0] } : {}), ...(tokens.length ? { tokens } : {}) };
+    });
+}
+
+// Names for runtime lookups (locations and actors), by "Plugin|0xFormID". Generated from the
+// player's game files, so written to build/ (not committed); build:mod adds them to the menu.
+{
+  const names: Record<string, string> = {};
+  for (const location of locations.values()) if (location.name) names[location.key] = location.name;
+  for (const plugin of plugins) {
+    forEachRecord(plugin.path, ["NPC_"], (record) => {
+      const full = record.subrecords.find((s) => s.type === "FULL");
+      const name = full ? readLString(full.data, plugin, stringsFor(plugin)) : "";
+      if (name) names[formKey(record.formId, plugin)] = name;
+    });
+  }
+  writeFileSync(resolve("build/extract/names.json"), JSON.stringify(names));
+  console.log(`names.json: ${Object.keys(names).length} location and actor names`);
 }
 
 // ---------------------------------------------------------------- start places

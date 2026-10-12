@@ -39,6 +39,7 @@ Function Register()
   OSFUI.RegisterSend(Self, ModId, "plotObjective")
   OSFUI.RegisterSend(Self, ModId, "log")
   OSFUI.RegisterSend(Self, ModId, "explored")
+  OSFUI.RegisterSend(Self, ModId, "resolve")
   OSFSettings.RegisterHotkey(Self, ModId, OpenHotkey)
   ; Until the tracker's refresh finishes, statuses are incomplete; StatusChanged publishes them then.
   If Tracker().IsReady()
@@ -159,6 +160,58 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
       i += 1
     EndWhile
     OSFUI.EmitEvent(ModId, "objectives", result)
+  ElseIf asName == "resolve"
+    ; osfui.send("resolve", questId, kind, id, plugin, kind, id, plugin, ...): what fills the
+    ; placeholders of an objective's text. kind 1: location alias (its location), 2: reference
+    ; alias (its base object and current location), 3: global variable (id/plugin: its form; its
+    ; value). Replies with the event "resolved" [questId, a, b, a, b, ...]: two ints per token.
+    Quest q = entry.questForm
+    Int count = (akArgs.Length - 1) / 3
+    Var[] result = new Var[1 + count * 2]
+    result[0] = entry.id
+    Int i = 0
+    While i < count
+      Int kind = akArgs[1 + i * 3] as Int
+      Int id = akArgs[2 + i * 3] as Int
+      Int a = 0
+      Int b = 0
+      If kind == 1
+        LocationAlias locAlias = q.GetAlias(id) as LocationAlias
+        Location where = None
+        If locAlias
+          where = locAlias.GetLocation()
+        EndIf
+        If where
+          a = where.GetFormID()
+        EndIf
+      ElseIf kind == 2
+        ReferenceAlias refAlias = q.GetAlias(id) as ReferenceAlias
+        ObjectReference ref = None
+        If refAlias
+          ref = refAlias.GetRef()
+        EndIf
+        If ref
+          Form base = ref.GetBaseObject()
+          If base
+            a = base.GetFormID()
+          EndIf
+          Location refWhere = ref.GetCurrentLocation()
+          If refWhere
+            b = refWhere.GetFormID()
+          EndIf
+        EndIf
+      ElseIf kind == 3
+        GlobalVariable counter = Game.GetFormFromFile(id, akArgs[3 + i * 3] as String) as GlobalVariable
+        If counter
+          a = counter.GetValueInt()
+          b = 1
+        EndIf
+      EndIf
+      result[1 + i * 2] = a
+      result[2 + i * 2] = b
+      i += 1
+    EndWhile
+    OSFUI.EmitEvent(ModId, "resolved", result)
   ElseIf asName == "plotObjective" && akArgs.Length >= 2
     ; osfui.send("plotObjective", questId, aliasId): a course to where the objective's target is now.
     Location target = AliasLocation(entry.questForm.GetAlias(akArgs[1] as Int))

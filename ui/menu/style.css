@@ -146,6 +146,8 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .step .label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .step .opt { color: #c3ccd8; }
 .step .tag { margin-left: auto; font-size: 12px; color: var(--soft); letter-spacing: 0.12em; white-space: nowrap; }
+.step .tag.hint { color: var(--muted); }
+.step .tag.hint + .tag { margin-left: 16px; }
 .step.finished .label { text-decoration: line-through; color: #c9d1dc; }
 .step.selected .box, .step.selected .txt { background: var(--light); color: #3d4554; }
 .step.selected .box i { border-color: var(--on-light); }
