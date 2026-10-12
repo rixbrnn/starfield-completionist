@@ -16,6 +16,13 @@
     { id: "questlines", label: "QUESTS" },
     { id: "activities", label: "ACTIVITIES" },
   ];
+  const SORTS = [
+    { id: "default", label: "DEFAULT" },
+    { id: "name", label: "NAME" },
+    { id: "status", label: "STATUS" },
+    { id: "type", label: "TYPE" },
+    { id: "place", label: "LOCATION" },
+  ];
   const FILTERS = [
     { id: "all", label: "ALL", test: () => true },
     { id: "missing", label: "NOT STARTED", test: (s) => s === NOT_STARTED },
@@ -34,11 +41,13 @@
     selected: { log: "active", here: "all", locations: null, questlines: null, activities: "all" },
     filter: "all",
     spoilers: readSetting("spoilers", false), // true = hide names of quests you haven't started
+    sort: readSetting("sort", "default"), // see SORTS (checked below)
     focus: "list", // "side" (place / questline / category list), "list" (quests) or "cards" (nothing-tracked page)
     row: 0, // selected quest row when focus is "list"
     card: 0, // selected card when focus is "cards"
     input: "keyboard", // "gamepad" after a controller button, so prompts show controller buttons
   };
+  if (!SORTS.some((s) => s.id === view.sort)) view.sort = "default";
   let shownQuests = []; // quests in the detail list, in display order (for selection and actions)
   let shownCards = []; // systems on the nothing-tracked page
   let hereLayout = "city"; // Here tab: "city", "places" (planet or system) or "nowhere"
@@ -407,19 +416,25 @@
   function renderDetail(kicker, title, quests, options) {
     options = options || {};
     const t = tally(quests);
-    const shown = quests.filter((q) => available(q) && (options.noFilters || FILTERS.find((f) => f.id === view.filter).test(statusOf(q))));
+    const filtered = quests.filter((q) => available(q) && (options.noFilters || FILTERS.find((f) => f.id === view.filter).test(statusOf(q))));
+    // Quests the player has found come first; the ones not discovered yet are grouped below.
+    const discovered = sortQuests(filtered.filter((q) => statusOf(q) !== NOT_STARTED));
+    const undiscovered = sortQuests(filtered.filter((q) => statusOf(q) === NOT_STARTED));
+    const shown = [...discovered, ...undiscovered];
     const counts = { all: t.total, missing: t.missing, active: t.active, done: t.done };
     const filters = options.noFilters ? null : el("div", { class: "filters", role: "tablist", "aria-label": "Filter" },
       FILTERS.map((f) => el("button", { role: "tab", "aria-selected": view.filter === f.id ? "true" : "false", text: f.label + " " + counts[f.id], onclick: () => setFilter(f.id) })));
+    const sort = el("button", { class: "sort", onclick: cycleSort }, el("span", { text: "SORT " }), SORTS.find((s) => s.id === view.sort).label);
+    const controls = el("div", { class: "list-controls" }, filters, sort);
     const children = [];
 
     if (options.listTitle) {
       children.push(el("div", { class: "list-head" },
         el("div", { class: "list-title" }, options.listTitle, el("span", { text: " · " + shown.length })),
-        filters));
+        controls));
     } else {
       renderSummary(children, kicker, title, quests, t, options);
-      children.push(filters);
+      children.push(controls);
     }
 
     shownQuests = shown;
@@ -427,6 +442,7 @@
     const list = el("div", { class: "list" });
     if (shown.length === 0) list.append(el("div", { class: "empty", text: options.empty || "Nothing here for this filter." }));
     shown.forEach((q, index) => {
+      if (index === discovered.length) list.append(el("div", { class: "list-divider", text: "NOT DISCOVERED · " + undiscovered.length }));
       const s = statusOf(q);
       const hide = view.spoilers && s === NOT_STARTED;
       const selected = view.focus === "list" && index === view.row;
@@ -442,6 +458,22 @@
     document.getElementById("detail").replaceChildren(...children.filter(Boolean));
     const current = document.querySelector(".row.selected");
     if (current) current.scrollIntoView({ block: "nearest" });
+  }
+
+  // Order within each group (found / not discovered). Default keeps the data's order: story
+  // order for questlines, quest-giver order for places.
+  const STATUS_ORDER = { [IN_PROGRESS]: 0, [COMPLETED]: 1, [LOCKED_OUT]: 2, [FAILED]: 3, [NOT_STARTED]: 4 };
+  const placePath = (q) => placeChain(q.place).reverse().map((p) => p.name).join(" / ");
+  function sortQuests(list) {
+    if (view.sort === "default") return list;
+    const byName = (a, b) => a.name.localeCompare(b.name);
+    const compare = {
+      name: byName,
+      status: (a, b) => STATUS_ORDER[statusOf(a)] - STATUS_ORDER[statusOf(b)] || byName(a, b),
+      place: (a, b) => placePath(a).localeCompare(placePath(b)) || byName(a, b),
+      type: (a, b) => tagFor(a).localeCompare(tagFor(b)) || byName(a, b),
+    }[view.sort];
+    return [...list].sort(compare);
   }
 
   // Title, progress bar (or questline chain) and counts above the list (Locations, Quests, Activities).
@@ -785,6 +817,7 @@
       canPlot ? key(pad ? "X" : "R", view.focus === "side" ? "SET COURSE" : "SHOW ON MAP", false, plotSelected) : null,
       q ? key(pad ? "RS" : "M", overrideAction(q).label, false, overrideSelected) : null,
       checklist ? key(pad ? "Y" : "F", "FILTER", false, cycleFilter) : null,
+      view.tab !== "here" || hereLayout !== "nowhere" ? key(pad ? "LS" : "T", "SORT: " + SORTS.find((s) => s.id === view.sort).label, false, cycleSort) : null,
       checklist ? key(pad ? "VIEW" : "X", "SPOILERS: " + (view.spoilers ? "HIDDEN" : "SHOWN"), false, toggleSpoilers) : null,
       key(pad ? "B" : "ESC", "CLOSE", true, () => { if (bridge) bridge.send("close"); }),
     ];
@@ -824,6 +857,13 @@
     if (view.tab === "log") return;
     const i = FILTERS.findIndex((f) => f.id === view.filter);
     setFilter(FILTERS[(i + 1) % FILTERS.length].id);
+  }
+  function cycleSort() {
+    const i = SORTS.findIndex((s) => s.id === view.sort);
+    view.sort = SORTS[(i + 1) % SORTS.length].id;
+    writeSetting("sort", view.sort);
+    view.row = 0;
+    render();
   }
   function toggleSpoilers() {
     if (view.tab === "log") return;
@@ -892,7 +932,7 @@
   // Controller: OSF UI turns the D-pad / left stick into arrow keys and A into Enter, and B closes
   // the menu. Every button also arrives as a "ui.gamepad" event (XInput button masks), which is
   // how the shoulder buttons, X, Y and View work here.
-  const PAD = { VIEW: 0x0020, RS: 0x0080, LB: 0x0100, RB: 0x0200, A: 0x1000, X: 0x4000, Y: 0x8000 };
+  const PAD = { VIEW: 0x0020, LS: 0x0040, RS: 0x0080, LB: 0x0100, RB: 0x0200, A: 0x1000, X: 0x4000, Y: 0x8000 };
   if (bridge) {
     bridge.on("ui.gamepad", (event) => {
       if (!event || event.kind !== "button" || !event.button || !event.button.down) return;
@@ -907,6 +947,7 @@
       else if (id === PAD.Y) cycleFilter();
       else if (id === PAD.VIEW) toggleSpoilers();
       else if (id === PAD.RS) overrideSelected();
+      else if (id === PAD.LS) cycleSort();
     });
   }
   document.addEventListener("mousemove", () => {
@@ -950,6 +991,8 @@
       plotSelected();
     } else if (key === "f") {
       cycleFilter();
+    } else if (key === "t") {
+      cycleSort();
     } else if (key === "x") {
       toggleSpoilers();
     }

@@ -220,3 +220,13 @@ kbd { min-width: 28px; text-align: center; padding: 2px 6px; border: 1px solid v
 .item.count .item-name { font-family: var(--condensed); font-size: 19px; letter-spacing: 0.1em; text-transform: uppercase; }
 .item.count.sub { padding-left: 60px; }
 .item.count.sub .item-name { font-size: 17px; }
+
+/* Filters and sort share a line; sort cycles through SORTS. */
+.list-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.list-head .list-controls { justify-content: flex-end; }
+.sort { padding: 8px 16px; border: 1px solid var(--chip); font-family: var(--condensed); font-size: 17px; letter-spacing: 0.12em; color: var(--text); white-space: nowrap; }
+.sort span { color: var(--muted); }
+.sort:hover { border-color: var(--text); }
+
+/* Quests not discovered yet, grouped under the ones the player has found. */
+.list-divider { padding: 18px 16px 8px; border-bottom: 1px solid var(--line); font-family: var(--condensed); font-size: 14px; letter-spacing: 0.18em; color: var(--muted); }
