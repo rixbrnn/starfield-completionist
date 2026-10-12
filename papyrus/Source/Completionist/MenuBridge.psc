@@ -38,6 +38,7 @@ Function Register()
   OSFUI.RegisterSend(Self, ModId, "objectives")
   OSFUI.RegisterSend(Self, ModId, "plotObjective")
   OSFUI.RegisterSend(Self, ModId, "log")
+  OSFUI.RegisterSend(Self, ModId, "explored")
   OSFSettings.RegisterHotkey(Self, ModId, OpenHotkey)
   ; Until the tracker's refresh finishes, statuses are incomplete; StatusChanged publishes them then.
   If Tracker().IsReady()
@@ -86,6 +87,22 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
   ; osfui.send("log", text): a diagnostic line from the menu, written to the mod's user log.
   If asName == "log"
     Debug.TraceUser("Completionist", "menu: " + (akArgs[0] as String))
+    Return
+  EndIf
+  ; osfui.send("explored", batch, plugin, localFormId, ...): which of these locations the player
+  ; has ever explored, for hiding the names of places not seen yet. Replies with the event
+  ; "explored" [batch, explored?, ...] in the same order.
+  If asName == "explored" && akArgs.Length >= 2
+    String plugin = akArgs[1] as String
+    Var[] result = new Var[akArgs.Length - 1]
+    result[0] = akArgs[0]
+    Int i = 2
+    While i < akArgs.Length
+      Location place = Game.GetFormFromFile(akArgs[i] as Int, plugin) as Location
+      result[i - 1] = place != None && place.HasEverBeenExplored()
+      i += 1
+    EndWhile
+    OSFUI.EmitEvent(ModId, "explored", result)
     Return
   EndIf
   ; osfui.send("override", questId, value): 0 = automatic, 1 = mark done, 2 = mark not done.

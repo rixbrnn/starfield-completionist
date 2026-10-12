@@ -160,6 +160,14 @@
       queueRender();
     });
     bridge.on("plotFailed", () => showToast("This objective has no place on the map right now."));
+    bridge.on("explored", (event) => {
+      const [batch, ...flags] = (event && event.args) || [];
+      const keys = exploredBatches.get(Number(batch));
+      if (!keys) return;
+      exploredBatches.delete(Number(batch));
+      keys.forEach((key, i) => { if (flags[i] === true) exploredPlaces.add(key); });
+      queueRender();
+    });
     bridge.state.on("inSpace", (value) => { inSpace = value === true; queueRender(); });
     bridge.state.on("survey", (value) => { survey = typeof value === "number" ? value : -1; queueRender(); });
     bridge.state.on("location", (ids) => { locationChain = Array.isArray(ids) ? ids : []; queueRender(); });
@@ -191,6 +199,47 @@
       chain.push({ key, ...DATA.places[key] });
     }
     return chain;
+  }
+
+  // Spoilers for places: with names hidden, a place shows its name once the player has explored
+  // it (the game's own record, asked from Papyrus) or discovered a quest there or in a place
+  // inside it. Systems and planets are on the starmap anyway, so they always keep their names.
+  const exploredPlaces = new Set(); // place keys the game says the player has explored
+  let discoveredPlaces = null; // place keys with a discovered quest at or under them (per render)
+  function placeKnown(key) {
+    const place = DATA.places[key];
+    if (!view.spoilers || !place || place.kind === "system" || place.kind === "planet") return true;
+    if (exploredPlaces.has(key)) return true;
+    if (!discoveredPlaces) {
+      discoveredPlaces = new Set();
+      for (const q of DATA.quests) if (available(q) && statusOf(q) !== NOT_STARTED) for (const p of placeChain(q.place)) discoveredPlaces.add(p.key);
+    }
+    return discoveredPlaces.has(key);
+  }
+  const UNDISCOVERED_PLACE = "Undiscovered location";
+  const placeLabel = (key, name) => (placeKnown(key) ? name : UNDISCOVERED_PLACE);
+
+  // Asks Papyrus which places (cities, outposts, sites: not systems or planets) the player has
+  // explored, in batches by plugin. Explored never goes back, so known ones aren't asked again.
+  const exploredBatches = new Map(); // batch id -> place keys, in the order sent
+  let exploredBatchId = 0;
+  function requestExplored() {
+    const byPlugin = new Map();
+    for (const [key, place] of Object.entries(DATA.places)) {
+      if (!place.loc || place.kind === "system" || place.kind === "planet" || exploredPlaces.has(key)) continue;
+      const [plugin, hex] = place.loc.split("|");
+      if (!byPlugin.has(plugin)) byPlugin.set(plugin, []);
+      byPlugin.get(plugin).push({ key, id: parseInt(hex, 16) });
+    }
+    for (const [plugin, places] of byPlugin) {
+      for (let i = 0; i < places.length; i += 120) {
+        const batch = places.slice(i, i + 120);
+        const id = ++exploredBatchId;
+        exploredBatches.set(id, batch.map((p) => p.key));
+        if (bridge) bridge.send("explored", id, plugin, ...batch.map((p) => p.id));
+        else batch.forEach((p, n) => { if (n % 2 === 0) exploredPlaces.add(p.key); }); // preview: every other place explored
+      }
+    }
   }
 
   // The most specific tracked place containing the player.
@@ -448,7 +497,7 @@
       if (row.kind === "subgroup") return el("div", { class: "subgroup", text: row.label });
       const selected = view.selected[view.tab] === row.key;
       const t = tally(row.quests);
-      return placeRow(row.label, t.done + " / " + t.total, t.total ? t.done / t.total : 0, selected, selected && view.focus !== "side", () => select(row.key));
+      return placeRow(row.key ? placeLabel(row.key, row.label) : row.label, t.done + " / " + t.total, t.total ? t.done / t.total : 0, selected, selected && view.focus !== "side", () => select(row.key));
     })), "side:" + view.tab);
     side.replaceChildren(card || "", area);
     area.settle(side.querySelector(".place.selected"));
@@ -759,7 +808,7 @@
 
   function hubName(q) {
     const chain = placeChain(q.place);
-    return chain.length ? chain[0].name : "Anywhere";
+    return chain.length ? placeLabel(chain[0].key, chain[0].name) : "Anywhere";
   }
 
   function render() {
@@ -773,6 +822,7 @@
   }
 
   function renderBody() {
+    discoveredPlaces = null;
     renderHeader();
     shownCards = [];
     const rows = sideRows();
@@ -800,13 +850,13 @@
       return renderDetail(row.quests, { meta: hubName });
     }
     const chain = row.key === "all" || row.key === "anywhere" ? [] : placeChain(row.key);
-    const sub = chain.slice(1).map((p) => p.name + (p.kind === "system" ? " system" : "")).join(" · ");
+    const sub = chain.slice(1).map((p) => placeLabel(p.key, p.name) + (p.kind === "system" ? " system" : "")).join(" · ");
     const options = (view.tab === "activities" || view.tab === "side") && row.key === "all" ? { meta: hubName } : {};
     // The game's stat (and the Fixer achievement) also counts small errands and repeatable activities.
     const note = view.tab === "activities" && gameActivities !== null
       ? "Game count: " + gameActivities + " activities completed, including small errands and repeatable activities this list leaves out."
       : null;
-    renderSide(rows, summaryCard(row.label, sub, row.quests, { note }));
+    renderSide(rows, summaryCard(placeLabel(row.key, row.label), sub, row.quests, { note }));
     renderDetail(row.quests, options);
   }
 
@@ -1204,6 +1254,9 @@
   });
 
   document.getElementById("back").addEventListener("click", () => { if (bridge) bridge.send("close"); });
+
+  requestExplored();
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) requestExplored(); });
 
   // Redraw whenever the menu is shown or focused, so reopening it never shows stale content.
   document.addEventListener("visibilitychange", () => { if (!document.hidden) render(); });
