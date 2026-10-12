@@ -1,248 +1,164 @@
-/* Completionist menu: follows Starfield's menu language (see the UI concepts, design A). */
+/* Completionist menu, styled after the game's own Missions menu (UI concepts G1/G2):
+   textured navy background, slate rows, boxed category tabs, a detail card on the left. */
 
-@font-face { font-family: "Barlow"; font-weight: 400; src: url("fonts/Barlow-400.woff2") format("woff2"); }
-@font-face { font-family: "Barlow"; font-weight: 500; src: url("fonts/Barlow-500.woff2") format("woff2"); }
-@font-face { font-family: "Barlow"; font-weight: 600; src: url("fonts/Barlow-600.woff2") format("woff2"); }
-@font-face { font-family: "Barlow Condensed"; font-weight: 500; src: url("fonts/BarlowCondensed-500.woff2") format("woff2"); }
-@font-face { font-family: "Barlow Condensed"; font-weight: 600; src: url("fonts/BarlowCondensed-600.woff2") format("woff2"); }
+@font-face { font-family: "Share Tech Mono"; font-weight: 400; src: url("fonts/ShareTechMono-400.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 100 900; src: url("fonts/Inter.woff2") format("woff2"); }
 
 :root {
-  --bg: #06090d; /* opaque, like the game's own menus */
-  --text: #e9edf1;
-  --muted: #8d99a6;
-  --soft: #c4ccd4;
-  --line: #232c36;
-  --line-soft: #1a222b;
-  --track: #1f2832;
-  --chip: #3a4651;
-  --ink: #0b0f14;
-  --active: #ee8a2a;
-  --failed: #d64a2c;
-  --activity: #f0c43a;
-  --condensed: "Barlow Condensed", "Barlow", sans-serif;
+  --text: #f2f4f7;
+  --soft: #d5dbe4;
+  --muted: #aab6c8;
+  --panel: rgba(118, 136, 166, 0.55);
+  --panel-soft: rgba(118, 136, 166, 0.4);
+  --card: rgba(28, 42, 68, 0.6);
+  --edge: rgba(255, 255, 255, 0.35);
+  --light: #f4f5f7; /* selected row / tab */
+  --on-light: #5f6878;
+  --tracked: #34d8e8;
+  --failed: #f0806a;
+  --mono: "Share Tech Mono", ui-monospace, monospace;
 }
 
 * { box-sizing: border-box; }
-html, body { margin: 0; height: 100%; background: transparent; }
-body { color: var(--text); font-family: "Barlow", sans-serif; overflow: hidden; }
+html, body { margin: 0; height: 100%; }
+body { color: var(--text); font-family: "Inter", sans-serif; overflow: hidden; background: #1b2840; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
 button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+.rail, .tabs, .sortbar, .row, .step, .group, .keys, .place, .kicker, .brand, .totals, .list-divider { font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; }
 
-.app { width: 100vw; height: 100vh; display: flex; flex-direction: column; background: var(--bg); }
+/* Opaque, like the game's menus: textured navy. */
+.app {
+  width: 100vw; height: 100vh; position: relative;
+  display: grid; grid-template-columns: 96px 600px 1fr; grid-template-rows: 64px 1fr 76px;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    radial-gradient(ellipse at 70% 40%, #2b3d5e 0%, #203152 45%, #18243b 100%);
+}
 
-/* Header */
-.top { height: 96px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; border-bottom: 1px solid var(--line); }
-.brand { width: 380px; display: flex; align-items: center; gap: 18px; font-family: var(--condensed); font-weight: 600; font-size: 30px; letter-spacing: 0.16em; }
-.stripes { display: flex; flex-direction: column; gap: 3px; }
-.stripes i { display: block; width: 36px; height: 4px; }
-.stripes i:nth-child(1) { background: #d64a2c; }
-.stripes i:nth-child(2) { background: #ee8a2a; }
-.stripes i:nth-child(3) { background: #f0c43a; }
-.stripes i:nth-child(4) { background: #4a86c5; }
-.tabs { display: flex; gap: 44px; font-family: var(--condensed); font-weight: 500; font-size: 21px; letter-spacing: 0.14em; }
-.tabs button { color: var(--muted); padding: 8px 0; border-bottom: 2px solid transparent; }
-.tabs button[aria-current="page"] { color: #fff; border-bottom-color: var(--text); }
-.totals { width: 380px; display: flex; justify-content: flex-end; gap: 36px; font-family: var(--condensed); text-align: right; }
-.total-value { font-size: 28px; font-weight: 600; }
-.total-value span, .stat-value span { color: var(--muted); font-weight: 500; }
-.total-label, .stat-label { font-size: 14px; letter-spacing: 0.16em; color: var(--muted); }
+/* Left rail: the five views, written vertically like the game's "MISSIONS" label. */
+.rail { grid-column: 1; grid-row: 1 / 4; margin: 42px 0 62px 40px; width: 30px; border: 1px solid rgba(255, 255, 255, 0.25); display: flex; flex-direction: column; align-items: center; gap: 26px; padding-top: 16px; }
+.rail button { position: relative; writing-mode: vertical-rl; transform: rotate(180deg); font-size: 15px; color: rgba(255, 255, 255, 0.5); padding: 4px 0; }
+.rail button[aria-current="page"] { color: #fff; }
+.rail button[aria-current="page"]::after { content: ""; position: absolute; left: -7px; top: 0; bottom: 0; width: 3px; background: var(--text); }
 
-/* Layout */
-.main { flex: 1; display: flex; min-height: 0; }
-.side { width: 520px; flex-shrink: 0; padding: 20px 0 28px 48px; border-right: 1px solid var(--line); overflow-y: auto; }
-.detail { flex: 1; min-width: 0; padding: 36px 56px 24px 56px; display: flex; flex-direction: column; gap: 22px; min-height: 0; }
+/* Top line: name and overall totals. */
+.top { grid-column: 2 / 4; grid-row: 1; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 40px 6px 0; }
+.brand { font-size: 15px; color: var(--muted); letter-spacing: 0.2em; }
+.totals { display: flex; gap: 28px; }
+.total { display: flex; align-items: center; gap: 10px; }
+.ring { width: 38px; height: 38px; flex-shrink: 0; }
+.ring-text { fill: var(--text); font-family: var(--mono); font-size: 13px; }
+.total-value { font-size: 18px; }
+.total-value span { color: var(--muted); }
+.total-label { font-size: 11px; color: var(--muted); letter-spacing: 0.16em; }
 
-/* Side list */
-.group { display: flex; justify-content: space-between; padding: 18px 28px 6px 0; font-family: var(--condensed); font-size: 16px; letter-spacing: 0.18em; color: var(--muted); }
-.subgroup { padding: 6px 28px 2px 20px; font-size: 15px; color: var(--muted); }
-.item { display: flex; flex-direction: column; gap: 8px; width: 100%; padding: 10px 28px 12px 36px; }
-.item-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-.item-name { font-size: 20px; font-weight: 500; }
-.item-frac { font-family: var(--condensed); font-size: 18px; white-space: nowrap; }
-.track { display: block; height: 2px; background: var(--track); }
-.fill { display: block; height: 2px; background: var(--text); }
-.item.selected { background: var(--text); color: var(--ink); }
-.item.selected .track { background: #b9c2cb; }
-.item.selected .fill { background: var(--ink); }
-
-/* Detail */
-.kicker { font-family: var(--condensed); font-size: 17px; letter-spacing: 0.18em; color: var(--muted); }
-.title { margin: 4px 0 0 0; font-family: var(--condensed); font-weight: 600; font-size: 76px; line-height: 1; letter-spacing: 0.04em; text-transform: uppercase; }
-.segments { display: flex; gap: 3px; height: 10px; }
-.segments i { flex: 1; background: #2a333d; }
-.segments i.done { background: var(--text); }
-.segments i.active { background: var(--active); }
-.segments i.failed { background: var(--failed); }
-.stats { display: flex; gap: 56px; font-family: var(--condensed); }
-.stat-value { font-size: 40px; font-weight: 600; }
-.stat-value.active { color: var(--active); }
-.stat-value.failed { color: var(--failed); }
-.filters { display: flex; gap: 8px; font-family: var(--condensed); font-size: 17px; letter-spacing: 0.12em; }
-.filters button { padding: 8px 16px; border: 1px solid var(--chip); color: var(--soft); }
-.filters button[aria-selected="true"] { border-color: var(--text); background: var(--text); color: var(--ink); }
-
-.list { flex: 1; min-height: 0; overflow-y: auto; border-top: 1px solid var(--line); }
-.row { display: flex; align-items: center; gap: 18px; padding: 13px 16px; border-bottom: 1px solid var(--line-soft); }
-.row-name { flex: 1; font-size: 19px; font-weight: 500; }
-.row-name.hidden { color: var(--muted); font-style: italic; }
-.row-tag { width: 160px; flex-shrink: 0; font-family: var(--condensed); font-size: 15px; letter-spacing: 0.14em; color: var(--muted); }
-.row-meta { width: 240px; flex-shrink: 0; text-align: right; font-size: 16px; color: var(--muted); }
-.empty { padding: 24px 16px; color: var(--muted); font-size: 18px; }
-
-.icon { width: 18px; height: 18px; flex-shrink: 0; }
-
-/* Questline chain */
-.chain { display: flex; align-items: center; }
-.chain i { width: 12px; height: 12px; flex-shrink: 0; border: 1px solid var(--chip); }
+/* Left column: detail card, then the list to pick from (places, questlines, systems). */
+.side { grid-column: 2; grid-row: 2; padding: 32px 34px 8px 0; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 3px; }
+.side[hidden] { display: none; }
+.card { border: 1px solid var(--edge); background: var(--card); margin-bottom: 16px; flex-shrink: 0; }
+.card-head { display: flex; align-items: center; gap: 18px; padding: 16px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
+.card-head .emblem { width: 56px; height: 56px; flex-shrink: 0; }
+.card-title { font-size: 22px; font-weight: 600; line-height: 1.2; }
+.card-sub { font-size: 15px; color: var(--soft); margin-top: 2px; }
+.card-body { padding: 16px 22px 20px; font-size: 16px; line-height: 1.45; }
+.kicker { font-size: 13px; letter-spacing: 0.12em; color: var(--muted); margin: 12px 0 4px; }
+.card-body > .kicker:first-child { margin-top: 0; }
+.counts { display: grid; grid-template-columns: auto auto; justify-content: start; gap: 3px 14px; font-family: var(--mono); font-size: 14px; letter-spacing: 0.08em; color: var(--soft); text-transform: uppercase; }
+.counts b { color: #fff; font-size: 18px; font-weight: 400; text-align: right; }
+.counts b.active { color: var(--tracked); }
+.counts b.failed { color: var(--failed); }
+.badges { display: flex; gap: 8px; margin-top: 12px; }
+.badges span { padding: 3px 10px; border: 1px solid var(--edge); font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; }
+.note { margin-top: 12px; font-size: 14px; color: var(--soft); }
+.chain { display: flex; align-items: center; margin-top: 12px; flex-wrap: wrap; row-gap: 6px; }
+.chain i { width: 12px; height: 12px; flex-shrink: 0; border: 1px solid var(--edge); }
 .chain i.done { background: var(--text); border-color: var(--text); }
-.chain i.active { border: 2px solid var(--active); }
-.chain b { flex: 1; max-width: 22px; height: 1px; background: #2a333d; }
-.chain b.done { background: var(--muted); }
+.chain i.active { border: 2px solid var(--tracked); }
+.chain b { width: 10px; height: 1px; background: rgba(255, 255, 255, 0.3); }
+.group { font-size: 13px; letter-spacing: 0.16em; color: #b8c3d4; margin: 12px 0 4px 2px; display: flex; justify-content: space-between; flex-shrink: 0; }
+.subgroup { font-family: var(--mono); text-transform: uppercase; font-size: 12px; letter-spacing: 0.12em; color: var(--muted); margin: 6px 0 2px 14px; flex-shrink: 0; }
 
-/* Footer */
-.keys { height: 64px; flex-shrink: 0; display: flex; align-items: center; gap: 36px; padding: 0 48px; border-top: 1px solid var(--line); font-family: var(--condensed); font-size: 17px; letter-spacing: 0.12em; color: var(--soft); }
-.keys span { display: flex; align-items: center; gap: 10px; }
-.keys .end { margin-left: auto; }
-kbd { min-width: 28px; text-align: center; padding: 2px 6px; border: 1px solid var(--muted); font-family: inherit; color: var(--text); }
+/* Pickable rows in the left column. */
+.place { width: 100%; flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; justify-content: center; min-height: 44px; padding: 8px 14px; background: var(--panel-soft); font-size: 15px; }
+.place .head { display: flex; justify-content: space-between; gap: 12px; }
+.place .bar { height: 2px; background: rgba(255, 255, 255, 0.2); }
+.place .bar i { display: block; height: 2px; background: var(--text); }
+.place.sub { padding-left: 34px; }
+.place.selected { background: var(--light); color: var(--on-light); }
+.place.selected .bar { background: #c7ccd5; }
+.place.selected .bar i { background: var(--on-light); }
+.place.selected.inactive { background: rgba(244, 245, 247, 0.3); color: var(--text); }
+.place.selected.inactive .bar i { background: var(--text); }
 
-/* Selection while the quest list has focus: the place stays marked, but dimmed. */
-.item.selected.inactive { background: #2a333d; color: var(--text); }
-.item.selected.inactive .track { background: #3a4651; }
-.item.selected.inactive .fill { background: var(--text); }
+/* Right column: category tabs, sort bar, quest list. */
+.detail { grid-column: 3; grid-row: 2; padding: 32px 40px 8px 0; min-height: 0; display: flex; flex-direction: column; }
+.tabs { display: flex; gap: 4px; height: 38px; flex-shrink: 0; }
+.tabs .arrow { width: 40px; border: 1.5px solid rgba(255, 255, 255, 0.8); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.tabs .tab { flex: 1; min-width: 0; border: 1px solid var(--edge); display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 10px; font-size: 16px; white-space: nowrap; overflow: hidden; }
+.tabs .tab span { font-size: 13px; color: var(--muted); }
+.tabs .tab[aria-selected="true"] { background: var(--light); color: var(--on-light); }
+.tabs .tab[aria-selected="true"] span { color: var(--on-light); }
+.sortbar { margin: 18px 0 6px 18px; height: 30px; flex-shrink: 0; background: var(--light); color: var(--on-light); display: flex; align-items: center; justify-content: space-between; padding: 0 14px; font-size: 15px; }
+.list { flex: 1; min-height: 0; overflow-y: auto; margin-left: 18px; padding: 0 0 8px 12px; border-left: 2px solid rgba(255, 255, 255, 0.25); display: flex; flex-direction: column; gap: 3px; }
+.list-divider { font-size: 13px; letter-spacing: 0.16em; color: #b8c3d4; margin: 10px 0 2px 2px; flex-shrink: 0; }
+.list-divider:first-child { margin-top: 2px; }
+.empty { padding: 20px 4px; color: var(--soft); font-size: 16px; }
 
-/* Selected quest row and its actions (Track / Show on map). */
-.row { cursor: pointer; }
-.row.selected { background: var(--text); color: var(--ink); }
-.row.selected .row-tag, .row.selected .row-meta, .row.selected .row-name.hidden { color: #3a4651; }
-.row-actions { display: flex; gap: 8px; flex-shrink: 0; }
-.row-actions button { padding: 5px 12px; border: 1px solid var(--ink); font-family: var(--condensed); font-size: 15px; letter-spacing: 0.12em; color: var(--ink); }
-.row-actions button:hover { background: var(--ink); color: var(--text); }
-
-/* Explanatory line under the stats (e.g. the game's own activity count). */
-.note { font-size: 16px; color: var(--muted); margin-top: -8px; }
-
-/* Header totals with completion rings. */
-.totals { width: 420px; gap: 28px; }
-.total { display: flex; align-items: center; gap: 12px; }
-.ring { width: 52px; height: 52px; flex-shrink: 0; }
-.ring-text { fill: var(--text); font-family: var(--condensed); font-weight: 600; font-size: 14px; }
-
-/* NG+-only quests before entering Unity: listed, but not counted. */
+/* Quest row: a small tile on the left (cyan = tracked, as in the game), then the row panel. */
+.row { flex-shrink: 0; display: flex; gap: 3px; height: 56px; cursor: pointer; }
+.row .tile { width: 8px; flex-shrink: 0; background: var(--panel); }
+.row.tracked .tile { background: var(--tracked); }
+.row .panel { flex: 1; min-width: 0; display: flex; align-items: center; gap: 16px; padding: 0 12px 0 18px; background: var(--panel); font-size: 17px; }
+.row .emblem { width: 28px; height: 28px; flex-shrink: 0; }
+.row .name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row .name.hidden { color: var(--muted); font-style: italic; }
+.row .meta { font-family: "Inter", sans-serif; text-transform: none; letter-spacing: 0; font-size: 14px; color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px; }
+.row .caret { width: 26px; height: 26px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+.row.selected .panel { background: var(--light); color: var(--on-light); }
+.row.selected .meta, .row.selected .name.hidden { color: #7d8697; }
+/* Finished (completed, failed, locked out): crossed off. */
+.row.finished .name { text-decoration: line-through; color: #c9d1dc; }
+.row.finished .emblem { opacity: 0.55; filter: grayscale(1); }
+.row.finished.selected .name { color: #8a93a3; }
 .row.unavailable:not(.selected) { opacity: 0.55; }
 
-/* Here tab: badges next to the title, place cards, and the "nothing tracked" page. */
-.title-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
-.badges { display: flex; gap: 10px; font-family: var(--condensed); font-size: 15px; letter-spacing: 0.16em; }
-.badges span { padding: 6px 12px; border: 1px solid var(--chip); color: var(--soft); }
-.section-title { font-family: var(--condensed); font-size: 15px; letter-spacing: 0.18em; color: var(--muted); margin-bottom: 10px; }
-.section-title.ruled { padding-bottom: 10px; margin-bottom: 0; border-bottom: 1px solid var(--line); }
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
-.card { display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; border: 1px solid var(--line); }
-.card.selected { background: var(--text); color: var(--ink); border-color: var(--text); }
-.card.selected .track { background: #b9c2cb; }
-.card.selected .fill { background: var(--ink); }
-.card-sub { font-size: 14px; color: var(--muted); }
-.card.selected .card-sub { color: #3a4651; }
-.lead { margin: 12px 0 0 0; font-size: 19px; color: var(--soft); }
-.nowhere { flex: 1; min-height: 0; display: flex; gap: 48px; }
-.nowhere-col { flex: 1; min-width: 0; display: flex; flex-direction: column; min-height: 0; }
-.nowhere-col.narrow { flex: 0 0 640px; }
-.nowhere-list { overflow-y: auto; min-height: 0; }
-.next-row { display: flex; align-items: center; gap: 18px; padding: 14px 16px; border-bottom: 1px solid var(--line-soft); cursor: pointer; }
-.next-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
-.next-row.selected { background: var(--text); color: var(--ink); }
-.next-row.selected .track { background: #b9c2cb; }
-.next-row.selected .fill { background: var(--ink); }
+/* Objectives of an open quest: a checkbox cell and the text, indented under the quest. */
+.step { flex-shrink: 0; display: flex; gap: 3px; height: 46px; margin-left: 76px; cursor: pointer; font-size: 16px; }
+.step .box { width: 46px; flex-shrink: 0; background: var(--panel); display: flex; align-items: center; justify-content: center; }
+.step .box i { position: relative; width: 20px; height: 20px; border: 1.5px solid var(--text); }
+.step .txt { flex: 1; min-width: 0; background: var(--panel); display: flex; align-items: center; gap: 10px; padding: 0 16px; }
+.step .label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.step .opt { color: #c3ccd8; }
+.step .tag { margin-left: auto; font-size: 12px; color: var(--soft); letter-spacing: 0.12em; white-space: nowrap; }
+.step.finished .label { text-decoration: line-through; color: #c9d1dc; }
+.step.selected .box, .step.selected .txt { background: var(--light); color: var(--on-light); }
+.step.selected .box i { border-color: var(--on-light); }
+.step.selected .opt, .step.selected .tag { color: #7d8697; }
 
-/* Button hint inside row action buttons ("A TRACK"). */
-.row-actions button { display: inline-flex; align-items: center; gap: 8px; }
-.row-actions kbd { min-width: 0; padding: 0 5px; font-size: 13px; border-color: currentColor; color: inherit; }
-.row-actions kbd:empty { display: none; }
+/* Footer prompts, right-aligned like the game's: label then key. */
+.keys { grid-column: 2 / 4; grid-row: 3; display: flex; align-items: center; justify-content: flex-end; gap: 26px; padding: 0 40px 10px 0; font-size: 15px; }
+.keys button { display: flex; align-items: center; gap: 10px; }
+.keys kbd { min-width: 32px; height: 32px; border: 1.5px solid #fff; border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 0 7px; font-family: inherit; font-size: 13px; }
+.keys button:hover kbd { background: rgba(255, 255, 255, 0.15); }
 
-/* Rows keep the same height when selected: names don't wrap, action buttons are slim. */
-.row { height: 62px; box-sizing: border-box; padding-top: 0; padding-bottom: 0; }
-.row-name { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.row-meta { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.row-actions button { height: 32px; padding: 0 10px; white-space: nowrap; }
-
-/* Toast (e.g. "Now tracking: …"). */
-.app { position: relative; }
-.toast { position: absolute; right: 48px; bottom: 80px; padding: 12px 18px; background: var(--text); color: var(--ink); font-family: var(--condensed); font-size: 18px; letter-spacing: 0.06em; opacity: 0; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
+/* Toast (e.g. "Now tracking: ..."). */
+.toast { position: absolute; right: 40px; bottom: 90px; padding: 12px 18px; background: var(--light); color: var(--on-light); font-family: var(--mono); font-size: 16px; letter-spacing: 0.04em; opacity: 0; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
 .toast.visible { opacity: 1; transform: none; }
 
-/* "TRACKED" badge next to a quest the player is tracking. */
-.tracked-badge { display: inline-block; margin-left: 12px; padding: 1px 7px; vertical-align: 2px; border: 1px solid var(--active); color: var(--active); font-family: var(--condensed); font-size: 13px; font-weight: 600; letter-spacing: 0.14em; }
-.row.selected .tracked-badge { background: var(--active); border-color: var(--active); color: var(--ink); }
+.loading { padding: 32px 0; color: var(--muted); font-family: var(--mono); letter-spacing: 0.12em; }
 
-/* Footer prompts double as buttons (mouse), like the game's own menus. */
-.keys button { display: flex; align-items: center; gap: 10px; font: inherit; letter-spacing: inherit; color: inherit; }
-.keys button:hover { color: #ffffff; }
-.keys button:hover kbd { border-color: var(--text); }
-.keys .end { margin-left: auto; }
-
-/* v2 layout: slimmer top bar and footer, side column summary, compact list header. */
-.top { height: 64px; padding: 0 40px; background: #0a0e13; }
-.brand { font-size: 22px; gap: 14px; }
-.stripes { gap: 2px; }
-.stripes i { width: 28px; height: 3px; }
-.tabs { gap: 36px; font-size: 19px; }
-.tabs button { padding: 6px 0; }
-.total-value { font-size: 22px; }
-.total-label { font-size: 12px; }
-.ring { width: 40px; height: 40px; }
-.keys { height: 52px; padding: 0 40px; background: #0a0e13; font-size: 16px; }
-.side { width: 440px; padding: 18px 0 20px 40px; background: #080c10; }
-.side[hidden] { display: none; }
-.detail { padding: 22px 40px 16px 40px; gap: 16px; }
-.title { font-size: 52px; }
-.segments { height: 6px; }
-.stats { gap: 40px; }
-.stat-value { font-size: 30px; }
-.row { height: 52px; }
-.row-name { font-size: 18px; }
-
-.list-head { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-.list-title { font-family: var(--condensed); font-size: 22px; font-weight: 600; letter-spacing: 0.1em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.list-title span { color: var(--muted); font-weight: 500; }
-
-.here-summary { display: flex; flex-direction: column; gap: 16px; padding: 8px 28px 8px 0; }
-.here-title { margin: 2px 0 0 0; font-family: var(--condensed); font-weight: 600; font-size: 52px; line-height: 1; letter-spacing: 0.04em; text-transform: uppercase; }
-.here-summary .badges span { padding: 4px 10px; font-size: 14px; }
-.here-stats { display: flex; align-items: center; gap: 20px; }
-.ring.big { width: 92px; height: 92px; }
-.here-counts { display: grid; grid-template-columns: auto auto; align-items: baseline; gap: 4px 16px; font-family: var(--condensed); font-size: 16px; letter-spacing: 0.12em; color: var(--muted); }
-.here-counts b { font-size: 22px; font-weight: 600; color: var(--text); text-align: right; }
-.here-counts b.active { color: var(--active); }
-.here-counts b.failed { color: var(--failed); }
-
-/* Log categories: a name and a count, sub-categories indented. */
-.item.count { padding-top: 11px; padding-bottom: 11px; }
-.item.count .item-name { font-family: var(--condensed); font-size: 19px; letter-spacing: 0.1em; text-transform: uppercase; }
-.item.count.sub { padding-left: 60px; }
-.item.count.sub .item-name { font-size: 17px; }
-
-/* Filters and sort share a line; sort cycles through SORTS. */
-.list-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.list-head .list-controls { justify-content: flex-end; }
-.sort { padding: 8px 16px; border: 1px solid var(--chip); font-family: var(--condensed); font-size: 17px; letter-spacing: 0.12em; color: var(--text); white-space: nowrap; }
-.sort span { color: var(--muted); }
-.sort:hover { border-color: var(--text); }
-
-/* Quests not discovered yet, grouped under the ones the player has found. */
-.list-divider { padding: 18px 16px 8px; border-bottom: 1px solid var(--line); font-family: var(--condensed); font-size: 14px; letter-spacing: 0.18em; color: var(--muted); }
-
-/* Finished quests (completed, failed, locked out): crossed off, like a done item on a list. */
-.row.finished .row-name { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1px; }
-.row.finished.selected .row-name { color: #3a4651; }
-
-/* Expanded quest: its objectives as indented rows, like the game's mission log. */
-.row.step { height: 44px; padding-left: 52px; background: #0a0f15; }
-.row.step .row-name { font-size: 16px; font-weight: 400; color: var(--soft); }
-.row.step.selected { background: var(--text); }
-.row.step.selected .row-name { color: var(--ink); }
-.row.step .icon { width: 15px; height: 15px; }
-.row.step .row-meta { width: auto; font-family: var(--condensed); font-size: 13px; letter-spacing: 0.14em; }
-.optional { color: var(--muted); }
-.row.selected .optional { color: #3a4651; }
-.row-caret { width: 14px; flex-shrink: 0; text-align: center; color: var(--muted); font-size: 13px; }
-.row.selected .row-caret { color: var(--ink); }
+/* Drawn, not font glyphs: the menu fonts have no arrows. ▸ closed, ▾ open, ⇕ sort. */
+.caret.closed::before, .caret.open::before { content: ""; border: 5px solid transparent; }
+.caret.closed::before { border-left: 7px solid currentColor; border-right: 0; margin-left: 3px; }
+.caret.open::before { border-top: 7px solid currentColor; border-bottom: 0; margin-top: 3px; }
+.updown { display: flex; flex-direction: column; gap: 3px; }
+.updown::before, .updown::after { content: ""; border: 5px solid transparent; }
+.updown::before { border-bottom: 6px solid currentColor; border-top: 0; }
+.updown::after { border-top: 6px solid currentColor; border-bottom: 0; }
+.chev { display: inline-block; width: 9px; height: 9px; border: solid currentColor; border-width: 0 2px 2px 0; }
+.chev.right { transform: rotate(-45deg); margin-right: 3px; }
+.chev.left { transform: rotate(135deg); margin-left: 3px; }
+/* Objective checkbox: a tick when completed, a cross when failed. */
+.step .box i.done::after { content: ""; position: absolute; left: 5px; top: 1px; width: 5px; height: 10px; border: solid #3fe0a0; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
+.step .box i.failed::before, .step .box i.failed::after { content: ""; position: absolute; left: 2px; right: 2px; top: 7.5px; height: 2px; background: var(--failed); transform: rotate(45deg); }
+.step .box i.failed::after { transform: rotate(-45deg); }

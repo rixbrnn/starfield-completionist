@@ -45,14 +45,15 @@
     sort: readSetting("sort", "default"), // see SORTS (checked below)
     focus: "list", // "side" (place / questline / category list), "list" (quests) or "cards" (nothing-tracked page)
     row: 0, // selected row (in shownItems) when focus is "list"
-    expanded: null, // id of the selected quest, shown expanded with its objectives
+    selQuest: null, // id of the quest whose row (or one of its objectives) is selected
     step: null, // objective index when an objective row is selected
+    open: new Set(), // ids of quests shown open with their objectives
     card: 0, // selected card when focus is "cards"
     input: "keyboard", // "gamepad" after a controller button, so prompts show controller buttons
   };
   if (!SORTS.some((s) => s.id === view.sort)) view.sort = "default";
   let shownQuests = []; // quests in the detail list, in display order
-  let shownItems = []; // list rows in display order: { q } or, under the selected quest, { q, step, state }
+  let shownItems = []; // list rows in display order: { q } or, under an open quest, { q, step, state }
   let shownCards = []; // systems on the nothing-tracked page
   let hereLayout = "city"; // Here tab: "city", "places" (planet or system) or "nowhere"
   let tracked = new Set(); // ids of quests the player is tracking (the game's "active" quests)
@@ -281,22 +282,21 @@
     return [{ kind: "item", key: "all", label: "All activities", quests: all }, ...locationRows(true)];
   }
 
-  // Log: only quests the player has found (started, finished or failed), like the game's Missions menu.
-  function logRows() {
+  // Log: only quests the player has found (started, finished or failed), like the game's Missions
+  // menu, in categories shown as tabs.
+  function logCategories() {
     const found = DATA.quests.filter((q) => available(q) && [IN_PROGRESS, COMPLETED, FAILED].includes(statusOf(q)));
     const kindOf = (q) => (q.activity ? 3 : q.type === "main" ? 0 : q.type === "faction" ? 1 : 2);
     const active = found.filter((q) => statusOf(q) === IN_PROGRESS).sort((a, b) => kindOf(a) - kindOf(b));
     const ofKind = (k) => active.filter((q) => kindOf(q) === k);
-    const item = (key, label, quests, sub) => ({ kind: "item", key, label, quests, count: true, sub });
     return [
-      { kind: "group", label: "FOUND SO FAR", frac: String(found.length) },
-      item("active", "In progress", active),
-      item("main", "Main", ofKind(0), true),
-      item("faction", "Faction", ofKind(1), true),
-      item("side", "Side", ofKind(2), true),
-      item("activity", "Activities", ofKind(3), true),
-      item("completed", "Completed", found.filter((q) => statusOf(q) === COMPLETED)),
-      item("failed", "Failed", found.filter((q) => statusOf(q) === FAILED)),
+      { id: "active", label: "ALL", quests: active },
+      { id: "main", label: "MAIN", quests: ofKind(0) },
+      { id: "faction", label: "FACTION", quests: ofKind(1) },
+      { id: "side", label: "SIDE", quests: ofKind(2) },
+      { id: "activity", label: "ACTIVITY", quests: ofKind(3) },
+      { id: "completed", label: "COMPLETED", quests: found.filter((q) => statusOf(q) === COMPLETED) },
+      { id: "failed", label: "FAILED", quests: found.filter((q) => statusOf(q) === FAILED) },
     ];
   }
 
@@ -314,7 +314,6 @@
   }
 
   function sideRows() {
-    if (view.tab === "log") return logRows();
     if (view.tab === "here") return hereRows();
     if (view.tab === "locations") return locationRows(false);
     if (view.tab === "questlines") return questlineRows();
@@ -338,24 +337,6 @@
   };
 
   const SVG = "http://www.w3.org/2000/svg";
-  function statusIcon(status, onLight) {
-    const svg = document.createElementNS(SVG, "svg");
-    svg.setAttribute("class", "icon");
-    svg.setAttribute("viewBox", "0 0 18 18");
-    svg.setAttribute("aria-hidden", "true");
-    const stroke = onLight ? "#0b0f14" : status === IN_PROGRESS ? "#ee8a2a" : status === FAILED ? "#d64a2c" : status === COMPLETED ? "#e9edf1" : "#8d99a6";
-    const add = (name, attrs) => {
-      const node = document.createElementNS(SVG, name);
-      for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
-      svg.append(node);
-    };
-    add("rect", { x: 1.5, y: 1.5, width: 15, height: 15, fill: status === COMPLETED ? stroke : "none", stroke, "stroke-width": 1.5 });
-    if (status === COMPLETED) add("path", { d: "M5 9.5l2.6 2.6L13 6.5", fill: "none", stroke: onLight ? "#e9edf1" : "#0b0f14", "stroke-width": 2 });
-    if (status === IN_PROGRESS) add("rect", { x: 6, y: 6, width: 6, height: 6, fill: stroke });
-    if (status === FAILED) add("path", { d: "M5.5 5.5l7 7M12.5 5.5l-7 7", stroke, "stroke-width": 1.8 });
-    if (status === LOCKED_OUT) add("path", { d: "M3 15L15 3", stroke, "stroke-width": 1.5 });
-    return svg;
-  }
 
   function tagFor(q) {
     if (q.errand) return "ERRAND";
@@ -365,7 +346,23 @@
     return q.type.toUpperCase();
   }
 
-  // Completion ring with the percentage inside, as in the starmap concept.
+  // The game's own icons, extracted from interface/factions.swf at build time (icons/*.svg).
+  const FACTION_ICONS = {
+    constellation: "constellation", "united-colonies": "united-colonies", "freestar-collective": "freestar",
+    "ryujin-industries": "ryujin-industries", "crimson-fleet": "blackfleet", "house-varuun": "varuun",
+    "terran-armada": "terran-armada", "trackers-alliance": "trackers-alliance",
+  };
+  function iconName(q) {
+    if (q.activity) return "activities-color";
+    if (q.type === "main") return "constellation-color";
+    if (q.type === "faction") return (FACTION_ICONS[q.faction] || "no-faction") + "-color";
+    return "no-faction-color";
+  }
+  // Arrows are drawn: the menu fonts have no arrow glyphs.
+  const chevron = (direction) => el("span", { class: "chev " + direction, "aria-hidden": "true" });
+  const emblem = (name) => el("img", { class: "emblem", src: "icons/" + name + ".svg", alt: "", onerror: (e) => { e.target.style.visibility = "hidden"; } });
+
+  // Completion ring with the percentage inside.
   function progressRing(fraction, color, cls) {
     const size = 52, r = 22, c = 2 * Math.PI * r;
     const svg = document.createElementNS(SVG, "svg");
@@ -375,10 +372,10 @@
     svg.setAttribute("aria-label", Math.round(fraction * 100) + "% complete");
     const circle = (attrs) => {
       const node = document.createElementNS(SVG, "circle");
-      for (const [k, v] of Object.entries({ cx: size / 2, cy: size / 2, r, fill: "none", "stroke-width": 3, ...attrs })) node.setAttribute(k, v);
+      for (const [k, v] of Object.entries({ cx: size / 2, cy: size / 2, r, fill: "none", "stroke-width": 4, ...attrs })) node.setAttribute(k, v);
       svg.append(node);
     };
-    circle({ stroke: "#26303a" });
+    circle({ stroke: "rgba(255,255,255,0.22)" });
     circle({ stroke: color, "stroke-dasharray": (fraction * c).toFixed(1) + " " + c.toFixed(1), transform: "rotate(-90 " + size / 2 + " " + size / 2 + ")" });
     const text = document.createElementNS(SVG, "text");
     for (const [k, v] of Object.entries({ x: size / 2, y: size / 2, "text-anchor": "middle", "dominant-baseline": "central", class: "ring-text" })) text.setAttribute(k, v);
@@ -388,8 +385,7 @@
   }
 
   function renderHeader() {
-    const tabs = document.getElementById("tabs");
-    tabs.replaceChildren(...TABS.map((t) => el("button", { "aria-current": view.tab === t.id ? "page" : null, text: t.label, onclick: () => setTab(t.id) })));
+    document.getElementById("tabs").replaceChildren(...TABS.map((t) => el("button", { "aria-current": view.tab === t.id ? "page" : null, text: t.label, onclick: () => setTab(t.id) })));
     const quests = tally(DATA.quests.filter((q) => !q.activity));
     const activities = tally(DATA.quests.filter((q) => q.activity));
     const total = (t, label, color) => el("div", { class: "total" },
@@ -397,38 +393,87 @@
       el("div", {},
         el("div", { class: "total-value" }, String(t.done), el("span", { text: " / " + t.total })),
         el("div", { class: "total-label", text: label })));
-    document.getElementById("totals").replaceChildren(total(quests, "QUESTS", "#e9edf1"), total(activities, "ACTIVITIES", "#f0c43a"));
+    document.getElementById("totals").replaceChildren(total(quests, "QUESTS", "#f2f4f7"), total(activities, "ACTIVITIES", "#34d8e8"));
   }
 
-  // header: optional block above the list (the Here tab's place summary).
-  function renderSide(rows, header) {
+  // Left column: a detail card, then the places / questlines to pick from.
+  function renderSide(rows, card) {
     const side = document.getElementById("side");
     side.hidden = false;
     side.setAttribute("aria-label", TABS.find((t) => t.id === view.tab).label);
-    side.replaceChildren(header || "", ...rows.map((row) => {
+    side.replaceChildren(card || "", ...rows.map((row) => {
       if (row.kind === "group") return el("div", { class: "group" }, el("span", { text: row.label }), el("span", { text: row.frac || "" }));
       if (row.kind === "subgroup") return el("div", { class: "subgroup", text: row.label });
       const selected = view.selected[view.tab] === row.key;
-      const cls = "item" + (row.count ? " count" : "") + (row.count && row.sub ? " sub" : "") + (selected ? " selected" : "") + (selected && view.focus === "list" ? " inactive" : "");
-      const attrs = { class: cls, "aria-pressed": selected ? "true" : "false", onclick: () => select(row.key) };
-      // Log categories show how many quests they hold; everything else shows progress.
-      if (row.count) return el("button", attrs, el("span", { class: "item-head" }, el("span", { class: "item-name", text: row.label }), el("span", { class: "item-frac", text: String(row.quests.length) })));
       const t = tally(row.quests);
-      const pct = t.total ? Math.round((t.done / t.total) * 100) : 0;
-      return el("button", attrs,
-        el("span", { class: "item-head" }, el("span", { class: "item-name", text: row.label }), el("span", { class: "item-frac", text: t.done + " / " + t.total })),
-        el("span", { class: "track" }, el("span", { class: "fill", style: "width: " + pct + "%" })));
+      return placeRow(row.label, t.done + " / " + t.total, t.total ? t.done / t.total : 0, selected, selected && view.focus !== "side", () => select(row.key));
     }));
-    const current = side.querySelector(".item.selected");
+    const current = side.querySelector(".place.selected");
     if (current) current.scrollIntoView({ block: "nearest" });
   }
+  function placeRow(label, right, fraction, selected, inactive, onclick, ondblclick) {
+    return el("button", { class: "place" + (selected ? " selected" : "") + (inactive ? " inactive" : ""), onclick, ondblclick },
+      el("span", { class: "head" }, el("span", { text: label }), el("span", { text: right })),
+      el("span", { class: "bar" }, el("i", { style: "width: " + Math.round(fraction * 100) + "%" })));
+  }
 
-  // options.listTitle: compact layout (Here, Log) with only a title line above the list; the
-  // summary lives in the side column. options.noFilters: list everything given (Log).
-  function renderDetail(kicker, title, quests, options) {
+  // Card summing up a place or questline: ring, counts, and extras (badges, story chain, note).
+  function summaryCard(title, sub, quests, options) {
     options = options || {};
     const t = tally(quests);
-    const filtered = quests.filter((q) => available(q) && (options.noFilters || FILTERS.find((f) => f.id === view.filter).test(statusOf(q))));
+    const count = (value, label, cls) => [el("b", { class: cls || "", text: String(value) }), el("span", { text: label })];
+    let chain = null;
+    if (options.chain) {
+      chain = el("div", { class: "chain", role: "img", "aria-label": t.done + " of " + t.total + " completed" });
+      quests.filter(available).forEach((q, i) => {
+        const s = statusOf(q);
+        if (i > 0) chain.append(el("b"));
+        chain.append(el("i", { class: isDone(s) ? "done" : s === IN_PROGRESS ? "active" : "" }));
+      });
+    }
+    return el("div", { class: "card" },
+      el("div", { class: "card-head" },
+        progressRing(t.total ? t.done / t.total : 0, "#f2f4f7", "emblem"),
+        el("div", {}, el("div", { class: "card-title", text: title }), sub ? el("div", { class: "card-sub", text: sub }) : null)),
+      el("div", { class: "card-body" },
+        el("div", { class: "counts" },
+          count(t.done, "Completed"), count(t.active, "In progress", "active"), count(t.missing, "Not discovered"),
+          t.failed ? count(t.failed, "Failed", "failed") : null),
+        options.badges && options.badges.length ? el("div", { class: "badges" }, options.badges.map((b) => el("span", { text: b }))) : null,
+        chain,
+        options.note ? el("div", { class: "note", text: options.note }) : null));
+  }
+
+  // Card for the selected quest (Log tab): where it starts, objectives, place in its questline.
+  function questCard(q) {
+    if (!q) return el("div", { class: "card" }, el("div", { class: "card-body", text: "Nothing here yet." }));
+    const s = statusOf(q);
+    const line = DATA.questlines.find((l) => l.quests.includes(q.id));
+    const where = placeChain(q.place).map((p) => p.name).join(", ") || "Anywhere";
+    const states = objectiveStates.get(q.id);
+    const shownSteps = states && q.steps ? q.steps.filter((step) => states.get(step[0]) > 0) : [];
+    const doneSteps = shownSteps.filter((step) => states.get(step[0]) === 2).length;
+    const status = s === IN_PROGRESS ? (tracked.has(q.id) ? "In progress · tracked" : "In progress")
+      : s === COMPLETED ? "Completed" : s === FAILED ? "Failed" : s === LOCKED_OUT ? "Not taken: " + lockedReason(q) : "Not discovered";
+    const noun = TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission";
+    const fact = (label, text) => [el("div", { class: "kicker", text: label }), el("div", { text })];
+    return el("div", { class: "card" },
+      el("div", { class: "card-head" }, emblem(iconName(q)),
+        el("div", {}, el("div", { class: "card-title", text: q.name }), el("div", { class: "card-sub", text: line ? line.name : noun.charAt(0).toUpperCase() + noun.slice(1) }))),
+      el("div", { class: "card-body" },
+        fact("Starts at", where + (q.giver ? " · " + q.giver : "")),
+        shownSteps.length ? fact("Objectives", doneSteps + " of " + shownSteps.length + " shown objectives done") : null,
+        line && line.quests.length > 1 ? fact("Questline", "Mission " + (line.quests.indexOf(q.id) + 1) + " of " + line.quests.length + " in " + line.name) : null,
+        fact("Status", status + (manual.has(q.id) ? " (marked manually)" : ""))));
+  }
+
+  // Right column: category tabs, sort bar and the quest list.
+  // options.tabs: categories instead of the status filters (Log), or false for none.
+  // options.noSort: no sort bar. options.meta: text on the right of each row.
+  function renderDetail(quests, options) {
+    options = options || {};
+    const t = tally(quests);
+    const filtered = quests.filter((q) => available(q) && (options.tabs !== undefined || FILTERS.find((f) => f.id === view.filter).test(statusOf(q))));
     // Three groups: in progress, not discovered yet, then finished (completed, failed or
     // locked out: nothing left to do).
     const groups = [
@@ -437,85 +482,86 @@
       { label: "FINISHED", quests: sortQuests(filtered.filter((q) => isFinished(statusOf(q)))) },
     ].filter((g) => g.quests.length);
     const shown = groups.flatMap((g) => g.quests);
-    // Group headers only when the list mixes groups.
-    const groupStarts = new Map();
-    if (groups.length > 1) {
-      let at = 0;
-      for (const g of groups) { groupStarts.set(at, g); at += g.quests.length; }
-    }
-    const counts = { all: t.total, missing: t.missing, active: t.active, done: t.done };
-    const filters = options.noFilters ? null : el("div", { class: "filters", role: "tablist", "aria-label": "Filter" },
-      FILTERS.map((f) => el("button", { role: "tab", "aria-selected": view.filter === f.id ? "true" : "false", text: f.label + " " + counts[f.id], onclick: () => setFilter(f.id) })));
-    const sort = el("button", { class: "sort", onclick: cycleSort }, el("span", { text: "SORT " }), SORTS.find((s) => s.id === view.sort).label);
-    const controls = el("div", { class: "list-controls" }, filters, sort);
-    const children = [];
-
-    if (options.listTitle) {
-      children.push(el("div", { class: "list-head" },
-        el("div", { class: "list-title" }, options.listTitle, el("span", { text: " · " + shown.length })),
-        controls));
-    } else {
-      renderSummary(children, kicker, title, quests, t, options);
-      children.push(controls);
-    }
-
-    // The selected quest expands, like the game's mission log, into the objectives it shows.
     shownQuests = shown;
-    let selectedQ = shown.find((q) => q.id === view.expanded);
-    if (!selectedQ) {
-      selectedQ = shown[Math.min(view.row, Math.max(0, shown.length - 1))];
-      view.expanded = selectedQ ? selectedQ.id : null;
-      view.step = null;
+
+    const children = [];
+    if (options.tabs !== false) {
+      const counts = { all: t.total, missing: t.missing, active: t.active, done: t.done };
+      const list = options.tabs || FILTERS.map((f) => ({ id: f.id, label: f.label, count: counts[f.id] }));
+      const current = options.tabs ? view.selected[view.tab] : view.filter;
+      children.push(el("div", { class: "tabs", role: "tablist", "aria-label": "Filter" },
+        el("button", { class: "arrow", "aria-label": "Previous", onclick: () => cycleFilter(-1) }, chevron("left")),
+        list.map((tab) => el("button", { class: "tab", role: "tab", "aria-selected": tab.id === current ? "true" : "false", onclick: () => (options.tabs ? selectCategory(tab.id) : setFilter(tab.id)) },
+          tab.label, el("span", { text: String(tab.count) }))),
+        el("button", { class: "arrow", "aria-label": "Next", onclick: () => cycleFilter(1) }, chevron("right"))));
     }
+    if (!options.noSort) {
+      children.push(el("button", { class: "sortbar", onclick: cycleSort }, el("span", { text: "SORT: " + SORTS.find((s) => s.id === view.sort).label }), el("span", { class: "updown", "aria-hidden": "true" })));
+    }
+
+    // Rows: each quest, and under every open quest the objectives the mission log shows.
     const items = [];
-    const groupAt = new Map(); // item index -> group header
-    shown.forEach((q, index) => {
-      if (groupStarts.has(index)) groupAt.set(items.length, groupStarts.get(index));
-      items.push({ q });
-      if (q === selectedQ && view.focus === "list") items.push(...stepItems(q));
-    });
+    const groupAt = new Map(); // item index -> group header (only when the list mixes groups)
+    for (const g of groups) {
+      g.quests.forEach((q, i) => {
+        if (i === 0 && groups.length > 1) groupAt.set(items.length, g);
+        items.push({ q });
+        if (view.open.has(q.id)) items.push(...stepItems(q));
+      });
+    }
     shownItems = items;
-    const at = items.findIndex((it) => it.q.id === view.expanded && (it.step ? it.step[0] : null) === view.step);
-    view.row = at >= 0 ? at : Math.max(0, items.findIndex((it) => it.q === selectedQ));
-    if (at < 0) view.step = null;
+    // Keep the selection on the same quest / objective when the list changes around it.
+    let index = items.findIndex((it) => it.q.id === view.selQuest && (it.step ? it.step[0] : null) === view.step);
+    if (index < 0) index = items.findIndex((it) => it.q.id === view.selQuest && !it.step);
+    if (index < 0) index = Math.min(view.row, items.length - 1);
+    view.row = Math.max(0, index);
+    const current = items[view.row];
+    if (current) {
+      view.selQuest = current.q.id;
+      view.step = current.step ? current.step[0] : null;
+    }
 
     const list = el("div", { class: "list" });
     if (shown.length === 0) list.append(el("div", { class: "empty", text: options.empty || "Nothing here for this filter." }));
-    items.forEach((item, index) => {
-      const group = groupAt.get(index);
+    items.forEach((item, i) => {
+      const group = groupAt.get(i);
       if (group) list.append(el("div", { class: "list-divider", text: group.label + " · " + group.quests.length }));
-      const selected = view.focus === "list" && index === view.row;
-      const events = { onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } };
-      if (item.step) {
-        const [, text, target] = item.step;
-        const optional = /^\(Optional\)\s*/i.exec(text);
-        list.append(el("div", { class: "row step" + (selected ? " selected" : "") + (item.state === 2 || item.state === 3 ? " finished" : ""), ...events },
-          statusIcon(item.state === 2 ? COMPLETED : item.state === 3 ? FAILED : NOT_STARTED, selected),
-          el("span", { class: "row-name" }, optional ? el("span", { class: "optional", text: "(Optional) " }) : null, optional ? text.slice(optional[0].length) : text),
-          el("span", { class: "row-meta", text: item.state === 1 && target >= 0 ? "ON MAP" : "" })));
-        return;
-      }
-      const q = item.q;
-      const s = statusOf(q);
-      const hide = view.spoilers && s === NOT_STARTED;
-      const expandable = s === IN_PROGRESS && q.steps;
-      list.append(el("div", { class: "row" + (selected ? " selected" : "") + (isFinished(s) ? " finished" : "") + (notYetAvailable(q) ? " unavailable" : ""), ...events },
-        statusIcon(s, selected),
-        el("span", { class: "row-name" + (hide ? " hidden" : "") },
-          hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name,
-          tracked.has(q.id) ? el("span", { class: "tracked-badge", text: "TRACKED" }) : null),
-        el("span", { class: "row-tag", text: tagFor(q) }),
-        el("span", { class: "row-meta", text: hide ? "" : rowMeta(q, s, options) }),
-        el("span", { class: "row-caret", text: expandable ? (q === selectedQ && view.focus === "list" ? "▾" : "▸") : "" })));
+      const selected = view.focus === "list" && i === view.row;
+      list.append(item.step ? stepRow(item, i, selected) : questRow(item.q, i, selected, options));
     });
     children.push(list);
-    document.getElementById("detail").replaceChildren(...children.filter(Boolean));
-    const current = document.querySelector(".row.selected");
-    if (current) current.scrollIntoView({ block: "nearest" });
+    document.getElementById("detail").replaceChildren(...children);
+    const row = list.querySelector(".row.selected, .step.selected");
+    if (row) row.scrollIntoView({ block: "nearest" });
   }
 
-  // Order within each group (found / not discovered). Default keeps the data's order: story
-  // order for questlines, quest-giver order for places.
+  function questRow(q, index, selected, options) {
+    const s = statusOf(q);
+    const hide = view.spoilers && s === NOT_STARTED;
+    const expandable = s === IN_PROGRESS && !!q.steps;
+    const cls = "row" + (selected ? " selected" : "") + (tracked.has(q.id) ? " tracked" : "") + (isFinished(s) ? " finished" : "") + (notYetAvailable(q) ? " unavailable" : "");
+    return el("div", { class: cls, onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
+      el("span", { class: "tile" }),
+      el("span", { class: "panel" },
+        emblem(iconName(q)),
+        el("span", { class: "name" + (hide ? " hidden" : ""), text: hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name }),
+        el("span", { class: "meta", text: hide ? "" : rowMeta(q, s, options) }),
+        el("span", { class: "caret" + (expandable ? (view.open.has(q.id) ? " open" : " closed") : ""), onclick: expandable ? (e) => { e.stopPropagation(); toggleOpen(q); } : null })));
+  }
+
+  function stepRow(item, index, selected) {
+    const [, text, target] = item.step;
+    const optional = /^\(Optional\)\s*/i.exec(text);
+    return el("div", { class: "step" + (selected ? " selected" : "") + (item.state >= 2 ? " finished" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
+      el("span", { class: "box" }, el("i", { class: item.state === 2 ? "done" : item.state === 3 ? "failed" : "" })),
+      el("span", { class: "txt" },
+        optional ? el("span", { class: "opt", text: "(Optional)" }) : null,
+        el("span", { class: "label", text: optional ? text.slice(optional[0].length) : text }),
+        item.state === 1 && target >= 0 ? el("span", { class: "tag", text: "ON MAP" }) : null));
+  }
+
+  // Order within each group. Default keeps the data's order: story order for questlines,
+  // quest-giver order for places.
   const STATUS_ORDER = { [IN_PROGRESS]: 0, [COMPLETED]: 1, [LOCKED_OUT]: 2, [FAILED]: 3, [NOT_STARTED]: 4 };
   const placePath = (q) => placeChain(q.place).reverse().map((p) => p.name).join(" / ");
   function sortQuests(list) {
@@ -528,49 +574,6 @@
       type: (a, b) => tagFor(a).localeCompare(tagFor(b)) || byName(a, b),
     }[view.sort];
     return [...list].sort(compare);
-  }
-
-  // Title, progress bar (or questline chain) and counts above the list (Locations, Quests, Activities).
-  function renderSummary(children, kicker, title, quests, t, options) {
-    children.push(el("div", {}, el("div", { class: "kicker", text: kicker }), el("h1", { class: "title", text: title })));
-
-    if (options.chain) {
-      const chain = el("div", { class: "chain", role: "img", "aria-label": t.done + " of " + t.total + " completed" });
-      quests.filter(available).forEach((q, i) => {
-        const s = statusOf(q);
-        if (i > 0) chain.append(el("b", { class: isDone(s) || s === IN_PROGRESS ? "done" : "" }));
-        chain.append(el("i", { class: isDone(s) ? "done" : s === IN_PROGRESS ? "active" : "" }));
-      });
-      children.push(chain);
-    } else {
-      const bar = el("div", { class: "segments", role: "img", "aria-label": t.done + " of " + t.total + " completed" });
-      const cells = Math.min(t.total, 60);
-      for (let i = 0; i < cells; i++) {
-        const at = ((i + 0.5) / cells) * t.total;
-        bar.append(el("i", { class: at < t.done ? "done" : at < t.done + t.active ? "active" : at < t.done + t.active + t.failed ? "failed" : "" }));
-      }
-      children.push(bar);
-    }
-
-    const stat = (value, label, cls) => el("div", {}, el("div", { class: "stat-value " + (cls || ""), text: String(value) }), el("div", { class: "stat-label", text: label }));
-    children.push(el("div", { class: "stats" },
-      stat(t.done, "COMPLETED"), stat(t.active, "IN PROGRESS", "active"), stat(t.missing, "NOT STARTED"),
-      t.failed ? stat(t.failed, "FAILED", "failed") : null));
-    if (options.note) children.push(el("div", { class: "note", text: options.note }));
-  }
-
-  // Here tab's side column: where the player is, how much is done there.
-  function hereSummary(kicker, title, badges, quests) {
-    const t = tally(quests);
-    const count = (value, label, cls) => [el("b", { class: cls || "", text: String(value) }), el("span", { text: label })];
-    return el("div", { class: "here-summary" },
-      el("div", {}, el("div", { class: "kicker", text: kicker }), el("h1", { class: "here-title", text: title })),
-      badges.length ? el("div", { class: "badges" }, badges.map((b) => el("span", { text: b }))) : null,
-      el("div", { class: "here-stats" },
-        progressRing(t.total ? t.done / t.total : 0, "#e9edf1", "ring big"),
-        el("div", { class: "here-counts" },
-          count(t.done, "COMPLETED"), count(t.active, "IN PROGRESS", "active"), count(t.missing, "NOT STARTED"),
-          t.failed ? count(t.failed, "FAILED", "failed") : null)));
   }
 
   // ------------------------------------------------------------------ actions (handled by Completionist:MenuBridge)
@@ -693,7 +696,7 @@
   function render() {
     if (!loaded) {
       document.getElementById("side").hidden = true;
-      document.getElementById("detail").replaceChildren(el("div", { class: "kicker", text: "LOADING PROGRESS…" }));
+      document.getElementById("detail").replaceChildren(el("div", { class: "loading", text: "LOADING PROGRESS..." }));
       return;
     }
     renderBody();
@@ -707,55 +710,58 @@
     const items = rows.filter((r) => r.kind === "item");
     if (!items.some((r) => r.key === view.selected[view.tab]) && items.length) view.selected[view.tab] = items[0].key;
 
-    if (view.tab === "here") {
-      renderHere(rows);
+    if (view.tab === "here") return renderHere(rows);
+    if (view.tab === "log") {
+      // Categories as tabs, like the game's Missions menu; the card shows the selected quest.
+      const categories = logCategories();
+      if (!categories.some((c) => c.id === view.selected.log)) view.selected.log = categories[0].id;
+      const category = categories.find((c) => c.id === view.selected.log);
+      if (view.focus !== "list") view.focus = "list";
+      renderDetail(category.quests, { tabs: categories.map((c) => ({ id: c.id, label: c.label, count: c.quests.length })), meta: hubName, empty: "Nothing here yet." });
+      renderSide([], questCard(selectedQuest() || shownQuests[0]));
       return;
     }
-    renderSide(rows);
-    if (view.tab === "log") {
-      const row = items.find((r) => r.key === view.selected.log);
-      renderDetail("", "", row ? row.quests : [], { listTitle: row ? row.label.toUpperCase() : "", noFilters: true, meta: hubName, empty: "Nothing here yet." });
-    } else if (view.tab === "questlines") {
-      const row = rows.find((r) => r.key === view.selected.questlines);
-      if (row) renderDetail((row.sub || "").toUpperCase(), row.label, row.quests, { chain: true, meta: hubName });
-    } else {
-      const row = rows.find((r) => r.kind === "item" && r.key === view.selected[view.tab]);
-      if (!row) return renderDetail("", "Nothing tracked", [], {});
-      const chain = row.key === "all" || row.key === "anywhere" ? [] : placeChain(row.key);
-      const kicker = chain.slice(1).map((p) => p.name.toUpperCase() + (p.kind === "system" ? " SYSTEM" : "")).join(" · ");
-      const options = view.tab === "activities" && row.key === "all" ? { meta: hubName } : {};
-      // The game's stat (and the Fixer achievement) also counts small errands and repeatable activities.
-      if (view.tab === "activities" && gameActivities !== null) {
-        options.note = "Game count: " + gameActivities + " activities completed, including small errands and repeatable activities this list leaves out.";
-      }
-      renderDetail(kicker, row.label, row.quests, options);
+    const row = items.find((r) => r.key === view.selected[view.tab]);
+    if (!row) {
+      renderSide(rows, null);
+      return renderDetail([], {});
     }
+    if (view.tab === "questlines") {
+      renderSide(rows, summaryCard(row.label, row.sub, row.quests, { chain: true }));
+      return renderDetail(row.quests, { meta: hubName });
+    }
+    const chain = row.key === "all" || row.key === "anywhere" ? [] : placeChain(row.key);
+    const sub = chain.slice(1).map((p) => p.name + (p.kind === "system" ? " system" : "")).join(" · ");
+    const options = view.tab === "activities" && row.key === "all" ? { meta: hubName } : {};
+    // The game's stat (and the Fixer achievement) also counts small errands and repeatable activities.
+    const note = view.tab === "activities" && gameActivities !== null
+      ? "Game count: " + gameActivities + " activities completed, including small errands and repeatable activities this list leaves out."
+      : null;
+    renderSide(rows, summaryCard(row.label, sub, row.quests, { note }));
+    renderDetail(row.quests, options);
   }
 
   // ------------------------------------------------------------------ Here tab
 
   const placeName = (key) => (DATA.places[key] ? DATA.places[key].name : "");
 
-  // Here: the side column sums up where the player is (and, on a planet or in a system, lists
-  // the places in it); the rest is the quest list. Anywhere without tracked quests suggests
-  // where to go next.
+  // Here: the card sums up where the player is (and, on a planet or in a system, the places
+  // in it are listed under it); the rest is the quest list. Anywhere without tracked quests
+  // suggests where to go next.
   function renderHere(rows) {
     const key = herePlace();
-    if (!key) {
-      document.getElementById("side").hidden = true;
-      return renderNowhere();
-    }
+    if (!key) return renderNowhere();
     const place = DATA.places[key];
     const chain = placeChain(key);
     const systemName = (chain.find((p) => p.kind === "system") || {}).name || "";
-    let kicker, badges = [], meta;
+    let sub, badges = [], meta;
 
     if (place.kind === "planet") {
-      kicker = systemName.toUpperCase() + " SYSTEM · " + (inSpace ? "IN ORBIT" : "ON THE SURFACE");
+      sub = systemName + " system · " + (inSpace ? "in orbit" : "on the surface");
       badges = ["PLANET", survey >= 0 ? "SURVEYED " + Math.round(survey * 100) + "%" : null].filter(Boolean);
       meta = hubName;
     } else if (place.kind === "system") {
-      kicker = inSpace ? "IN SPACE" : "STAR SYSTEM";
+      sub = inSpace ? "In space" : "Star system";
       badges = ["STAR SYSTEM"];
       meta = (q) => {
         const c = placeChain(q.place);
@@ -763,19 +769,19 @@
         return planet && planet !== c[0] ? c[0].name + " · " + planet.name : c.length ? c[0].name : "";
       };
     } else {
-      kicker = chain.slice(1).map((p) => p.name.toUpperCase() + (p.kind === "system" ? " SYSTEM" : "")).join(" · ");
+      sub = chain.slice(1).map((p) => p.name + (p.kind === "system" ? " system" : "")).join(" · ");
     }
     const items = rows.filter((r) => r.kind === "item");
     hereLayout = items.length ? "places" : "city";
     if (view.focus === "cards" || (view.focus === "side" && !items.length)) view.focus = "list";
 
     const all = questsUnder(key);
-    renderSide(rows, hereSummary(kicker, place.name, badges, all));
     const row = items.find((r) => r.key === view.selected.here);
-    renderDetail("", "", row ? row.quests : all, { listTitle: (row ? row.label : place.name).toUpperCase(), meta });
+    renderDetail(row ? row.quests : all, { meta });
+    renderSide(rows, summaryCard(place.name, sub, all, { badges }));
   }
 
-  // Cards for the places under a planet (by hub) or a system (by planet), with progress.
+  // The places under a planet (by hub) or a system (by planet), with their quests.
   function placeCards(key, level) {
     const groups = new Map();
     for (const q of questsUnder(key)) {
@@ -783,30 +789,23 @@
       const chain = placeChain(q.place);
       const holder = level === "hub" ? chain[0] : chain.find((p) => p.kind === "planet") || chain[0];
       const groupKey = holder ? holder.key : key;
-      if (!groups.has(groupKey)) groups.set(groupKey, { key: groupKey, quests: [], hubs: new Set() });
-      const g = groups.get(groupKey);
-      g.quests.push(q);
-      if (chain[0] && chain[0].key !== groupKey) g.hubs.add(chain[0].name);
+      if (!groups.has(groupKey)) groups.set(groupKey, { key: groupKey, quests: [] });
+      groups.get(groupKey).quests.push(q);
     }
     return [...groups.values()]
       .sort((a, b) => b.quests.length - a.quests.length)
-      .map((g) => {
-        const hubs = [...g.hubs];
-        const isSelf = g.key === key;
-        return {
-          key: g.key,
-          label: isSelf ? (level === "hub" ? "Elsewhere on " + placeName(key) : "In space") : placeName(g.key),
-          sub: level === "planet" && hubs.length ? hubs[0] + (hubs.length > 1 ? " · " + (hubs.length - 1) + " more" : "") : null,
-          quests: g.quests,
-          openKey: placeChain(g.quests[0].place)[0].key,
-          loc: (DATA.places[g.key] || {}).loc,
-        };
-      });
+      .map((g) => ({
+        key: g.key,
+        label: g.key === key ? (level === "hub" ? "Elsewhere on " + placeName(key) : "In space") : placeName(g.key),
+        quests: g.quests,
+        loc: (DATA.places[g.key] || {}).loc,
+      }));
   }
 
-  // Nothing tracked here: systems with the most quests not started, and quests to track.
+  // Nothing tracked here: the systems with the most left to discover (set a course there),
+  // and the quests in progress to pick from.
   function renderNowhere() {
-    // Start in the left list (where to go next) when arriving at this page.
+    // Start in the systems list when arriving at this page.
     if (hereLayout !== "nowhere" || (view.focus !== "cards" && view.focus !== "list")) view.focus = "cards";
     hereLayout = "nowhere";
     let systemName = "";
@@ -827,37 +826,23 @@
       .map((s) => ({ ...s, label: placeName(s.key), loc: (DATA.places[s.key] || {}).loc, t: tally(s.quests) }))
       .filter((s) => s.t.missing > 0)
       .sort((a, b) => b.t.missing - a.t.missing)
-      .slice(0, 6);
-    shownQuests = DATA.quests.filter((q) => available(q) && statusOf(q) === IN_PROGRESS);
-    shownItems = shownQuests.map((q) => ({ q }));
+      .slice(0, 8);
     view.card = Math.min(view.card, Math.max(0, shownCards.length - 1));
-    view.row = Math.min(view.row, Math.max(0, shownQuests.length - 1));
 
-    const systemRows = shownCards.map((s, index) => {
-      const selected = view.focus === "cards" && index === view.card;
-      return el("div", { class: "next-row" + (selected ? " selected" : ""), onclick: () => { view.focus = "cards"; view.card = index; render(); }, ondblclick: () => openCard(index) },
-        el("div", { class: "next-main" },
-          el("span", { class: "item-head" }, el("span", { class: "item-name", text: s.label }), el("span", { class: "item-frac", text: s.t.missing + " not started" })),
-          el("span", { class: "track" }, el("span", { class: "fill", style: "width: " + (s.t.total ? Math.round((s.t.done / s.t.total) * 100) : 0) + "%" }))));
-    });
-    const activeRows = shownQuests.map((q, index) => {
-      const selected = view.focus === "list" && index === view.row;
-      return el("div", { class: "row" + (selected ? " selected" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
-        statusIcon(IN_PROGRESS, selected),
-        el("span", { class: "row-name" }, q.name, tracked.has(q.id) ? el("span", { class: "tracked-badge", text: "TRACKED" }) : null),
-        el("span", { class: "row-meta", text: hubName(q) }));
-    });
-
-    document.getElementById("detail").replaceChildren(
-      el("div", {},
-        el("div", { class: "kicker", text: [inSpace ? "IN SPACE" : "", systemName ? systemName.toUpperCase() + " SYSTEM" : ""].filter(Boolean).join(" · ") }),
-        el("h1", { class: "title", text: "Nothing tracked here" }),
-        el("p", { class: "lead", text: "No quests or activities start here. Here's where you can pick up more." })),
-      el("div", { class: "nowhere" },
-        el("div", { class: "nowhere-col" }, el("div", { class: "section-title ruled", text: "WHERE TO NEXT · MOST NOT STARTED" }), el("div", { class: "nowhere-list" }, systemRows)),
-        el("div", { class: "nowhere-col narrow" }, el("div", { class: "section-title ruled", text: "IN PROGRESS · PICK ONE TO TRACK" }),
-          el("div", { class: "nowhere-list" }, activeRows.length ? activeRows : el("div", { class: "empty", text: "No quests in progress." })))));
-    const current = document.querySelector(".next-row.selected, .row.selected");
+    renderDetail(DATA.quests.filter((q) => available(q) && statusOf(q) === IN_PROGRESS), { tabs: false, meta: hubName, empty: "No quests in progress." });
+    const side = document.getElementById("side");
+    side.hidden = false;
+    side.replaceChildren(
+      el("div", { class: "card" },
+        el("div", { class: "card-head" }, el("div", {},
+          el("div", { class: "card-title", text: "Nothing tracked here" }),
+          el("div", { class: "card-sub", text: [inSpace ? "In space" : "", systemName ? systemName + " system" : ""].filter(Boolean).join(" · ") || "Somewhere new" }))),
+        el("div", { class: "card-body", text: "No quests or activities start here. These systems have the most you haven't discovered yet: pick one to set a course, or track a quest in progress." })),
+      el("div", { class: "group", text: "WHERE TO NEXT" }),
+      ...shownCards.map((s, index) => placeRow(s.label, s.t.missing + " not discovered", s.t.total ? s.t.done / s.t.total : 0,
+        view.focus === "cards" && index === view.card, false,
+        () => { view.focus = "cards"; view.card = index; render(); }, () => openCard(index))));
+    const current = side.querySelector(".place.selected");
     if (current) current.scrollIntoView({ block: "nearest" });
   }
 
@@ -894,26 +879,28 @@
   }
   const sideItemLocation = (item) => item && (item.loc || (DATA.places[item.key] || {}).loc);
 
-  // Footer prompts follow the last input device, like the game's own menus.
+  // Footer prompts, label then key like the game's; they follow the last input device.
   function renderKeys() {
     const pad = view.input === "gamepad";
-    const key = (k, label, end, run) => el("button", { class: end ? "end" : "", onclick: run }, el("kbd", { text: k }), label);
+    const key = (label, k, run) => el("button", { onclick: run }, label, el("kbd", {}, k));
     const item = selectedItem();
-    const q = item && !item.step ? item.q : null; // manual override only on quest rows
+    const q = item && !item.step ? item.q : null; // manual override and expanding only on quest rows
     const onCard = view.focus === "cards" && shownCards.length > 0;
     const sideLoc = sideItemLocation(selectedSideItem());
     const primary = view.focus === "side" ? "OPEN" : onCard ? "SET COURSE" : item ? (primaryAction(item) || {}).label : null;
     const canPlot = view.focus === "side" ? !!sideLoc : !onCard && item && itemActions(item).some((a) => a.id === "plot");
-    const checklist = view.tab !== "log"; // the Log only lists found quests: no filter, nothing to hide
+    const expandable = q && statusOf(q) === IN_PROGRESS && q.steps;
+    const nowhere = view.tab === "here" && hereLayout === "nowhere";
     const keys = [
-      key(pad ? "LB / RB" : "Q / E", "SWITCH TAB", false, () => cycleTab(1)),
-      primary ? key(pad ? "A" : "ENTER", primary, false, activate) : null,
-      canPlot && primary !== "SHOW ON MAP" ? key(pad ? "X" : "R", view.focus === "side" ? "SET COURSE" : "SHOW ON MAP", false, plotSelected) : null,
-      q ? key(pad ? "RS" : "M", overrideAction(q).label, false, overrideSelected) : null,
-      checklist ? key(pad ? "Y" : "F", "FILTER", false, cycleFilter) : null,
-      view.tab !== "here" || hereLayout !== "nowhere" ? key(pad ? "LS" : "T", "SORT: " + SORTS.find((s) => s.id === view.sort).label, false, cycleSort) : null,
-      checklist ? key(pad ? "VIEW" : "X", "SPOILERS: " + (view.spoilers ? "HIDDEN" : "SHOWN"), false, toggleSpoilers) : null,
-      key(pad ? "B" : "ESC", "CLOSE", true, () => { if (bridge) bridge.send("close"); }),
+      primary ? key(primary, pad ? "A" : "ENTER", activate) : null,
+      expandable ? (view.open.has(q.id) ? key("COLLAPSE", chevron("left"), collapse) : key("EXPAND", chevron("right"), expand)) : null,
+      canPlot && primary !== "SHOW ON MAP" ? key(view.focus === "side" ? "SET COURSE" : "SHOW ON MAP", pad ? "X" : "R", plotSelected) : null,
+      q ? key(overrideAction(q).label, pad ? "RS" : "M", overrideSelected) : null,
+      nowhere ? null : key(view.tab === "log" ? "CATEGORY" : "FILTER", pad ? "Y" : "F", () => cycleFilter(1)),
+      key("SORT", pad ? "LS" : "T", cycleSort),
+      view.tab !== "log" ? key(view.spoilers ? "SHOW NAMES" : "HIDE SPOILERS", pad ? "VIEW" : "X", toggleSpoilers) : null,
+      key("VIEWS", pad ? "LB / RB" : "Q / E", () => cycleTab(1)),
+      key("BACK", pad ? "B" : "ESC", () => { if (bridge) bridge.send("close"); }),
     ];
     document.getElementById("keys").replaceChildren(...keys.filter(Boolean));
   }
@@ -924,7 +911,8 @@
     view.tab = id;
     view.focus = id === "here" || id === "log" ? "list" : "side";
     view.row = 0;
-    view.expanded = null;
+    view.selQuest = null;
+    view.step = null;
     view.card = 0;
     render();
   }
@@ -932,19 +920,43 @@
     view.selected[view.tab] = key;
     view.focus = "side";
     view.row = 0;
-    view.expanded = null;
+    view.selQuest = null;
+    view.step = null;
     render();
   }
-  // Selecting a quest row expands it; selecting one of its objectives keeps it expanded.
+  function selectCategory(id) {
+    view.selected.log = id;
+    view.row = 0;
+    view.selQuest = null;
+    view.step = null;
+    render();
+  }
+  // Selecting a row never opens it: quests open and close with → / ← (or the ▸), like the game.
   function selectRow(index) {
     view.focus = "list";
     view.row = index;
     const item = shownItems[index];
     if (item) {
-      view.expanded = item.q.id;
+      view.selQuest = item.q.id;
       view.step = item.step ? item.step[0] : null;
     }
     render();
+  }
+  function toggleOpen(q) {
+    if (view.open.has(q.id)) view.open.delete(q.id);
+    else view.open.add(q.id);
+    view.focus = "list";
+    view.selQuest = q.id;
+    view.step = null;
+    render();
+  }
+  function expand() {
+    const item = selectedItem();
+    if (item && !item.step && statusOf(item.q) === IN_PROGRESS && item.q.steps && !view.open.has(item.q.id)) toggleOpen(item.q);
+  }
+  function collapse() {
+    const item = selectedItem();
+    if (item && view.open.has(item.q.id)) toggleOpen(item.q);
   }
   function setFilter(id) {
     view.filter = id;
@@ -955,16 +967,21 @@
     const i = TABS.findIndex((t) => t.id === view.tab);
     setTab(TABS[(i + TABS.length + delta) % TABS.length].id);
   }
-  function cycleFilter() {
-    if (view.tab === "log") return;
+  // The category tabs: status filters, or the Log's categories.
+  function cycleFilter(delta) {
+    const step = delta || 1;
+    if (view.tab === "log") {
+      const ids = logCategories().map((c) => c.id);
+      const i = ids.indexOf(view.selected.log);
+      return selectCategory(ids[(i + ids.length + step) % ids.length]);
+    }
     const i = FILTERS.findIndex((f) => f.id === view.filter);
-    setFilter(FILTERS[(i + 1) % FILTERS.length].id);
+    setFilter(FILTERS[(i + FILTERS.length + step) % FILTERS.length].id);
   }
   function cycleSort() {
     const i = SORTS.findIndex((s) => s.id === view.sort);
     view.sort = SORTS[(i + 1) % SORTS.length].id;
     writeSetting("sort", view.sort);
-    view.row = 0;
     render();
   }
   function toggleSpoilers() {
@@ -974,7 +991,7 @@
     render();
   }
 
-  // Up/down moves within the focused column; left/right moves between the columns.
+  // Up/down moves within the focused column.
   function move(delta) {
     if (view.focus === "cards") {
       view.card = Math.min(shownCards.length - 1, Math.max(0, view.card + delta));
@@ -989,11 +1006,28 @@
     const at = Math.max(0, items.findIndex((r) => r.key === view.selected[view.tab]));
     select(items[Math.min(items.length - 1, Math.max(0, at + delta))].key);
   }
+  // Right: from the left column into the list, or open the selected quest.
+  function right() {
+    if (view.focus !== "list") return focusColumn("list");
+    expand();
+  }
+  // Left: from an objective to its quest, close an open quest, or back to the left column.
+  function left() {
+    if (view.focus !== "list") return;
+    const item = selectedItem();
+    if (item && item.step) {
+      view.step = null;
+      return render();
+    }
+    if (item && view.open.has(item.q.id)) return toggleOpen(item.q);
+    focusColumn("side");
+  }
   function focusColumn(column) {
     if (view.tab === "here" && hereLayout === "nowhere") {
       // Left: the systems list; right: quests in progress.
       const target = column === "side" ? "cards" : "list";
       if (target === "list" && !shownItems.length) return;
+      if (target === "cards" && !shownCards.length) return;
       view.focus = target;
       return render();
     }
@@ -1046,7 +1080,7 @@
       if (id === PAD.LB) cycleTab(-1);
       else if (id === PAD.RB) cycleTab(1);
       else if (id === PAD.X) plotSelected();
-      else if (id === PAD.Y) cycleFilter();
+      else if (id === PAD.Y) cycleFilter(1);
       else if (id === PAD.VIEW) toggleSpoilers();
       else if (id === PAD.RS) overrideSelected();
       else if (id === PAD.LS) cycleSort();
@@ -1080,10 +1114,10 @@
       move(1);
     } else if (key === "arrowleft" || key === "a") {
       event.preventDefault();
-      focusColumn("side");
+      left();
     } else if (key === "arrowright" || key === "d") {
       event.preventDefault();
-      focusColumn("list");
+      right();
     } else if (key === "enter") {
       event.preventDefault();
       activate();
@@ -1092,7 +1126,7 @@
     } else if (key === "r") {
       plotSelected();
     } else if (key === "f") {
-      cycleFilter();
+      cycleFilter(1);
     } else if (key === "t") {
       cycleSort();
     } else if (key === "x") {
