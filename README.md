@@ -25,7 +25,7 @@
 
 ## Install
 
-Requires [SFSE](https://www.nexusmods.com/starfield/mods/106), [OSF UI](https://www.nexusmods.com/starfield/mods/17711) 2.0+ and OSF Settings 1.1+. Install [from Nexus Mods](https://www.nexusmods.com/starfield/mods/18434) with Vortex or Mod Organizer 2, enable `StarfieldCompletionist.esm`, and start the game through SFSE.
+Requires [SFSE](https://www.nexusmods.com/starfield/mods/106), [OSF UI](https://www.nexusmods.com/starfield/mods/17711) 2.0+ and OSF Settings 1.1+. Install [from Nexus Mods](https://www.nexusmods.com/starfield/mods/18434) with Vortex or Mod Organizer 2, enable `StarfieldCompletionist.esm`, and start the game through SFSE. The same zip is also on the [GitHub releases page](https://github.com/rixbrnn/starfield-completionist/releases/latest) if Nexus doesn't work for you.
 
 **Open the menu** with **F7** (change it in **Pause menu > Mod Settings > Keybindings**). With a controller, assign a binding there to **Open Completionist**; we recommend **X + A** pressed together. There is no controller binding by default.
 
