@@ -170,7 +170,7 @@
       resolvedTokens.set(q.id, new Map(keys.map((key, i) => [key, [Number(values[i * 2]) || 0, Number(values[i * 2 + 1]) || 0]])));
       queueRender();
     });
-    bridge.on("plotFailed", () => showToast("This objective has no place on the map right now."));
+    bridge.on("plotFailed", () => showToast("Not on the map yet: the game hasn't placed this objective."));
     bridge.on("explored", (event) => {
       const [batch, ...flags] = (event && event.args) || [];
       const keys = exploredBatches.get(Number(batch));
@@ -664,8 +664,7 @@
       el("span", { class: "txt" },
         optional ? el("span", { class: "opt", text: "(Optional)" }) : null,
         el("span", { class: "label", text: optional ? text.slice(optional[0].length) : text }),
-        unknown && item.state === 1 ? el("span", { class: "tag hint", text: "DETAILS IN MISSIONS MENU" }) : null,
-        item.state === 1 && mapAlias(item.step) >= 0 ? el("span", { class: "tag", text: "ON MAP" }) : null));
+        unknown && item.state === 1 ? el("span", { class: "tag hint", text: "DETAILS IN MISSIONS MENU" }) : null));
   }
 
   // Order within each group. Default keeps the data's order: story order for questlines,
@@ -1120,7 +1119,8 @@
   // Footer prompts, label then key like the game's; they follow the last input device.
   function renderKeys() {
     const pad = view.input === "gamepad";
-    const key = (label, k, run) => el("button", { onclick: run }, label, el("kbd", {}, k));
+    // disabled: shown greyed out, like the game's prompts for actions that don't apply.
+    const key = (label, k, run, disabled) => el("button", { class: disabled ? "disabled" : null, onclick: disabled ? null : run, "aria-disabled": disabled ? "true" : null }, label, el("kbd", {}, k));
     const item = selectedItem();
     const q = item && !item.step ? item.q : null; // manual override and expanding only on quest rows
     const onCard = view.focus === "cards" && shownCards.length > 0;
@@ -1131,7 +1131,9 @@
     const nowhere = view.tab === "here" && hereLayout === "nowhere";
     const keys = [
       primary ? key(primary, pad ? "A" : "ENTER", activate) : null,
-      canPlot && primary !== "SHOW ON MAP" ? key(view.focus === "side" ? "SET COURSE" : "SHOW ON MAP", pad ? "X" : "R", plotSelected) : null,
+      // Always shown on a row (greyed out when there is nothing to show), except when it is
+      // already the main action.
+      (view.focus === "side" || item) && primary !== "SHOW ON MAP" ? key(view.focus === "side" ? "SET COURSE" : "SHOW ON MAP", pad ? "X" : "R", plotSelected, !canPlot) : null,
       q ? key(overrideAction(q).label, pad ? "RS" : "M", overrideSelected) : null,
       nowhere ? null : key(view.tab === "log" ? "CATEGORY" : "FILTER", pad ? "RS" : "Z / C", () => cycleFilter(1)),
       key("SORT", pad ? "Y" : "T", cycleSort),

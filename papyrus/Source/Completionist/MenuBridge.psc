@@ -234,11 +234,12 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
 EndFunction
 
 ; Where an objective target is: the location of a reference alias's reference, or a location alias's location.
+; A disabled reference hasn't been put in place yet (it may sit in a holding cell), so it has none.
 Location Function AliasLocation(Alias akAlias)
   ReferenceAlias refAlias = akAlias as ReferenceAlias
   If refAlias
     ObjectReference ref = refAlias.GetRef()
-    If ref
+    If ref && !ref.IsDisabled()
       Return ref.GetCurrentLocation()
     EndIf
     Return None
