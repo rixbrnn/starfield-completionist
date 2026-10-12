@@ -513,10 +513,10 @@
       const list = options.tabs || FILTERS.map((f) => ({ id: f.id, label: f.label, count: counts[f.id] }));
       const current = options.tabs ? view.selected[view.tab] : view.filter;
       children.push(el("div", { class: "tabs", role: "tablist", "aria-label": "Filter" },
-        el("button", { class: "arrow", "aria-label": "Previous", onclick: () => cycleFilter(-1) }, chevron("left")),
+        el("button", { class: "arrow", "aria-label": "Previous", onclick: () => cycleFilter(-1) }, el("kbd", { text: view.input === "gamepad" ? "LB" : "Q" })),
         list.map((tab) => el("button", { class: "tab", role: "tab", "aria-selected": tab.id === current ? "true" : "false", onclick: () => (options.tabs ? selectCategory(tab.id) : setFilter(tab.id)) },
           tab.label, el("span", { text: String(tab.count) }))),
-        el("button", { class: "arrow", "aria-label": "Next", onclick: () => cycleFilter(1) }, chevron("right"))));
+        el("button", { class: "arrow", "aria-label": "Next", onclick: () => cycleFilter(1) }, el("kbd", { text: view.input === "gamepad" ? "RB" : "E" }))));
     }
     if (!options.noSort) {
       children.push(el("button", { class: "sortbar", onclick: cycleSort }, el("span", { text: "SORT: " + SORTS.find((s) => s.id === view.sort).label }), el("span", { class: "updown", "aria-hidden": "true" })));
@@ -668,13 +668,11 @@
     if (statusOf(q) !== IN_PROGRESS || !q.steps || !states) return null;
     return q.steps.filter((step) => states.get(step[0]) > 0).map((step) => ({ q, step, state: states.get(step[0]) }));
   }
-  // Only quests with something to show under them open, like the game: not quests with no
-  // objective shown, nor errands whose single objective is their own name.
-  const bare = (text) => text.replace(/^\(Optional\)\s*/i, "").trim().toLowerCase();
+  // Quests open into the objectives the game shows; activities have none to show.
   function isExpandable(q) {
+    if (q.activity) return false;
     const steps = shownSteps(q);
-    if (!steps || steps.length === 0) return false;
-    return !(steps.length === 1 && bare(steps[0].step[1]) === bare(q.name));
+    return !!steps && steps.length > 0;
   }
   function stepItems(q) {
     ensureObjectives(q, 2000);
@@ -1109,29 +1107,67 @@
   // LT / RT are not XInput buttons; the game reports them with its own codes 0x09 / 0x0A.
   const PAD = { LT: 0x0009, RT: 0x000a, VIEW: 0x0020, LS: 0x0040, RS: 0x0080, LB: 0x0100, RB: 0x0200, A: 0x1000, X: 0x4000, Y: 0x8000 };
   const pressedTriggers = new Set(); // for trigger events that carry a value instead of down / up
+  // LT / RT values in an event, whatever the field names, or null if it carries none.
+  function triggerValues(event) {
+    const out = {};
+    const visit = (obj, depth) => {
+      if (!obj || typeof obj !== "object" || depth > 3) return;
+      for (const [k, v] of Object.entries(obj)) {
+        const name = k.toLowerCase();
+        if (typeof v === "number" || typeof v === "boolean") {
+          const value = Number(v) > 1 ? Number(v) / 255 : Number(v); // 0-255 or 0-1
+          if (/^(lt|l2|left_?trigger|lefttrigger|ltrigger|trigger_?l)$/.test(name)) out.lt = value;
+          if (/^(rt|r2|right_?trigger|righttrigger|rtrigger|trigger_?r)$/.test(name)) out.rt = value;
+        } else visit(v, depth + 1);
+      }
+    };
+    visit(event, 0);
+    if (event.kind === "trigger" || event.trigger) {
+      const t = event.trigger || event;
+      const side = String(t.side || t.id || t.name || t.which || "").toLowerCase();
+      const value = Number(t.value ?? (t.down ? 1 : 0));
+      if (side.startsWith("l")) out.lt = value;
+      if (side.startsWith("r")) out.rt = value;
+    }
+    return out.lt !== undefined || out.rt !== undefined ? out : null;
+  }
+  // Temporary diagnostic: shows controller input the menu doesn't recognize (once per kind),
+  // so the LT / RT codes can be found in game.
+  const reported = new Set();
+  function reportUnknown(event, kind) {
+    const text = JSON.stringify(event).slice(0, 160);
+    const key = kind === "stick" ? "stick" : text;
+    if (reported.has(key)) return;
+    reported.add(key);
+    showToast("Controller " + kind + ": " + text);
+  }
+
   function usePad() {
     if (view.input === "gamepad") return;
     view.input = "gamepad";
-    renderHeader();
-    renderKeys();
+    render();
   }
   if (bridge) {
     bridge.on("ui.gamepad", (event) => {
       if (!event) return;
-      // Triggers reported as an analog value: act once when pressed past halfway.
-      const trigger = event.trigger || (event.kind === "trigger" ? event : null);
-      if (trigger) {
-        const side = String(trigger.side || trigger.id || trigger.name || "").toLowerCase();
-        const which = side.startsWith("l") ? "lt" : side.startsWith("r") ? "rt" : "";
-        const value = Number(trigger.value ?? (trigger.down ? 1 : 0));
-        if (!which) return;
-        if (value > 0.5 && !pressedTriggers.has(which)) { pressedTriggers.add(which); usePad(); cycleTab(which === "lt" ? -1 : 1); }
-        else if (value < 0.3) pressedTriggers.delete(which);
+      // Triggers as analog values (a "trigger" event, or fields of a "stick" event): act once
+      // when pressed past halfway.
+      const values = triggerValues(event);
+      if (values) {
+        for (const which of ["lt", "rt"]) {
+          if (values[which] === undefined) continue;
+          if (values[which] > 0.5 && !pressedTriggers.has(which)) { pressedTriggers.add(which); usePad(); cycleTab(which === "lt" ? -1 : 1); }
+          else if (values[which] < 0.3) pressedTriggers.delete(which);
+        }
         return;
       }
-      if (event.kind !== "button" || !event.button || !event.button.down) return;
+      if (event.kind === "stick") return reportUnknown(event, "stick");
+      if (event.kind !== "button" || !event.button) return reportUnknown(event, "other");
+      if (!event.button.down) return;
       usePad();
       const id = event.button.id;
+      // D-pad (0x1-0x8), Start (0x10) and B (0x2000) are handled by OSF UI itself.
+      if (!Object.values(PAD).includes(id) && ![0x1, 0x2, 0x4, 0x8, 0x10, 0x2000].includes(id)) reportUnknown(event, "button");
       if (id === PAD.LT) cycleTab(-1);
       else if (id === PAD.RT) cycleTab(1);
       else if (id === PAD.LB) cycleFilter(-1);
@@ -1145,8 +1181,7 @@
   document.addEventListener("mousemove", () => {
     if (view.input !== "keyboard") {
       view.input = "keyboard";
-      renderHeader();
-      renderKeys();
+      render();
     }
   });
 
