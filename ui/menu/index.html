@@ -11,9 +11,12 @@
 </head>
 <body>
   <div class="app">
-    <nav class="rail" id="tabs" aria-label="Completionist views"></nav>
+    <aside class="rail">
+      <button class="rail-back" id="back" aria-label="Close"><span class="chev left"></span></button>
+      <span class="rail-label">COMPLETIONIST · MISSION TRACKER</span>
+    </aside>
     <header class="top">
-      <div class="brand">COMPLETIONIST</div>
+      <nav class="views" id="tabs" aria-label="Completionist views"></nav>
       <div class="totals" id="totals"></div>
     </header>
     <section class="side" id="side"></section>

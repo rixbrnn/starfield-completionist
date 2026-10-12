@@ -24,7 +24,7 @@ html, body { margin: 0; height: 100%; }
 body { color: var(--text); font-family: "Inter", sans-serif; overflow: hidden; background: #1b2840; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
 button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
-.rail, .tabs, .sortbar, .row, .step, .group, .keys, .place, .kicker, .brand, .totals, .list-divider { font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; }
+.rail, .views, .tabs, .sortbar, .row, .step, .group, .keys, .place, .kicker, .brand, .totals, .list-divider { font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.06em; }
 
 /* Opaque, like the game's menus: textured navy. */
 .app {
@@ -35,15 +35,19 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
     radial-gradient(ellipse at 70% 40%, #2b3d5e 0%, #203152 45%, #18243b 100%);
 }
 
-/* Left rail: the five views, written vertically like the game's "MISSIONS" label. */
-.rail { grid-column: 1; grid-row: 1 / 4; margin: 42px 0 62px 40px; width: 30px; border: 1px solid rgba(255, 255, 255, 0.25); display: flex; flex-direction: column; align-items: center; gap: 26px; padding-top: 16px; }
-.rail button { position: relative; writing-mode: vertical-rl; transform: rotate(180deg); font-size: 15px; color: rgba(255, 255, 255, 0.5); padding: 4px 0; }
-.rail button[aria-current="page"] { color: #fff; }
-.rail button[aria-current="page"]::after { content: ""; position: absolute; left: -7px; top: 0; bottom: 0; width: 3px; background: var(--text); }
+/* Left rail: the name, written vertically like the game's "MISSIONS" label, under a back tile. */
+.rail { grid-column: 1; grid-row: 1 / 4; margin: 42px 0 62px 40px; width: 30px; border: 1px solid rgba(255, 255, 255, 0.25); display: flex; flex-direction: column; align-items: center; }
+.rail-back { width: 30px; height: 28px; margin: -1px -1px 0; background: rgba(255, 255, 255, 0.75); color: #2a3550; display: flex; align-items: center; justify-content: center; }
+.rail-label { writing-mode: vertical-rl; transform: rotate(180deg); margin-bottom: 16px; margin-top: auto; font-size: 15px; letter-spacing: 0.2em; color: #fff; white-space: nowrap; }
 
 /* Top line: name and overall totals. */
-.top { grid-column: 2 / 4; grid-row: 1; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 40px 6px 0; }
-.brand { font-size: 15px; color: var(--muted); letter-spacing: 0.2em; }
+.top { grid-column: 2 / 4; grid-row: 1; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 40px 0 0; }
+/* The five views, switched with LT / RT like the game's top-level tabs. */
+.views { display: flex; align-items: center; gap: 6px; }
+.views button { padding: 6px 16px; font-size: 19px; color: rgba(255, 255, 255, 0.6); border: 1px solid transparent; }
+.views button:hover { color: #fff; }
+.views button[aria-current="page"] { background: var(--light); color: var(--on-light); }
+.views kbd { min-width: 30px; height: 28px; border: 1.5px solid rgba(255, 255, 255, 0.8); border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 0 6px; font-family: inherit; font-size: 12px; margin: 0 6px; }
 .totals { display: flex; gap: 28px; }
 .total { display: flex; align-items: center; gap: 10px; }
 .ring { width: 38px; height: 38px; flex-shrink: 0; }
@@ -53,7 +57,7 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .total-label { font-size: 11px; color: var(--muted); letter-spacing: 0.16em; }
 
 /* Left column: detail card, then the list to pick from (places, questlines, systems). */
-.side { grid-column: 2; grid-row: 2; padding: 32px 34px 8px 0; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 3px; }
+.side { grid-column: 2; grid-row: 2; padding: 32px 34px 8px 0; min-height: 0; display: flex; flex-direction: column; }
 .side[hidden] { display: none; }
 .card { border: 1px solid var(--edge); background: var(--card); margin-bottom: 16px; flex-shrink: 0; }
 .card-head { display: flex; align-items: center; gap: 18px; padding: 16px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
@@ -99,7 +103,15 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .tabs .tab[aria-selected="true"] { background: var(--light); color: var(--on-light); }
 .tabs .tab[aria-selected="true"] span { color: var(--on-light); }
 .sortbar { margin: 18px 0 6px 18px; height: 30px; flex-shrink: 0; background: var(--light); color: var(--on-light); display: flex; align-items: center; justify-content: space-between; padding: 0 14px; font-size: 15px; }
-.list { flex: 1; min-height: 0; overflow-y: auto; margin-left: 18px; padding: 0 0 8px 12px; border-left: 2px solid rgba(255, 255, 255, 0.25); display: flex; flex-direction: column; gap: 3px; }
+/* Scrolling lists with the game's scrollbar: a thin line on the left with a white thumb. */
+.scroll-area { position: relative; flex: 1; min-height: 0; display: flex; }
+.scroller { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 3px; scrollbar-width: none; }
+.scroller::-webkit-scrollbar { display: none; }
+.scroll-track { position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: rgba(255, 255, 255, 0.25); }
+.scroll-thumb { position: absolute; left: -1px; width: 4px; background: var(--text); display: none; }
+.detail .scroll-area { margin-left: 18px; }
+.list { padding: 0 0 8px 14px; }
+.side .scroll-area .scroller { padding-left: 14px; }
 .list-divider { font-size: 13px; letter-spacing: 0.16em; color: #b8c3d4; margin: 10px 0 2px 2px; flex-shrink: 0; }
 .list-divider:first-child { margin-top: 2px; }
 .empty { padding: 20px 4px; color: var(--soft); font-size: 16px; }

@@ -385,7 +385,11 @@
   }
 
   function renderHeader() {
-    document.getElementById("tabs").replaceChildren(...TABS.map((t) => el("button", { "aria-current": view.tab === t.id ? "page" : null, text: t.label, onclick: () => setTab(t.id) })));
+    const pad = view.input === "gamepad";
+    document.getElementById("tabs").replaceChildren(
+      el("kbd", { text: pad ? "LT" : "Z" }),
+      ...TABS.map((t) => el("button", { "aria-current": view.tab === t.id ? "page" : null, text: t.label, onclick: () => setTab(t.id) })),
+      el("kbd", { text: pad ? "RT" : "C" }));
     const quests = tally(DATA.quests.filter((q) => !q.activity));
     const activities = tally(DATA.quests.filter((q) => q.activity));
     const total = (t, label, color) => el("div", { class: "total" },
@@ -396,18 +400,36 @@
     document.getElementById("totals").replaceChildren(total(quests, "QUESTS", "#f2f4f7"), total(activities, "ACTIVITIES", "#34d8e8"));
   }
 
+  // A scrolling list with the game's scrollbar: a thin line on the left with a white thumb.
+  function scrollArea(scroller) {
+    scroller.classList.add("scroller");
+    const thumb = el("span", { class: "scroll-thumb" });
+    const area = el("div", { class: "scroll-area" }, el("span", { class: "scroll-track" }, thumb), scroller);
+    const update = () => {
+      const { scrollHeight, clientHeight, scrollTop } = scroller;
+      if (scrollHeight <= clientHeight + 1) { thumb.style.display = "none"; return; }
+      const height = Math.max(24, (clientHeight / scrollHeight) * clientHeight);
+      thumb.style.display = "block";
+      thumb.style.height = height + "px";
+      thumb.style.top = (scrollTop / (scrollHeight - clientHeight)) * (clientHeight - height) + "px";
+    };
+    scroller.addEventListener("scroll", update);
+    setTimeout(update, 0);
+    return area;
+  }
+
   // Left column: a detail card, then the places / questlines to pick from.
   function renderSide(rows, card) {
     const side = document.getElementById("side");
     side.hidden = false;
     side.setAttribute("aria-label", TABS.find((t) => t.id === view.tab).label);
-    side.replaceChildren(card || "", ...rows.map((row) => {
+    side.replaceChildren(card || "", scrollArea(el("div", {}, ...rows.map((row) => {
       if (row.kind === "group") return el("div", { class: "group" }, el("span", { text: row.label }), el("span", { text: row.frac || "" }));
       if (row.kind === "subgroup") return el("div", { class: "subgroup", text: row.label });
       const selected = view.selected[view.tab] === row.key;
       const t = tally(row.quests);
       return placeRow(row.label, t.done + " / " + t.total, t.total ? t.done / t.total : 0, selected, selected && view.focus !== "side", () => select(row.key));
-    }));
+    }))));
     const current = side.querySelector(".place.selected");
     if (current) current.scrollIntoView({ block: "nearest" });
   }
@@ -483,6 +505,7 @@
     ].filter((g) => g.quests.length);
     const shown = groups.flatMap((g) => g.quests);
     shownQuests = shown;
+    for (const q of groups.length && statusOf(groups[0].quests[0]) === IN_PROGRESS ? groups[0].quests : []) ensureObjectives(q, 30000);
 
     const children = [];
     if (options.tabs !== false) {
@@ -529,7 +552,7 @@
       const selected = view.focus === "list" && i === view.row;
       list.append(item.step ? stepRow(item, i, selected) : questRow(item.q, i, selected, options));
     });
-    children.push(list);
+    children.push(scrollArea(list));
     document.getElementById("detail").replaceChildren(...children);
     const row = list.querySelector(".row.selected, .step.selected");
     if (row) row.scrollIntoView({ block: "nearest" });
@@ -538,7 +561,7 @@
   function questRow(q, index, selected, options) {
     const s = statusOf(q);
     const hide = view.spoilers && s === NOT_STARTED;
-    const expandable = s === IN_PROGRESS && !!q.steps;
+    const expandable = isExpandable(q);
     const cls = "row" + (selected ? " selected" : "") + (tracked.has(q.id) ? " tracked" : "") + (isFinished(s) ? " finished" : "") + (notYetAvailable(q) ? " unavailable" : "");
     return el("div", { class: cls, onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
       el("span", { class: "tile" }),
@@ -635,13 +658,27 @@
   const objectiveStates = new Map(); // quest id -> Map(objective index -> 0 hidden, 1 shown, 2 completed, 3 failed)
   const objectivesAsked = new Map(); // quest id -> time of the last request
 
-  // Objectives of q that the mission log shows, once Papyrus has said which; asks again when stale.
-  function stepItems(q) {
-    if (statusOf(q) !== IN_PROGRESS || !q.steps) return [];
-    if (Date.now() - (objectivesAsked.get(q.id) || 0) > 2000) requestObjectives(q);
+  // Asks Papyrus which objectives the mission log shows, when the last answer is older than maxAge.
+  function ensureObjectives(q, maxAge) {
+    if (statusOf(q) === IN_PROGRESS && q.steps && Date.now() - (objectivesAsked.get(q.id) || 0) > maxAge) requestObjectives(q);
+  }
+  // The objectives of q that the mission log shows, or null while Papyrus hasn't said.
+  function shownSteps(q) {
     const states = objectiveStates.get(q.id);
-    if (!states) return [];
+    if (statusOf(q) !== IN_PROGRESS || !q.steps || !states) return null;
     return q.steps.filter((step) => states.get(step[0]) > 0).map((step) => ({ q, step, state: states.get(step[0]) }));
+  }
+  // Only quests with something to show under them open, like the game: not quests with no
+  // objective shown, nor errands whose single objective is their own name.
+  const bare = (text) => text.replace(/^\(Optional\)\s*/i, "").trim().toLowerCase();
+  function isExpandable(q) {
+    const steps = shownSteps(q);
+    if (!steps || steps.length === 0) return false;
+    return !(steps.length === 1 && bare(steps[0].step[1]) === bare(q.name));
+  }
+  function stepItems(q) {
+    ensureObjectives(q, 2000);
+    return isExpandable(q) ? shownSteps(q) : [];
   }
   function requestObjectives(q) {
     objectivesAsked.set(q.id, Date.now());
@@ -650,8 +687,8 @@
       bridge.send("objectives", q.id, ...ids);
       return;
     }
-    // Preview: the first objective done, the next two shown.
-    objectiveStates.set(q.id, new Map(ids.map((id, i) => [id, i === 0 ? 2 : i < 3 ? 1 : 0])));
+    // Preview: a single objective is shown as is; otherwise the first is done and the next two shown.
+    objectiveStates.set(q.id, new Map(ids.map((id, i) => [id, ids.length === 1 ? 1 : i === 0 ? 2 : i < 3 ? 1 : 0])));
   }
   function plotObjective(q, objective, alias) {
     if (bridge) bridge.send("plotObjective", q.id, alias);
@@ -838,10 +875,11 @@
           el("div", { class: "card-title", text: "Nothing tracked here" }),
           el("div", { class: "card-sub", text: [inSpace ? "In space" : "", systemName ? systemName + " system" : ""].filter(Boolean).join(" · ") || "Somewhere new" }))),
         el("div", { class: "card-body", text: "No quests or activities start here. These systems have the most you haven't discovered yet: pick one to set a course, or track a quest in progress." })),
-      el("div", { class: "group", text: "WHERE TO NEXT" }),
-      ...shownCards.map((s, index) => placeRow(s.label, s.t.missing + " not discovered", s.t.total ? s.t.done / s.t.total : 0,
-        view.focus === "cards" && index === view.card, false,
-        () => { view.focus = "cards"; view.card = index; render(); }, () => openCard(index))));
+      scrollArea(el("div", {},
+        el("div", { class: "group", text: "WHERE TO NEXT" }),
+        ...shownCards.map((s, index) => placeRow(s.label, s.t.missing + " not discovered", s.t.total ? s.t.done / s.t.total : 0,
+          view.focus === "cards" && index === view.card, false,
+          () => { view.focus = "cards"; view.card = index; render(); }, () => openCard(index))))));
     const current = side.querySelector(".place.selected");
     if (current) current.scrollIntoView({ block: "nearest" });
   }
@@ -889,17 +927,17 @@
     const sideLoc = sideItemLocation(selectedSideItem());
     const primary = view.focus === "side" ? "OPEN" : onCard ? "SET COURSE" : item ? (primaryAction(item) || {}).label : null;
     const canPlot = view.focus === "side" ? !!sideLoc : !onCard && item && itemActions(item).some((a) => a.id === "plot");
-    const expandable = q && statusOf(q) === IN_PROGRESS && q.steps;
+    const expandable = q && isExpandable(q);
     const nowhere = view.tab === "here" && hereLayout === "nowhere";
     const keys = [
       primary ? key(primary, pad ? "A" : "ENTER", activate) : null,
       expandable ? (view.open.has(q.id) ? key("COLLAPSE", chevron("left"), collapse) : key("EXPAND", chevron("right"), expand)) : null,
       canPlot && primary !== "SHOW ON MAP" ? key(view.focus === "side" ? "SET COURSE" : "SHOW ON MAP", pad ? "X" : "R", plotSelected) : null,
       q ? key(overrideAction(q).label, pad ? "RS" : "M", overrideSelected) : null,
-      nowhere ? null : key(view.tab === "log" ? "CATEGORY" : "FILTER", pad ? "Y" : "F", () => cycleFilter(1)),
-      key("SORT", pad ? "LS" : "T", cycleSort),
+      nowhere ? null : key(view.tab === "log" ? "CATEGORY" : "FILTER", pad ? "LB / RB" : "Q / E", () => cycleFilter(1)),
+      key("SORT", pad ? "Y" : "T", cycleSort),
       view.tab !== "log" ? key(view.spoilers ? "SHOW NAMES" : "HIDE SPOILERS", pad ? "VIEW" : "X", toggleSpoilers) : null,
-      key("VIEWS", pad ? "LB / RB" : "Q / E", () => cycleTab(1)),
+      key("VIEWS", pad ? "LT / RT" : "Z / C", () => cycleTab(1)),
       key("BACK", pad ? "B" : "ESC", () => { if (bridge) bridge.send("close"); }),
     ];
     document.getElementById("keys").replaceChildren(...keys.filter(Boolean));
@@ -952,7 +990,7 @@
   }
   function expand() {
     const item = selectedItem();
-    if (item && !item.step && statusOf(item.q) === IN_PROGRESS && item.q.steps && !view.open.has(item.q.id)) toggleOpen(item.q);
+    if (item && !item.step && isExpandable(item.q) && !view.open.has(item.q.id)) toggleOpen(item.q);
   }
   function collapse() {
     const item = selectedItem();
@@ -1068,27 +1106,46 @@
   // Controller: OSF UI turns the D-pad / left stick into arrow keys and A into Enter, and B closes
   // the menu. Every button also arrives as a "ui.gamepad" event (XInput button masks), which is
   // how the shoulder buttons, X, Y and View work here.
-  const PAD = { VIEW: 0x0020, LS: 0x0040, RS: 0x0080, LB: 0x0100, RB: 0x0200, A: 0x1000, X: 0x4000, Y: 0x8000 };
+  // LT / RT are not XInput buttons; the game reports them with its own codes 0x09 / 0x0A.
+  const PAD = { LT: 0x0009, RT: 0x000a, VIEW: 0x0020, LS: 0x0040, RS: 0x0080, LB: 0x0100, RB: 0x0200, A: 0x1000, X: 0x4000, Y: 0x8000 };
+  const pressedTriggers = new Set(); // for trigger events that carry a value instead of down / up
+  function usePad() {
+    if (view.input === "gamepad") return;
+    view.input = "gamepad";
+    renderHeader();
+    renderKeys();
+  }
   if (bridge) {
     bridge.on("ui.gamepad", (event) => {
-      if (!event || event.kind !== "button" || !event.button || !event.button.down) return;
-      if (view.input !== "gamepad") {
-        view.input = "gamepad";
-        renderKeys();
+      if (!event) return;
+      // Triggers reported as an analog value: act once when pressed past halfway.
+      const trigger = event.trigger || (event.kind === "trigger" ? event : null);
+      if (trigger) {
+        const side = String(trigger.side || trigger.id || trigger.name || "").toLowerCase();
+        const which = side.startsWith("l") ? "lt" : side.startsWith("r") ? "rt" : "";
+        const value = Number(trigger.value ?? (trigger.down ? 1 : 0));
+        if (!which) return;
+        if (value > 0.5 && !pressedTriggers.has(which)) { pressedTriggers.add(which); usePad(); cycleTab(which === "lt" ? -1 : 1); }
+        else if (value < 0.3) pressedTriggers.delete(which);
+        return;
       }
+      if (event.kind !== "button" || !event.button || !event.button.down) return;
+      usePad();
       const id = event.button.id;
-      if (id === PAD.LB) cycleTab(-1);
-      else if (id === PAD.RB) cycleTab(1);
+      if (id === PAD.LT) cycleTab(-1);
+      else if (id === PAD.RT) cycleTab(1);
+      else if (id === PAD.LB) cycleFilter(-1);
+      else if (id === PAD.RB) cycleFilter(1);
       else if (id === PAD.X) plotSelected();
-      else if (id === PAD.Y) cycleFilter(1);
+      else if (id === PAD.Y || id === PAD.LS) cycleSort();
       else if (id === PAD.VIEW) toggleSpoilers();
       else if (id === PAD.RS) overrideSelected();
-      else if (id === PAD.LS) cycleSort();
     });
   }
   document.addEventListener("mousemove", () => {
     if (view.input !== "keyboard") {
       view.input = "keyboard";
+      renderHeader();
       renderKeys();
     }
   });
@@ -1103,9 +1160,15 @@
       event.preventDefault();
       if (bridge) bridge.send("close");
     } else if (key === "q") {
-      cycleTab(-1);
+      cycleFilter(-1);
     } else if (key === "e") {
+      cycleFilter(1);
+    } else if (key === "z") {
+      cycleTab(-1);
+    } else if (key === "c") {
       cycleTab(1);
+    } else if (/^[1-5]$/.test(key)) {
+      setTab(TABS[Number(key) - 1].id);
     } else if (key === "arrowup" || key === "w") {
       event.preventDefault();
       move(-1);
@@ -1125,14 +1188,14 @@
       overrideSelected();
     } else if (key === "r") {
       plotSelected();
-    } else if (key === "f") {
-      cycleFilter(1);
     } else if (key === "t") {
       cycleSort();
     } else if (key === "x") {
       toggleSpoilers();
     }
   });
+
+  document.getElementById("back").addEventListener("click", () => { if (bridge) bridge.send("close"); });
 
   // Redraw whenever the menu is shown or focused, so reopening it never shows stale content.
   document.addEventListener("visibilitychange", () => { if (!document.hidden) render(); });
