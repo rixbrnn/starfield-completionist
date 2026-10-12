@@ -398,9 +398,9 @@
     const pad = view.input === "gamepad";
     // The keys that switch views, at both ends: Z / C, or a flick of the right stick.
     document.getElementById("tabs").replaceChildren(
-      el("kbd", {}, pad ? [el("span", { class: "chev left" }), " RS"] : "Z"),
+      el("kbd", { text: pad ? "LB" : "Q" }),
       ...TABS.map((t) => el("button", { "aria-current": view.tab === t.id ? "page" : null, text: t.label, onclick: () => setTab(t.id) })),
-      el("kbd", {}, pad ? ["RS ", el("span", { class: "chev right" })] : "C"));
+      el("kbd", { text: pad ? "RB" : "E" }));
     const quests = tally(DATA.quests.filter((q) => !q.activity));
     const activities = tally(DATA.quests.filter((q) => q.activity));
     const total = (t, label, color) => el("div", { class: "total" },
@@ -534,10 +534,10 @@
       const list = options.tabs || FILTERS.map((f) => ({ id: f.id, label: f.label, count: counts[f.id] }));
       const current = options.tabs ? view.selected[view.tab] : view.filter;
       children.push(el("div", { class: "tabs", role: "tablist", "aria-label": "Filter" },
-        el("button", { class: "arrow", "aria-label": "Previous", onclick: () => cycleFilter(-1) }, el("kbd", { text: view.input === "gamepad" ? "LB" : "Q" })),
+        el("button", { class: "arrow", "aria-label": "Previous", onclick: () => cycleFilter(-1) }, el("kbd", {}, view.input === "gamepad" ? [el("span", { class: "chev left" }), " RS"] : "Z")),
         list.map((tab) => el("button", { class: "tab", role: "tab", "aria-selected": tab.id === current ? "true" : "false", onclick: () => (options.tabs ? selectCategory(tab.id) : setFilter(tab.id)) },
           tab.label, el("span", { text: String(tab.count) }))),
-        el("button", { class: "arrow", "aria-label": "Next", onclick: () => cycleFilter(1) }, el("kbd", { text: view.input === "gamepad" ? "RB" : "E" }))));
+        el("button", { class: "arrow", "aria-label": "Next", onclick: () => cycleFilter(1) }, el("kbd", {}, view.input === "gamepad" ? ["RS ", el("span", { class: "chev right" })] : "C"))));
     }
     if (!options.noSort) {
       children.push(el("button", { class: "sortbar", onclick: cycleSort }, el("span", { text: "SORT: " + SORTS.find((s) => s.id === view.sort).label }), el("span", { class: "updown", "aria-hidden": "true" })));
@@ -982,10 +982,10 @@
       primary ? key(primary, pad ? "A" : "ENTER", activate) : null,
       canPlot && primary !== "SHOW ON MAP" ? key(view.focus === "side" ? "SET COURSE" : "SHOW ON MAP", pad ? "X" : "R", plotSelected) : null,
       q ? key(overrideAction(q).label, pad ? "RS" : "M", overrideSelected) : null,
-      nowhere ? null : key(view.tab === "log" ? "CATEGORY" : "FILTER", pad ? "LB / RB" : "Q / E", () => cycleFilter(1)),
+      nowhere ? null : key(view.tab === "log" ? "CATEGORY" : "FILTER", pad ? "RS" : "Z / C", () => cycleFilter(1)),
       key("SORT", pad ? "Y" : "T", cycleSort),
       view.tab !== "log" ? key(view.spoilers ? "SHOW NAMES" : "HIDE SPOILERS", pad ? "VIEW" : "X", toggleSpoilers) : null,
-      key("VIEWS", pad ? "RS" : "Z / C", () => cycleTab(1)),
+      key("VIEWS", pad ? "LB / RB" : "Q / E", () => cycleTab(1)),
       key("BACK", pad ? "B" : "ESC", () => { if (bridge) bridge.send("close"); }),
     ];
     document.getElementById("keys").replaceChildren(...keys.filter(Boolean));
@@ -1134,7 +1134,8 @@
   // Controller: OSF UI turns the D-pad / left stick into arrow keys and A into Enter, and B closes
   // the menu. Every button also arrives as a "ui.gamepad" event (XInput button masks), which is
   // how the shoulder buttons, X, Y and View work here. OSF UI never reports LT / RT (not even in
-  // its raw mode), so views switch with a flick of the right stick, whose position does arrive.
+  // its raw mode): LB / RB switch views and a flick of the right stick (whose position does
+  // arrive) switches the category tabs.
   const PAD = { VIEW: 0x0020, LS: 0x0040, RS: 0x0080, LB: 0x0100, RB: 0x0200, A: 0x1000, X: 0x4000, Y: 0x8000 };
   let stickFlick = 0; // -1 / 1 while the right stick is held left / right, 0 once it is back
 
@@ -1153,15 +1154,15 @@
         if (stickFlick === 0 && Math.abs(rx) > 0.7) {
           stickFlick = rx > 0 ? 1 : -1;
           usePad();
-          cycleTab(stickFlick);
+          cycleFilter(stickFlick);
         } else if (Math.abs(rx) < 0.3) stickFlick = 0;
         return;
       }
       if (event.kind !== "button" || !event.button || !event.button.down) return;
       usePad();
       const id = event.button.id;
-      if (id === PAD.LB) cycleFilter(-1);
-      else if (id === PAD.RB) cycleFilter(1);
+      if (id === PAD.LB) cycleTab(-1);
+      else if (id === PAD.RB) cycleTab(1);
       else if (id === PAD.X) plotSelected();
       else if (id === PAD.Y || id === PAD.LS) cycleSort();
       else if (id === PAD.VIEW) toggleSpoilers();
@@ -1186,13 +1187,13 @@
       event.preventDefault();
       if (bridge) bridge.send("close");
     } else if (key === "q") {
-      cycleFilter(-1);
-    } else if (key === "e") {
-      cycleFilter(1);
-    } else if (key === "z") {
       cycleTab(-1);
-    } else if (key === "c") {
+    } else if (key === "e") {
       cycleTab(1);
+    } else if (key === "z") {
+      cycleFilter(-1);
+    } else if (key === "c") {
+      cycleFilter(1);
     } else if (key === "arrowup" || key === "w") {
       event.preventDefault();
       move(-1);
