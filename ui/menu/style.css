@@ -234,3 +234,15 @@ kbd { min-width: 28px; text-align: center; padding: 2px 6px; border: 1px solid v
 /* Finished quests (completed, failed, locked out): crossed off, like a done item on a list. */
 .row.finished .row-name { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1px; }
 .row.finished.selected .row-name { color: #3a4651; }
+
+/* Expanded quest: its objectives as indented rows, like the game's mission log. */
+.row.step { height: 44px; padding-left: 52px; background: #0a0f15; }
+.row.step .row-name { font-size: 16px; font-weight: 400; color: var(--soft); }
+.row.step.selected { background: var(--text); }
+.row.step.selected .row-name { color: var(--ink); }
+.row.step .icon { width: 15px; height: 15px; }
+.row.step .row-meta { width: auto; font-family: var(--condensed); font-size: 13px; letter-spacing: 0.14em; }
+.optional { color: var(--muted); }
+.row.selected .optional { color: #3a4651; }
+.row-caret { width: 14px; flex-shrink: 0; text-align: center; color: var(--muted); font-size: 13px; }
+.row.selected .row-caret { color: var(--ink); }

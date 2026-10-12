@@ -266,7 +266,7 @@ collectionFiles.forEach((file, fileIndex) => {
     title?: string;
     places?: Array<{ id: string; name: string; kind: string; parent?: string; location?: string }>;
     questlines?: Array<{ id: string; name: string }>;
-    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string }; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; hidden?: boolean }>;
+    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string }; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; hidden?: boolean; steps?: Array<{ id: number; text: string; target?: number }> }>;
   };
   const keyOf = new Map((collection.places ?? []).map((p) => [p.id, p.location ?? `${file}:${p.id}`]));
   for (const place of collection.places ?? []) {
@@ -289,6 +289,8 @@ collectionFiles.forEach((file, fileIndex) => {
       place: keyOf.get(quest.start.place) ?? null,
       choices: quest.choices,
       ngPlusOnly: quest.ngPlusOnly || undefined,
+      // Objectives as [index, text, target alias or -1], for the expanded quest row.
+      steps: quest.steps?.length ? quest.steps.map((s) => [s.id, s.text, s.target ?? -1]) : undefined,
     });
     if (quest.questline) {
       menuLines.get(quest.questline.id)?.quests.push({ id: quest.id, order: quest.questline.order, file: fileIndex });

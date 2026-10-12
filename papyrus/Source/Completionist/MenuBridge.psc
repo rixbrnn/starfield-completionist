@@ -35,6 +35,8 @@ Function Register()
   OSFUI.RegisterSend(Self, ModId, "untrack")
   OSFUI.RegisterSend(Self, ModId, "override")
   OSFUI.RegisterSend(Self, ModId, "plotLocation")
+  OSFUI.RegisterSend(Self, ModId, "objectives")
+  OSFUI.RegisterSend(Self, ModId, "plotObjective")
   OSFSettings.RegisterHotkey(Self, ModId, OpenHotkey)
   ; Until the tracker's refresh finishes, statuses are incomplete; StatusChanged publishes them then.
   If Tracker().IsReady()
@@ -107,6 +109,44 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
     result[2] = wanted
     OSFUI.EmitEvent(ModId, "tracked", result)
     PublishTracked()
+  ElseIf asName == "objectives"
+    ; osfui.send("objectives", questId, objective, objective, …): reports each objective as
+    ; 0 = not shown, 1 = shown, 2 = completed, 3 = failed, so the menu can list the ones the
+    ; mission log shows. Most aren't shown, which takes a single call to find out.
+    Quest q = entry.questForm
+    Int count = akArgs.Length
+    If count > 128
+      count = 128
+    EndIf
+    Var[] result = new Var[count]
+    result[0] = entry.id
+    Int i = 1
+    While i < count
+      Int objective = akArgs[i] as Int
+      Int shown = 0
+      If q.IsObjectiveDisplayed(objective)
+        shown = 1
+        If q.IsObjectiveCompleted(objective)
+          shown = 2
+        ElseIf q.IsObjectiveFailed(objective)
+          shown = 3
+        EndIf
+      EndIf
+      result[i] = shown
+      i += 1
+    EndWhile
+    OSFUI.EmitEvent(ModId, "objectives", result)
+  ElseIf asName == "plotObjective" && akArgs.Length >= 2
+    ; osfui.send("plotObjective", questId, aliasId): a course to where the objective's target is now.
+    Location target = AliasLocation(entry.questForm.GetAlias(akArgs[1] as Int))
+    If target
+      OSFUI.Close(MenuView)
+      Game.ShowGalaxyStarMapMenuAndPlotToLocation(target)
+    Else
+      Var[] failed = new Var[1]
+      failed[0] = entry.id
+      OSFUI.EmitEvent(ModId, "plotFailed", failed)
+    EndIf
   ElseIf asName == "plot"
     If entry.startLocation
       OSFUI.Close(MenuView)
@@ -115,6 +155,23 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
       Debug.Notification("No known start location for " + entry.name)
     EndIf
   EndIf
+EndFunction
+
+; Where an objective target is: the location of a reference alias's reference, or a location alias's location.
+Location Function AliasLocation(Alias akAlias)
+  ReferenceAlias refAlias = akAlias as ReferenceAlias
+  If refAlias
+    ObjectReference ref = refAlias.GetRef()
+    If ref
+      Return ref.GetCurrentLocation()
+    EndIf
+    Return None
+  EndIf
+  LocationAlias locAlias = akAlias as LocationAlias
+  If locAlias
+    Return locAlias.GetLocation()
+  EndIf
+  Return None
 EndFunction
 
 ; Papyrus string comparison ignores case, so ids match however the engine interned them.

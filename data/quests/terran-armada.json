@@ -241,6 +241,18 @@
         10,
         20
       ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Go to Distress Signal Location",
+          "target": 2
+        },
+        {
+          "id": 20,
+          "text": "Repair the Minibot",
+          "target": 2
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 30
@@ -272,6 +284,23 @@
         100,
         200,
         400
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "the target: Place the kibble at the coordinates",
+          "target": 2
+        },
+        {
+          "id": 200,
+          "text": "the target: Check the kibble later",
+          "target": 4
+        },
+        {
+          "id": 400,
+          "text": "the target: Check the kibble",
+          "target": 17
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -305,6 +334,23 @@
         200,
         400
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "the target: Place the kibble at the coordinates",
+          "target": 2
+        },
+        {
+          "id": 200,
+          "text": "the target: Check the kibble later",
+          "target": 4
+        },
+        {
+          "id": 400,
+          "text": "the target: Check the kibble",
+          "target": 17
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1000
@@ -336,6 +382,23 @@
         100,
         200,
         400
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "the target: Place the kibble at the coordinates",
+          "target": 2
+        },
+        {
+          "id": 200,
+          "text": "the target: Check the kibble later",
+          "target": 4
+        },
+        {
+          "id": 400,
+          "text": "the target: Check the kibble",
+          "target": 17
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -369,6 +432,23 @@
         200,
         400
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "the target: Place the kibble at the coordinates",
+          "target": 2
+        },
+        {
+          "id": 200,
+          "text": "the target: Check the kibble later",
+          "target": 4
+        },
+        {
+          "id": 400,
+          "text": "the target: Check the kibble",
+          "target": 17
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1000
@@ -401,6 +481,23 @@
         200,
         400
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "the target: Place the kibble at the coordinates",
+          "target": 2
+        },
+        {
+          "id": 200,
+          "text": "the target: Check the kibble later",
+          "target": 4
+        },
+        {
+          "id": 400,
+          "text": "the target: Check the kibble",
+          "target": 17
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1000
@@ -432,6 +529,23 @@
         100,
         200,
         400
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "the target: Place the kibble at the coordinates",
+          "target": 2
+        },
+        {
+          "id": 200,
+          "text": "the target: Check the kibble later",
+          "target": 4
+        },
+        {
+          "id": 400,
+          "text": "the target: Check the kibble",
+          "target": 17
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -493,6 +607,48 @@
         600,
         700,
         1000
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Travel to the Moon Landing with Delta",
+          "target": 30
+        },
+        {
+          "id": 200,
+          "text": "Speak with Delta",
+          "target": 0
+        },
+        {
+          "id": 300,
+          "text": "Confront Delta",
+          "target": 0
+        },
+        {
+          "id": 400,
+          "text": "Follow Delta",
+          "target": 0
+        },
+        {
+          "id": 500,
+          "text": "Talk to Delta",
+          "target": 0
+        },
+        {
+          "id": 600,
+          "text": "Raise the Lander",
+          "target": 11
+        },
+        {
+          "id": 700,
+          "text": "Speak with Delta",
+          "target": 0
+        },
+        {
+          "id": 1000,
+          "text": "Talk with Delta to continue",
+          "target": 0
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -557,6 +713,38 @@
         400,
         500,
         1000
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Travel to Roxane",
+          "target": 8
+        },
+        {
+          "id": 200,
+          "text": "Talk to Roxane",
+          "target": 8
+        },
+        {
+          "id": 300,
+          "text": "Download the WIN.slate file on Roxane's Computer",
+          "target": 13
+        },
+        {
+          "id": 400,
+          "text": "Show the WIN.slate file to Roxane",
+          "target": 8
+        },
+        {
+          "id": 500,
+          "text": "Speak with Delta",
+          "target": 0
+        },
+        {
+          "id": 1000,
+          "text": "Pick up Delta",
+          "target": 0
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -626,6 +814,53 @@
         600,
         700,
         1000
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Travel to the Coordinates",
+          "target": 38
+        },
+        {
+          "id": 200,
+          "text": "Talk to the Homesteaders",
+          "target": 14
+        },
+        {
+          "id": 300,
+          "text": "Kill the Homesteaders",
+          "target": 14
+        },
+        {
+          "id": 400,
+          "text": "Confront Delta",
+          "target": 0
+        },
+        {
+          "id": 450,
+          "text": "Talk to Delta",
+          "target": 0
+        },
+        {
+          "id": 500,
+          "text": "Find a Way to Make the Man's Corpse Speak Again",
+          "target": 14
+        },
+        {
+          "id": 600,
+          "text": "(Optional) Bring Delta the Audio Log",
+          "target": 0
+        },
+        {
+          "id": 700,
+          "text": "Speak with Delta",
+          "target": 0
+        },
+        {
+          "id": 1000,
+          "text": "Pick up Delta",
+          "target": 0
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -699,6 +934,43 @@
         400,
         500,
         600
+      ],
+      "steps": [
+        {
+          "id": 50,
+          "text": "Talk to Roxane about Delta",
+          "target": 2
+        },
+        {
+          "id": 100,
+          "text": "Read the \"Final Challenge\" Data Slate",
+          "target": 9
+        },
+        {
+          "id": 250,
+          "text": "Find Delta",
+          "target": 69
+        },
+        {
+          "id": 300,
+          "text": "Talk to Delta",
+          "target": 0
+        },
+        {
+          "id": 400,
+          "text": "Defeat Delta",
+          "target": 0
+        },
+        {
+          "id": 500,
+          "text": "Confront Delta",
+          "target": 0
+        },
+        {
+          "id": 600,
+          "text": "Speak with Delta",
+          "target": 0
+        }
       ],
       "complete": {
         "type": "anyOf",
@@ -860,6 +1132,122 @@
         1550,
         1600
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Use Cruise Mode to reach the Search Area near Nirvana IV",
+          "target": 15
+        },
+        {
+          "id": 150,
+          "text": "Explore the storms for signs of the missing starliner",
+          "target": 15
+        },
+        {
+          "id": 200,
+          "text": "Dock with and board the damaged starliner",
+          "target": 5
+        },
+        {
+          "id": 300,
+          "text": "Restore power to the engineering deck",
+          "target": 50
+        },
+        {
+          "id": 310,
+          "text": "Insert a power cell into the receptacle",
+          "target": 0
+        },
+        {
+          "id": 350,
+          "text": "Search the ship for survivors",
+          "target": 51
+        },
+        {
+          "id": 400,
+          "text": "Push through the Terran forces",
+          "target": 8
+        },
+        {
+          "id": 500,
+          "text": "Investigate the rest of the ship",
+          "target": 77
+        },
+        {
+          "id": 510,
+          "text": "Obtain a VIP card from the suites area",
+          "target": 34
+        },
+        {
+          "id": 550,
+          "text": "(Optional) Check the \"Suites\" security logs for information",
+          "target": 73
+        },
+        {
+          "id": 600,
+          "text": "Interact with the scanner",
+          "target": 10
+        },
+        {
+          "id": 700,
+          "text": "Take the datachip",
+          "target": 13
+        },
+        {
+          "id": 800,
+          "text": "Place the chip inside a Terran frame",
+          "target": 63
+        },
+        {
+          "id": 900,
+          "text": "Speak to \"Delta\"",
+          "target": 2
+        },
+        {
+          "id": 1000,
+          "text": "Return to your ship",
+          "target": 128
+        },
+        {
+          "id": 1050,
+          "text": "Defeat the Terran soldiers"
+        },
+        {
+          "id": 1100,
+          "text": "Speak to Agent Yemoja",
+          "target": 3
+        },
+        {
+          "id": 1200,
+          "text": "Intercept the Terran assault unit using Cruise Mode",
+          "target": 58
+        },
+        {
+          "id": 1300,
+          "text": "Repel the Terran incursion",
+          "target": 58
+        },
+        {
+          "id": 1400,
+          "text": "Speak to Delta",
+          "target": 2
+        },
+        {
+          "id": 1500,
+          "text": "Link Delta to the Terran control panel",
+          "target": 21
+        },
+        {
+          "id": 1550,
+          "text": "Fend off the attacking Terrans",
+          "target": 22
+        },
+        {
+          "id": 1600,
+          "text": "Speak to Delta",
+          "target": 2
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1700
@@ -941,6 +1329,62 @@
         125,
         200,
         800
+      ],
+      "steps": [
+        {
+          "id": 95,
+          "text": "Obtain a Ship with a 28LY Grav Jump Range",
+          "target": 67
+        },
+        {
+          "id": 96,
+          "text": "Travel to the Algorab system",
+          "target": 56
+        },
+        {
+          "id": 97,
+          "text": "Travel to Anchorpoint with Cruise Mode",
+          "target": 11
+        },
+        {
+          "id": 100,
+          "text": "Tell Valeria the Code Phrase",
+          "target": 11
+        },
+        {
+          "id": 104,
+          "text": "Follow Valeria",
+          "target": 11
+        },
+        {
+          "id": 106,
+          "text": "Continue Down the Hall",
+          "target": 5
+        },
+        {
+          "id": 110,
+          "text": "Listen to the Strangers"
+        },
+        {
+          "id": 120,
+          "text": "Speak with the Strangers",
+          "target": 3
+        },
+        {
+          "id": 125,
+          "text": "Finish Speaking with VOID",
+          "target": 1
+        },
+        {
+          "id": 200,
+          "text": "Acquire Terran Black Boxes [#/#]",
+          "target": 23
+        },
+        {
+          "id": 800,
+          "text": "Give Delta the Terran Black Boxes",
+          "target": 0
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -1079,6 +1523,114 @@
         1150,
         1200
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Go to the Factory",
+          "target": 91
+        },
+        {
+          "id": 150,
+          "text": "Dock at Machina Forge Prime",
+          "target": 91
+        },
+        {
+          "id": 400,
+          "text": "Locate Roxane",
+          "target": 52
+        },
+        {
+          "id": 550,
+          "text": "Find a Way Through the Facility",
+          "target": 72
+        },
+        {
+          "id": 583,
+          "text": "Wait for Roxane",
+          "target": 0
+        },
+        {
+          "id": 597,
+          "text": "Wait for Roxane",
+          "target": 0
+        },
+        {
+          "id": 600,
+          "text": "Listen to Roxane"
+        },
+        {
+          "id": 625,
+          "text": "Locate X-Tech for Roxane",
+          "target": 60
+        },
+        {
+          "id": 640,
+          "text": "Bring Roxane X-Tech",
+          "target": 0
+        },
+        {
+          "id": 650,
+          "text": "Wait for Roxane"
+        },
+        {
+          "id": 690,
+          "text": "Wait for Roxane to Enter the Control Room",
+          "target": 0
+        },
+        {
+          "id": 700,
+          "text": "Go to the Control Room",
+          "target": 20
+        },
+        {
+          "id": 750,
+          "text": "Head Outside of the Control Room",
+          "target": 43
+        },
+        {
+          "id": 800,
+          "text": "Defend Roxane",
+          "target": 0
+        },
+        {
+          "id": 900,
+          "text": "Speak with Roxane",
+          "target": 0
+        },
+        {
+          "id": 950,
+          "text": "Escape the Factory",
+          "target": 22
+        },
+        {
+          "id": 955,
+          "text": "Listen to Roxane and Delta"
+        },
+        {
+          "id": 960,
+          "text": "Talk with Roxane",
+          "target": 0
+        },
+        {
+          "id": 1000,
+          "text": "Return to VOID",
+          "target": 54
+        },
+        {
+          "id": 1100,
+          "text": "Listen to the Meeting"
+        },
+        {
+          "id": 1150,
+          "text": "Speak with Radha",
+          "target": 9
+        },
+        {
+          "id": 1200,
+          "text": "Speak with Roxane",
+          "target": 0
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 9999
@@ -1190,6 +1742,107 @@
         1550,
         1600
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Acquire Terran Black Boxes [#/#]",
+          "target": 134
+        },
+        {
+          "id": 400,
+          "text": "Give Roxane the Unifier Coordinates",
+          "target": 81
+        },
+        {
+          "id": 410,
+          "text": "Speak with the VOID Council",
+          "target": 82
+        },
+        {
+          "id": 430,
+          "text": "[OPTIONAL] Talk with Roxane",
+          "target": 81
+        },
+        {
+          "id": 500,
+          "text": "Rendezvous with VOID forces at the Unifier",
+          "target": 37
+        },
+        {
+          "id": 600,
+          "text": "Destroy the Terran Shield Amplifiers",
+          "target": 31
+        },
+        {
+          "id": 660,
+          "text": "Immobilize the Unifier",
+          "target": 39
+        },
+        {
+          "id": 700,
+          "text": "Wait for Delta to Hijack the Unifier's Docking Permissions"
+        },
+        {
+          "id": 800,
+          "text": "Infiltrate the Unifier",
+          "target": 39
+        },
+        {
+          "id": 900,
+          "text": "Shutdown the Unifier's Weapon Systems",
+          "target": 48
+        },
+        {
+          "id": 1000,
+          "text": "Destroy the Unifier's Internal Power Supply",
+          "target": 49
+        },
+        {
+          "id": 1010,
+          "text": "Clear the Internal Power Chamber",
+          "target": 50
+        },
+        {
+          "id": 1020,
+          "text": "Secure an Admin Key from the Terran Devastators",
+          "target": 89
+        },
+        {
+          "id": 1100,
+          "text": "Gain access to the Unifier's Bridge",
+          "target": 38
+        },
+        {
+          "id": 1200,
+          "text": "Eliminate All Unifier Bridge staff",
+          "target": 38
+        },
+        {
+          "id": 1300,
+          "text": "Overload the Unifier's Grav Drive",
+          "target": 56
+        },
+        {
+          "id": 1400,
+          "text": "Defend Delta",
+          "target": 75
+        },
+        {
+          "id": 1500,
+          "text": "Escape the Unifier",
+          "target": 150
+        },
+        {
+          "id": 1550,
+          "text": "Get to a Safe Distance from the Unifier",
+          "target": 91
+        },
+        {
+          "id": 1600,
+          "text": "Return to the VOID Council",
+          "target": 83
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1700
@@ -1247,6 +1900,18 @@
         500,
         600
       ],
+      "steps": [
+        {
+          "id": 500,
+          "text": "Listen to the SSNN Broadcast",
+          "target": 28
+        },
+        {
+          "id": 600,
+          "text": "Join the search party orbiting Nirvana I (Recommend Level 50+)",
+          "target": 88
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1000
@@ -1287,6 +1952,28 @@
         2000,
         2100,
         9000
+      ],
+      "steps": [
+        {
+          "id": 1000,
+          "text": "Travel to Ternion III",
+          "target": 5
+        },
+        {
+          "id": 2000,
+          "text": "Build a powered X-Tech Extractor",
+          "target": 6
+        },
+        {
+          "id": 2100,
+          "text": "Build powered turrets",
+          "target": 6
+        },
+        {
+          "id": 9000,
+          "text": "Return to Radha Dhawan at Anchorpoint",
+          "target": 1
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -1330,6 +2017,28 @@
         2100,
         9000
       ],
+      "steps": [
+        {
+          "id": 1000,
+          "text": "Travel to Nemeria IV-a",
+          "target": 6
+        },
+        {
+          "id": 2000,
+          "text": "Build a powered X-Tech Extractor",
+          "target": 7
+        },
+        {
+          "id": 2100,
+          "text": "Build powered turrets",
+          "target": 7
+        },
+        {
+          "id": 9000,
+          "text": "Return to the target at Anchorpoint",
+          "target": 1
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 10000
@@ -1370,6 +2079,28 @@
         2000,
         2100,
         9000
+      ],
+      "steps": [
+        {
+          "id": 1000,
+          "text": "Travel to Strix I",
+          "target": 4
+        },
+        {
+          "id": 2000,
+          "text": "Build a powered X-Tech Extractor",
+          "target": 5
+        },
+        {
+          "id": 2100,
+          "text": "Build powered turrets",
+          "target": 5
+        },
+        {
+          "id": 9000,
+          "text": "Return to Tracy Warren at Anchorpoint",
+          "target": 1
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -1469,6 +2200,72 @@
         1300,
         1400
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Investigate the signal coming from Niira",
+          "target": 0
+        },
+        {
+          "id": 200,
+          "text": "Confront the strange robot",
+          "target": 0
+        },
+        {
+          "id": 300,
+          "text": "Eliminate the Terran patrol",
+          "target": 5
+        },
+        {
+          "id": 400,
+          "text": "Defeat the patrol leader"
+        },
+        {
+          "id": 500,
+          "text": "Follow BUCK-E",
+          "target": 0
+        },
+        {
+          "id": 550,
+          "text": "Talk to BUCK-E",
+          "target": 0
+        },
+        {
+          "id": 600,
+          "text": "Plant the explosive",
+          "target": 14
+        },
+        {
+          "id": 700,
+          "text": "Return to BUCK-E",
+          "target": 0
+        },
+        {
+          "id": 800,
+          "text": "Talk to BUCK-E",
+          "target": 0
+        },
+        {
+          "id": 900,
+          "text": "Follow BUCK-E",
+          "target": 0
+        },
+        {
+          "id": 1200,
+          "text": "Investigate the noise outside",
+          "target": 0
+        },
+        {
+          "id": 1300,
+          "text": "Fight off the Terran Army",
+          "target": 22
+        },
+        {
+          "id": 1400,
+          "text": "Check On BUCK-E",
+          "target": 0
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 2000
@@ -1536,6 +2333,68 @@
         1000,
         1100
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Speak to Agent Yemoja",
+          "target": 3
+        },
+        {
+          "id": 200,
+          "text": "Meet with Agent Yemoja's contact outside of MAST",
+          "target": 4
+        },
+        {
+          "id": 300,
+          "text": "Take the dropped data slate",
+          "target": 12
+        },
+        {
+          "id": 350,
+          "text": "Read Voss's Slate",
+          "target": 12
+        },
+        {
+          "id": 400,
+          "text": "Infiltrate the Terran relay station",
+          "target": 20
+        },
+        {
+          "id": 450,
+          "text": "Flip the power switches to power the station's systems",
+          "target": 26
+        },
+        {
+          "id": 500,
+          "text": "Insert Voss's Slate into the Terran relay system",
+          "target": 26
+        },
+        {
+          "id": 600,
+          "text": "Survive the Terran ambush",
+          "target": 24
+        },
+        {
+          "id": 800,
+          "text": "Retrieve Voss's Slate",
+          "target": 26
+        },
+        {
+          "id": 900,
+          "text": "Deliver data slate to Agent Yemoja",
+          "target": 3
+        },
+        {
+          "id": 1000,
+          "text": "Confront Percy Kanu with Agent Yemoja",
+          "target": 3
+        },
+        {
+          "id": 1100,
+          "text": "Speak to Agent Yemoja",
+          "target": 3
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1200
@@ -1572,6 +2431,18 @@
       "objectives": [
         100,
         200
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Read the slate",
+          "target": 2
+        },
+        {
+          "id": 200,
+          "text": "Deliver the slate to Connor in Gagarin Landing",
+          "target": 1
+        }
       ],
       "complete": {
         "type": "questStage",

@@ -15,6 +15,7 @@ import { loadLocations, resolvePlace, type LocationInfo, type ResolvedPlace } fr
 
 interface DumpAlias {
   kind: "ref" | "location";
+  id: number;
   name: string;
   forcedRef?: string;
   uniqueActor?: string;
@@ -31,6 +32,7 @@ interface DumpQuest {
   objectives: number;
   objectiveIds: number[];
   objectiveText: string;
+  objectiveList?: Array<{ id: number; text: string; targets: number[] }>;
   /** Set for small errands ("Misc Pointer" activities). */
   errand?: boolean;
   stages: number[];
@@ -225,6 +227,36 @@ for (const plugin of plugins) {
   });
 }
 
+// ---------------------------------------------------------------- objective text
+
+// Objective text as the mission log would show it. <Alias=…> placeholders get the NPC or
+// location name when the alias is fixed in the game data; aliases filled at runtime
+// (random planets, bounty targets) get a generic word, since Papyrus can't read names.
+// Counters such as "(<Global=…>/3)" are dropped.
+function aliasWord(alias: DumpAlias | undefined, name: string): string {
+  if (alias?.uniqueActor && actorNames.has(alias.uniqueActor)) return actorNames.get(alias.uniqueActor)!;
+  if (alias?.forcedLocation && locations.get(alias.forcedLocation)?.name) return locations.get(alias.forcedLocation)!.name;
+  if (/planet|moon/i.test(name)) return "the planet";
+  if (/system/i.test(name)) return "the system";
+  if (alias?.kind === "location" || /loc(ation)?/i.test(name)) return "the location";
+  if (/ship/i.test(name)) return "the ship";
+  return "the target";
+}
+function objectiveText(quest: DumpQuest, text: string): string {
+  return text
+    .replace(/\s*\([^()]*<Global=[^>]*>[^()]*\)/g, "")
+    .replace(/<Global=[^>]*>/g, "#")
+    .replace(/<Alias(?:\.[A-Za-z]+)?=([^>]*)>/g, (_, name: string) => aliasWord(quest.aliases.find((a) => a.name === name), name))
+    .replace(/\s+/g, " ")
+    .trim();
+}
+function stepsOf(quest: DumpQuest) {
+  return (quest.objectiveList ?? [])
+    .filter((o) => o.text)
+    .sort((a, b) => a.id - b.id)
+    .map((o) => ({ id: o.id, text: objectiveText(quest, o.text), ...(o.targets.length ? { target: o.targets[0] } : {}) }));
+}
+
 // ---------------------------------------------------------------- start places
 
 // Hubs by normalized name, for matching folder paths and editor IDs.
@@ -397,6 +429,7 @@ for (const [owner, quests] of byOwner) {
       },
       stages: [...new Set(quest.stages)].sort((a, b) => a - b),
       objectives: [...quest.objectiveIds].sort((a, b) => a - b),
+      steps: stepsOf(quest),
       complete: stageCondition(quest.completeStages) ?? { type: "questCompleted" },
       fail: stageCondition(quest.failStages) ?? null,
       ...(choicesOf.has(quest.editorId) ? { choices: choicesOf.get(quest.editorId) } : {}),

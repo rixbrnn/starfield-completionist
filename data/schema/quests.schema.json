@@ -254,6 +254,20 @@
           },
           "description": "Objective indices; a quest is in progress while one of them is displayed and not completed."
         },
+        "steps": {
+          "type": "array",
+          "description": "Objectives as the mission log shows them, for the menu's expanded quest rows.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "text"],
+            "properties": {
+              "id": { "type": "integer", "minimum": 0, "maximum": 65535, "description": "Objective index." },
+              "text": { "type": "string", "description": "Display text, placeholders filled in." },
+              "target": { "type": "integer", "minimum": 0, "description": "Alias id of the objective's map target (for Show on map)." }
+            }
+          }
+        },
         "complete": {
           "$ref": "#/$defs/condition"
         },

@@ -92,6 +92,23 @@
         10,
         15
       ],
+      "steps": [
+        {
+          "id": 5,
+          "text": "Talk to Chan Huang",
+          "target": 14
+        },
+        {
+          "id": 10,
+          "text": "Defeat the Spacer Leader",
+          "target": 3
+        },
+        {
+          "id": 15,
+          "text": "Talk to Chan Huang",
+          "target": 14
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 200
@@ -128,6 +145,28 @@
         30,
         40
       ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Travel anywhere in the the system system",
+          "target": 15
+        },
+        {
+          "id": 20,
+          "text": "Travel to the the target near the planet",
+          "target": 3
+        },
+        {
+          "id": 30,
+          "text": "Retrieve the Prototype Robot Parts from the cargo ship",
+          "target": 17
+        },
+        {
+          "id": 40,
+          "text": "Deliver the Prototype Robot Parts to Maddie Wing",
+          "target": 32
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 100
@@ -163,6 +202,23 @@
         15,
         20
       ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Rescue Miles Cutler",
+          "target": 3
+        },
+        {
+          "id": 15,
+          "text": "Talk to Miles Cutler",
+          "target": 3
+        },
+        {
+          "id": 20,
+          "text": "Talk to Cutty",
+          "target": 5
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1000
@@ -191,6 +247,18 @@
         10,
         20
       ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Retrieve the toxic compounds",
+          "target": 8
+        },
+        {
+          "id": 20,
+          "text": "Talk to Killian Brice",
+          "target": 11
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1000
@@ -218,6 +286,24 @@
         200,
         300,
         400
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Locate the derelict ship"
+        },
+        {
+          "id": 200,
+          "text": "Board the derelict ship"
+        },
+        {
+          "id": 300,
+          "text": "Find a functioning power cell"
+        },
+        {
+          "id": 400,
+          "text": "Deliver power cell to Jara Kleel"
+        }
       ],
       "complete": {
         "type": "questCompleted"
@@ -533,6 +619,259 @@
         2990,
         4050
       ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Investigate the Shinar Outpost",
+          "target": 3
+        },
+        {
+          "id": 20,
+          "text": "Follow Caruso's last known coordinates",
+          "target": 8
+        },
+        {
+          "id": 30,
+          "text": "(Optional) Search Shinar for evidence of Caruso's crimes",
+          "target": 21
+        },
+        {
+          "id": 110,
+          "text": "Find Caruso",
+          "target": 6
+        },
+        {
+          "id": 130,
+          "text": "Follow Caruso",
+          "target": 6
+        },
+        {
+          "id": 150,
+          "text": "Kill Caruso",
+          "target": 6
+        },
+        {
+          "id": 160,
+          "text": "Exit the Tent",
+          "target": 12
+        },
+        {
+          "id": 170,
+          "text": "(Optional) Investigate Caruso's body",
+          "target": 20
+        },
+        {
+          "id": 250,
+          "text": "Talk with Caruso about the Outpost's needs",
+          "target": 6
+        },
+        {
+          "id": 300,
+          "text": "Talk to Zena",
+          "target": 12
+        },
+        {
+          "id": 1000,
+          "text": "Talk to Ivica about the Model A",
+          "target": 23
+        },
+        {
+          "id": 1100,
+          "text": "Power the Robot",
+          "target": 34
+        },
+        {
+          "id": 1110,
+          "text": "(Optional) Craft or steal a power cell",
+          "target": 110
+        },
+        {
+          "id": 1120,
+          "text": "(Optional) Steal or craft a power cell",
+          "target": 110
+        },
+        {
+          "id": 1140,
+          "text": "Loot the utility robot",
+          "target": 31
+        },
+        {
+          "id": 1145,
+          "text": "Deliver the parts to Ivica",
+          "target": 23
+        },
+        {
+          "id": 1146,
+          "text": "(OPTIONAL) Use the Magnet to Permanently Disable the Robot",
+          "target": 30
+        },
+        {
+          "id": 1150,
+          "text": "Talk to Caruso",
+          "target": 6
+        },
+        {
+          "id": 2000,
+          "text": "Talk to Yeats",
+          "target": 25
+        },
+        {
+          "id": 2300,
+          "text": "Question the guard about the stolen supplies",
+          "target": 8
+        },
+        {
+          "id": 2310,
+          "text": "Talk to Caspian",
+          "target": 5
+        },
+        {
+          "id": 2330,
+          "text": "Check the dumpster for evidence",
+          "target": 49
+        },
+        {
+          "id": 2340,
+          "text": "Bring the evidence to Caruso",
+          "target": 6
+        },
+        {
+          "id": 2345,
+          "text": "(Optional) Interrogate potential suspects"
+        },
+        {
+          "id": 2360,
+          "text": "Talk to Grace Kim",
+          "target": 22
+        },
+        {
+          "id": 2370,
+          "text": "Find additional evidence",
+          "target": 50
+        },
+        {
+          "id": 2380,
+          "text": "Confront Grace Kim with the Computer Evidence",
+          "target": 22
+        },
+        {
+          "id": 2400,
+          "text": "Locate the stolen supplies"
+        },
+        {
+          "id": 2415,
+          "text": "Clear Yeats from any wrongdoing",
+          "target": 8
+        },
+        {
+          "id": 2445,
+          "text": "Talk to Yeats",
+          "target": 25
+        },
+        {
+          "id": 2500,
+          "text": "Find Caruso",
+          "target": 6
+        },
+        {
+          "id": 2510,
+          "text": "Talk to Zena",
+          "target": 12
+        },
+        {
+          "id": 2520,
+          "text": "Sleep and Await the Trial",
+          "target": 64
+        },
+        {
+          "id": 2530,
+          "text": "Talk to Bernhard",
+          "target": 63
+        },
+        {
+          "id": 2535,
+          "text": "(Optional) Talk to the residents about the vote",
+          "target": 25
+        },
+        {
+          "id": 2540,
+          "text": "Return to the New Babylon Outpost",
+          "target": 8
+        },
+        {
+          "id": 2550,
+          "text": "Talk to Caruso before the vote",
+          "target": 6
+        },
+        {
+          "id": 2560,
+          "text": "Go to the Community Center",
+          "target": 12
+        },
+        {
+          "id": 2600,
+          "text": "Talk to Zena",
+          "target": 12
+        },
+        {
+          "id": 2700,
+          "text": "Take a seat",
+          "target": 92
+        },
+        {
+          "id": 2720,
+          "text": "Cast a Vote",
+          "target": 84
+        },
+        {
+          "id": 2730,
+          "text": "(Optional) Rig the Vote"
+        },
+        {
+          "id": 2750,
+          "text": "Wait for the results"
+        },
+        {
+          "id": 2930,
+          "text": "Talk to Zena",
+          "target": 12
+        },
+        {
+          "id": 2931,
+          "text": "Investigate the gunshot",
+          "target": 63
+        },
+        {
+          "id": 2940,
+          "text": "Talk to Zena",
+          "target": 12
+        },
+        {
+          "id": 2950,
+          "text": "Talk to Hal Caruso",
+          "target": 6
+        },
+        {
+          "id": 2960,
+          "text": "Escort Caruso to Shinar",
+          "target": 107
+        },
+        {
+          "id": 2980,
+          "text": "Execute Hal Caruso",
+          "target": 6
+        },
+        {
+          "id": 2990,
+          "text": "Leave Caruso to die",
+          "target": 6
+        },
+        {
+          "id": 4050,
+          "text": "Speak to Bernhard",
+          "target": 63
+        }
+      ],
       "complete": {
         "type": "anyOf",
         "conditions": [
@@ -653,6 +992,64 @@
         475,
         480,
         950
+      ],
+      "steps": [
+        {
+          "id": 150,
+          "text": "Talk with the Noisy Patrons",
+          "target": 4
+        },
+        {
+          "id": 165,
+          "text": "Join Opal and Sawyer For Drinks",
+          "target": 7
+        },
+        {
+          "id": 170,
+          "text": "Drink with Sawyer and Opal",
+          "target": 18
+        },
+        {
+          "id": 180,
+          "text": "Drink with Sawyer and Opal",
+          "target": 19
+        },
+        {
+          "id": 190,
+          "text": "Drink with Sawyer and Opal",
+          "target": 20
+        },
+        {
+          "id": 200,
+          "text": "Speak with Sawyer and Opal",
+          "target": 4
+        },
+        {
+          "id": 250,
+          "text": "Get Back to Anchorpoint",
+          "target": 42
+        },
+        {
+          "id": 252,
+          "text": "Mingle with Party Guests"
+        },
+        {
+          "id": 455,
+          "text": "Listen to Opal"
+        },
+        {
+          "id": 475,
+          "text": "Listen to Wren and Sadie"
+        },
+        {
+          "id": 480,
+          "text": "Listen to the confrontation"
+        },
+        {
+          "id": 950,
+          "text": "Talk with Sawyer",
+          "target": 3
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -800,6 +1197,88 @@
         3100,
         3200
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Yura",
+          "target": 0
+        },
+        {
+          "id": 200,
+          "text": "Travel to Atka's house on Muphrid IV",
+          "target": 70
+        },
+        {
+          "id": 300,
+          "text": "Read the care instructions",
+          "target": 10
+        },
+        {
+          "id": 400,
+          "text": "Water the plants",
+          "target": 24
+        },
+        {
+          "id": 500,
+          "text": "Feed Milli",
+          "target": 9
+        },
+        {
+          "id": 600,
+          "text": "Read the ransom note",
+          "target": 17
+        },
+        {
+          "id": 1000,
+          "text": "Find the old maintenance garage",
+          "target": 14
+        },
+        {
+          "id": 1100,
+          "text": "Gain access to the garage",
+          "target": 14
+        },
+        {
+          "id": 1200,
+          "text": "Talk to Roman",
+          "target": 1
+        },
+        {
+          "id": 1300,
+          "text": "Get Milli",
+          "target": 2
+        },
+        {
+          "id": 2000,
+          "text": "Take out the captors",
+          "target": 1
+        },
+        {
+          "id": 2100,
+          "text": "Find the key to Milli's enclosure",
+          "target": 15
+        },
+        {
+          "id": 2200,
+          "text": "Get Milli",
+          "target": 2
+        },
+        {
+          "id": 3000,
+          "text": "Return to Atka's house",
+          "target": 70
+        },
+        {
+          "id": 3100,
+          "text": "Wait for the conversation to end",
+          "target": 70
+        },
+        {
+          "id": 3200,
+          "text": "Talk to Yura",
+          "target": 0
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 10000
@@ -829,6 +1308,13 @@
       ],
       "objectives": [
         100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Yura",
+          "target": 0
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -873,6 +1359,28 @@
         401,
         500,
         501
+      ],
+      "steps": [
+        {
+          "id": 400,
+          "text": "Get the the target from the location",
+          "target": 100
+        },
+        {
+          "id": 401,
+          "text": "Get the the target from the location",
+          "target": 101
+        },
+        {
+          "id": 500,
+          "text": "Deliver Contraband to the location",
+          "target": 102
+        },
+        {
+          "id": 501,
+          "text": "Return to the Smuggler",
+          "target": 95
+        }
       ],
       "complete": {
         "type": "anyOf",
@@ -924,6 +1432,28 @@
         225,
         250
       ],
+      "steps": [
+        {
+          "id": 200,
+          "text": "Kill the target at the location",
+          "target": 5
+        },
+        {
+          "id": 201,
+          "text": "Kill the target at the location",
+          "target": 11
+        },
+        {
+          "id": 225,
+          "text": "Gather proof of death",
+          "target": 10
+        },
+        {
+          "id": 250,
+          "text": "Return to the Arbitrator",
+          "target": 0
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1000
@@ -970,6 +1500,31 @@
         250,
         300
       ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Destroy the spacers"
+        },
+        {
+          "id": 175,
+          "text": "Speak with the captain",
+          "target": 112
+        },
+        {
+          "id": 200,
+          "text": "Kill the captain",
+          "target": 112
+        },
+        {
+          "id": 250,
+          "text": "Return to your ship"
+        },
+        {
+          "id": 300,
+          "text": "Deliver passengers to the location",
+          "target": 111
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 500
@@ -1000,6 +1555,18 @@
         10,
         20
       ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Dock with the Redcap Asteroid mine",
+          "target": 98
+        },
+        {
+          "id": 20,
+          "text": "Explore the RedCap Mining Facility",
+          "target": 101
+        }
+      ],
       "complete": {
         "type": "questCompleted"
       },
@@ -1025,6 +1592,18 @@
       "objectives": [
         10,
         20
+      ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Dock with the Bodach Asteroid Mine",
+          "target": 9
+        },
+        {
+          "id": 20,
+          "text": "Explore the Bodach Mining Facility",
+          "target": 11
+        }
       ],
       "complete": {
         "type": "questCompleted"
@@ -1070,6 +1649,13 @@
       ],
       "objectives": [
         300
+      ],
+      "steps": [
+        {
+          "id": 300,
+          "text": "Bring the target to New Atlantis",
+          "target": 122
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -1126,6 +1712,13 @@
       ],
       "objectives": [
         300
+      ],
+      "steps": [
+        {
+          "id": 300,
+          "text": "Bring the target to Neon",
+          "target": 115
+        }
       ],
       "complete": {
         "type": "questCompleted"
@@ -1195,6 +1788,53 @@
         660,
         700
       ],
+      "steps": [
+        {
+          "id": 160,
+          "text": "Board the GalBank ship",
+          "target": 41
+        },
+        {
+          "id": 175,
+          "text": "(Optional) Find Cockpit Key",
+          "target": 51
+        },
+        {
+          "id": 200,
+          "text": "Reach the Cockpit",
+          "target": 41
+        },
+        {
+          "id": 210,
+          "text": "Talk to the target",
+          "target": 42
+        },
+        {
+          "id": 220,
+          "text": "Bring the target to New Atlantis",
+          "target": 54
+        },
+        {
+          "id": 225,
+          "text": "Talk to the target",
+          "target": 43
+        },
+        {
+          "id": 230,
+          "text": "Bring the target and the target to New Atlantis",
+          "target": 54
+        },
+        {
+          "id": 660,
+          "text": "(Optional) Say goodbye to the target",
+          "target": 42
+        },
+        {
+          "id": 700,
+          "text": "(Optional) Say goodbye to the target and the target",
+          "target": 42
+        }
+      ],
       "complete": {
         "type": "questCompleted"
       },
@@ -1229,6 +1869,18 @@
         100,
         300
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Find the Emergency Power Cell",
+          "target": 45
+        },
+        {
+          "id": 300,
+          "text": "Deliver The Emergency Power Cell",
+          "target": 38
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 300
@@ -1262,6 +1914,16 @@
       "objectives": [
         100,
         200
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Deliver Barrow Jackson to New Atlantis"
+        },
+        {
+          "id": 200,
+          "text": "Deliver Barrow Jackson to Neon"
+        }
       ],
       "complete": {
         "type": "questCompleted"
@@ -1304,6 +1966,18 @@
       "objectives": [
         250,
         255
+      ],
+      "steps": [
+        {
+          "id": 250,
+          "text": "Eat the food",
+          "target": 102
+        },
+        {
+          "id": 255,
+          "text": "Decline the food",
+          "target": 98
+        }
       ],
       "complete": {
         "type": "questCompleted"
@@ -1362,6 +2036,28 @@
         140,
         200
       ],
+      "steps": [
+        {
+          "id": 125,
+          "text": "Help Sehoy",
+          "target": 0
+        },
+        {
+          "id": 130,
+          "text": "Locate Gabrielle",
+          "target": 3
+        },
+        {
+          "id": 140,
+          "text": "Locate Gabrielle",
+          "target": 2
+        },
+        {
+          "id": 200,
+          "text": "Tell Sehoy of Gabrielle's Fate",
+          "target": 0
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 999
@@ -1399,6 +2095,18 @@
       "objectives": [
         50,
         100
+      ],
+      "steps": [
+        {
+          "id": 50,
+          "text": "Read the slate",
+          "target": 2
+        },
+        {
+          "id": 100,
+          "text": "Build the Quantum Entanglement Device",
+          "target": 1
+        }
       ],
       "complete": {
         "type": "questStage",

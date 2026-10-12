@@ -44,12 +44,15 @@
     spoilers: readSetting("spoilers", false), // true = hide names of quests you haven't started
     sort: readSetting("sort", "default"), // see SORTS (checked below)
     focus: "list", // "side" (place / questline / category list), "list" (quests) or "cards" (nothing-tracked page)
-    row: 0, // selected quest row when focus is "list"
+    row: 0, // selected row (in shownItems) when focus is "list"
+    expanded: null, // id of the selected quest, shown expanded with its objectives
+    step: null, // objective index when an objective row is selected
     card: 0, // selected card when focus is "cards"
     input: "keyboard", // "gamepad" after a controller button, so prompts show controller buttons
   };
   if (!SORTS.some((s) => s.id === view.sort)) view.sort = "default";
-  let shownQuests = []; // quests in the detail list, in display order (for selection and actions)
+  let shownQuests = []; // quests in the detail list, in display order
+  let shownItems = []; // list rows in display order: { q } or, under the selected quest, { q, step, state }
   let shownCards = []; // systems on the nothing-tracked page
   let hereLayout = "city"; // Here tab: "city", "places" (planet or system) or "nowhere"
   let tracked = new Set(); // ids of quests the player is tracking (the game's "active" quests)
@@ -147,6 +150,14 @@
       if (wanted === false) showToast(active ? "Couldn't stop tracking " + q.name : "Stopped tracking: " + q.name);
       else showToast(active ? "Now tracking: " + q.name : "Couldn't track " + q.name + ". The game didn't accept it.");
     });
+    bridge.on("objectives", (event) => {
+      const [rawId, ...states] = (event && event.args) || [];
+      const q = questsById.get(String(rawId).toLowerCase());
+      if (!q || !q.steps) return;
+      objectiveStates.set(q.id, new Map(q.steps.slice(0, states.length).map((step, i) => [step[0], Number(states[i]) || 0])));
+      queueRender();
+    });
+    bridge.on("plotFailed", () => showToast("This objective has no place on the map right now."));
     bridge.state.on("inSpace", (value) => { inSpace = value === true; queueRender(); });
     bridge.state.on("survey", (value) => { survey = typeof value === "number" ? value : -1; queueRender(); });
     bridge.state.on("location", (ids) => { locationChain = Array.isArray(ids) ? ids : []; queueRender(); });
@@ -448,23 +459,54 @@
       children.push(controls);
     }
 
+    // The selected quest expands, like the game's mission log, into the objectives it shows.
     shownQuests = shown;
-    view.row = Math.min(view.row, Math.max(0, shown.length - 1));
+    let selectedQ = shown.find((q) => q.id === view.expanded);
+    if (!selectedQ) {
+      selectedQ = shown[Math.min(view.row, Math.max(0, shown.length - 1))];
+      view.expanded = selectedQ ? selectedQ.id : null;
+      view.step = null;
+    }
+    const items = [];
+    const groupAt = new Map(); // item index -> group header
+    shown.forEach((q, index) => {
+      if (groupStarts.has(index)) groupAt.set(items.length, groupStarts.get(index));
+      items.push({ q });
+      if (q === selectedQ && view.focus === "list") items.push(...stepItems(q));
+    });
+    shownItems = items;
+    const at = items.findIndex((it) => it.q.id === view.expanded && (it.step ? it.step[0] : null) === view.step);
+    view.row = at >= 0 ? at : Math.max(0, items.findIndex((it) => it.q === selectedQ));
+    if (at < 0) view.step = null;
+
     const list = el("div", { class: "list" });
     if (shown.length === 0) list.append(el("div", { class: "empty", text: options.empty || "Nothing here for this filter." }));
-    shown.forEach((q, index) => {
-      const group = groupStarts.get(index);
+    items.forEach((item, index) => {
+      const group = groupAt.get(index);
       if (group) list.append(el("div", { class: "list-divider", text: group.label + " · " + group.quests.length }));
+      const selected = view.focus === "list" && index === view.row;
+      const events = { onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } };
+      if (item.step) {
+        const [, text, target] = item.step;
+        const optional = /^\(Optional\)\s*/i.exec(text);
+        list.append(el("div", { class: "row step" + (selected ? " selected" : "") + (item.state === 2 || item.state === 3 ? " finished" : ""), ...events },
+          statusIcon(item.state === 2 ? COMPLETED : item.state === 3 ? FAILED : NOT_STARTED, selected),
+          el("span", { class: "row-name" }, optional ? el("span", { class: "optional", text: "(Optional) " }) : null, optional ? text.slice(optional[0].length) : text),
+          el("span", { class: "row-meta", text: item.state === 1 && target >= 0 ? "ON MAP" : "" })));
+        return;
+      }
+      const q = item.q;
       const s = statusOf(q);
       const hide = view.spoilers && s === NOT_STARTED;
-      const selected = view.focus === "list" && index === view.row;
-      list.append(el("div", { class: "row" + (selected ? " selected" : "") + (isFinished(s) ? " finished" : "") + (notYetAvailable(q) ? " unavailable" : ""), onclick: () => selectRow(index), ondblclick: () => { selectRow(index); activate(); } },
+      const expandable = s === IN_PROGRESS && q.steps;
+      list.append(el("div", { class: "row" + (selected ? " selected" : "") + (isFinished(s) ? " finished" : "") + (notYetAvailable(q) ? " unavailable" : ""), ...events },
         statusIcon(s, selected),
         el("span", { class: "row-name" + (hide ? " hidden" : "") },
           hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name,
           tracked.has(q.id) ? el("span", { class: "tracked-badge", text: "TRACKED" }) : null),
         el("span", { class: "row-tag", text: tagFor(q) }),
-        el("span", { class: "row-meta", text: hide ? "" : rowMeta(q, s, options) })));
+        el("span", { class: "row-meta", text: hide ? "" : rowMeta(q, s, options) }),
+        el("span", { class: "row-caret", text: expandable ? (q === selectedQ && view.focus === "list" ? "▾" : "▸") : "" })));
     });
     children.push(list);
     document.getElementById("detail").replaceChildren(...children.filter(Boolean));
@@ -573,8 +615,45 @@
     render();
   }
 
-  const primaryAction = (q) => actionsFor(q).find((a) => a.id !== "override");
+  // Objective row: a course to where its target is now, and tracking for the quest it belongs to.
+  function itemActions(item) {
+    if (!item.step) return actionsFor(item.q);
+    const [id, , target] = item.step;
+    // Same buttons as quest rows: A tracks the quest, X shows this objective on the map.
+    const actions = actionsFor(item.q).filter((a) => a.id === "track" || a.id === "untrack");
+    if (item.state === 1 && target >= 0) actions.push({ id: "plot", label: "SHOW ON MAP", run: () => plotObjective(item.q, id, target) });
+    return actions;
+  }
+  const selectedItem = () => (view.focus === "list" ? shownItems[view.row] : undefined);
+  const primaryAction = (item) => itemActions(item).find((a) => a.id !== "override");
 
+  // ------------------------------------------------------------------ objectives (expanded quest rows)
+
+  const objectiveStates = new Map(); // quest id -> Map(objective index -> 0 hidden, 1 shown, 2 completed, 3 failed)
+  const objectivesAsked = new Map(); // quest id -> time of the last request
+
+  // Objectives of q that the mission log shows, once Papyrus has said which; asks again when stale.
+  function stepItems(q) {
+    if (statusOf(q) !== IN_PROGRESS || !q.steps) return [];
+    if (Date.now() - (objectivesAsked.get(q.id) || 0) > 2000) requestObjectives(q);
+    const states = objectiveStates.get(q.id);
+    if (!states) return [];
+    return q.steps.filter((step) => states.get(step[0]) > 0).map((step) => ({ q, step, state: states.get(step[0]) }));
+  }
+  function requestObjectives(q) {
+    objectivesAsked.set(q.id, Date.now());
+    const ids = q.steps.map((step) => step[0]).slice(0, 127);
+    if (bridge) {
+      bridge.send("objectives", q.id, ...ids);
+      return;
+    }
+    // Preview: the first objective done, the next two shown.
+    objectiveStates.set(q.id, new Map(ids.map((id, i) => [id, i === 0 ? 2 : i < 3 ? 1 : 0])));
+  }
+  function plotObjective(q, objective, alias) {
+    if (bridge) bridge.send("plotObjective", q.id, alias);
+    else console.log("[preview] plotObjective " + q.id + " objective " + objective + " alias " + alias);
+  }
 
   function send(action, q) {
     if (bridge) bridge.send(action, q.id);
@@ -586,7 +665,8 @@
   }
 
   function selectedQuest() {
-    return view.focus === "list" ? shownQuests[view.row] : undefined;
+    const item = selectedItem();
+    return item ? item.q : undefined;
   }
 
   function lockedReason(q) {
@@ -749,6 +829,7 @@
       .sort((a, b) => b.t.missing - a.t.missing)
       .slice(0, 6);
     shownQuests = DATA.quests.filter((q) => available(q) && statusOf(q) === IN_PROGRESS);
+    shownItems = shownQuests.map((q) => ({ q }));
     view.card = Math.min(view.card, Math.max(0, shownCards.length - 1));
     view.row = Math.min(view.row, Math.max(0, shownQuests.length - 1));
 
@@ -817,16 +898,17 @@
   function renderKeys() {
     const pad = view.input === "gamepad";
     const key = (k, label, end, run) => el("button", { class: end ? "end" : "", onclick: run }, el("kbd", { text: k }), label);
-    const q = selectedQuest();
+    const item = selectedItem();
+    const q = item && !item.step ? item.q : null; // manual override only on quest rows
     const onCard = view.focus === "cards" && shownCards.length > 0;
     const sideLoc = sideItemLocation(selectedSideItem());
-    const primary = view.focus === "side" ? "OPEN" : onCard ? "SET COURSE" : q ? (primaryAction(q) || {}).label : null;
-    const canPlot = view.focus === "side" ? !!sideLoc : !onCard && q && actionsFor(q).some((a) => a.id === "plot");
+    const primary = view.focus === "side" ? "OPEN" : onCard ? "SET COURSE" : item ? (primaryAction(item) || {}).label : null;
+    const canPlot = view.focus === "side" ? !!sideLoc : !onCard && item && itemActions(item).some((a) => a.id === "plot");
     const checklist = view.tab !== "log"; // the Log only lists found quests: no filter, nothing to hide
     const keys = [
       key(pad ? "LB / RB" : "Q / E", "SWITCH TAB", false, () => cycleTab(1)),
       primary ? key(pad ? "A" : "ENTER", primary, false, activate) : null,
-      canPlot ? key(pad ? "X" : "R", view.focus === "side" ? "SET COURSE" : "SHOW ON MAP", false, plotSelected) : null,
+      canPlot && primary !== "SHOW ON MAP" ? key(pad ? "X" : "R", view.focus === "side" ? "SET COURSE" : "SHOW ON MAP", false, plotSelected) : null,
       q ? key(pad ? "RS" : "M", overrideAction(q).label, false, overrideSelected) : null,
       checklist ? key(pad ? "Y" : "F", "FILTER", false, cycleFilter) : null,
       view.tab !== "here" || hereLayout !== "nowhere" ? key(pad ? "LS" : "T", "SORT: " + SORTS.find((s) => s.id === view.sort).label, false, cycleSort) : null,
@@ -842,6 +924,7 @@
     view.tab = id;
     view.focus = id === "here" || id === "log" ? "list" : "side";
     view.row = 0;
+    view.expanded = null;
     view.card = 0;
     render();
   }
@@ -849,11 +932,18 @@
     view.selected[view.tab] = key;
     view.focus = "side";
     view.row = 0;
+    view.expanded = null;
     render();
   }
+  // Selecting a quest row expands it; selecting one of its objectives keeps it expanded.
   function selectRow(index) {
     view.focus = "list";
     view.row = index;
+    const item = shownItems[index];
+    if (item) {
+      view.expanded = item.q.id;
+      view.step = item.step ? item.step[0] : null;
+    }
     render();
   }
   function setFilter(id) {
@@ -891,7 +981,7 @@
       return render();
     }
     if (view.focus === "list") {
-      if (shownQuests.length) selectRow(Math.min(shownQuests.length - 1, Math.max(0, view.row + delta)));
+      if (shownItems.length) selectRow(Math.min(shownItems.length - 1, Math.max(0, view.row + delta)));
       return;
     }
     const items = sideRows().filter((r) => r.kind === "item");
@@ -903,11 +993,11 @@
     if (view.tab === "here" && hereLayout === "nowhere") {
       // Left: the systems list; right: quests in progress.
       const target = column === "side" ? "cards" : "list";
-      if (target === "list" && !shownQuests.length) return;
+      if (target === "list" && !shownItems.length) return;
       view.focus = target;
       return render();
     }
-    if (column === "list" && !shownQuests.length) return;
+    if (column === "list" && !shownItems.length) return;
     if (column === "side" && !sideRows().some((r) => r.kind === "item")) return;
     view.focus = column;
     render();
@@ -917,13 +1007,13 @@
   function activate() {
     if (view.focus === "cards") return openCard(view.card);
     if (view.focus === "side") return focusColumn("list");
-    const q = selectedQuest();
-    const action = q && primaryAction(q);
+    const item = selectedItem();
+    const action = item && primaryAction(item);
     if (action) action.run();
   }
   function overrideSelected() {
-    const q = selectedQuest();
-    if (q) overrideAction(q).run();
+    const item = selectedItem();
+    if (item && !item.step) overrideAction(item.q).run();
   }
   function plotSelected() {
     if (view.focus === "cards") {
@@ -936,8 +1026,8 @@
       if (loc) plotLocation(loc);
       return;
     }
-    const q = selectedQuest();
-    const action = q && actionsFor(q).find((a) => a.id === "plot");
+    const item = selectedItem();
+    const action = item && itemActions(item).find((a) => a.id === "plot");
     if (action) action.run();
   }
 

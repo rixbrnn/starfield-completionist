@@ -88,6 +88,27 @@
         250,
         300
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Confront the target",
+          "target": 17
+        },
+        {
+          "id": 200,
+          "text": "Arrest the target",
+          "target": 17
+        },
+        {
+          "id": 250,
+          "text": "(Optional) Kill the target"
+        },
+        {
+          "id": 300,
+          "text": "Kill the target",
+          "target": 17
+        }
+      ],
       "complete": {
         "type": "anyOf",
         "conditions": [
@@ -164,6 +185,27 @@
         200,
         250,
         300
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Confront the target",
+          "target": 17
+        },
+        {
+          "id": 200,
+          "text": "Arrest the target",
+          "target": 17
+        },
+        {
+          "id": 250,
+          "text": "(Optional) Kill the target"
+        },
+        {
+          "id": 300,
+          "text": "Kill the target",
+          "target": 17
+        }
       ],
       "complete": {
         "type": "anyOf",
@@ -242,6 +284,27 @@
         250,
         300
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Confront the target",
+          "target": 17
+        },
+        {
+          "id": 200,
+          "text": "Arrest the target",
+          "target": 17
+        },
+        {
+          "id": 250,
+          "text": "(Optional) Kill the target"
+        },
+        {
+          "id": 300,
+          "text": "Kill the target",
+          "target": 17
+        }
+      ],
       "complete": {
         "type": "anyOf",
         "conditions": [
@@ -318,6 +381,27 @@
         200,
         250,
         300
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Confront the target",
+          "target": 17
+        },
+        {
+          "id": 200,
+          "text": "Arrest the target",
+          "target": 17
+        },
+        {
+          "id": 250,
+          "text": "(Optional) Kill the target"
+        },
+        {
+          "id": 300,
+          "text": "Kill the target",
+          "target": 17
+        }
       ],
       "complete": {
         "type": "anyOf",
@@ -396,6 +480,27 @@
         250,
         300
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Confront the target",
+          "target": 17
+        },
+        {
+          "id": 200,
+          "text": "Arrest the target",
+          "target": 17
+        },
+        {
+          "id": 250,
+          "text": "(Optional) Kill the target"
+        },
+        {
+          "id": 300,
+          "text": "Kill the target",
+          "target": 17
+        }
+      ],
       "complete": {
         "type": "anyOf",
         "conditions": [
@@ -466,6 +571,33 @@
         300,
         400,
         500
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Speak with the Trackers Alliance Agent",
+          "target": 7
+        },
+        {
+          "id": 200,
+          "text": "Go to the Trackers Alliance HQ",
+          "target": 8
+        },
+        {
+          "id": 300,
+          "text": "Speak with Agent No. 1",
+          "target": 8
+        },
+        {
+          "id": 400,
+          "text": "Accept the Bounty",
+          "target": 41
+        },
+        {
+          "id": 500,
+          "text": "Report Back to Agent No. 1",
+          "target": 8
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -611,6 +743,158 @@
         1640,
         1800,
         1900
+      ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Return to Roach",
+          "target": 5
+        },
+        {
+          "id": 20,
+          "text": "Return to Adrastos",
+          "target": 1
+        },
+        {
+          "id": 100,
+          "text": "Report back to Agent No. 1",
+          "target": 0
+        },
+        {
+          "id": 200,
+          "text": "Discuss the Plan with Roach",
+          "target": 5
+        },
+        {
+          "id": 300,
+          "text": "Use Scanner to find Adrastos On Akila City Streets",
+          "target": 1
+        },
+        {
+          "id": 360,
+          "text": "Disable Adrastos",
+          "target": 1
+        },
+        {
+          "id": 400,
+          "text": "Interrogate Adrastos",
+          "target": 1
+        },
+        {
+          "id": 500,
+          "text": "Speak with Roach",
+          "target": 5
+        },
+        {
+          "id": 600,
+          "text": "Board the Decoy Ship",
+          "target": 41
+        },
+        {
+          "id": 700,
+          "text": "Take the Decoy Ship to the Chop Shop",
+          "target": 15
+        },
+        {
+          "id": 800,
+          "text": "Find and Approach the Chop Shop",
+          "target": 15
+        },
+        {
+          "id": 810,
+          "text": "Answer the Hail",
+          "target": 15
+        },
+        {
+          "id": 850,
+          "text": "Dock with the Chop Shop",
+          "target": 15
+        },
+        {
+          "id": 900,
+          "text": "Enter the Chop Shop",
+          "target": 71
+        },
+        {
+          "id": 1000,
+          "text": "Find Hannibal",
+          "target": 82
+        },
+        {
+          "id": 1100,
+          "text": "Find Another Way Into the Loading Bay",
+          "target": 24
+        },
+        {
+          "id": 1150,
+          "text": "Find a Way to Fire the Missile Pod",
+          "target": 28
+        },
+        {
+          "id": 1200,
+          "text": "Find Information on Accessing the Sunsail Ship",
+          "target": 25
+        },
+        {
+          "id": 1300,
+          "text": "Find the Sunsail Ship Key",
+          "target": 31
+        },
+        {
+          "id": 1350,
+          "text": "Open the Living Quarters Doors",
+          "target": 29
+        },
+        {
+          "id": 1400,
+          "text": "Fire the Missile Pod",
+          "target": 57
+        },
+        {
+          "id": 1500,
+          "text": "Deal with Hannibal",
+          "target": 6
+        },
+        {
+          "id": 1610,
+          "text": "Take the Key",
+          "target": 36
+        },
+        {
+          "id": 1620,
+          "text": "(Optional)Take the Extreme Temperature Entry Spacesuit",
+          "target": 37
+        },
+        {
+          "id": 1621,
+          "text": "(Optional) Take the Extreme Temperature Entry Helmet",
+          "target": 64
+        },
+        {
+          "id": 1622,
+          "text": "(Optional) Take the Extreme Temperature Entry Backpack",
+          "target": 65
+        },
+        {
+          "id": 1630,
+          "text": "(Optional) Take the Shipbreaker Cutter",
+          "target": 38
+        },
+        {
+          "id": 1640,
+          "text": "(Optional) Take the Arc Might Plasma Cutter",
+          "target": 63
+        },
+        {
+          "id": 1800,
+          "text": "Claim the Junker Watchdog Ship",
+          "target": 12
+        },
+        {
+          "id": 1900,
+          "text": "Return to Agent No. 1",
+          "target": 0
+        }
       ],
       "complete": {
         "type": "questStage",

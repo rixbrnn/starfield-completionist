@@ -158,6 +158,42 @@
         50,
         60
       ],
+      "steps": [
+        {
+          "id": 20,
+          "text": "Go to Malik's Groat Farm",
+          "target": 7
+        },
+        {
+          "id": 30,
+          "text": "Investigate Malik's Groat Farm"
+        },
+        {
+          "id": 31,
+          "text": "(Optional) Check Malik's terminal",
+          "target": 14
+        },
+        {
+          "id": 38,
+          "text": "(Optional) Ask Malik if he has farmhands",
+          "target": 1
+        },
+        {
+          "id": 40,
+          "text": "Go to the Dubib Seaweed Farm",
+          "target": 2
+        },
+        {
+          "id": 50,
+          "text": "Confront Andrah",
+          "target": 2
+        },
+        {
+          "id": 60,
+          "text": "Return to Malik Vosh",
+          "target": 1
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1000
@@ -202,6 +238,29 @@
         30,
         40,
         50
+      ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Talk to Mila",
+          "target": 0
+        },
+        {
+          "id": 15,
+          "text": "Wait for the kids to hide"
+        },
+        {
+          "id": 30,
+          "text": "Find Ivali"
+        },
+        {
+          "id": 40,
+          "text": "Find Ilana"
+        },
+        {
+          "id": 50,
+          "text": "Find Mila"
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -263,6 +322,68 @@
         120,
         130
       ],
+      "steps": [
+        {
+          "id": 20,
+          "text": "Proceed to Deep Gorge Refinery",
+          "target": 14
+        },
+        {
+          "id": 30,
+          "text": "Search for signs of Quasim",
+          "target": 8
+        },
+        {
+          "id": 40,
+          "text": "Access the Research Site",
+          "target": 5
+        },
+        {
+          "id": 50,
+          "text": "Restore the Research Site's Auxiliary Power",
+          "target": 11
+        },
+        {
+          "id": 60,
+          "text": "Continue searching for signs of Quasim",
+          "target": 13
+        },
+        {
+          "id": 70,
+          "text": "Search Quasim's cell",
+          "target": 6
+        },
+        {
+          "id": 80,
+          "text": "Follow the trail of blood",
+          "target": 7
+        },
+        {
+          "id": 90,
+          "text": "Restore the Research Site's Main Power",
+          "target": 12
+        },
+        {
+          "id": 100,
+          "text": "Pursue the Creature",
+          "target": 9
+        },
+        {
+          "id": 110,
+          "text": "Kill the Redeemed",
+          "target": 10
+        },
+        {
+          "id": 120,
+          "text": "Search the Redeemed's Corpse",
+          "target": 10
+        },
+        {
+          "id": 130,
+          "text": "Return to Nalada",
+          "target": 16
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1000
@@ -298,6 +419,26 @@
         6,
         10,
         90
+      ],
+      "steps": [
+        {
+          "id": 1,
+          "text": "Explore the cave"
+        },
+        {
+          "id": 6,
+          "text": "Proceed to Misthaze Cavern",
+          "target": 17
+        },
+        {
+          "id": 10,
+          "text": "Find the hidden loot stash"
+        },
+        {
+          "id": 90,
+          "text": "Unlock the hidden loot stash",
+          "target": 15
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -352,6 +493,33 @@
         500,
         700,
         1000
+      ],
+      "steps": [
+        {
+          "id": 300,
+          "text": "Assist House Ka'dic",
+          "target": 0
+        },
+        {
+          "id": 400,
+          "text": "Assist House Veth'aal",
+          "target": 1
+        },
+        {
+          "id": 500,
+          "text": "Assist House Dul'kehf",
+          "target": 2
+        },
+        {
+          "id": 700,
+          "text": "Assist Inaza",
+          "target": 17
+        },
+        {
+          "id": 1000,
+          "text": "Wait for Ekris",
+          "target": 3
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -513,6 +681,143 @@
         2100,
         3000
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Investigate the Oracle starstation (Recommend Level 35+)",
+          "target": 72
+        },
+        {
+          "id": 200,
+          "text": "Witness the scene",
+          "target": 1
+        },
+        {
+          "id": 300,
+          "text": "Kill Basira",
+          "target": 58
+        },
+        {
+          "id": 400,
+          "text": "Listen to Sirak",
+          "target": 1
+        },
+        {
+          "id": 450,
+          "text": "Find an Oracle Access Card",
+          "target": 110
+        },
+        {
+          "id": 500,
+          "text": "Find the Engineering Bay controls",
+          "target": 64
+        },
+        {
+          "id": 600,
+          "text": "Find an Engineering Bay Access Card",
+          "target": 74
+        },
+        {
+          "id": 700,
+          "text": "Access the Engineering Bay",
+          "target": 77
+        },
+        {
+          "id": 800,
+          "text": "Restore the Oracle to full power",
+          "target": 11
+        },
+        {
+          "id": 900,
+          "text": "Listen to Sirak",
+          "target": 1
+        },
+        {
+          "id": 950,
+          "text": "Find an Emergency Power Cell",
+          "target": 115
+        },
+        {
+          "id": 960,
+          "text": "Restore the power",
+          "target": 116
+        },
+        {
+          "id": 980,
+          "text": "Flip the Power Switch to open the door",
+          "target": 118
+        },
+        {
+          "id": 1000,
+          "text": "Restore the Oracle's gravity",
+          "target": 12
+        },
+        {
+          "id": 1100,
+          "text": "Find an alternate path to reach the gravity controls",
+          "target": 12
+        },
+        {
+          "id": 1200,
+          "text": "Restore the Oracle's gravity",
+          "target": 12
+        },
+        {
+          "id": 1300,
+          "text": "Return to the Engineering Bay Controls to restore power",
+          "target": 11
+        },
+        {
+          "id": 1400,
+          "text": "Head to the Operations center",
+          "target": 24
+        },
+        {
+          "id": 1500,
+          "text": "Listen to Sirak",
+          "target": 1
+        },
+        {
+          "id": 1600,
+          "text": "Kill Sirak",
+          "target": 1
+        },
+        {
+          "id": 1700,
+          "text": "Kill the Vortex Phantoms",
+          "target": 28
+        },
+        {
+          "id": 1800,
+          "text": "Reboot the Oracle's mainframe",
+          "target": 24
+        },
+        {
+          "id": 1850,
+          "text": "Find an Operations Access Card",
+          "target": 111
+        },
+        {
+          "id": 1900,
+          "text": "Wait for the mainframe to reboot",
+          "target": 0
+        },
+        {
+          "id": 2000,
+          "text": "Wait for the mainframe to complete protocol",
+          "target": 0
+        },
+        {
+          "id": 2100,
+          "text": "Listen to the incoming transmission",
+          "target": 0
+        },
+        {
+          "id": 3000,
+          "text": "(Optional) Find Sirak's logs",
+          "target": 69
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 10000
@@ -622,6 +927,88 @@
         750,
         800,
         1000
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Reach the City of Dazra",
+          "target": 3
+        },
+        {
+          "id": 200,
+          "text": "Talk to the Va'ruun Guard",
+          "target": 3
+        },
+        {
+          "id": 300,
+          "text": "Talk to the Phantom",
+          "target": 2
+        },
+        {
+          "id": 400,
+          "text": "Talk to the Councilor",
+          "target": 0
+        },
+        {
+          "id": 450,
+          "text": "Follow Malibor Dul'kehf",
+          "target": 0
+        },
+        {
+          "id": 500,
+          "text": "Talk to the Herald about the Ritual",
+          "target": 1
+        },
+        {
+          "id": 600,
+          "text": "Walk the Serpent's Path",
+          "target": 71
+        },
+        {
+          "id": 615,
+          "text": "(Optional) Blow out a candle",
+          "target": 54
+        },
+        {
+          "id": 625,
+          "text": "(Optional) Cast Aside Your Burdens",
+          "target": 57
+        },
+        {
+          "id": 635,
+          "text": "(Optional) Make a Leap of Faith",
+          "target": 78
+        },
+        {
+          "id": 645,
+          "text": "(Optional) Contemplate the Shrouding",
+          "target": 60
+        },
+        {
+          "id": 655,
+          "text": "(Optional) Sacrifice the Groat",
+          "target": 62
+        },
+        {
+          "id": 700,
+          "text": "Complete the Ritual",
+          "target": 76
+        },
+        {
+          "id": 750,
+          "text": "Speak to Inaza",
+          "target": 1
+        },
+        {
+          "id": 800,
+          "text": "Talk to Malibor Dul'kehf",
+          "target": 77
+        },
+        {
+          "id": 1000,
+          "text": "Talk to Ekris",
+          "target": 90
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -819,6 +1206,128 @@
         3200,
         3300,
         4000
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Razma Ka'dic",
+          "target": 0
+        },
+        {
+          "id": 200,
+          "text": "Talk to Mirek Ka'dic",
+          "target": 3
+        },
+        {
+          "id": 300,
+          "text": "Discover the location of the Zealot base",
+          "target": 52
+        },
+        {
+          "id": 400,
+          "text": "Return to Razma",
+          "target": 0
+        },
+        {
+          "id": 500,
+          "text": "Talk to Djimal Ka'dic",
+          "target": 1
+        },
+        {
+          "id": 550,
+          "text": "Find Sahima at Shadow Station Epsilon",
+          "target": 115
+        },
+        {
+          "id": 600,
+          "text": "Find Sahima",
+          "target": 4
+        },
+        {
+          "id": 700,
+          "text": "Talk to Sahima",
+          "target": 4
+        },
+        {
+          "id": 1000,
+          "text": "Kill Sahima",
+          "target": 4
+        },
+        {
+          "id": 1001,
+          "text": "Kill Sahima",
+          "target": 4
+        },
+        {
+          "id": 1100,
+          "text": "Obtain Sahima's Research",
+          "target": 4
+        },
+        {
+          "id": 1150,
+          "text": "Gain access to the lower level",
+          "target": 93
+        },
+        {
+          "id": 1200,
+          "text": "Leave no witnesses",
+          "target": 39
+        },
+        {
+          "id": 2000,
+          "text": "Free the hostages",
+          "target": 2
+        },
+        {
+          "id": 2100,
+          "text": "Talk to Gavin Ka'dic",
+          "target": 2
+        },
+        {
+          "id": 2200,
+          "text": "Clear the caves",
+          "target": 23
+        },
+        {
+          "id": 2300,
+          "text": "Free the remaining hostages",
+          "target": 99
+        },
+        {
+          "id": 2400,
+          "text": "Meet Sahima and the others outside",
+          "target": 92
+        },
+        {
+          "id": 2500,
+          "text": "Talk to Sahima",
+          "target": 4
+        },
+        {
+          "id": 3000,
+          "text": "Head to the Badlands Power Station",
+          "target": 0
+        },
+        {
+          "id": 3100,
+          "text": "Interrupt the negotiations",
+          "target": 36
+        },
+        {
+          "id": 3200,
+          "text": "Kill the Zealot representatives",
+          "target": 37
+        },
+        {
+          "id": 3300,
+          "text": "Talk to Razma",
+          "target": 0
+        },
+        {
+          "id": 4000,
+          "text": "Return to Ekris at the Mourning Device",
+          "target": 49
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -1082,6 +1591,192 @@
         6000,
         7000
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Viktor Veth'aal",
+          "target": 1
+        },
+        {
+          "id": 200,
+          "text": "(Optional) Listen to the discussion",
+          "target": 1
+        },
+        {
+          "id": 300,
+          "text": "Talk to Viktor",
+          "target": 1
+        },
+        {
+          "id": 1000,
+          "text": "Inquire about Vaeric at the Herald's Rest",
+          "target": 5
+        },
+        {
+          "id": 1400,
+          "text": "Find someone who knows about Vaeric",
+          "target": 11
+        },
+        {
+          "id": 1500,
+          "text": "Talk to Tane",
+          "target": 11
+        },
+        {
+          "id": 1600,
+          "text": "Wait for Tane at Herald's Rest",
+          "target": 58
+        },
+        {
+          "id": 1700,
+          "text": "Talk to Tane",
+          "target": 11
+        },
+        {
+          "id": 2000,
+          "text": "Search northwest of Dazra for Vaeric",
+          "target": 63
+        },
+        {
+          "id": 2020,
+          "text": "Follow the tracker's ping to find Vaeric",
+          "target": 105
+        },
+        {
+          "id": 2050,
+          "text": "(Optional) Talk to Tane to restart the tracker",
+          "target": 11
+        },
+        {
+          "id": 2060,
+          "text": "Find Tane at the Herald's Rest"
+        },
+        {
+          "id": 2100,
+          "text": "Examine the camp",
+          "target": 31
+        },
+        {
+          "id": 2200,
+          "text": "Kill the Vortex Horrors",
+          "target": 48
+        },
+        {
+          "id": 2300,
+          "text": "Talk to Tane",
+          "target": 11
+        },
+        {
+          "id": 2400,
+          "text": "Wait for Tane to examine the area",
+          "target": 11
+        },
+        {
+          "id": 2500,
+          "text": "Determine which way Vaeric fled",
+          "target": 67
+        },
+        {
+          "id": 2600,
+          "text": "Wait for Tane to examine the area",
+          "target": 11
+        },
+        {
+          "id": 4000,
+          "text": "Search northwest of the camp for Vaeric",
+          "target": 8
+        },
+        {
+          "id": 4050,
+          "text": "Kill the farmers",
+          "target": 8
+        },
+        {
+          "id": 4100,
+          "text": "Question the farmers",
+          "target": 8
+        },
+        {
+          "id": 4200,
+          "text": "Talk to Irina",
+          "target": 8
+        },
+        {
+          "id": 4300,
+          "text": "Execute the traitors",
+          "target": 8
+        },
+        {
+          "id": 4400,
+          "text": "Search the farmhouse for clues",
+          "target": 38
+        },
+        {
+          "id": 4500,
+          "text": "Read the journal",
+          "target": 38
+        },
+        {
+          "id": 4600,
+          "text": "Confront Irina about the journal",
+          "target": 8
+        },
+        {
+          "id": 5000,
+          "text": "Find the abandoned farm",
+          "target": 39
+        },
+        {
+          "id": 5100,
+          "text": "Search the dwelling",
+          "target": 39
+        },
+        {
+          "id": 5200,
+          "text": "Return to Tane outside",
+          "target": 11
+        },
+        {
+          "id": 5300,
+          "text": "Talk to Vaeric",
+          "target": 2
+        },
+        {
+          "id": 5400,
+          "text": "Decide Vaeric's fate",
+          "target": 2
+        },
+        {
+          "id": 5500,
+          "text": "Kill Vaeric",
+          "target": 2
+        },
+        {
+          "id": 5600,
+          "text": "Obtain the family crest",
+          "target": 2
+        },
+        {
+          "id": 5700,
+          "text": "Talk to Tane",
+          "target": 11
+        },
+        {
+          "id": 5800,
+          "text": "Kill Tane",
+          "target": 11
+        },
+        {
+          "id": 6000,
+          "text": "Return to Viktor",
+          "target": 1
+        },
+        {
+          "id": 7000,
+          "text": "Return to Ekris at the Mourning Device",
+          "target": 57
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 10000
@@ -1205,6 +1900,138 @@
         1200,
         1500,
         1600
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Malibor",
+          "target": 51
+        },
+        {
+          "id": 200,
+          "text": "Talk to Haskmak Dul'kehf",
+          "target": 1
+        },
+        {
+          "id": 300,
+          "text": "Reach Ma'leen Dam",
+          "target": 22
+        },
+        {
+          "id": 400,
+          "text": "Access the Dam",
+          "target": 22
+        },
+        {
+          "id": 410,
+          "text": "Find out how to Access the Dam",
+          "target": 3
+        },
+        {
+          "id": 420,
+          "text": "Acquire a Keycard for the Dam",
+          "target": 6
+        },
+        {
+          "id": 430,
+          "text": "Access the Dam",
+          "target": 21
+        },
+        {
+          "id": 500,
+          "text": "Explore the Dam",
+          "target": 51
+        },
+        {
+          "id": 510,
+          "text": "Destroy the Modulator",
+          "target": 52
+        },
+        {
+          "id": 520,
+          "text": "Drain the Water",
+          "target": 51
+        },
+        {
+          "id": 530,
+          "text": "Open the Secure Access Door",
+          "target": 53
+        },
+        {
+          "id": 540,
+          "text": "Explore the Dam",
+          "target": 36
+        },
+        {
+          "id": 600,
+          "text": "Defeat the Phantom",
+          "target": 8
+        },
+        {
+          "id": 700,
+          "text": "Learn More about the Phantoms",
+          "target": 63
+        },
+        {
+          "id": 701,
+          "text": "Find a Way to Open the Door",
+          "target": 64
+        },
+        {
+          "id": 702,
+          "text": "Complete the Teleportation Experiment",
+          "target": 65
+        },
+        {
+          "id": 703,
+          "text": "Acquire the Keycard",
+          "target": 66
+        },
+        {
+          "id": 704,
+          "text": "Learn More About the Phantoms",
+          "target": 17
+        },
+        {
+          "id": 800,
+          "text": "Retrieve a Vortex Interlock",
+          "target": 36
+        },
+        {
+          "id": 810,
+          "text": "Divert Power to the Interlock Console",
+          "target": 43
+        },
+        {
+          "id": 900,
+          "text": "Retrieve a Vortex Interlock",
+          "target": 54
+        },
+        {
+          "id": 1000,
+          "text": "Remove the Remaining Interlock",
+          "target": 57
+        },
+        {
+          "id": 1100,
+          "text": "Exit the Dam",
+          "target": 45
+        },
+        {
+          "id": 1200,
+          "text": "Exit the Dam",
+          "target": 45
+        },
+        {
+          "id": 1500,
+          "text": "(Optional) Check on the Villagers",
+          "target": 4
+        },
+        {
+          "id": 1600,
+          "text": "Deliver the Interlock to Ekris",
+          "target": 45
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -1338,6 +2165,155 @@
         1000,
         1350
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Power the Mourning Device",
+          "target": 44
+        },
+        {
+          "id": 110,
+          "text": "Wait for Ekris",
+          "target": 65
+        },
+        {
+          "id": 120,
+          "text": "Aim the Mourning Device",
+          "target": 66
+        },
+        {
+          "id": 130,
+          "text": "Wait for Ekris",
+          "target": 65
+        },
+        {
+          "id": 140,
+          "text": "Fire the Mourning Device",
+          "target": 67
+        },
+        {
+          "id": 150,
+          "text": "Wait for Ekris",
+          "target": 65
+        },
+        {
+          "id": 200,
+          "text": "Talk to Malibor Dul'kehf",
+          "target": 38
+        },
+        {
+          "id": 210,
+          "text": "Enter the Scaled Citadel",
+          "target": 75
+        },
+        {
+          "id": 300,
+          "text": "Talk to Anasko Va'ruun",
+          "target": 12
+        },
+        {
+          "id": 320,
+          "text": "Reach the Reactor Level",
+          "target": 11
+        },
+        {
+          "id": 410,
+          "text": "End the Security Lockdown",
+          "target": 13
+        },
+        {
+          "id": 450,
+          "text": "Destroy the Modulator",
+          "target": 73
+        },
+        {
+          "id": 510,
+          "text": "Replace the Vortex Interlock",
+          "target": 51
+        },
+        {
+          "id": 529,
+          "text": "Wait for the Citadel to Stabilize"
+        },
+        {
+          "id": 540,
+          "text": "Follow Anasko Va'ruun",
+          "target": 12
+        },
+        {
+          "id": 550,
+          "text": "Talk to Anasko Va'ruun",
+          "target": 12
+        },
+        {
+          "id": 560,
+          "text": "Release the Phantoms",
+          "target": 15
+        },
+        {
+          "id": 561,
+          "text": "Terminate Pod Life Support",
+          "target": 16
+        },
+        {
+          "id": 562,
+          "text": "(Optional) Use the Intercom to talk to Anasko",
+          "target": 71
+        },
+        {
+          "id": 570,
+          "text": "Talk to Anasko Va'ruun",
+          "target": 12
+        },
+        {
+          "id": 580,
+          "text": "Confront Anasko Va'ruun",
+          "target": 12
+        },
+        {
+          "id": 590,
+          "text": "Reach the Pinnacle",
+          "target": 36
+        },
+        {
+          "id": 910,
+          "text": "Talk to Anasko Va'ruun",
+          "target": 12
+        },
+        {
+          "id": 911,
+          "text": "Confront Anasko Va'ruun",
+          "target": 12
+        },
+        {
+          "id": 925,
+          "text": "All Must Serve"
+        },
+        {
+          "id": 930,
+          "text": "Overload the Vortex Gate"
+        },
+        {
+          "id": 931,
+          "text": "Kill Anasko Va'ruun",
+          "target": 12
+        },
+        {
+          "id": 934,
+          "text": "Overload the Vortex Gate",
+          "target": 20
+        },
+        {
+          "id": 1000,
+          "text": "Escape the Scaled Citadel",
+          "target": 32
+        },
+        {
+          "id": 1350,
+          "text": "Speak with the High Council",
+          "target": 38
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 2000
@@ -1429,6 +2405,53 @@
         68,
         70,
         100
+      ],
+      "steps": [
+        {
+          "id": 30,
+          "text": "Speak to Inaza",
+          "target": 1
+        },
+        {
+          "id": 50,
+          "text": "Investigate the Anomalous Cave",
+          "target": 12
+        },
+        {
+          "id": 60,
+          "text": "Find Anasko",
+          "target": 83
+        },
+        {
+          "id": 62,
+          "text": "(Optional) Collapse the cave to seal the horrors",
+          "target": 49
+        },
+        {
+          "id": 64,
+          "text": "(Optional) Collapse the cave to seal the horrors",
+          "target": 51
+        },
+        {
+          "id": 66,
+          "text": "(Optional) Collapse the cave to seal the horrors",
+          "target": 53
+        },
+        {
+          "id": 68,
+          "text": "(Optional) Collapse the cave to seal the horrors",
+          "target": 57
+        },
+        {
+          "id": 70,
+          "text": "Escape the Anomalous Cave",
+          "target": 1
+        },
+        {
+          "id": 100,
+          "text": "Return to Inaza",
+          "target": 1
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -1758,6 +2781,234 @@
         500,
         4000
       ],
+      "steps": [
+        {
+          "id": 5,
+          "text": "Listen to the discussion",
+          "target": 0
+        },
+        {
+          "id": 10,
+          "text": "Visit the Hall of Devotion",
+          "target": 0
+        },
+        {
+          "id": 20,
+          "text": "Talk to Qisrani Dul'kehf",
+          "target": 0
+        },
+        {
+          "id": 29,
+          "text": "Investigate the Halls of Healing",
+          "target": 13
+        },
+        {
+          "id": 30,
+          "text": "Gain access to Ukaru's workstation",
+          "target": 14
+        },
+        {
+          "id": 35,
+          "text": "Access the deleted logs on Ukaru's Computer",
+          "target": 14
+        },
+        {
+          "id": 40,
+          "text": "(Optional) Request access to the archive restore function",
+          "target": 13
+        },
+        {
+          "id": 41,
+          "text": "Read Ukaru's Audio Log",
+          "target": 42
+        },
+        {
+          "id": 45,
+          "text": "Find an ID card or hack open the Security Door",
+          "target": 59
+        },
+        {
+          "id": 46,
+          "text": "(Optional) Investigate the storage box",
+          "target": 107
+        },
+        {
+          "id": 50,
+          "text": "Track down the missing supply shipment",
+          "target": 41
+        },
+        {
+          "id": 55,
+          "text": "Follow the signal to Ukaru's tracking device",
+          "target": 41
+        },
+        {
+          "id": 60,
+          "text": "Follow the blood trail"
+        },
+        {
+          "id": 64,
+          "text": "Gain access to the control room",
+          "target": 246
+        },
+        {
+          "id": 65,
+          "text": "Restore Power to the Depot",
+          "target": 134
+        },
+        {
+          "id": 66,
+          "text": "Access the Control Room"
+        },
+        {
+          "id": 70,
+          "text": "Restore power",
+          "target": 56
+        },
+        {
+          "id": 80,
+          "text": "Search the room for evidence",
+          "target": 35
+        },
+        {
+          "id": 85,
+          "text": "Retrieve the Encrypted Slate mentioned in the audio log",
+          "target": 37
+        },
+        {
+          "id": 89,
+          "text": "(Optional) Find the ship departure records",
+          "target": 122
+        },
+        {
+          "id": 90,
+          "text": "Return the evidence to Qisrani",
+          "target": 0
+        },
+        {
+          "id": 94,
+          "text": "(Optional) Access Ochim Ka'dic's Computer",
+          "target": 109
+        },
+        {
+          "id": 95,
+          "text": "(Optional) Follow the citizen",
+          "target": 2
+        },
+        {
+          "id": 96,
+          "text": "Check Ochim's body"
+        },
+        {
+          "id": 100,
+          "text": "Speak to Tevina at the Keep about Jandar's Rest",
+          "target": 3
+        },
+        {
+          "id": 110,
+          "text": "Crack the Cipher",
+          "target": 74
+        },
+        {
+          "id": 120,
+          "text": "(Optional) Examine the Employment Records"
+        },
+        {
+          "id": 130,
+          "text": "(Optional) Examine the Ship Departure Requests"
+        },
+        {
+          "id": 200,
+          "text": "Infiltrate Jandar's Rest",
+          "target": 163
+        },
+        {
+          "id": 204,
+          "text": "Find the Key to the Shrine Room",
+          "target": 97
+        },
+        {
+          "id": 205,
+          "text": "Speak to the Zealot Boss",
+          "target": 163
+        },
+        {
+          "id": 206,
+          "text": "Enter the Shrine Room",
+          "target": 99
+        },
+        {
+          "id": 207,
+          "text": "Protect Qisrani"
+        },
+        {
+          "id": 210,
+          "text": "Kill the Zealot Boss",
+          "target": 163
+        },
+        {
+          "id": 225,
+          "text": "Search the body of the Zealot Boss",
+          "target": 163
+        },
+        {
+          "id": 291,
+          "text": "Return to Qisrani",
+          "target": 0
+        },
+        {
+          "id": 295,
+          "text": "Kill the Assassins",
+          "target": 187
+        },
+        {
+          "id": 297,
+          "text": "Wait for Qisrani to gather representatives for the trial"
+        },
+        {
+          "id": 298,
+          "text": "(Optional) Search House Ka'dic for more evidence",
+          "target": 93
+        },
+        {
+          "id": 299,
+          "text": "Speak to Qisrani",
+          "target": 0
+        },
+        {
+          "id": 300,
+          "text": "Meet with Qisrani at the Halls of Healing",
+          "target": 0
+        },
+        {
+          "id": 301,
+          "text": "Deliver the news to Tevina",
+          "target": 3
+        },
+        {
+          "id": 400,
+          "text": "(Optional) Give Qisrani the recording"
+        },
+        {
+          "id": 411,
+          "text": "Wait for Tevina to prepare for the arrest"
+        },
+        {
+          "id": 420,
+          "text": "Meet with Tevina in her office",
+          "target": 3
+        },
+        {
+          "id": 500,
+          "text": "Wrap-up the case",
+          "target": 0
+        },
+        {
+          "id": 4000,
+          "text": "Speak to Tevina",
+          "target": 3
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1000
@@ -1828,6 +3079,53 @@
         60,
         70,
         80
+      ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Speak with Orahim",
+          "target": 0
+        },
+        {
+          "id": 20,
+          "text": "Meet Orahim at his shack",
+          "target": 8
+        },
+        {
+          "id": 22,
+          "text": "Take a seat",
+          "target": 8
+        },
+        {
+          "id": 30,
+          "text": "Go to the Zealot hideout",
+          "target": 3
+        },
+        {
+          "id": 40,
+          "text": "Speak with Orahim",
+          "target": 0
+        },
+        {
+          "id": 50,
+          "text": "Kill Khaslav",
+          "target": 23
+        },
+        {
+          "id": 60,
+          "text": "Kill Orahim",
+          "target": 0
+        },
+        {
+          "id": 70,
+          "text": "Speak with Orahim",
+          "target": 0
+        },
+        {
+          "id": 80,
+          "text": "Speak with Khaslav",
+          "target": 1
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -1935,6 +3233,83 @@
         102,
         105
       ],
+      "steps": [
+        {
+          "id": 5,
+          "text": "Stop the argument in Jinan Plaza",
+          "target": 0
+        },
+        {
+          "id": 7,
+          "text": "Agree to be Amila's second",
+          "target": 1
+        },
+        {
+          "id": 10,
+          "text": "Follow Danika",
+          "target": 2
+        },
+        {
+          "id": 20,
+          "text": "Talk to Danika about the duel",
+          "target": 2
+        },
+        {
+          "id": 30,
+          "text": "Talk to Amila",
+          "target": 1
+        },
+        {
+          "id": 35,
+          "text": "Talk to Borhal",
+          "target": 0
+        },
+        {
+          "id": 40,
+          "text": "Return to Danika",
+          "target": 2
+        },
+        {
+          "id": 50,
+          "text": "Prepare the ceremonial drinks",
+          "target": 9
+        },
+        {
+          "id": 60,
+          "text": "Report to Danika",
+          "target": 2
+        },
+        {
+          "id": 70,
+          "text": "Observe the duel",
+          "target": 0
+        },
+        {
+          "id": 80,
+          "text": "Talk to Amila",
+          "target": 1
+        },
+        {
+          "id": 90,
+          "text": "Talk to Borhal",
+          "target": 0
+        },
+        {
+          "id": 100,
+          "text": "Talk to the brothers",
+          "target": 0
+        },
+        {
+          "id": 102,
+          "text": "Follow Danika",
+          "target": 2
+        },
+        {
+          "id": 105,
+          "text": "Talk to Danika",
+          "target": 2
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 1000
@@ -2012,6 +3387,78 @@
         1400,
         1500
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Azad Dubas",
+          "target": 0
+        },
+        {
+          "id": 200,
+          "text": "Collect a tissue sample from a dead groat",
+          "target": 24
+        },
+        {
+          "id": 300,
+          "text": "Collect a tissue sample from a dead nautilus",
+          "target": 26
+        },
+        {
+          "id": 400,
+          "text": "Collect a tissue sample from a dead bladed back",
+          "target": 28
+        },
+        {
+          "id": 500,
+          "text": "Talk to Azad Dubas",
+          "target": 0
+        },
+        {
+          "id": 600,
+          "text": "Talk to Sherine Dubas",
+          "target": 1
+        },
+        {
+          "id": 700,
+          "text": "Collect samples from altered plants in 3 regions",
+          "target": 8
+        },
+        {
+          "id": 1000,
+          "text": "Talk to Sherine Dubas",
+          "target": 1
+        },
+        {
+          "id": 1100,
+          "text": "Collect data from Multifunction Sensors",
+          "target": 9
+        },
+        {
+          "id": 1200,
+          "text": "Talk to Azad Dubas",
+          "target": 0
+        },
+        {
+          "id": 1300,
+          "text": "Talk to Azad Dubas",
+          "target": 0
+        },
+        {
+          "id": 1350,
+          "text": "Travel to the Subterranean Mal'siir Farm",
+          "target": 39
+        },
+        {
+          "id": 1400,
+          "text": "Get the Experimental Nutrifying Compound",
+          "target": 37
+        },
+        {
+          "id": 1500,
+          "text": "Talk to Sherine Dubas",
+          "target": 1
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 3000
@@ -2077,6 +3524,38 @@
         500,
         600
       ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Maaliya Hajtal",
+          "target": 0
+        },
+        {
+          "id": 200,
+          "text": "Retrieve the Broken Fang's Heirloom Spacesuit",
+          "target": 10
+        },
+        {
+          "id": 300,
+          "text": "Retrieve the Broken Fang's Heirloom Boost Pack",
+          "target": 10
+        },
+        {
+          "id": 400,
+          "text": "Retrieve the Broken Fang's Heirloom Rifle",
+          "target": 10
+        },
+        {
+          "id": 500,
+          "text": "Talk to Maaliya Hajtal",
+          "target": 0
+        },
+        {
+          "id": 600,
+          "text": "Talk to Farud Hajtal",
+          "target": 1
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 2000
@@ -2125,6 +3604,48 @@
         400,
         500
       ],
+      "steps": [
+        {
+          "id": 25,
+          "text": "Talk to Vijun Ahkmav",
+          "target": 0
+        },
+        {
+          "id": 30,
+          "text": "Learn about the Path of Redemption",
+          "target": 0
+        },
+        {
+          "id": 50,
+          "text": "Read the words on the Path of Redemption",
+          "target": 1
+        },
+        {
+          "id": 100,
+          "text": "Read the Words of Devotion",
+          "target": 1
+        },
+        {
+          "id": 200,
+          "text": "Read the Words of Obedience",
+          "target": 2
+        },
+        {
+          "id": 300,
+          "text": "Read the Words of Perseverance",
+          "target": 3
+        },
+        {
+          "id": 400,
+          "text": "Read the Words of Strength",
+          "target": 4
+        },
+        {
+          "id": 500,
+          "text": "Talk to Vijun Ahkmav",
+          "target": 0
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 2000
@@ -2165,6 +3686,28 @@
         300,
         400,
         500
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Lijana Valyan",
+          "target": 3
+        },
+        {
+          "id": 300,
+          "text": "Deliver Fihran Nostal's package",
+          "target": 4
+        },
+        {
+          "id": 400,
+          "text": "Deliver Lazim Valyan's package",
+          "target": 6
+        },
+        {
+          "id": 500,
+          "text": "Deliver Alicja Dalca's package",
+          "target": 5
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -2251,6 +3794,58 @@
         80,
         90,
         100
+      ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Check in with Vassilis",
+          "target": 0
+        },
+        {
+          "id": 20,
+          "text": "Meet with Reigen Ueda",
+          "target": 1
+        },
+        {
+          "id": 28,
+          "text": "(Optional) Help Reigen clean up",
+          "target": 42
+        },
+        {
+          "id": 40,
+          "text": "Search for clues regarding Reigen's missing item",
+          "target": 49
+        },
+        {
+          "id": 50,
+          "text": "Find Reigen's key under the duck",
+          "target": 11
+        },
+        {
+          "id": 60,
+          "text": "Examine Reigen's closet",
+          "target": 12
+        },
+        {
+          "id": 70,
+          "text": "Speak to Reigen",
+          "target": 1
+        },
+        {
+          "id": 80,
+          "text": "Play the music box",
+          "target": 12
+        },
+        {
+          "id": 90,
+          "text": "Speak to Reigen",
+          "target": 1
+        },
+        {
+          "id": 100,
+          "text": "Return to Vassilis",
+          "target": 0
+        }
       ],
       "complete": {
         "type": "questStage",
@@ -2352,6 +3947,33 @@
         40,
         50
       ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Ask Vassilis for more work",
+          "target": 1
+        },
+        {
+          "id": 20,
+          "text": "Investigate the orphanage",
+          "target": 43
+        },
+        {
+          "id": 30,
+          "text": "Find the Phantom",
+          "target": 31
+        },
+        {
+          "id": 40,
+          "text": "Deal with the phantom",
+          "target": 8
+        },
+        {
+          "id": 50,
+          "text": "Return to Vassilis",
+          "target": 1
+        }
+      ],
       "complete": {
         "type": "questStage",
         "stage": 100
@@ -2401,6 +4023,21 @@
         10,
         20,
         40
+      ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Find a way into the facility"
+        },
+        {
+          "id": 20,
+          "text": "Restore Power to the Lab",
+          "target": 7
+        },
+        {
+          "id": 40,
+          "text": "Escape the Lab"
+        }
       ],
       "complete": {
         "type": "questCompleted"

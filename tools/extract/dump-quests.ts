@@ -43,6 +43,8 @@ interface QuestDump {
   objectiveIds: number[];
   /** Display text of the first objective (NNAM), e.g. "Talk to Cmdr. Tuala". */
   objectiveText: string;
+  /** Every objective: index, display text (may hold <Alias=…> placeholders) and target alias ids (QSTA). */
+  objectiveList: Array<{ id: number; text: string; targets: number[] }>;
   aliases: QuestAlias[];
   /** Count of each subrecord type, to learn Starfield's QUST layout. */
   subrecords: Record<string, number>;
@@ -82,6 +84,7 @@ function parseQuest(record: PluginRecord, plugin: PluginHeader, strings: StringT
     objectives: 0,
     objectiveIds: [],
     objectiveText: "",
+    objectiveList: [],
     aliases: [],
     subrecords: {},
     refs: {},
@@ -89,6 +92,7 @@ function parseQuest(record: PluginRecord, plugin: PluginHeader, strings: StringT
   };
 
   let alias: QuestAlias | undefined;
+  let objective: QuestDump["objectiveList"][number] | undefined;
   for (const { type, data } of record.subrecords) {
     quest.subrecords[type] = (quest.subrecords[type] ?? 0) + 1;
     if (REFERENCE_FIELDS.has(type) && !alias && !(type in quest.refs) && data.length === 4) {
@@ -126,15 +130,25 @@ function parseQuest(record: PluginRecord, plugin: PluginHeader, strings: StringT
       }
       case "QOBJ":
         quest.objectives++;
-        if (data.length >= 2 && !quest.objectiveIds.includes(data.readUInt16LE(0))) quest.objectiveIds.push(data.readUInt16LE(0));
+        if (data.length >= 2 && !quest.objectiveIds.includes(data.readUInt16LE(0))) {
+          quest.objectiveIds.push(data.readUInt16LE(0));
+          objective = { id: data.readUInt16LE(0), text: "", targets: [] };
+          quest.objectiveList.push(objective);
+        }
+        break;
+      case "QSTA":
+        if (objective && !alias && data.length >= 4 && data.readInt32LE(0) >= 0) objective.targets.push(data.readInt32LE(0));
         break;
       case "NNAM":
-        if (!quest.objectiveText && !alias) {
-          quest.objectiveText = readLString(data, plugin, strings);
+        if (!alias) {
+          const text = readLString(data, plugin, strings);
+          quest.objectiveText ||= text;
+          if (objective && !objective.text) objective.text = text;
         }
         break;
       case "ALST":
       case "ALLS":
+        objective = undefined;
         alias = { kind: type === "ALST" ? "ref" : "location", id: data.readUInt32LE(0), name: "" };
         quest.aliases.push(alias);
         break;
