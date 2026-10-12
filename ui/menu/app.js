@@ -1088,18 +1088,19 @@
   // LT / RT values in an event, whatever the field names, or null if it carries none.
   function triggerValues(event) {
     const out = {};
-    const visit = (obj, depth) => {
+    const visit = (obj, depth, path) => {
       if (!obj || typeof obj !== "object" || depth > 3) return;
       for (const [k, v] of Object.entries(obj)) {
         const name = k.toLowerCase();
         if (typeof v === "number" || typeof v === "boolean") {
           const value = Number(v) > 1 ? Number(v) / 255 : Number(v); // 0-255 or 0-1
-          if (/^(lt|l2|left_?trigger|lefttrigger|ltrigger|trigger_?l)$/.test(name)) out.lt = value;
-          if (/^(rt|r2|right_?trigger|righttrigger|rtrigger|trigger_?r)$/.test(name)) out.rt = value;
-        } else visit(v, depth + 1);
+          const trigger = /trigger/.test(name) || /trigger/.test(path);
+          if (/^(lt|l2|ltrigger|triggerl)$/.test(name) || (trigger && /left|^b?l(eft)?$/.test(name))) out.lt = value;
+          if (/^(rt|r2|rtrigger|triggerr)$/.test(name) || (trigger && /right|^b?r(ight)?$/.test(name))) out.rt = value;
+        } else visit(v, depth + 1, path + name + ".");
       }
     };
-    visit(event, 0);
+    visit(event, 0, "");
     if (event.kind === "trigger" || event.trigger) {
       const t = event.trigger || event;
       const side = String(t.side || t.id || t.name || t.which || "").toLowerCase();
@@ -1123,6 +1124,7 @@
       const visit = (obj, path) => {
         for (const [k, v] of Object.entries(obj || {})) {
           if (v && typeof v === "object") visit(v, path + k + ".");
+          else if (typeof v === "number" && /button/i.test(k)) { if (v) active.push(path + k + "=" + v); }
           else if (typeof v === "number" && Math.abs(v) > 0.2) active.push(path + k);
           else if (v === true) active.push(path + k);
         }
@@ -1134,6 +1136,15 @@
     logged.add(key);
     logLines++;
     bridge.send("log", "gamepad " + JSON.stringify(event).slice(0, 400));
+  }
+
+  // LT / RT switch views: once per press, when pressed past halfway.
+  function handleTriggers(values) {
+    for (const which of ["lt", "rt"]) {
+      if (values[which] === undefined) continue;
+      if (values[which] > 0.5 && !pressedTriggers.has(which)) { pressedTriggers.add(which); usePad(); cycleTab(which === "lt" ? -1 : 1); }
+      else if (values[which] < 0.3) pressedTriggers.delete(which);
+    }
   }
 
   function usePad() {
@@ -1148,14 +1159,7 @@
       // Triggers as analog values (a "trigger" event, or fields of a "stick" event): act once
       // when pressed past halfway.
       const values = triggerValues(event);
-      if (values) {
-        for (const which of ["lt", "rt"]) {
-          if (values[which] === undefined) continue;
-          if (values[which] > 0.5 && !pressedTriggers.has(which)) { pressedTriggers.add(which); usePad(); cycleTab(which === "lt" ? -1 : 1); }
-          else if (values[which] < 0.3) pressedTriggers.delete(which);
-        }
-        return;
-      }
+      if (values) return handleTriggers(values);
       if (event.kind !== "button" || !event.button) return;
       if (!event.button.down) return;
       usePad();
@@ -1170,6 +1174,33 @@
       else if (id === PAD.RS) overrideSelected();
     });
   }
+  // OSF UI's default gamepad mode leaves LT / RT out (only buttons and the two sticks arrive).
+  // Raw mode reports the whole controller state, so ask for it and read the triggers from it.
+  // Its format isn't documented: the reply and the raw events go to the log for now.
+  if (bridge) {
+    const onRaw = (label) => (event) => {
+      if (!event || typeof event !== "object") return;
+      logGamepad({ ...event, kind: label + (event.kind ? ":" + event.kind : "") });
+      const values = triggerValues(event);
+      if (values) handleTriggers(values);
+    };
+    bridge.on("osfui.gamepadRaw", onRaw("raw"));
+    bridge.on("gamepadRaw", onRaw("raw-local"));
+    const describe = (error) => (error ? (error.code || "") + " " + (error.message || String(error)) : "?");
+    const requestRawMode = () => {
+      bridge.request("osfui.gamepadMode", { mode: "raw" })
+        .then((reply) => bridge.send("log", "gamepadMode {mode:raw} -> " + JSON.stringify(reply)))
+        .catch((error) => {
+          bridge.send("log", "gamepadMode {mode:raw} failed: " + describe(error));
+          return bridge.request("osfui.gamepadMode", "raw")
+            .then((reply) => bridge.send("log", "gamepadMode(raw) -> " + JSON.stringify(reply)))
+            .catch((e) => bridge.send("log", "gamepadMode(raw) failed: " + describe(e)));
+        });
+    };
+    requestRawMode();
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) requestRawMode(); });
+  }
+
   document.addEventListener("mousemove", () => {
     if (view.input !== "keyboard") {
       view.input = "keyboard";
