@@ -396,13 +396,11 @@
 
   function renderHeader() {
     const pad = view.input === "gamepad";
-    // Keyboard: each view's number key on its tab. Controller: LT / RT at the ends.
-    document.getElementById("tabs").replaceChildren(...[
-      pad ? el("kbd", { text: "LT" }) : null,
-      ...TABS.map((t, i) => el("button", { "aria-current": view.tab === t.id ? "page" : null, onclick: () => setTab(t.id) },
-        pad ? null : el("span", { class: "num", text: String(i + 1) }), t.label)),
-      pad ? el("kbd", { text: "RT" }) : null,
-    ].filter(Boolean));
+    // The keys that switch views, at both ends: Z / C, or a flick of the right stick.
+    document.getElementById("tabs").replaceChildren(
+      el("kbd", {}, pad ? [el("span", { class: "chev left" }), " RS"] : "Z"),
+      ...TABS.map((t) => el("button", { "aria-current": view.tab === t.id ? "page" : null, text: t.label, onclick: () => setTab(t.id) })),
+      el("kbd", {}, pad ? ["RS ", el("span", { class: "chev right" })] : "C"));
     const quests = tally(DATA.quests.filter((q) => !q.activity));
     const activities = tally(DATA.quests.filter((q) => q.activity));
     const total = (t, label, color) => el("div", { class: "total" },
@@ -987,7 +985,7 @@
       nowhere ? null : key(view.tab === "log" ? "CATEGORY" : "FILTER", pad ? "LB / RB" : "Q / E", () => cycleFilter(1)),
       key("SORT", pad ? "Y" : "T", cycleSort),
       view.tab !== "log" ? key(view.spoilers ? "SHOW NAMES" : "HIDE SPOILERS", pad ? "VIEW" : "X", toggleSpoilers) : null,
-      key("VIEWS", pad ? "LT / RT" : "1-" + TABS.length, () => cycleTab(1)),
+      key("VIEWS", pad ? "RS" : "Z / C", () => cycleTab(1)),
       key("BACK", pad ? "B" : "ESC", () => { if (bridge) bridge.send("close"); }),
     ];
     document.getElementById("keys").replaceChildren(...keys.filter(Boolean));
@@ -1135,71 +1133,10 @@
 
   // Controller: OSF UI turns the D-pad / left stick into arrow keys and A into Enter, and B closes
   // the menu. Every button also arrives as a "ui.gamepad" event (XInput button masks), which is
-  // how the shoulder buttons, X, Y and View work here.
-  // LT / RT are not XInput buttons; the game reports them with its own codes 0x09 / 0x0A.
-  const PAD = { LT: 0x0009, RT: 0x000a, VIEW: 0x0020, LS: 0x0040, RS: 0x0080, LB: 0x0100, RB: 0x0200, A: 0x1000, X: 0x4000, Y: 0x8000 };
-  const pressedTriggers = new Set(); // for trigger events that carry a value instead of down / up
-  // LT / RT values in an event, whatever the field names, or null if it carries none.
-  function triggerValues(event) {
-    const out = {};
-    const visit = (obj, depth, path) => {
-      if (!obj || typeof obj !== "object" || depth > 3) return;
-      for (const [k, v] of Object.entries(obj)) {
-        const name = k.toLowerCase();
-        if (typeof v === "number" || typeof v === "boolean") {
-          const value = Number(v) > 1 ? Number(v) / 255 : Number(v); // 0-255 or 0-1
-          const trigger = /trigger/.test(name) || /trigger/.test(path);
-          if (/^(lt|l2|ltrigger|triggerl)$/.test(name) || (trigger && /left|^b?l(eft)?$/.test(name))) out.lt = value;
-          if (/^(rt|r2|rtrigger|triggerr)$/.test(name) || (trigger && /right|^b?r(ight)?$/.test(name))) out.rt = value;
-        } else visit(v, depth + 1, path + name + ".");
-      }
-    };
-    visit(event, 0, "");
-    if (event.kind === "trigger" || event.trigger) {
-      const t = event.trigger || event;
-      const side = String(t.side || t.id || t.name || t.which || "").toLowerCase();
-      const value = Number(t.value ?? (t.down ? 1 : 0));
-      if (side.startsWith("l")) out.lt = value;
-      if (side.startsWith("r")) out.rt = value;
-    }
-    return out.lt !== undefined || out.rt !== undefined ? out : null;
-  }
-  // Temporary diagnostic: writes controller input to the mod's log (Logs/Script/User/
-  // Completionist.0.log) to find how OSF UI reports LT / RT. Each distinct button once; stick
-  // events whenever the set of fields that are non-zero changes. At most 300 lines a session.
-  const logged = new Set();
-  let logLines = 0;
-  function logGamepad(event) {
-    if (logLines >= 300) return;
-    let key;
-    if (event.kind === "button" && event.button) key = "button " + event.button.id + " " + !!event.button.down;
-    else {
-      const active = [];
-      const visit = (obj, path) => {
-        for (const [k, v] of Object.entries(obj || {})) {
-          if (v && typeof v === "object") visit(v, path + k + ".");
-          else if (typeof v === "number" && /button/i.test(k)) { if (v) active.push(path + k + "=" + v); }
-          else if (typeof v === "number" && Math.abs(v) > 0.2) active.push(path + k);
-          else if (v === true) active.push(path + k);
-        }
-      };
-      visit(event, "");
-      key = event.kind + " " + active.sort().join(",");
-    }
-    if (logged.has(key)) return;
-    logged.add(key);
-    logLines++;
-    bridge.send("log", "gamepad " + JSON.stringify(event).slice(0, 400));
-  }
-
-  // LT / RT switch views: once per press, when pressed past halfway.
-  function handleTriggers(values) {
-    for (const which of ["lt", "rt"]) {
-      if (values[which] === undefined) continue;
-      if (values[which] > 0.5 && !pressedTriggers.has(which)) { pressedTriggers.add(which); usePad(); cycleTab(which === "lt" ? -1 : 1); }
-      else if (values[which] < 0.3) pressedTriggers.delete(which);
-    }
-  }
+  // how the shoulder buttons, X, Y and View work here. OSF UI never reports LT / RT (not even in
+  // its raw mode), so views switch with a flick of the right stick, whose position does arrive.
+  const PAD = { VIEW: 0x0020, LS: 0x0040, RS: 0x0080, LB: 0x0100, RB: 0x0200, A: 0x1000, X: 0x4000, Y: 0x8000 };
+  let stickFlick = 0; // -1 / 1 while the right stick is held left / right, 0 once it is back
 
   function usePad() {
     if (view.input === "gamepad") return;
@@ -1207,66 +1144,29 @@
     render();
   }
   if (bridge) {
+    // Raw mode (tried for LT / RT) stops the D-pad from moving the selection: make sure it is off.
+    bridge.send("osfui.gamepadMode", { mode: "default" });
     bridge.on("ui.gamepad", (event) => {
       if (!event) return;
-      logGamepad(event);
-      // Triggers as analog values (a "trigger" event, or fields of a "stick" event): act once
-      // when pressed past halfway.
-      const values = triggerValues(event);
-      if (values) return handleTriggers(values);
-      if (event.kind !== "button" || !event.button) return;
-      if (!event.button.down) return;
+      if (event.kind === "stick" && event.axes) {
+        const rx = Number(event.axes.rx) || 0;
+        if (stickFlick === 0 && Math.abs(rx) > 0.7) {
+          stickFlick = rx > 0 ? 1 : -1;
+          usePad();
+          cycleTab(stickFlick);
+        } else if (Math.abs(rx) < 0.3) stickFlick = 0;
+        return;
+      }
+      if (event.kind !== "button" || !event.button || !event.button.down) return;
       usePad();
       const id = event.button.id;
-      if (id === PAD.LT) cycleTab(-1);
-      else if (id === PAD.RT) cycleTab(1);
-      else if (id === PAD.LB) cycleFilter(-1);
+      if (id === PAD.LB) cycleFilter(-1);
       else if (id === PAD.RB) cycleFilter(1);
       else if (id === PAD.X) plotSelected();
       else if (id === PAD.Y || id === PAD.LS) cycleSort();
       else if (id === PAD.VIEW) toggleSpoilers();
       else if (id === PAD.RS) overrideSelected();
     });
-  }
-  // OSF UI's default gamepad mode leaves LT / RT out (only buttons and the two sticks arrive).
-  // Raw mode reports the whole controller state, so ask for it and read the triggers from it.
-  // Its format isn't documented: the reply and the raw events go to the log for now.
-  if (bridge) {
-    const onRaw = (label) => (event) => {
-      if (!event || typeof event !== "object") return;
-      logGamepad({ ...event, kind: label + (event.kind ? ":" + event.kind : "") });
-      const values = triggerValues(event);
-      if (values) handleTriggers(values);
-    };
-    bridge.on("osfui.gamepadRaw", onRaw("raw"));
-    // Raw mode stops the usual ui.gamepad events and sends something else: log the name and
-    // content of every event the menu doesn't know (first three of each) to find it.
-    const known = ["tracked", "objectives", "plotfailed", "ui.gamepad", "osfui.gamepadraw", "gamepadraw"];
-    const seenEvents = new Map();
-    const deliver = bridge.onMessage;
-    if (typeof deliver === "function") {
-      bridge.onMessage = function (json) {
-        try {
-          const message = typeof json === "string" ? JSON.parse(json) : json;
-          const name = String((message && (message.name || message.kind)) || "?").toLowerCase();
-          const local = name.split("/").pop();
-          if (message && message.kind !== "state" && message.kind !== "reply" && !known.includes(local)) {
-            const count = (seenEvents.get(name) || 0) + 1;
-            seenEvents.set(name, count);
-            if (count <= 3) bridge.send("log", "message " + JSON.stringify(message).slice(0, 400));
-          }
-        } catch (e) { /* not JSON: leave it to the helper */ }
-        return deliver.apply(this, arguments);
-      };
-    }
-    bridge.on("gamepadRaw", onRaw("raw-local"));
-    // A send() endpoint (the log said "wrong-endpoint-kind" for request()).
-    const requestRawMode = () => {
-      bridge.send("osfui.gamepadMode", { mode: "raw" });
-      bridge.send("log", "gamepadMode raw sent");
-    };
-    requestRawMode();
-    document.addEventListener("visibilitychange", () => { if (!document.hidden) requestRawMode(); });
   }
 
   document.addEventListener("mousemove", () => {
@@ -1289,8 +1189,10 @@
       cycleFilter(-1);
     } else if (key === "e") {
       cycleFilter(1);
-    } else if (/^[1-9]$/.test(key) && Number(key) <= TABS.length) {
-      setTab(TABS[Number(key) - 1].id);
+    } else if (key === "z") {
+      cycleTab(-1);
+    } else if (key === "c") {
+      cycleTab(1);
     } else if (key === "arrowup" || key === "w") {
       event.preventDefault();
       move(-1);

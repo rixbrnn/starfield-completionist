@@ -47,7 +47,6 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .views button { padding: 6px 16px; font-size: 19px; color: rgba(255, 255, 255, 0.6); border: 1px solid transparent; }
 .views button:hover { color: #fff; }
 .views button[aria-current="page"] { background: var(--light); color: var(--on-light); }
-.views .num { margin-right: 8px; font-size: 13px; padding: 0 5px; border: 1px solid currentColor; border-radius: 4px; opacity: 0.8; }
 .views kbd { min-width: 30px; height: 28px; border: 1.5px solid rgba(255, 255, 255, 0.8); border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 0 6px; font-family: inherit; font-size: 12px; margin: 0 6px; }
 .totals { display: flex; gap: 28px; }
 .total { display: flex; align-items: center; gap: 10px; }
@@ -180,3 +179,4 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .step .box i.done::after { content: ""; position: absolute; left: 5px; top: 1px; width: 5px; height: 10px; border: solid #3fe0a0; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
 .step .box i.failed::before, .step .box i.failed::after { content: ""; position: absolute; left: 2px; right: 2px; top: 7.5px; height: 2px; background: var(--failed); transform: rotate(45deg); }
 .step .box i.failed::after { transform: rotate(-45deg); }
+.views kbd .chev { width: 7px; height: 7px; border-width: 0 1.5px 1.5px 0; }
