@@ -24,27 +24,25 @@
   .tag { font-size: 19px; line-height: 1.45; color: #d5dbe4; }
   .emblems { display: flex; gap: 14px; margin-top: 22px; }
   .emblems img { width: 34px; height: 34px; }
+  /* Right: what the game's own mission log doesn't show: completion per place, quests not
+     found yet, and quests the story hasn't unlocked yet. */
   .right { flex: 1; display: flex; flex-direction: column; gap: 4px; }
-  .tabs { display: flex; gap: 4px; margin-bottom: 10px; font-size: 14px; letter-spacing: 0.06em; }
-  .tabs span { flex: 1; border: 1px solid rgba(255, 255, 255, 0.35); padding: 6px 10px; display: flex; justify-content: space-between; white-space: nowrap; gap: 10px; }
-  .tabs span.on { background: #f4f5f7; color: #5f6878; }
-  .tabs b { font-weight: 400; color: #aab6c8; }
-  .tabs .on b { color: #5f6878; }
-  .row { display: flex; gap: 3px; height: 46px; }
+  .place { display: flex; align-items: center; gap: 20px; margin-bottom: 8px; }
+  .place svg { width: 84px; height: 84px; flex-shrink: 0; }
+  .place .pct { fill: #f2f4f7; font-family: "Share Tech Mono", monospace; font-size: 15px; }
+  .pname { font-size: 26px; letter-spacing: 0.08em; }
+  .psub { font-family: "Inter", sans-serif; text-transform: none; font-size: 14px; color: #d5dbe4; margin-top: 2px; }
+  .pcounts { display: flex; gap: 16px; margin-top: 8px; font-size: 13px; letter-spacing: 0.1em; color: #aab6c8; white-space: nowrap; }
+  .pcounts b { font-weight: 400; font-size: 17px; color: #fff; margin-right: 5px; }
+  .pcounts b.c { color: #34d8e8; }
+  .group { font-size: 13px; letter-spacing: 0.16em; color: #b8c3d4; margin: 6px 0 2px 2px; }
+  .row { display: flex; gap: 3px; height: 40px; }
   .row .tile { width: 7px; background: rgba(118, 136, 166, 0.55); }
-  .row.tracked .tile { background: #34d8e8; }
-  .row .panel { flex: 1; display: flex; align-items: center; gap: 14px; padding: 0 16px; background: rgba(118, 136, 166, 0.55); font-size: 16px; letter-spacing: 0.06em; }
-  .row .panel img { width: 24px; height: 24px; }
-  .row .name { flex: 1; }
-  .row .meta { font-family: "Inter", sans-serif; text-transform: none; letter-spacing: 0; font-size: 13px; color: #d5dbe4; }
-  .row.sel .panel { background: #f4f5f7; color: #3d4554; }
-  .row.sel .meta { color: #7d8697; }
-  .row.done .name { text-decoration: line-through; color: #c9d1dc; }
-  .row.done img { filter: grayscale(1); opacity: 0.55; }
-  .step { display: flex; gap: 3px; height: 38px; margin-left: 60px; }
-  .step .box { width: 38px; background: rgba(118, 136, 166, 0.55); display: flex; align-items: center; justify-content: center; }
-  .step .box i { width: 16px; height: 16px; border: 1.5px solid #f2f4f7; box-sizing: border-box; }
-  .step .txt { flex: 1; background: rgba(118, 136, 166, 0.55); display: flex; align-items: center; padding: 0 14px; font-size: 14px; letter-spacing: 0.06em; }
+  .row .panel { flex: 1; display: flex; align-items: center; gap: 14px; padding: 0 16px; background: rgba(118, 136, 166, 0.55); font-size: 15px; letter-spacing: 0.06em; }
+  .row .panel img { width: 22px; height: 22px; }
+  .row .name { flex: 1; white-space: nowrap; }
+  .row .meta { font-family: "Inter", sans-serif; text-transform: none; letter-spacing: 0; font-size: 13px; color: #d5dbe4; white-space: nowrap; }
+  .row.locked { opacity: 0.6; }
 </style>
 </head>
 <body>
@@ -61,12 +59,24 @@
       </div>
     </div>
     <div class="right mono">
-      <div class="tabs"><span class="on">All <b>96</b></span><span>In progress <b>9</b></span><span>Completed <b>40</b></span></div>
-      <div class="row tracked sel"><span class="tile"></span><span class="panel"><img src="icons/constellation-color.svg" alt=""><span class="name">Further Into the Unknown</span><span class="meta">The Eye</span></span></div>
-      <div class="step"><span class="box"><i></i></span><span class="txt">Go to Eridani III</span></div>
-      <div class="step"><span class="box"><i></i></span><span class="txt">Go to Luyten's Rock</span></div>
-      <div class="row"><span class="tile"></span><span class="panel"><img src="icons/freestar-color.svg" alt=""><span class="name">Where Hope Is Built</span><span class="meta">Akila City</span></span></div>
-      <div class="row done"><span class="tile"></span><span class="panel"><img src="icons/no-faction-color.svg" alt=""><span class="name">The Art Dealer</span><span class="meta">New Atlantis</span></span></div>
+      <div class="place">
+        <svg viewBox="0 0 52 52" role="img" aria-label="39% complete">
+          <circle cx="26" cy="26" r="22" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="4"/>
+          <circle cx="26" cy="26" r="22" fill="none" stroke="#f2f4f7" stroke-width="4" stroke-dasharray="53.9 138.2" transform="rotate(-90 26 26)"/>
+          <circle cx="26" cy="26" r="22" fill="none" stroke="#34d8e8" stroke-width="4" stroke-dasharray="10.7 138.2" stroke-dashoffset="-53.9" transform="rotate(-90 26 26)"/>
+          <text class="pct" x="26" y="26" text-anchor="middle" dominant-baseline="central">39%</text>
+        </svg>
+        <div>
+          <div class="pname">New Atlantis</div>
+          <div class="psub">Jemison · Alpha Centauri system</div>
+          <div class="pcounts"><span><b>35</b>DONE</span><span><b class="c">7</b>IN PROGRESS</span><span><b>34</b>TO FIND</span><span><b>14</b>NOT YET</span></div>
+        </div>
+      </div>
+      <div class="group">NOT DISCOVERED · 34</div>
+      <div class="row"><span class="tile"></span><span class="panel"><img src="icons/no-faction-color.svg" alt=""><span class="name">Distilling Confidence</span><span class="meta">Nyssa Marcano</span></span></div>
+      <div class="row"><span class="tile"></span><span class="panel"><img src="icons/united-colonies-color.svg" alt=""><span class="name">Supra et Ultra</span><span class="meta">MAST District</span></span></div>
+      <div class="group">NOT AVAILABLE YET · 14</div>
+      <div class="row locked"><span class="tile"></span><span class="panel"><img src="icons/constellation-color.svg" alt=""><span class="name">Unity</span><span class="meta">Unlocks during High Price to Pay</span></span></div>
     </div>
   </div>
 </body>
