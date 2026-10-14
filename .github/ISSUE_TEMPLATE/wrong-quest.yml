@@ -1,6 +1,6 @@
 name: Quest tracked wrongly
 description: A quest or activity shows the wrong status, is missing, or is listed in the wrong place.
-labels: ["quest data"]
+labels: ["quest data", "needs-triage"]
 body:
   - type: input
     id: quest

@@ -12,3 +12,7 @@ node_modules/
 /.vscode/
 /.idea/
 *.user
+
+# Agent skills installed locally with npx skills (not part of the mod)
+/.claude/skills/
+/skills-lock.json

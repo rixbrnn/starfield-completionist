@@ -1,6 +1,6 @@
 name: Bug
 description: The menu doesn't open, something crashes, or a feature doesn't work.
-labels: ["bug"]
+labels: ["bug", "needs-triage"]
 body:
   - type: textarea
     id: what
