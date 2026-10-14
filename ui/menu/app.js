@@ -57,6 +57,9 @@
   if (!SORTS.some((s) => s.id === view.sort)) view.sort = "default";
   let shownQuests = []; // quests in the detail list, in display order
   let shownItems = []; // list rows in display order: { q } or, under an open quest, { q, step, state }
+  let listRows = []; // the quest list's row elements, by index in shownItems
+  let listScroller = null; // the quest list's scrolling element
+  let logCards = null; // the Log's left column (overall card, then the selected quest's card)
   let shownCards = []; // systems on the nothing-tracked page
   let hereLayout = "city"; // Here tab: "city", "places" (planet or system) or "nowhere"
   let tracked = new Set(); // ids of quests the player is tracking (the game's "active" quests)
@@ -523,13 +526,59 @@
       if (key) scrollMemory.set(key, scroller.scrollTop);
       update();
     });
+    // Mouse wheel: an eased glide of about two rows per notch, instead of the browser's jumps.
+    scroller.addEventListener("wheel", (event) => {
+      if (event.ctrlKey) return;
+      event.preventDefault();
+      const notches = event.deltaMode === 1 ? event.deltaY / 3 : event.deltaMode === 2 ? event.deltaY * 4 : event.deltaY / 100;
+      const from = scroller._glideTarget !== undefined ? scroller._glideTarget : scroller.scrollTop;
+      glide(scroller, from + notches * 2 * ROW_STEP, 180);
+    }, { passive: false });
     // Call once the area is in the page: restores the position, brings the selection into view.
     area.settle = (selected) => {
       if (key && scrollMemory.has(key)) scroller.scrollTop = scrollMemory.get(key);
-      if (selected) selected.scrollIntoView({ block: "nearest" });
+      if (selected) reveal(scroller, selected);
       update();
     };
     return area;
+  }
+
+  // Height of one quest row and its gap: the unit for wheel steps and the reveal margin.
+  const ROW_STEP = 59;
+  const nextFrame = (fn) => (document.hasFocus() ? requestAnimationFrame(fn) : setTimeout(() => fn(performance.now()), 16));
+
+  // Scrolls to target with an ease-out; a new glide picks up from wherever the last one is.
+  function glide(scroller, target, duration) {
+    const max = scroller.scrollHeight - scroller.clientHeight;
+    const to = Math.max(0, Math.min(max, Math.round(target)));
+    const from = scroller.scrollTop;
+    scroller._glideTarget = to;
+    const id = (scroller._glideId || 0) + 1;
+    scroller._glideId = id;
+    if (Math.abs(to - from) < 1) { scroller._glideTarget = undefined; return; }
+    const start = performance.now();
+    const step = (now) => {
+      if (scroller._glideId !== id) return;
+      const p = Math.min(1, (now - start) / duration);
+      scroller.scrollTop = from + (to - from) * (1 - Math.pow(1 - p, 3));
+      if (p < 1) nextFrame(step);
+      else scroller._glideTarget = undefined;
+    };
+    nextFrame(step);
+  }
+
+  // Keeps el in view with about two rows of margin, so the next rows are always visible.
+  function reveal(scroller, el) {
+    const margin = Math.min(2 * ROW_STEP, scroller.clientHeight / 3);
+    const box = scroller.getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
+    const base = scroller._glideTarget !== undefined ? scroller._glideTarget : scroller.scrollTop;
+    const top = rect.top - box.top + scroller.scrollTop;
+    const bottom = top + rect.height;
+    let target = base;
+    if (top - margin < base) target = top - margin;
+    else if (bottom + margin > base + scroller.clientHeight) target = bottom + margin - scroller.clientHeight;
+    if (target !== base) glide(scroller, target, 120);
   }
 
   // Left column: a detail card, then the places / questlines to pick from.
@@ -662,11 +711,15 @@
 
     const list = el("div", { class: "list" });
     if (shown.length === 0) list.append(el("div", { class: "empty", text: options.empty || "Nothing here for this filter." }));
+    listRows = [];
+    listScroller = list;
     items.forEach((item, i) => {
       const group = groupAt.get(i);
       if (group) list.append(el("div", { class: "list-divider", text: group.label + " · " + group.quests.length }));
       const selected = view.focus === "list" && i === view.row;
-      list.append(item.step ? stepRow(item, i, selected) : questRow(item.q, i, selected, options));
+      const row = item.step ? stepRow(item, i, selected) : questRow(item.q, i, selected, options);
+      listRows.push(row);
+      list.append(row);
     });
     const area = scrollArea(list, ["list", view.tab, view.tab === "log" ? view.selected.log : view.filter, view.selected[view.tab], hereLayout].join(":"));
     children.push(area);
@@ -993,9 +1046,10 @@
       if (view.focus !== "list") view.focus = "list";
       renderDetail(category.quests, { tabs: categories.map((c) => ({ id: c.id, label: c.label, count: c.quests.length })), meta: hubName, empty: "Nothing here yet." });
       // Overall progress first, like the other views' cards, then the selected quest.
-      renderSide([], el("div", {},
+      logCards = el("div", {},
         summaryCard("All quests and activities", "This playthrough", DATA.quests),
-        questCard(selectedQuest() || shownQuests[0])));
+        questCard(selectedQuest() || shownQuests[0]));
+      renderSide([], logCards);
       return;
     }
     const row = items.find((r) => r.key === view.selected[view.tab]);
@@ -1213,6 +1267,8 @@
   }
   // Moving the selection never opens a quest: A (or a click) opens and closes it, like the game.
   function selectRow(index) {
+    const before = view.row;
+    const quick = view.focus === "list" && listRows[index] && listRows[index].isConnected;
     view.focus = "list";
     view.row = index;
     const item = shownItems[index];
@@ -1220,7 +1276,14 @@
       view.selQuest = item.q.id;
       view.step = item.step ? item.step[0] : null;
     }
-    render();
+    if (!quick) return render();
+    // Only the highlight, the footer and (on the Log) the quest card change: rebuilding the whole
+    // menu on every step made moving through long lists lag.
+    if (listRows[before]) listRows[before].classList.remove("selected");
+    listRows[index].classList.add("selected");
+    reveal(listScroller, listRows[index]);
+    renderKeys();
+    if (view.tab === "log" && logCards && logCards.isConnected) logCards.replaceChild(questCard(item && item.q), logCards.lastChild);
   }
   function toggleOpen(q) {
     if (view.open.has(q.id)) view.open.delete(q.id);
@@ -1371,6 +1434,24 @@
     }
   });
 
+  // Holding up / down (keys, or the D-pad / stick that OSF UI turns into keys): repeats are paced
+  // instead of queued, a step every 85 ms, then up to every 30 ms after a second, so the selection
+  // keeps up and stops when you let go.
+  const hold = { key: null, start: 0, last: 0, seen: 0 };
+  function holdAllows(key, event) {
+    const now = performance.now();
+    const repeat = event.repeat || (hold.key === key && now - hold.seen < 160);
+    hold.seen = now;
+    if (!repeat) {
+      hold.key = key;
+      hold.start = hold.last = now;
+      return true;
+    }
+    if (now - hold.last < (now - hold.start > 1000 ? 30 : 85)) return false;
+    hold.last = now;
+    return true;
+  }
+
   document.addEventListener("keydown", (event) => {
     const key = event.key.toLowerCase();
     // Arrow keys and Enter also come from the controller, so only other keys switch the prompts back.
@@ -1390,10 +1471,10 @@
       cycleFilter(1);
     } else if (key === "arrowup" || key === "w") {
       event.preventDefault();
-      move(-1);
+      if (holdAllows(key, event)) move(-1);
     } else if (key === "arrowdown" || key === "s") {
       event.preventDefault();
-      move(1);
+      if (holdAllows(key, event)) move(1);
     } else if (key === "arrowleft" || key === "a") {
       event.preventDefault();
       left();
