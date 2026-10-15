@@ -8,7 +8,7 @@
 
 **See exactly which quests you're still missing in every system, planet and city**, in a menu that looks like it's part of the game. Inspired by Faen90's [Completionist](https://www.nexusmods.com/skyrimspecialedition/mods/46358) for Skyrim.
 
-**[Download on Nexus Mods](https://www.nexusmods.com/starfield/mods/18434)** · PC (Steam) · version 1.0.1
+**[Download on Nexus Mods](https://www.nexusmods.com/starfield/mods/18434)** · PC (Steam) · version 1.0.2
 
 ![The Completionist menu in New Atlantis: completion ring, quests in progress and quests not discovered yet](docs/images/menu-here-new-atlantis.jpg)
 
