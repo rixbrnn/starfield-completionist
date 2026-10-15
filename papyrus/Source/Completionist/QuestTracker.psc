@@ -63,7 +63,7 @@ Int buildTotal = 0
 
 ; The quest events registered so far (see RegisterAllEvents). Registrations are saved with the
 ; game; raise EventsVersion when RegisterQuestEvents registers more, so saves pick them up.
-Int Property EventsVersion = 2 AutoReadOnly
+Int Property EventsVersion = 3 AutoReadOnly
 Int eventsRegistered = 0
 
 ; Overrides as older versions kept them (at most 128), moved onto their entries by MigrateOverrides.
@@ -105,6 +105,9 @@ Event Actor.OnPlayerLoadGame(Actor akSender)
     ; and the menu's hotkey waits behind them.
     MigrateOverrides()
     ReadUnity()
+    If ResolveLeads()
+      SendCustomEvent("StatusChanged")
+    EndIf
     Report()
     StartTimer(CheckInterval, kCheckTimer)
     If eventsRegistered != EventsVersion
@@ -237,7 +240,8 @@ Function Refresh()
   page2 = new2
   page3 = new3
 
-  ; Overrides, equivalents and choices only look at the raw statuses just read: no game calls.
+  ; Overrides, equivalents and choices only look at the raw statuses just read; unlocks and
+  ; leads ask the game, for the few quests that have them.
   Int p = 0
   While p < MaxPages
     Completionist:QuestData:Entry[] entries = GetPage(p)
@@ -300,8 +304,8 @@ Function RegisterAllEvents()
   eventsRegistered = EventsVersion
 EndFunction
 
-; Stage changes, starts and shutdowns of the tracked quests, and of the quests that make them
-; available, trigger QuestChanged. Registering again is harmless.
+; Stage changes, starts and shutdowns of the tracked quests, of the quests that make them
+; available and of the quests errands lead to trigger QuestChanged. Registering again is harmless.
 Function RegisterQuestEvents(Completionist:QuestData:Entry[] akEntries)
   Int i = 0
   While i < akEntries.Length
@@ -315,6 +319,7 @@ Function RegisterQuestEvents(Completionist:QuestData:Entry[] akEntries)
     RegisterAfterEvents(entry.after2)
     RegisterAfterEvents(entry.after3)
     RegisterAfterEvents(entry.after4)
+    RegisterAfterEvents(entry.leadQuest)
     i += 1
   EndWhile
 EndFunction
@@ -413,7 +418,7 @@ Function QuestChangedFrom(Quest akQuest, String asSource)
 EndFunction
 
 Bool Function DependsOn(Completionist:QuestData:Entry akEntry, Quest akQuest, Completionist:QuestData:Entry akSource)
-  If akEntry.questForm == akQuest || akEntry.after1 == akQuest || akEntry.after2 == akQuest || akEntry.after3 == akQuest || akEntry.after4 == akQuest
+  If akEntry.questForm == akQuest || akEntry.after1 == akQuest || akEntry.after2 == akQuest || akEntry.after3 == akQuest || akEntry.after4 == akQuest || akEntry.leadQuest == akQuest
     Return True
   ElseIf akSource == None
     Return False
@@ -616,6 +621,9 @@ Int Function Resolve(Completionist:QuestData:Entry akEntry)
   If status != kCompleted && akEntry.equivalent != "" && EquivalentCompleted(akEntry)
     Return kCompleted
   EndIf
+  If status != kCompleted && (akEntry.leadQuest || akEntry.leadLocation) && LeadReached(akEntry)
+    Return kCompleted
+  EndIf
   If status != kCompleted && akEntry.choice1Group != "" && LockedByChoice(akEntry)
     Return kLockedOut
   EndIf
@@ -633,6 +641,54 @@ Bool Function Unlocked(Completionist:QuestData:Entry akEntry)
     Return True
   EndIf
   Return akEntry.afterGroup != "" && GroupCompleted(akEntry.afterGroup)
+EndFunction
+
+; An errand that leads elsewhere ("Talk to Clover", "Go to Eleos") is done once the player has
+; that quest (in the mission log, or finished) or has explored that place, however they got
+; there. Not "the quest is running": city quests run in the background long before that.
+Bool Function LeadReached(Completionist:QuestData:Entry akEntry)
+  If akEntry.leadQuest
+    Completionist:QuestData:Entry target = EntryOf(akEntry.leadQuest)
+    If target
+      Return target.raw == kInProgress || target.raw == kCompleted || target.raw == kFailed
+    EndIf
+    Return akEntry.leadQuest.IsCompleted()
+  EndIf
+  Return akEntry.leadLocation && akEntry.leadLocation.HasEverBeenExplored()
+EndFunction
+
+; Errands that lead elsewhere, judged again on load: a place explored or a quest picked up
+; raises no event of theirs, and saves of 1.0.3 test builds counted leads as done too early.
+Bool Function ResolveLeads()
+  Bool changed = False
+  Int p = 0
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    Int i = 0
+    While i < entries.Length
+      If entries[i].leadQuest || entries[i].leadLocation
+        changed = Apply(entries[i], Resolve(entries[i]), "load, lead") || changed
+      EndIf
+      i += 1
+    EndWhile
+    p += 1
+  EndWhile
+  Return changed
+EndFunction
+
+Completionist:QuestData:Entry Function EntryOf(Quest akQuest)
+  Int p = 0
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    If entries
+      Int at = entries.FindStruct("questForm", akQuest)
+      If at >= 0
+        Return entries[at]
+      EndIf
+    EndIf
+    p += 1
+  EndWhile
+  Return None
 EndFunction
 
 Bool Function AfterReached(Quest akQuest, Int aiStage)

@@ -127,6 +127,7 @@ interface Curation {
   ngPlusOnly: { editorIds: string[] };
   names: Record<string, string>;
   equivalents: Record<string, string[]>;
+  leads: Record<string, string>;
 }
 const curation = JSON.parse(readFileSync(resolve("data/curation.json"), "utf8")) as Curation;
 const excluded = (q: DumpQuest) =>
@@ -145,10 +146,20 @@ const equivalentOf = new Map(Object.entries(curation.equivalents).filter(([group
 const curatedOrder = new Map(Object.values(curation.questlineOrder).flatMap((ids) => ids.map((id, index) => [id, index + 1] as const)));
 
 // Small errands ("Misc Pointer" activities). The game shows them by their first objective,
-// e.g. "Talk to Sergeant Yumi", and counts them in its Activities Completed stat. Templated
-// ones ("Talk to <Alias…>") are repeatable job-board nudges and are skipped.
+// e.g. "Talk to Sergeant Yumi", and counts them in its Activities Completed stat. Many have no
+// name, or one like "Wrapper for NeonZ01", so their editor ID says what they are too. Templated
+// ones ("Talk to <Alias…>") are repeatable job-board nudges and are skipped, as are encounter
+// handlers (BE_, OE_, SQ_).
+const isLead = (q: DumpQuest) => /pointer/i.test(q.name) || /^wrapper for/i.test(q.name) || /pointer|misc/i.test(q.editorId);
 const errands = dump.quests.filter(
-  (q) => q.type === "activity" && q.objectives > 0 && /pointer/i.test(q.name) && q.objectiveText !== "" && !q.objectiveText.includes("<Alias"),
+  (q) =>
+    q.type === "activity" &&
+    q.objectives > 0 &&
+    isLead(q) &&
+    !/^(BE|OE|SQ)_/.test(q.editorId) &&
+    q.objectiveText !== "" &&
+    !q.objectiveText.includes("<Alias") &&
+    !activities.includes(q),
 );
 for (const quest of errands) {
   quest.name = quest.objectiveText.replace(/^\(Optional\)\s*/i, "");
@@ -157,6 +168,15 @@ for (const quest of errands) {
 // Many errands never flag a stage "complete quest": their last stage just shuts the quest down
 // (e.g. FFLodge_MB stops at 100), so the game never reports them completed. Their last stage
 // is the one that marks them done.
+// Where an errand leads (data/curation.json "leads"): it counts as done once that quest has
+// started, or for "Go to <place>" errands once the place is explored.
+const leadOf = (quest: DumpQuest) => {
+  const target = curation.leads[quest.editorId] ? dumpByEditorId.get(curation.leads[quest.editorId].toLowerCase()) : undefined;
+  if (target) return { quest: target.editorId, form: target.form };
+  if (curation.leads[quest.editorId]) throw new Error(`curation.json leads: ${curation.leads[quest.editorId]} not found`);
+  const place = quest.errand && /^(go|travel) to /i.test(quest.name) ? quest.aliases.find((a) => a.kind === "location" && a.forcedLocation) : undefined;
+  return place ? { location: place.forcedLocation as string, name: quest.name.replace(/^(go|travel) to /i, "") } : undefined;
+};
 const completeStagesOf = (quest: DumpQuest): number[] =>
   quest.completeStages.length || !quest.errand || quest.stages.length === 0 ? quest.completeStages : [Math.max(...quest.stages)];
 
@@ -498,6 +518,7 @@ for (const [owner, quests] of byOwner) {
       ...(ngPlusOnly.has(quest.editorId) ? { ngPlusOnly: true } : {}),
       equivalentGroup: equivalentOf.get(quest.editorId)?.group ?? null,
       ...(equivalentOf.get(quest.editorId)?.hidden ? { hidden: true } : {}),
+      ...(leadOf(quest) ? { lead: leadOf(quest) } : {}),
     };
   });
 

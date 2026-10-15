@@ -43,7 +43,7 @@ interface Condition {
 
 interface Collection {
   places?: Array<{ id: string; name: string; parent?: string; location?: string }>;
-  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null; objectives?: number[]; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; equivalentGroup?: string | null; hidden?: boolean; availableAfter?: Array<{ form: string; name?: string; stage: number; group?: string }> }>;
+  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null; objectives?: number[]; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; equivalentGroup?: string | null; hidden?: boolean; availableAfter?: Array<{ form: string; name?: string; stage: number; group?: string }>; lead?: { quest?: string; form?: string; location?: string } }>;
 }
 
 /** Stages from a questStage / anyOf-of-questStage condition. */
@@ -53,6 +53,13 @@ function stagesOf(condition: Condition | null | undefined): number[] {
   if (condition.type === "anyOf") return (condition.conditions ?? []).flatMap(stagesOf);
   return [];
 }
+
+/** A "Plugin|FormID" as (local FormID, plugin) for Game.GetFormFromFile; (0, "") if absent. */
+const formArgs = (form: string | undefined): [number, string] => {
+  if (!form) return [0, papyrusString("")];
+  const [plugin, hex] = form.split("|");
+  return [Number.parseInt(hex, 16), papyrusString(plugin)];
+};
 
 const papyrusString = (text: string) => `"${text.replaceAll("\\", "\\\\").replaceAll('"', '\\"')}"`;
 
@@ -115,6 +122,9 @@ for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort(
         return [Number.parseInt(afterHex, 16), papyrusString(afterPlugin), after.stage];
       }).flat(),
       papyrusString(quest.availableAfter?.find((a) => a.group)?.group ?? ""),
+      // Where an errand leads: a quest (done once it starts) or a place (done once explored).
+      ...formArgs(quest.lead?.form),
+      ...formArgs(quest.lead?.location),
     ];
     calls.push(`Add(entries, ${args.join(", ")}) ; ${file}`);
   }
@@ -189,6 +199,10 @@ Struct Entry
   Int after4Stage = -1
   String afterGroup
   Int override = 0 ; manual override (QuestTracker kOverride*), carried into a rebuilt table like status
+  ; An errand that leads elsewhere also counts as done once this quest has started or this place
+  ; is explored (lead in data/quests). None = not a lead.
+  Quest leadQuest
+  Location leadLocation
 EndStruct
 
 ; Papyrus arrays hold at most 128 elements, so quests come in pages of up to ${PAGE_SIZE}.
@@ -216,7 +230,7 @@ ${pageBlocks}
   Return entries
 EndFunction
 
-Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asChoice1Group, String asChoice1Side, String asChoice2Group, String asChoice2Side, Bool abNgPlusOnly, Int aiObj1, Int aiObj2, Int aiObj3, Int aiObj4, Int aiObj5, Int aiObj6, Int aiObj7, Int aiObj8, Bool abObjectivesMany, String asEquivalent, Bool abHidden, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2, Int aiAfter1, String asAfter1Plugin, Int aiAfter1Stage, Int aiAfter2, String asAfter2Plugin, Int aiAfter2Stage, Int aiAfter3, String asAfter3Plugin, Int aiAfter3Stage, Int aiAfter4, String asAfter4Plugin, Int aiAfter4Stage, String asAfterGroup) Global
+Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asChoice1Group, String asChoice1Side, String asChoice2Group, String asChoice2Side, Bool abNgPlusOnly, Int aiObj1, Int aiObj2, Int aiObj3, Int aiObj4, Int aiObj5, Int aiObj6, Int aiObj7, Int aiObj8, Bool abObjectivesMany, String asEquivalent, Bool abHidden, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2, Int aiAfter1, String asAfter1Plugin, Int aiAfter1Stage, Int aiAfter2, String asAfter2Plugin, Int aiAfter2Stage, Int aiAfter3, String asAfter3Plugin, Int aiAfter3Stage, Int aiAfter4, String asAfter4Plugin, Int aiAfter4Stage, String asAfterGroup, Int aiLeadQuest, String asLeadQuestPlugin, Int aiLeadLocation, String asLeadLocationPlugin) Global
   Quest found = Game.GetFormFromFile(aiFormID, asPlugin) as Quest
   If found
     Entry entry = new Entry
@@ -268,6 +282,12 @@ Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, Stri
       entry.after4Stage = aiAfter4Stage
     EndIf
     entry.afterGroup = asAfterGroup
+    If aiLeadQuest > 0
+      entry.leadQuest = Game.GetFormFromFile(aiLeadQuest, asLeadQuestPlugin) as Quest
+    EndIf
+    If aiLeadLocation > 0
+      entry.leadLocation = Game.GetFormFromFile(aiLeadLocation, asLeadLocationPlugin) as Location
+    EndIf
     akEntries.Add(entry)
   EndIf
 EndFunction
