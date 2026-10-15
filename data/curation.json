@@ -112,15 +112,17 @@
     }
   },
   "exclude": {
-    "$comment": "Duplicate records; tracking them would make 100% impossible.",
+    "$comment": "Duplicate records, and quests only some characters get (a trait's lead); tracking them would make 100% impossible.",
     "editorIds": [
-      "UCR04_Dupe00"
+      "UCR04_Dupe00",
+      "TraitStarterHome_Pointer"
     ],
     "patterns": []
   },
   "names": {
     "CF08_Fleet": "Legacy's End (Crimson Fleet)",
-    "CF08_SysDef": "Legacy's End (UC SysDef)"
+    "CF08_SysDef": "Legacy's End (UC SysDef)",
+    "FFNeonGuardPointer_Z01": "Talk to Borealus"
   },
   "equivalents": {
     "$comment": "Versions of the same content. The first editor ID is shown; completing any member completes it. The others are tracked but hidden.",
@@ -136,7 +138,29 @@
       "MQ401h",
       "MQ401i",
       "MQ401j"
+    ],
+    "talk-to-sergeant-yumi": [
+      "FFNewAtlantis02Misc",
+      "City_NA_GuardPointer_NA02"
     ]
+  },
+  "leads": {
+    "$comment": "Errands that point to another quest (a guard's \"Talk to Clover\"). They count as done once that quest has started, so finding the quest another way doesn't leave the lead open forever. Leads to a place (\"Go to Eleos\") count once the place is explored; those are found automatically.",
+    "FFNeonGuardPointer_Z01": "FFNeonZ01",
+    "FFNeonGuardPointer_Z02": "FFNeonZ02",
+    "FFNeonGuardPointer_Z03": "FFNeonZ03",
+    "FFNeonGuardPointer_Z04": "FFNeonZ04",
+    "FFNeonGuardPointer_Z05": "FFNeonZ05",
+    "FFNeonGuardPointer_Z06": "FFNeonZ06",
+    "FFNeonGuardPointer_Z07": "FFNeonZ07",
+    "FFNeonGuardPointer_Z08": "FFNeonZ08",
+    "FFNeonGuardPointer_Z09": "FFNeonZ09",
+    "FFNeonGuardPointer_Z10": "FFNeonZ10",
+    "City_NA_GuardPointer_Well": "City_NA_Well01",
+    "City_NA_GuardPointer_Botany": "City_NA_Botany01",
+    "City_NA_GuardPointer_Viewport": "City_NA_Viewport01",
+    "City_NA_GuardPointer_NA02": "FFNewAtlantis02",
+    "City_Neon_Chem03Misc": "City_Neon_Chem03"
   },
   "choiceGroups": {
     "$comment": "Two-sided choices: completing any quest on one side locks out the unfinished quests on the other side (they count as resolved). lockedLabel is shown on a locked-out quest of that side.",

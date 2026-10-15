@@ -271,6 +271,29 @@
             }
           }
         },
+        "lead": {
+          "description": "An errand that points somewhere else (a guard's \"Talk to Clover\", \"Go to Eleos\"): it also counts as done once that quest has started or that place is explored, so finding it another way doesn't leave the errand open.",
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["quest", "form"],
+              "properties": {
+                "quest": { "type": "string", "description": "Editor ID of the quest it leads to." },
+                "form": { "type": "string", "description": "Plugin|FormID of that quest." }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["location", "name"],
+              "properties": {
+                "location": { "type": "string", "description": "Plugin|FormID of the LCTN it leads to." },
+                "name": { "type": "string", "description": "The place's name, as the objective says it." }
+              }
+            }
+          ]
+        },
         "steps": {
           "type": "array",
           "description": "Objectives as the mission log shows them, for the menu's expanded quest rows.",

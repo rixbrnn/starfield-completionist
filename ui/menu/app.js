@@ -1214,7 +1214,7 @@
       renderDetail(category.quests, { tabs: categories.map((c) => ({ id: c.id, label: c.label, count: c.quests.length })), meta: hubName, empty: "Nothing here yet." });
       // Overall progress first, like the other views' cards, then the selected quest.
       logCards = el("div", {},
-        summaryCard("All quests and activities", "This playthrough", DATA.quests),
+        summaryCard("All quests and activities", "This playthrough", DATA.quests, { note: category.id === "activity" ? notListedNote() : null }),
         questCard(selectedQuest() || shownQuests[0]));
       renderSide([], logCards);
       return;
@@ -1231,12 +1231,16 @@
     const chain = row.key === "all" || row.key === "anywhere" ? [] : placeChain(row.key);
     const sub = chain.slice(1).map((p) => placeLabel(p.key, p.name) + (p.kind === "system" ? " system" : "")).join(" · ");
     const options = (view.tab === "activities" || view.tab === "side") && row.key === "all" ? { meta: hubName } : {};
-    // The game's stat (and the Fixer achievement) also counts small errands and repeatable activities.
-    const note = view.tab === "activities" && gameActivities !== null
-      ? "Game count: " + gameActivities + " activities completed, including small errands and repeatable activities this list leaves out."
-      : null;
+    const note = view.tab === "activities" ? notListedNote() : null;
     renderSide(rows, summaryCard(placeLabel(row.key, row.label), sub, row.quests, { note }));
     renderDetail(row.quests, options);
+  }
+
+  // Activities the game lists but this menu can't track. The game's stat (and the Fixer
+  // achievement) counts them too, so it is higher than ours.
+  function notListedNote() {
+    const gameCount = gameActivities !== null ? " The game's own count (" + gameActivities + " completed) includes them." : "";
+    return "Not listed here: companion conversations and repeatable mission board jobs. They come and go, so they can't be completed." + gameCount;
   }
 
   // ------------------------------------------------------------------ Here tab

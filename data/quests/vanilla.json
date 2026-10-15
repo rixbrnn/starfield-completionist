@@ -5584,6 +5584,53 @@
       ]
     },
     {
+      "id": "city-er-dead-misc",
+      "name": "Ask about the missing worker",
+      "form": "Starfield.esm|0x17134E",
+      "editorId": "City_ER_Dead_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.the-eleos-retreat",
+        "giver": "Sloan Temitope",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Ask about the missing worker",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x28B932",
+          "quest": "DialogueEleosRetreat",
+          "stage": 50
+        },
+        {
+          "form": "Starfield.esm|0x17134F",
+          "quest": "City_ER_Dead",
+          "name": "Dead Stop",
+          "stage": 100
+        }
+      ]
+    },
+    {
       "id": "city-er-exorcism",
       "name": "Exorcism",
       "form": "Starfield.esm|0x16B466",
@@ -5851,6 +5898,53 @@
           "form": "Starfield.esm|0x16B466",
           "quest": "City_ER_Exorcism",
           "name": "Exorcism",
+          "stage": 1000
+        }
+      ]
+    },
+    {
+      "id": "city-er-peace-misc",
+      "name": "Check-in with the Eleos Retreat staff",
+      "form": "Starfield.esm|0x0D34D7",
+      "editorId": "City_ER_Peace_Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.the-eleos-retreat",
+        "giver": "Sloan Temitope",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        1000
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Check-in with the Eleos Retreat staff",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x28B932",
+          "quest": "DialogueEleosRetreat",
+          "stage": 950
+        },
+        {
+          "form": "Starfield.esm|0x1699FB",
+          "quest": "City_ER_Peace",
+          "name": "Peacemaker",
           "stage": 1000
         }
       ]
@@ -6710,6 +6804,183 @@
       },
       "fail": null,
       "equivalentGroup": null
+    },
+    {
+      "id": "city-na-guardpointer-botany",
+      "name": "Talk to the scientist by the Tree",
+      "form": "Starfield.esm|0x352CB9",
+      "editorId": "City_NA_GuardPointer_Botany",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Kelton Frush",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        200
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to the scientist by the Tree",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "quest": "City_NA_Botany01",
+        "form": "Starfield.esm|0x270718"
+      },
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x270718",
+          "quest": "City_NA_Botany01",
+          "name": "A Tree Grows in New Atlantis",
+          "stage": 20
+        }
+      ]
+    },
+    {
+      "id": "city-na-guardpointer-na02",
+      "name": "Talk to Sergeant Yumi",
+      "form": "Starfield.esm|0x352CBB",
+      "editorId": "City_NA_GuardPointer_NA02",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Sergeant Yumi",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        200
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Sergeant Yumi",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null,
+      "equivalentGroup": "talk-to-sergeant-yumi",
+      "hidden": true,
+      "lead": {
+        "quest": "FFNewAtlantis02",
+        "form": "Starfield.esm|0x24C46C"
+      }
+    },
+    {
+      "id": "city-na-guardpointer-viewport",
+      "name": "Talk to the Bartender at Viewport",
+      "form": "Starfield.esm|0x352CBA",
+      "editorId": "City_NA_GuardPointer_Viewport",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Nyssa Marcano",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        200
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to the Bartender at Viewport",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "quest": "City_NA_Viewport01",
+        "form": "Starfield.esm|0x2926D2"
+      },
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2926D2",
+          "quest": "City_NA_Viewport01",
+          "name": "Distilling Confidence",
+          "stage": 50
+        }
+      ]
+    },
+    {
+      "id": "city-na-guardpointer-well",
+      "name": "Investigate brown-outs in the Well",
+      "form": "Starfield.esm|0x352CB8",
+      "editorId": "City_NA_GuardPointer_Well",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-atlantis",
+        "giver": "Louisa Reyez",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        100,
+        200
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Investigate brown-outs in the Well",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "quest": "City_NA_Well01",
+        "form": "Starfield.esm|0x27071C"
+      },
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x27071C",
+          "quest": "City_NA_Well01",
+          "name": "Tapping the Grid",
+          "stage": 10
+        }
+      ]
     },
     {
       "id": "city-na-viewport01",
@@ -7615,6 +7886,40 @@
       },
       "fail": null,
       "equivalentGroup": null
+    },
+    {
+      "id": "city-neon-chem03misc",
+      "name": "Ask Yannick about another shift at Xenofresh",
+      "form": "Starfield.esm|0x03B7C0",
+      "editorId": "City_Neon_Chem03Misc",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.neon",
+        "giver": "Yannick Legrande",
+        "confidence": "high",
+        "source": "giver"
+      },
+      "stages": [],
+      "objectives": [
+        10
+      ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Ask Yannick about another shift at Xenofresh",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questCompleted"
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "quest": "City_Neon_Chem03",
+        "form": "Starfield.esm|0x233C2F"
+      }
     },
     {
       "id": "city-neon-gang01",
@@ -11153,6 +11458,44 @@
       ]
     },
     {
+      "id": "eleoslocationmiscpointer",
+      "name": "Go to Eleos",
+      "form": "Starfield.esm|0x193266",
+      "editorId": "EleosLocationMiscPointer",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.the-eleos-retreat",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        5,
+        10,
+        1000
+      ],
+      "objectives": [
+        5
+      ],
+      "steps": [
+        {
+          "id": 5,
+          "text": "Go to Eleos",
+          "target": 1
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "location": "Starfield.esm|0x295360",
+        "name": "Eleos"
+      }
+    },
+    {
       "id": "fc-ac-home-coremanor-misc",
       "name": "Visit your new manor in the Akila City core",
       "form": "Starfield.esm|0x0C3688",
@@ -14208,6 +14551,476 @@
       ]
     },
     {
+      "id": "ffneonguardpointer-z01",
+      "name": "Talk to Borealus",
+      "form": "Starfield.esm|0x361ED2",
+      "editorId": "FFNeonGuardPointer_Z01",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.neon",
+        "giver": "BorealUS",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        100,
+        200
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to BorealUS",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "quest": "FFNeonZ01",
+        "form": "Starfield.esm|0x0B2A73"
+      },
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0B2A73",
+          "quest": "FFNeonZ01",
+          "name": "Superfan",
+          "stage": 10
+        }
+      ]
+    },
+    {
+      "id": "ffneonguardpointer-z02",
+      "name": "Talk to Clover",
+      "form": "Starfield.esm|0x363162",
+      "editorId": "FFNeonGuardPointer_Z02",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.neon",
+        "giver": "Clover MacKenna",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        100,
+        200
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Clover",
+          "target": 1
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "quest": "FFNeonZ02",
+        "form": "Starfield.esm|0x0A316E"
+      },
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0A316E",
+          "quest": "FFNeonZ02",
+          "name": "Hard Luck",
+          "stage": 10
+        }
+      ]
+    },
+    {
+      "id": "ffneonguardpointer-z03",
+      "name": "Talk to Frank Renick",
+      "form": "Starfield.esm|0x363161",
+      "editorId": "FFNeonGuardPointer_Z03",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.neon",
+        "giver": "Frank Renick",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        100,
+        200
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Frank Renick",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "quest": "FFNeonZ03",
+        "form": "Starfield.esm|0x0A935F"
+      },
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0A935F",
+          "quest": "FFNeonZ03",
+          "name": "Bare Metal",
+          "stage": 10
+        }
+      ]
+    },
+    {
+      "id": "ffneonguardpointer-z04",
+      "name": "Talk to James Newill",
+      "form": "Starfield.esm|0x363163",
+      "editorId": "FFNeonGuardPointer_Z04",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.neon",
+        "giver": "James Newill",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        100,
+        200
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to James Newill",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "quest": "FFNeonZ04",
+        "form": "Starfield.esm|0x0B2A74"
+      },
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0B2A74",
+          "quest": "FFNeonZ04",
+          "name": "All for One",
+          "stage": 10
+        }
+      ]
+    },
+    {
+      "id": "ffneonguardpointer-z05",
+      "name": "Talk to \"Doc\" Manning",
+      "form": "Starfield.esm|0x363160",
+      "editorId": "FFNeonGuardPointer_Z05",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.neon",
+        "giver": "Doctor Joseph Manning",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        100,
+        200
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to \"Doc\" Manning",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "quest": "FFNeonZ05",
+        "form": "Starfield.esm|0x089076"
+      },
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x089076",
+          "quest": "FFNeonZ05",
+          "name": "Relief Run",
+          "stage": 10
+        }
+      ]
+    },
+    {
+      "id": "ffneonguardpointer-z06",
+      "name": "Talk to Katherine Luzion",
+      "form": "Starfield.esm|0x363164",
+      "editorId": "FFNeonGuardPointer_Z06",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.neon",
+        "giver": "Katherine Luzion",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        100,
+        200
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Katherine Luzion",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "quest": "FFNeonZ06",
+        "form": "Starfield.esm|0x082D5A"
+      },
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x082D5A",
+          "quest": "FFNeonZ06",
+          "name": "Unjustified",
+          "stage": 0
+        }
+      ]
+    },
+    {
+      "id": "ffneonguardpointer-z07",
+      "name": "Talk to Saburo Okadigbo",
+      "form": "Starfield.esm|0x36315F",
+      "editorId": "FFNeonGuardPointer_Z07",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.neon",
+        "giver": "Saburo Okadigbo",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        100,
+        200
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Saburo Okadigbo",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "quest": "FFNeonZ07",
+        "form": "Starfield.esm|0x06E0A1"
+      },
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x06E0A1",
+          "quest": "FFNeonZ07",
+          "name": "Saburo's Solution",
+          "stage": 10
+        }
+      ]
+    },
+    {
+      "id": "ffneonguardpointer-z08",
+      "name": "Talk to Tevin Anastas",
+      "form": "Starfield.esm|0x363165",
+      "editorId": "FFNeonGuardPointer_Z08",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.neon",
+        "giver": "Tevin Anastas",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        100,
+        200
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Tevin Anastas",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "quest": "FFNeonZ08",
+        "form": "Starfield.esm|0x063F4C"
+      },
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x063F4C",
+          "quest": "FFNeonZ08",
+          "name": "Mob Mentality",
+          "stage": 10
+        }
+      ]
+    },
+    {
+      "id": "ffneonguardpointer-z09",
+      "name": "Talk to Hamza",
+      "form": "Starfield.esm|0x13472B",
+      "editorId": "FFNeonGuardPointer_Z09",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.neon",
+        "giver": "Rafiq Hamza",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        100,
+        200
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Hamza",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "quest": "FFNeonZ09",
+        "form": "Starfield.esm|0x00351A"
+      },
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x00351A",
+          "quest": "FFNeonZ09",
+          "name": "Balancing the Books",
+          "stage": 10
+        }
+      ]
+    },
+    {
+      "id": "ffneonguardpointer-z10",
+      "name": "Talk to Manaia Adams",
+      "form": "Starfield.esm|0x363166",
+      "editorId": "FFNeonGuardPointer_Z10",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.neon",
+        "giver": "Manaia Adams",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        0,
+        100,
+        200
+      ],
+      "objectives": [
+        100
+      ],
+      "steps": [
+        {
+          "id": 100,
+          "text": "Talk to Manaia Adams",
+          "target": 0
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 200
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "quest": "FFNeonZ10",
+        "form": "Starfield.esm|0x2E8297"
+      },
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2E8297",
+          "quest": "FFNeonZ10",
+          "name": "Dirty Laundry",
+          "stage": 10
+        }
+      ]
+    },
+    {
       "id": "ffneonz01",
       "name": "Superfan",
       "form": "Starfield.esm|0x0B2A73",
@@ -15219,7 +16032,7 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null,
+      "equivalentGroup": "talk-to-sergeant-yumi",
       "availableAfter": [
         {
           "form": "Starfield.esm|0x24C46C",
@@ -16674,6 +17487,44 @@
           "stage": 1200
         }
       ]
+    },
+    {
+      "id": "gagarinlocationmiscpointer",
+      "name": "Go to Gagarin",
+      "form": "Starfield.esm|0x193267",
+      "editorId": "GagarinLocationMiscPointer",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.gagarin-landing",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        5,
+        10,
+        1000
+      ],
+      "objectives": [
+        5
+      ],
+      "steps": [
+        {
+          "id": 5,
+          "text": "Go to Gagarin",
+          "target": 1
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "location": "Starfield.esm|0x216D1D",
+        "name": "Gagarin"
+      }
     },
     {
       "id": "hope01",
@@ -24031,6 +24882,44 @@
       ]
     },
     {
+      "id": "newhomesteadlocationmiscpointer",
+      "name": "Go to New Homestead",
+      "form": "Starfield.esm|0x19326B",
+      "editorId": "NewHomesteadLocationMiscPointer",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.new-homestead",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        5,
+        10,
+        1000
+      ],
+      "objectives": [
+        5
+      ],
+      "steps": [
+        {
+          "id": 5,
+          "text": "Go to New Homestead",
+          "target": 1
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "location": "Starfield.esm|0x21702B",
+        "name": "New Homestead"
+      }
+    },
+    {
       "id": "oe-terrormorphencounter",
       "name": "Guarding the Vanguard",
       "form": "Starfield.esm|0x050CA4",
@@ -24154,6 +25043,44 @@
         ]
       },
       "equivalentGroup": null
+    },
+    {
+      "id": "paradisolocationmiscpointer",
+      "name": "Go to Paradiso",
+      "form": "Starfield.esm|0x193269",
+      "editorId": "ParadisoLocationMiscPointer",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.paradiso",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        5,
+        10,
+        1000
+      ],
+      "objectives": [
+        5
+      ],
+      "steps": [
+        {
+          "id": 5,
+          "text": "Go to Paradiso",
+          "target": 1
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "location": "Starfield.esm|0x26310D",
+        "name": "Paradiso"
+      }
     },
     {
       "id": "rad01-list",
@@ -24548,6 +25475,44 @@
         "stage": 8900
       },
       "equivalentGroup": null
+    },
+    {
+      "id": "redmilelocationmiscpointer",
+      "name": "Go to Red Mile",
+      "form": "Starfield.esm|0x193265",
+      "editorId": "RedMileLocationMiscPointer",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "hub.red-mile",
+        "confidence": "medium",
+        "source": "giver"
+      },
+      "stages": [
+        5,
+        10,
+        1000
+      ],
+      "objectives": [
+        5
+      ],
+      "steps": [
+        {
+          "id": 5,
+          "text": "Go to Red Mile",
+          "target": 1
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 1000
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "location": "Starfield.esm|0x2CE0C9",
+        "name": "Red Mile"
+      }
     },
     {
       "id": "ri01",
@@ -27466,6 +28431,43 @@
           "stage": 700
         }
       ]
+    },
+    {
+      "id": "rl007-miscquest",
+      "name": "Travel to Vulture's Roost",
+      "form": "Starfield.esm|0x37586B",
+      "editorId": "RL007_MiscQuest",
+      "type": "activity",
+      "errand": true,
+      "start": {
+        "place": "anywhere",
+        "confidence": "low",
+        "source": "manual"
+      },
+      "stages": [
+        10,
+        20
+      ],
+      "objectives": [
+        10
+      ],
+      "steps": [
+        {
+          "id": 10,
+          "text": "Travel to Vulture's Roost",
+          "target": 2
+        }
+      ],
+      "complete": {
+        "type": "questStage",
+        "stage": 20
+      },
+      "fail": null,
+      "equivalentGroup": null,
+      "lead": {
+        "location": "Starfield.esm|0x2A941C",
+        "name": "Vulture's Roost"
+      }
     },
     {
       "id": "rl040quest",
