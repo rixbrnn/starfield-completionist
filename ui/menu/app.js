@@ -58,7 +58,7 @@
   let shownQuests = []; // quests in the detail list, in display order
   let shownItems = []; // list rows in display order: { q } or, under an open quest, { q, step, state }
   let listRows = []; // the quest list's row elements, by index in shownItems
-  let listScroller = null; // the quest list's scrolling element
+  let listArea = null; // the quest list's scrollArea
   let logCards = null; // the Log's left column (overall card, then the selected quest's card)
   let shownCards = []; // systems on the nothing-tracked page
   let hereLayout = "city"; // Here tab: "city", "places" (planet or system) or "nowhere"
@@ -91,12 +91,18 @@
   }
 
   let renderQueued = false;
+  let scrollDrag = null; // while a scrollbar thumb is dragged: { renderAfter }, see scrollArea
   function queueRender() {
     if (renderQueued) return;
     renderQueued = true;
     // A timer, not requestAnimationFrame: the game's browser pauses animation frames until the
     // menu gets focus, so the first progress update would wait for a mouse click.
-    setTimeout(() => { renderQueued = false; render(); }, 0);
+    setTimeout(() => {
+      renderQueued = false;
+      // Rebuilding the list would drop the thumb being dragged: wait for the drag to end.
+      if (scrollDrag) scrollDrag.renderAfter = true;
+      else render();
+    }, 0);
   }
 
   function ingestStatuses() {
@@ -510,10 +516,15 @@
   // Lists are rebuilt on every change, so each remembers its scroll position (by key) and draws
   // its thumb as soon as it is in the page: no jump, no flicker.
   const scrollMemory = new Map();
+  // Per list key, the selection last brought into view. Lists are also rebuilt without any input
+  // (progress replies from the game, focus), and revealing the selection then would pull a list
+  // the player is scrolling with the wheel back to it.
+  const revealedMemory = new Map();
   function scrollArea(scroller, key) {
     scroller.classList.add("scroller");
     const thumb = el("span", { class: "scroll-thumb" });
-    const area = el("div", { class: "scroll-area" }, el("span", { class: "scroll-track" }, thumb), scroller);
+    const track = el("span", { class: "scroll-track" }, thumb);
+    const area = el("div", { class: "scroll-area" }, track, scroller);
     const update = () => {
       const { scrollHeight, clientHeight, scrollTop } = scroller;
       if (scrollHeight <= clientHeight + 1) { thumb.style.display = "none"; return; }
@@ -522,25 +533,85 @@
       thumb.style.height = height + "px";
       thumb.style.top = (scrollTop / (scrollHeight - clientHeight)) * (clientHeight - height) + "px";
     };
-    scroller.addEventListener("scroll", () => {
+    const remember = () => {
       if (key) scrollMemory.set(key, scroller.scrollTop);
       update();
-    });
-    // Mouse wheel: an eased glide of about two rows per notch, instead of the browser's jumps.
+    };
+    scroller.addEventListener("scroll", remember);
+    // Wheel and thumb scroll at once and save the position right away: the scroll event comes a
+    // frame later, and a re-render before it would restore the old position.
+    const moveTo = (target) => { jump(scroller, target); remember(); };
+    // Mouse wheel: one row per notch, at once. Easing added latency on top of the game's frame
+    // copy and felt laggy there. Fast wheeling batches notches into one event (deltaY 100-500).
     scroller.addEventListener("wheel", (event) => {
       if (event.ctrlKey) return;
       event.preventDefault();
-      const notches = event.deltaMode === 1 ? event.deltaY / 3 : event.deltaMode === 2 ? event.deltaY * 4 : event.deltaY / 100;
-      const from = scroller._glideTarget !== undefined ? scroller._glideTarget : scroller.scrollTop;
-      glide(scroller, from + notches * 2 * ROW_STEP, 180);
+      const dy = event.deltaY;
+      const notches = event.deltaMode === 1 ? dy / 3 : event.deltaMode === 2 ? dy * 4 : dy / 100;
+      if (Math.sign(notches) !== Math.sign(scroller._notches || 0)) scroller._notches = 0;
+      scroller._notches = (scroller._notches || 0) + notches;
+      const rows = Math.trunc(scroller._notches + 1e-6 * Math.sign(notches));
+      if (!rows) return;
+      scroller._notches -= rows;
+      moveTo((scroller._glideTarget !== undefined ? scroller._glideTarget : scroller.scrollTop) + rows * rowStep(scroller));
     }, { passive: false });
-    // Call once the area is in the page: restores the position, brings the selection into view.
-    area.settle = (selected) => {
+    // Dragging the thumb (or pressing the track) scrolls the list; the track has a wider hit area.
+    track.addEventListener("pointerdown", (event) => {
+      if (event.button !== 0 || thumb.style.display !== "block") return;
+      event.preventDefault();
+      const box = track.getBoundingClientRect();
+      const height = thumb.offsetHeight;
+      const onThumb = event.clientY >= box.top + thumb.offsetTop && event.clientY <= box.top + thumb.offsetTop + height;
+      const grab = onThumb ? event.clientY - box.top - thumb.offsetTop : height / 2;
+      const drag = (e) => {
+        const room = scroller.clientHeight - height;
+        const p = room > 0 ? (e.clientY - box.top - grab) / room : 0;
+        moveTo(p * (scroller.scrollHeight - scroller.clientHeight));
+      };
+      drag(event);
+      track.setPointerCapture(event.pointerId);
+      track.classList.add("dragging");
+      track.addEventListener("pointermove", drag);
+      scrollDrag = { renderAfter: false };
+      const end = () => {
+        track.removeEventListener("pointermove", drag);
+        track.removeEventListener("pointerup", end);
+        track.removeEventListener("pointercancel", end);
+        track.classList.remove("dragging");
+        const pending = scrollDrag && scrollDrag.renderAfter;
+        scrollDrag = null;
+        if (pending) queueRender();
+      };
+      track.addEventListener("pointerup", end);
+      track.addEventListener("pointercancel", end);
+    });
+    // Brings the selection into view, unless it is the one already revealed (see revealedMemory).
+    area.reveal = (selected, id) => {
+      if (!selected) return;
+      if (key && revealedMemory.get(key) === id) return;
+      if (key) revealedMemory.set(key, id);
+      reveal(scroller, selected);
+    };
+    // Call once the area is in the page: restores the position, brings a new selection into view.
+    area.settle = (selected, id) => {
       if (key && scrollMemory.has(key)) scroller.scrollTop = scrollMemory.get(key);
-      if (selected) reveal(scroller, selected);
+      area.reveal(selected, id);
       update();
     };
     return area;
+  }
+
+  // One row of a list: its first row's height plus the gap.
+  function rowStep(scroller) {
+    const row = scroller.querySelector(".row, .step, .place");
+    return row ? row.offsetHeight + 3 : ROW_STEP;
+  }
+  // Scrolls straight to target, stopping any glide in progress.
+  function jump(scroller, target) {
+    scroller._glideId = (scroller._glideId || 0) + 1;
+    scroller._glideTarget = undefined;
+    const max = scroller.scrollHeight - scroller.clientHeight;
+    scroller.scrollTop = Math.max(0, Math.min(max, Math.round(target)));
   }
 
   // Height of one quest row and its gap: the unit for wheel steps and the reveal margin.
@@ -594,7 +665,7 @@
       return placeRow(row.key ? placeLabel(row.key, row.label) : row.label, t.done + " / " + t.total, t.total ? t.done / t.total : 0, selected, selected && view.focus !== "side", () => select(row.key));
     })), "side:" + view.tab);
     side.replaceChildren(card || "", area);
-    area.settle(side.querySelector(".place.selected"));
+    area.settle(side.querySelector(".place.selected"), view.focus + ":" + view.selected[view.tab]);
   }
   function placeRow(label, right, fraction, selected, inactive, onclick, ondblclick) {
     return el("button", { class: "place" + (selected ? " selected" : "") + (inactive ? " inactive" : ""), onclick, ondblclick },
@@ -712,7 +783,6 @@
     const list = el("div", { class: "list" });
     if (shown.length === 0) list.append(el("div", { class: "empty", text: options.empty || "Nothing here for this filter." }));
     listRows = [];
-    listScroller = list;
     items.forEach((item, i) => {
       const group = groupAt.get(i);
       if (group) list.append(el("div", { class: "list-divider", text: group.label + " · " + group.quests.length }));
@@ -724,7 +794,14 @@
     const area = scrollArea(list, ["list", view.tab, view.tab === "log" ? view.selected.log : view.filter, view.selected[view.tab], hereLayout].join(":"));
     children.push(area);
     document.getElementById("detail").replaceChildren(...children);
-    area.settle(list.querySelector(".row.selected, .step.selected"));
+    listArea = area;
+    area.settle(list.querySelector(".row.selected, .step.selected"), listSelection());
+  }
+
+  // Which list item is selected, for listArea.reveal: by quest and step, not by row index, so
+  // rows moving after a progress update don't count as a new selection.
+  function listSelection() {
+    return view.focus + ":" + view.selQuest + ":" + view.step;
   }
 
   function questRow(q, index, selected, options) {
@@ -1175,7 +1252,7 @@
           el("div", { class: "card-sub", text: [inSpace ? "In space" : "", systemName ? systemName + " system" : ""].filter(Boolean).join(" · ") || "Somewhere new" }))),
         el("div", { class: "card-body", text: "No quests or activities start here. These systems have the most you haven't discovered yet: pick one to set a course, or track a quest in progress." })),
       systemsArea);
-    systemsArea.settle(side.querySelector(".place.selected"));
+    systemsArea.settle(side.querySelector(".place.selected"), view.focus + ":" + view.card);
   }
 
   // Short message above the footer, e.g. the result of Track.
@@ -1281,7 +1358,7 @@
     // menu on every step made moving through long lists lag.
     if (listRows[before]) listRows[before].classList.remove("selected");
     listRows[index].classList.add("selected");
-    reveal(listScroller, listRows[index]);
+    listArea.reveal(listRows[index], listSelection());
     renderKeys();
     if (view.tab === "log" && logCards && logCards.isConnected) logCards.replaceChild(questCard(item && item.q), logCards.lastChild);
   }

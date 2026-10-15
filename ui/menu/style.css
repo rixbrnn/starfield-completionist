@@ -111,6 +111,10 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .scroller::-webkit-scrollbar { display: none; }
 .scroll-track { position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: rgba(255, 255, 255, 0.25); }
 .scroll-thumb { position: absolute; left: -1px; width: 4px; background: var(--text); display: none; }
+/* The track is 2 px wide: a wider invisible strip makes the thumb easy to grab with the mouse. */
+.scroll-track::before { content: ""; position: absolute; top: 0; bottom: 0; left: -7px; width: 16px; }
+.scroll-track { z-index: 1; touch-action: none; }
+.scroll-track:hover .scroll-thumb, .scroll-track.dragging .scroll-thumb { left: -2px; width: 6px; }
 .detail .scroll-area { margin-left: 18px; }
 .list { padding: 0 0 8px 14px; }
 .side .scroll-area .scroller { padding-left: 14px; }
@@ -183,3 +187,8 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 
 /* Prompts for actions that don't apply to the selection: greyed out, like the game's. */
 .keys button.disabled { opacity: 0.4; cursor: default; }
+
+/* The game draws the menu at 4K and copies every frame into the game, so scrolling must not
+   repaint the page: lists get their own GPU layer, and rows are self-contained for painting. */
+.scroller { will-change: scroll-position; contain: layout paint; transform: translateZ(0); }
+.row, .step, .place { contain: layout paint style; }
