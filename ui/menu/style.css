@@ -136,7 +136,8 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .row.selected .meta, .row.selected .name.hidden { color: #7d8697; }
 /* Finished (completed, failed, locked out): crossed off. */
 .row.finished .name { text-decoration: line-through; color: #c9d1dc; }
-.row.finished .emblem { opacity: 0.55; filter: grayscale(1); }
+.row.finished .emblem { opacity: 0.55; }
+.row .emblem.svg.grey { filter: grayscale(1); } /* until its grey bitmap is drawn */
 .row.finished.selected .name { color: #3d4554; }
 .row.finished.selected .emblem { opacity: 0.8; }
 .row.selected .panel { color: #3d4554; }

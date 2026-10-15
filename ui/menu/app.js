@@ -471,7 +471,37 @@
     if (q.type === "faction") return (FACTION_ICONS[q.faction] || "no-faction") + "-color";
     return "no-faction-color";
   }
-  const emblem = (name) => el("img", { class: "emblem", src: "icons/" + name + ".svg", alt: "", onerror: (e) => { e.target.style.visibility = "hidden"; } });
+  // An icon at size (CSS px); grey for finished quests. Drawn from a bitmap made once per icon,
+  // size and shade (see iconBitmap): the game repaints the view at 4K, and drawing SVGs, plus
+  // a grayscale filter, on every visible row made scrolling heavier. The SVG stands in until then.
+  const emblem = (name, size, grey) => {
+    const bitmap = iconBitmap(name, size, grey);
+    return el("img", { class: "emblem" + (bitmap ? "" : " svg") + (grey ? " grey" : ""), src: bitmap || "icons/" + name + ".svg", alt: "", onerror: (e) => { e.target.style.visibility = "hidden"; } });
+  };
+  const iconBitmaps = new Map(); // "name@size[g]" -> object URL of a PNG; null while being drawn
+  function iconBitmap(name, size, grey) {
+    const key = name + "@" + size + (grey ? "g" : "");
+    if (iconBitmaps.has(key)) return iconBitmaps.get(key);
+    iconBitmaps.set(key, null);
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const px = Math.round(size * (window.devicePixelRatio || 1));
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = px;
+        const ctx = canvas.getContext("2d");
+        if (grey) ctx.filter = "grayscale(1)";
+        ctx.drawImage(img, 0, 0, px, px);
+        canvas.toBlob((blob) => {
+          if (!blob) return;
+          iconBitmaps.set(key, URL.createObjectURL(blob));
+          queueRender(); // only the rows using this icon change (see mount)
+        });
+      } catch (e) { /* keep drawing the SVG */ }
+    };
+    img.src = "icons/" + name + ".svg";
+    return null;
+  }
 
   // Completion ring with the percentage inside.
   function progressRing(fraction, color, cls) {
@@ -749,7 +779,7 @@
     const noun = TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission";
     const fact = (label, text) => [el("div", { class: "kicker", text: label }), el("div", { text })];
     return el("div", { class: "card" },
-      el("div", { class: "card-head" }, emblem(iconName(q)),
+      el("div", { class: "card-head" }, emblem(iconName(q), 56),
         el("div", {}, el("div", { class: "card-title", text: q.name }), el("div", { class: "card-sub", text: line ? line.name : noun.charAt(0).toUpperCase() + noun.slice(1) }))),
       el("div", { class: "card-body" },
         fact("Starts at", where + (q.giver ? " · " + q.giver : "")),
@@ -849,7 +879,7 @@
     return el("div", { class: cls, onclick: () => { selectRow(index); if (expandable) toggleOpen(q); } },
       el("span", { class: "tile" }),
       el("span", { class: "panel" },
-        emblem(iconName(q)),
+        emblem(iconName(q), 28, isFinished(s)),
         el("span", { class: "name" + (hide ? " hidden" : ""), text: hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name }),
         el("span", { class: "meta", text: hide ? "" : rowMeta(q, s, options) }),
         el("span", { class: "caret" + (expandable ? (view.open.has(q.id) ? " open" : " closed") : "") })));
