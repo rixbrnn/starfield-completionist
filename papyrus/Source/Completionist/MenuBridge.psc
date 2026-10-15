@@ -1,7 +1,7 @@
 ScriptName Completionist:MenuBridge extends Quest
 {Connects Completionist:QuestTracker to the OSF UI menu (view "completionist/menu").
 Attached to the same quest as the tracker. Needs OSF UI and OSF Settings: without them this
-script fails to load and the tracker keeps working on its own (notifications only).}
+script fails to load, and the tracker keeps statuses (and its log) with no way to show them.}
 
 String Property ModId = "completionist" AutoReadOnly
 String Property MenuView = "completionist/menu" AutoReadOnly
@@ -17,10 +17,13 @@ Event OnInit()
   RegisterForRemoteEvent(player, "OnPlayerLoadGame")
   RegisterForRemoteEvent(player, "OnLocationChange")
   RegisterForCustomEvent(Tracker(), "StatusChanged")
+  RegisterForCustomEvent(Tracker(), "BuildProgress")
   Register()
 EndEvent
 
 Event Actor.OnPlayerLoadGame(Actor akSender)
+  ; Saves from before the loading page don't have this registration yet; again is harmless.
+  RegisterForCustomEvent(Tracker(), "BuildProgress")
   Register()
 EndEvent
 
@@ -42,7 +45,9 @@ Function Register()
   OSFUI.RegisterSend(Self, ModId, "resolve")
   OSFSettings.RegisterHotkey(Self, ModId, OpenHotkey)
   ; Until the tracker's refresh finishes, statuses are incomplete; StatusChanged publishes them then.
-  If Tracker().IsReady()
+  Completionist:QuestTracker tracker = Tracker()
+  PublishBuild(tracker.IsBuilding(), tracker.BuildDone(), tracker.BuildTotal())
+  If tracker.IsReady()
     PublishStatus()
     PublishTracked()
   EndIf
@@ -53,6 +58,20 @@ Event Completionist:QuestTracker.StatusChanged(Completionist:QuestTracker akSend
   PublishStatus()
   PublishTracked()
 EndEvent
+
+Event Completionist:QuestTracker.BuildProgress(Completionist:QuestTracker akSender, Var[] akArgs)
+  PublishBuild(akArgs[0] as Bool, akArgs[1] as Int, akArgs[2] as Int)
+EndEvent
+
+; While the tracker builds its quest table the menu shows a loading page: "build" is
+; [building (0/1), quests read, quests in all (0 while the table itself loads)].
+Function PublishBuild(Bool abBuilding, Int aiDone, Int aiTotal)
+  Int[] build = new Int[3]
+  build[0] = abBuilding as Int
+  build[1] = aiDone
+  build[2] = aiTotal
+  OSFUI.SetStateInts(ModId, "build", build)
+EndFunction
 
 Event Actor.OnLocationChange(Actor akSender, Location akOldLoc, Location akNewLoc)
   PublishLocation(akNewLoc)
@@ -66,6 +85,9 @@ Function OnOSFHotkey(String asModId, String asHotkeyId)
     ; The player may have changed tracking in the game's own Missions menu.
     If Tracker().IsReady()
       PublishTracked()
+      ; The timer checks only every CheckInterval: catch quests finished since then. Changes
+      ; reach the open menu through StatusChanged.
+      Tracker().MenuOpened()
     EndIf
   EndIf
 EndFunction
@@ -126,7 +148,7 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
       q.SetActive(wanted)
     EndIf
     Bool nowActive = q.IsActive()
-    Debug.TraceUser("Completionist", asName + " " + entry.name + " [" + entry.id + "]: running=" + q.IsRunning() + " completed=" + q.IsCompleted() + " active " + wasActive + " -> " + nowActive)
+    Debug.TraceUser("Completionist", asName + " " + entry.name + " [" + entry.id + "]: stage=" + q.GetStage() + " running=" + q.IsRunning() + " completed=" + q.IsCompleted() + " active " + wasActive + " -> " + nowActive)
     Var[] result = new Var[3]
     result[0] = entry.id
     result[1] = nowActive
@@ -228,7 +250,9 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
       OSFUI.Close(MenuView)
       Game.ShowGalaxyStarMapMenuAndPlotToLocation(entry.startLocation)
     Else
-      Debug.Notification("No known start location for " + entry.name)
+      Var[] failed = new Var[1]
+      failed[0] = entry.id
+      OSFUI.EmitEvent(ModId, "noStartLocation", failed)
     EndIf
   EndIf
 EndFunction
@@ -295,8 +319,6 @@ Function PublishStatus()
   Completionist:QuestTracker tracker = Tracker()
   Int pages = tracker.MaxPages
   OSFUI.SetState(ModId, "unityEntered", tracker.IsUnityEntered())
-  ; Fetched once: calls into the tracker script per quest would each wait for it.
-  String[] overridden = tracker.GetOverrideIds()
   ; The game's own activity counter (it also counts small errands the menu leaves out).
   OSFUI.SetState(ModId, "gameActivities", Game.QueryStat("Activities Completed"))
   Int p = 0
@@ -309,7 +331,7 @@ Function PublishStatus()
       ids.Add(entries[i].id)
       ; +10 flags a manual override so the menu can show it.
       Int status = entries[i].status
-      If overridden.Find(entries[i].id) >= 0
+      If entries[i].override != tracker.kOverrideNone
         status += 10
       EndIf
       statuses.Add(status)

@@ -154,6 +154,11 @@ for (const quest of errands) {
   quest.name = quest.objectiveText.replace(/^\(Optional\)\s*/i, "");
   quest.errand = true;
 }
+// Many errands never flag a stage "complete quest": their last stage just shuts the quest down
+// (e.g. FFLodge_MB stops at 100), so the game never reports them completed. Their last stage
+// is the one that marks them done.
+const completeStagesOf = (quest: DumpQuest): number[] =>
+  quest.completeStages.length || !quest.errand || quest.stages.length === 0 ? quest.completeStages : [Math.max(...quest.stages)];
 
 const candidates = [...tagged, ...untagged, ...activities, ...errands].filter((q) => !excluded(q));
 for (const quest of candidates) {
@@ -487,7 +492,7 @@ for (const [owner, quests] of byOwner) {
       stages: [...new Set(quest.stages)].sort((a, b) => a - b),
       objectives: [...quest.objectiveIds].sort((a, b) => a - b),
       steps: stepsOf(quest),
-      complete: stageCondition(quest.completeStages) ?? { type: "questCompleted" },
+      complete: stageCondition(completeStagesOf(quest)) ?? { type: "questCompleted" },
       fail: stageCondition(quest.failStages) ?? null,
       ...(choicesOf.has(quest.editorId) ? { choices: choicesOf.get(quest.editorId) } : {}),
       ...(ngPlusOnly.has(quest.editorId) ? { ngPlusOnly: true } : {}),

@@ -71,6 +71,7 @@
   let manual = new Set(); // quest ids with a manual override (status values arrive +10)
   let unityEntered = false; // NG+-only quests count once the player has entered Unity
   let gameActivities = null; // the game's own "Activities Completed" stat
+  let build = null; // [building, quests read, quests in all] while the tracker builds its quest table
   const demoAuto = new Map(); // preview only: detected status to restore on "reset to auto"
   let previewPlace = null; // preview only: left-column item to select, by name
 
@@ -91,17 +92,15 @@
   }
 
   let renderQueued = false;
-  let scrollDrag = null; // while a scrollbar thumb is dragged: { renderAfter }, see scrollArea
   function queueRender() {
     if (renderQueued) return;
     renderQueued = true;
     // A timer, not requestAnimationFrame: the game's browser pauses animation frames until the
     // menu gets focus, so the first progress update would wait for a mouse click.
+    // Never held back for a scrollbar drag: re-renders keep the list being dragged (see mount).
     setTimeout(() => {
       renderQueued = false;
-      // Rebuilding the list would drop the thumb being dragged: wait for the drag to end.
-      if (scrollDrag) scrollDrag.renderAfter = true;
-      else render();
+      render();
     }, 0);
   }
 
@@ -174,6 +173,8 @@
     locationChain = herePlaceData ? [runtimeIdFor(herePlaceData.loc)] : [];
     inSpace = params.get("space") === "1";
     survey = params.has("survey") ? Number(params.get("survey")) : -1;
+    // &build=120/355: the loading page while the tracker builds its quest table (0/0: loading it).
+    if (params.has("build")) build = [1, ...params.get("build").split("/").map(Number)];
   } else {
     bridge.state.on("pages", ingestStatuses);
     for (let p = 0; p < 8; p++) {
@@ -213,6 +214,11 @@
       queueRender();
     });
     bridge.on("plotFailed", () => showToast("Not on the map yet: the game hasn't placed this objective."));
+    bridge.on("noStartLocation", (event) => {
+      const q = questsById.get(String(((event && event.args) || [])[0]).toLowerCase());
+      showToast("No known start location for " + (q ? q.name : "this quest") + ".");
+    });
+    bridge.state.on("build", (value) => { build = Array.isArray(value) && value[0] ? value : null; queueRender(); });
     bridge.on("explored", (event) => {
       const [batch, ...flags] = (event && event.args) || [];
       const keys = exploredBatches.get(Number(batch));
@@ -599,21 +605,23 @@
         moveTo(p * (scroller.scrollHeight - scroller.clientHeight));
       };
       drag(event);
-      track.setPointerCapture(event.pointerId);
+      try { track.setPointerCapture(event.pointerId); } catch (e) { /* the window listeners below still see the drag */ }
       track.classList.add("dragging");
-      track.addEventListener("pointermove", drag);
-      scrollDrag = { renderAfter: false };
+      // On the window, not the track: without pointer capture, a release off the thin track
+      // would never reach it and the drag would never end.
       const end = () => {
-        track.removeEventListener("pointermove", drag);
-        track.removeEventListener("pointerup", end);
-        track.removeEventListener("pointercancel", end);
+        window.removeEventListener("pointermove", drag);
+        window.removeEventListener("pointerup", end);
+        window.removeEventListener("pointercancel", end);
+        window.removeEventListener("blur", end);
+        track.removeEventListener("lostpointercapture", end);
         track.classList.remove("dragging");
-        const pending = scrollDrag && scrollDrag.renderAfter;
-        scrollDrag = null;
-        if (pending) queueRender();
       };
-      track.addEventListener("pointerup", end);
-      track.addEventListener("pointercancel", end);
+      window.addEventListener("pointermove", drag);
+      window.addEventListener("pointerup", end);
+      window.addEventListener("pointercancel", end);
+      window.addEventListener("blur", end);
+      track.addEventListener("lostpointercapture", end);
     });
     // Brings the selection into view, unless it is the one already revealed (see revealedMemory).
     area.reveal = (selected, id) => {
@@ -1158,6 +1166,11 @@
   }
 
   function render() {
+    if (build) {
+      document.getElementById("side").hidden = true;
+      document.getElementById("detail").replaceChildren(buildPage());
+      return;
+    }
     if (!loaded) {
       document.getElementById("side").hidden = true;
       document.getElementById("detail").replaceChildren(el("div", { class: "loading", text: "LOADING PROGRESS..." }));
@@ -1165,6 +1178,17 @@
     }
     renderBody();
     renderKeys();
+  }
+
+  // While the tracker builds its quest table (after installing or updating the mod) the statuses
+  // aren't reliable, so the menu shows how far it got instead.
+  function buildPage() {
+    const [, read, total] = build;
+    return el("div", { class: "loading build" },
+      el("div", { class: "build-title", text: "BUILDING YOUR QUEST LIST..." }),
+      el("div", { class: "build-step", text: total ? "CHECKING QUESTS " + read + " / " + total : "LOADING THE QUEST TABLE" }),
+      total ? el("div", { class: "build-bar" }, el("i", { style: "width: " + Math.min(100, Math.round((read / total) * 100)) + "%" })) : null,
+      el("div", { class: "build-note", text: "This happens after installing or updating the mod and can take a minute. Your progress is saved with the game, so later loads are instant." }));
   }
 
   function renderBody() {
