@@ -35,7 +35,7 @@ v1 ships on **Nexus Mods only**: PC, with the full menu via OSF UI (needs SFSE).
 To keep that door open:
 
 1. All tracking logic stays in Papyrus; the OSF UI menu only displays what the script reports.
-2. The mod works without SFSE/OSF UI: notifications still appear (also covers Game Pass PC players, who can't run SFSE).
+2. ~~The mod works without SFSE/OSF UI: notifications still appear.~~ Dropped 2026-10-14: the mod shows nothing on screen outside the menu (no HUD notifications), so it needs SFSE, OSF UI and OSF Settings. Game Pass PC players can't use it. A console version would need its own way to show progress.
 3. The core uses nothing Creations forbid.
 
 UI direction is being chosen from the concepts at https://claude.ai/artifact/4wiQfaF5rSbHftJ4yyS4Nz (A: Mission Log tab, B: Starmap overlay, C: Overview + HUD).
@@ -138,9 +138,7 @@ Optionally, a quest also shows **"Visits: …"**, other places its objectives se
   - exclusive and missable warnings
 - **Search and filters:** missing / in progress / completed / failed; DLC on/off; hide spoilers.
 - **Spoiler mode:** missing quests show as "??? — 1 undiscovered quest in Neon", with reveal-on-click.
-- **Notifications (HUD toasts):**
-  - "Quest completed — Neon 7/12"
-  - optional, on entering a hub: "Akila City: 3 quests not started"
+- ~~**Notifications (HUD toasts)**~~ Dropped 2026-10-14: progress shows in the menu only.
 - **Manual override:** mark completed / not completed per quest, for detection edge cases.
 - **Other quests (auto-detected):** quests from mods without a JSON pack still appear in an "Other" bucket. The DLL enumerates named, player-facing quests at runtime; location is "Unknown" until a pack adds it. This is a setting, default on.
 

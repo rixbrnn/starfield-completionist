@@ -636,7 +636,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null,
@@ -6388,7 +6389,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null
@@ -6527,7 +6529,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null
@@ -6702,7 +6705,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null
@@ -11175,7 +11179,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null
@@ -11207,7 +11212,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null,
@@ -14129,7 +14135,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 100
       },
       "fail": null,
       "equivalentGroup": null,
@@ -26709,7 +26716,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 10000
       },
       "fail": null,
       "equivalentGroup": null,
@@ -27338,7 +27346,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 10000
       },
       "fail": null,
       "equivalentGroup": null,
@@ -28409,7 +28418,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null,
@@ -28450,7 +28460,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null,
@@ -28490,7 +28501,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null,
@@ -28529,7 +28541,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null,
@@ -28867,7 +28880,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null
@@ -30214,7 +30228,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null,
@@ -31485,7 +31500,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null
@@ -31518,7 +31534,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null
@@ -31551,7 +31568,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null
@@ -31808,7 +31826,8 @@
         }
       ],
       "complete": {
-        "type": "questCompleted"
+        "type": "questStage",
+        "stage": 1000
       },
       "fail": null,
       "equivalentGroup": null,
