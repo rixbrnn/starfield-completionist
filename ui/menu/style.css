@@ -192,3 +192,8 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
    repaint the page: lists get their own GPU layer, and rows are self-contained for painting. */
 .scroller { will-change: scroll-position; contain: layout paint; transform: translateZ(0); }
 .row, .step, .place { contain: layout paint style; }
+/* Rows outside the visible part of a list skip layout and painting altogether. Their sizes are
+   fixed, so the list keeps its height and the scrollbar stays right. */
+.row { content-visibility: auto; contain-intrinsic-size: auto 56px; }
+.step { content-visibility: auto; contain-intrinsic-size: auto 46px; }
+.place { content-visibility: auto; contain-intrinsic-size: auto 44px; }

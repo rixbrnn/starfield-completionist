@@ -598,7 +598,39 @@
       area.reveal(selected, id);
       update();
     };
+    area._scrollKey = key;
+    area._scroller = scroller;
     return area;
+  }
+
+  // Puts children into container, keeping what is already there when it hasn't changed: a list
+  // with the same key keeps its element (and scroll position, and a thumb being dragged), and
+  // only its rows that differ are swapped. Progress updates from the game re-render the menu
+  // often, and rebuilding every row made the game repaint the whole list at 4K each time.
+  // Returns the area now in the page for each scrollArea passed (the old one when it was kept).
+  function mount(container, children) {
+    children = children.filter(Boolean);
+    for (const n of [...container.childNodes]) if (n.nodeType !== 1) n.remove();
+    const kept = new Map();
+    children.forEach((node, i) => {
+      const old = container.children[i];
+      if (node._scrollKey && old && old._scrollKey === node._scrollKey) {
+        patchRows(old._scroller, [...node._scroller.children]);
+        kept.set(node, old);
+      } else if (old) container.replaceChild(node, old);
+      else container.append(node);
+    });
+    while (container.children.length > children.length) container.lastElementChild.remove();
+    return (area) => kept.get(area) || area;
+  }
+  // Replaces only the rows of scroller that differ from rows (same markup and same row key).
+  function patchRows(scroller, rows) {
+    rows.forEach((row, i) => {
+      const old = scroller.children[i];
+      if (!old) scroller.append(row);
+      else if (old._key !== row._key || old.outerHTML !== row.outerHTML) scroller.replaceChild(row, old);
+    });
+    while (scroller.children.length > rows.length) scroller.lastElementChild.remove();
   }
 
   // One row of a list: its first row's height plus the gap.
@@ -657,14 +689,16 @@
     const side = document.getElementById("side");
     side.hidden = false;
     side.setAttribute("aria-label", TABS.find((t) => t.id === view.tab).label);
-    const area = scrollArea(el("div", {}, ...rows.map((row) => {
+    let area = scrollArea(el("div", {}, ...rows.map((row) => {
       if (row.kind === "group") return el("div", { class: "group" }, el("span", { text: row.label }), el("span", { text: row.frac || "" }));
       if (row.kind === "subgroup") return el("div", { class: "subgroup", text: row.label });
       const selected = view.selected[view.tab] === row.key;
       const t = tally(row.quests);
-      return placeRow(row.key ? placeLabel(row.key, row.label) : row.label, t.done + " / " + t.total, t.total ? t.done / t.total : 0, selected, selected && view.focus !== "side", () => select(row.key));
+      const place = placeRow(row.key ? placeLabel(row.key, row.label) : row.label, t.done + " / " + t.total, t.total ? t.done / t.total : 0, selected, selected && view.focus !== "side", () => select(row.key));
+      place._key = row.key;
+      return place;
     })), "side:" + view.tab);
-    side.replaceChildren(card || "", area);
+    area = mount(side, [card, area])(area);
     area.settle(side.querySelector(".place.selected"), view.focus + ":" + view.selected[view.tab]);
   }
   function placeRow(label, right, fraction, selected, inactive, onclick, ondblclick) {
@@ -788,14 +822,16 @@
       if (group) list.append(el("div", { class: "list-divider", text: group.label + " · " + group.quests.length }));
       const selected = view.focus === "list" && i === view.row;
       const row = item.step ? stepRow(item, i, selected) : questRow(item.q, i, selected, options);
-      listRows.push(row);
+      row._key = i;
+      row._row = true;
       list.append(row);
     });
-    const area = scrollArea(list, ["list", view.tab, view.tab === "log" ? view.selected.log : view.filter, view.selected[view.tab], hereLayout].join(":"));
+    let area = scrollArea(list, ["list", view.tab, view.tab === "log" ? view.selected.log : view.filter, view.selected[view.tab], hereLayout].join(":"));
     children.push(area);
-    document.getElementById("detail").replaceChildren(...children);
+    area = mount(document.getElementById("detail"), children)(area);
     listArea = area;
-    area.settle(list.querySelector(".row.selected, .step.selected"), listSelection());
+    listRows = [...area._scroller.children].filter((node) => node._row);
+    area.settle(area._scroller.querySelector(".row.selected, .step.selected"), listSelection());
   }
 
   // Which list item is selected, for listArea.reveal: by quest and step, not by row index, so
@@ -1240,18 +1276,22 @@
     renderDetail(DATA.quests.filter((q) => available(q) && statusOf(q) === IN_PROGRESS), { tabs: false, meta: hubName, empty: "No quests in progress." });
     const side = document.getElementById("side");
     side.hidden = false;
-    const systemsArea = scrollArea(el("div", {},
+    let systemsArea = scrollArea(el("div", {},
       el("div", { class: "group", text: "WHERE TO NEXT" }),
-      ...shownCards.map((s, index) => placeRow(s.label, s.t.missing + " not discovered", s.t.total ? s.t.done / s.t.total : 0,
-        view.focus === "cards" && index === view.card, false,
-        () => { view.focus = "cards"; view.card = index; render(); }, () => openCard(index)))), "side:nowhere");
-    side.replaceChildren(
+      ...shownCards.map((s, index) => {
+        const place = placeRow(s.label, s.t.missing + " not discovered", s.t.total ? s.t.done / s.t.total : 0,
+          view.focus === "cards" && index === view.card, false,
+          () => { view.focus = "cards"; view.card = index; render(); }, () => openCard(index));
+        place._key = index;
+        return place;
+      })), "side:nowhere");
+    systemsArea = mount(side, [
       el("div", { class: "card" },
         el("div", { class: "card-head" }, el("div", {},
           el("div", { class: "card-title", text: "Nothing tracked here" }),
           el("div", { class: "card-sub", text: [inSpace ? "In space" : "", systemName ? systemName + " system" : ""].filter(Boolean).join(" · ") || "Somewhere new" }))),
         el("div", { class: "card-body", text: "No quests or activities start here. These systems have the most you haven't discovered yet: pick one to set a course, or track a quest in progress." })),
-      systemsArea);
+      systemsArea])(systemsArea);
     systemsArea.settle(side.querySelector(".place.selected"), view.focus + ":" + view.card);
   }
 
