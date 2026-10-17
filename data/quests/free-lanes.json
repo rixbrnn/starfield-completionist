@@ -924,6 +924,7 @@
       "type": "side",
       "start": {
         "place": "sys.algorab",
+        "hint": "Sawyer and Opal, in the bar at Anchorpoint (Algorab)",
         "confidence": "medium",
         "source": "alias"
       },
@@ -2053,6 +2054,7 @@
       "type": "side",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter: a ship you meet in space",
         "confidence": "low",
         "source": "manual"
       },
@@ -2240,6 +2242,7 @@
       },
       "start": {
         "place": "hub.new-atlantis",
+        "hint": "Near the end of the main quest: read the slate on your desk at the Lodge",
         "confidence": "medium",
         "source": "alias"
       },

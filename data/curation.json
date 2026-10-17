@@ -167,7 +167,38 @@
     "UC_NA_Home_Well_Misc": "Starts when you buy the apartment in the Well",
     "UC_NA_Home_Penthouse_Misc": "Starts when you're given the penthouse in New Atlantis",
     "FC_AC_Home_MidtownHouse_Misc": "Starts when you buy the house in midtown Akila City",
-    "CF_Key_Home_CaptainsQuarters_Misc": "Starts when you're given the captain's quarters in the Key"
+    "CF_Key_Home_CaptainsQuarters_Misc": "Starts when you're given the captain's quarters in the Key",
+    "FC_AC_Home_CoreManor_Misc": "Starts when you buy the manor in the Akila City core",
+    "FFConstantR02": "After First Contact: Abe, on the ECS Constant or in Paradiso, needs someone with a ship",
+    "FFConstantR02Misc": "Overheard on the ECS Constant after First Contact",
+    "FFConstantZ04Misc": "Overheard on the ECS Constant after Debt Forgiveness",
+    "FFConstantZ05": "After First Contact: Janet Wang, in the ECS Constant's living quarters, wants to leave",
+    "FFConstantZ05Misc": "Overheard on the ECS Constant after First Contact",
+    "FFLodge_MB": "At the Lodge, once you join Constellation",
+    "FFNewHomesteadZ00Misc": "Starts when you get near New Homestead on Titan",
+    "MQ_TutorialQuest_Misc02": "A tutorial: comes up on its own early in the main quest",
+    "MQ_TutorialQuest_Misc04": "A tutorial: comes up on its own after One Small Step",
+    "MQ_TutorialQuest_Misc05": "A tutorial: comes up on its own at the Lodge, early in the main quest",
+    "MQ_TutorialQuest_Misc06": "A tutorial: comes up on its own at the Lodge, early in the main quest",
+    "MQ_TutorialQuest_Misc08": "A tutorial: comes up on its own early in the main quest",
+    "MQMisc02": "Starts after High Price to Pay, for the companion who died",
+    "Rad01_LIST": "Ask Phil Hill at the Broken Spear in Cydonia, on Mars",
+    "RAD03": "Starts when you take a cargo mission from a mission board",
+    "RAD04": "Starts when you take a bounty mission from a mission board",
+    "SFFL_MS02": "Sawyer and Opal, in the bar at Anchorpoint (Algorab)",
+    "SFFL_SE_RS02": "Random encounter: a ship you meet in space",
+    "SQ_StarbornContainer": "Near the end of the main quest: read the slate on your desk at the Lodge",
+    "SFTER_EC_Robot_Q02": "Delta's second challenge: Roxane, at Anchorpoint, after The New Space Race",
+    "SFTER_EC_Robot_Q03": "Delta's third challenge, after WIN.slate",
+    "SFTER_EC_Robot_Q04": "Delta's last challenge: talk to Roxane after The Instruments of Life",
+    "COM_Quest_Andreja_Q01": "Andreja brings it up herself once she likes you enough: keep her with you as a companion",
+    "COM_Quest_Barrett_Q01": "Barrett brings it up himself once he likes you enough: keep him with you as a companion",
+    "COM_Quest_SamCoe_Q01": "Sam brings it up himself once he likes you enough: keep him with you as a companion",
+    "COM_Quest_SarahMorgan_Q01": "Sarah brings it up herself once she likes you enough: keep her with you as a companion",
+    "COM_Quest_Andreja_Commitment": "Andreja asks you herself, after Divided Loyalties, once you're in a relationship with her",
+    "COM_Quest_Barrett_Commitment": "Barrett asks you himself, after Breach of Contract, once you're in a relationship with him",
+    "COM_Quest_SamCoe_Commitment": "Sam asks you himself, after Matters of the Hart, once you're in a relationship with him",
+    "COM_Quest_SarahMorgan_Commitment": "Sarah asks you herself, after In Memoriam, once you're in a relationship with her"
   },
   "choiceGroups": {
     "$comment": "Two-sided choices: completing any quest on one side locks out the unfinished quests on the other side (they count as resolved). lockedLabel is shown on a locked-out quest of that side.",
@@ -241,5 +272,28 @@
       "MQ402",
       "MQ404"
     ]
+  },
+  "unlocks": {
+    "$comment": "When a quest can be found, where the game's scripts start it in a way build:drafts doesn't find: once quest 'after' reaches 'stage'. Delta's challenges are started one after another by SFTER_EC_Robot_QManager. A quest waiting on itself (stage -1) can't be found before it starts: the companions' own quests start from their affinity scenes, so talking to them does nothing until then (its hint says how).",
+    "COM_Quest_Andreja_Q01": { "after": "COM_Quest_Andreja_Q01", "stage": -1 },
+    "COM_Quest_Barrett_Q01": { "after": "COM_Quest_Barrett_Q01", "stage": -1 },
+    "COM_Quest_SamCoe_Q01": { "after": "COM_Quest_SamCoe_Q01", "stage": -1 },
+    "COM_Quest_SarahMorgan_Q01": { "after": "COM_Quest_SarahMorgan_Q01", "stage": -1 },
+    "COM_Quest_Andreja_Commitment": { "after": "COM_Quest_Andreja_Commitment", "stage": -1 },
+    "COM_Quest_Barrett_Commitment": { "after": "COM_Quest_Barrett_Commitment", "stage": -1 },
+    "COM_Quest_SamCoe_Commitment": { "after": "COM_Quest_SamCoe_Commitment", "stage": -1 },
+    "COM_Quest_SarahMorgan_Commitment": { "after": "COM_Quest_SarahMorgan_Commitment", "stage": -1 },
+    "SFTER_EC_Robot_Q02": {
+      "after": "SFTER_EC_Robot_Q01",
+      "stage": 1000
+    },
+    "SFTER_EC_Robot_Q03": {
+      "after": "SFTER_EC_Robot_Q02",
+      "stage": 1000
+    },
+    "SFTER_EC_Robot_Q04": {
+      "after": "SFTER_EC_Robot_Q03",
+      "stage": 1000
+    }
   }
 }

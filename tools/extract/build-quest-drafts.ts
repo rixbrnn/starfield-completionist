@@ -135,6 +135,7 @@ interface Curation {
   equivalents: Record<string, string[]>;
   leads: Record<string, string>;
   hints: Record<string, string>;
+  unlocks?: Record<string, { after: string; stage: number } | string>;
 }
 const curation = JSON.parse(readFileSync(resolve("data/curation.json"), "utf8")) as Curation;
 const excluded = (q: DumpQuest) =>
@@ -655,6 +656,16 @@ for (const [owner, quests] of byOwner) {
       return source ? [{ form: source.form, quest: editorId, ...(sourceName(editorId) ? { name: sourceName(editorId) } : {}), stage, ...groupOf(editorId) }] : [];
     });
     if (after.length) availability.set(entry.editorId, after);
+  }
+  // Hand-written ones (data/curation.json "unlocks") win: quests another quest's script starts
+  // in a way the scan above doesn't see (a manager quest starting the next of a chain).
+  for (const [editorId, rule] of Object.entries(curation.unlocks ?? {})) {
+    if (typeof rule === "string") continue; // $comment
+    const source = dumpByEditorId.get(rule.after.toLowerCase());
+    if (!source) throw new Error(`curation.unlocks: ${editorId} waits on unknown quest ${rule.after}`);
+    // Waiting on itself: no name, so the menu says how it starts (its hint), not "After <itself> starts".
+    const named = rule.after !== editorId && sourceName(rule.after);
+    availability.set(editorId, [{ form: source.form, quest: rule.after, ...(named ? { name: named } : {}), stage: rule.stage, ...groupOf(rule.after) }]);
   }
   const lines = new Map<string, typeof entries>();
   for (const entry of entries) if (entry.questline) lines.set(entry.questline.id, [...(lines.get(entry.questline.id) ?? []), entry]);

@@ -9227,6 +9227,7 @@
         "place": "hub.new-atlantis",
         "giver": "Andreja",
         "giverForm": "Starfield.esm|0x0059A7",
+        "hint": "Andreja asks you herself, after Divided Loyalties, once you're in a relationship with her",
         "confidence": "medium",
         "source": "giver"
       },
@@ -9284,7 +9285,14 @@
         "stage": 200
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0B8633",
+          "quest": "COM_Quest_Andreja_Commitment",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "com-quest-andreja-q01",
@@ -9296,6 +9304,7 @@
         "place": "hub.new-atlantis",
         "giver": "Andreja",
         "giverForm": "Starfield.esm|0x0059A7",
+        "hint": "Andreja brings it up herself once she likes you enough: keep her with you as a companion",
         "confidence": "medium",
         "source": "giver"
       },
@@ -9595,7 +9604,14 @@
         "type": "questStage",
         "stage": 20000
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x21ECD0",
+          "quest": "COM_Quest_Andreja_Q01",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "com-quest-barrett-commitment",
@@ -9607,6 +9623,7 @@
         "place": "hub.new-atlantis",
         "giver": "Barrett",
         "giverForm": "Starfield.esm|0x005787",
+        "hint": "Barrett asks you himself, after Breach of Contract, once you're in a relationship with him",
         "confidence": "medium",
         "source": "giver"
       },
@@ -9772,7 +9789,14 @@
         "type": "questStage",
         "stage": 6000
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x1C7185",
+          "quest": "COM_Quest_Barrett_Commitment",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "com-quest-barrett-q01",
@@ -9784,6 +9808,7 @@
         "place": "hub.new-atlantis",
         "giver": "Barrett",
         "giverForm": "Starfield.esm|0x005787",
+        "hint": "Barrett brings it up himself once he likes you enough: keep him with you as a companion",
         "confidence": "medium",
         "source": "giver"
       },
@@ -10417,7 +10442,14 @@
         "type": "questStage",
         "stage": 20000
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0369AB",
+          "quest": "COM_Quest_Barrett_Q01",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "com-quest-barrett-q02",
@@ -10831,6 +10863,7 @@
         "place": "hub.new-atlantis",
         "giver": "Cora Coe",
         "giverForm": "Starfield.esm|0x00D653",
+        "hint": "Sam asks you himself, after Matters of the Hart, once you're in a relationship with him",
         "confidence": "medium",
         "source": "giver"
       },
@@ -10900,7 +10933,14 @@
         "stage": 800
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x0DF7AD",
+          "quest": "COM_Quest_SamCoe_Commitment",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "com-quest-samcoe-q01",
@@ -10912,6 +10952,7 @@
         "place": "hub.new-atlantis",
         "giver": "Cora Coe",
         "giverForm": "Starfield.esm|0x00D653",
+        "hint": "Sam brings it up himself once he likes you enough: keep him with you as a companion",
         "confidence": "medium",
         "source": "giver"
       },
@@ -11117,7 +11158,14 @@
         "type": "questStage",
         "stage": 20000
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x263262",
+          "quest": "COM_Quest_SamCoe_Q01",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "com-quest-sarahmorgan-commitment",
@@ -11129,6 +11177,7 @@
         "place": "hub.new-atlantis",
         "giver": "Sarah Morgan",
         "giverForm": "Starfield.esm|0x005983",
+        "hint": "Sarah asks you herself, after In Memoriam, once you're in a relationship with her",
         "confidence": "medium",
         "source": "giver"
       },
@@ -11196,7 +11245,14 @@
         "stage": 100
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x27B667",
+          "quest": "COM_Quest_SarahMorgan_Commitment",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "com-quest-sarahmorgan-q01",
@@ -11208,6 +11264,7 @@
         "place": "hub.new-atlantis",
         "giver": "Sarah Morgan",
         "giverForm": "Starfield.esm|0x005983",
+        "hint": "Sarah brings it up herself once she likes you enough: keep her with you as a companion",
         "confidence": "medium",
         "source": "giver"
       },
@@ -11464,7 +11521,14 @@
         "type": "questStage",
         "stage": 20000
       },
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "Starfield.esm|0x2C7C11",
+          "quest": "COM_Quest_SarahMorgan_Q01",
+          "stage": -1
+        }
+      ]
     },
     {
       "id": "crucible01",
@@ -11596,6 +11660,7 @@
       "errand": true,
       "start": {
         "place": "hub.akila-city",
+        "hint": "Starts when you buy the manor in the Akila City core",
         "confidence": "medium",
         "source": "alias"
       },
@@ -13168,6 +13233,7 @@
       "type": "side",
       "start": {
         "place": "anywhere",
+        "hint": "After First Contact: Abe, on the ECS Constant or in Paradiso, needs someone with a ship",
         "confidence": "low",
         "source": "manual"
       },
@@ -13227,6 +13293,7 @@
       "errand": true,
       "start": {
         "place": "anywhere",
+        "hint": "Overheard on the ECS Constant after First Contact",
         "confidence": "low",
         "source": "manual"
       },
@@ -13328,6 +13395,7 @@
       "errand": true,
       "start": {
         "place": "anywhere",
+        "hint": "Overheard on the ECS Constant after Debt Forgiveness",
         "confidence": "low",
         "source": "manual"
       },
@@ -13373,6 +13441,7 @@
       "type": "side",
       "start": {
         "place": "anywhere",
+        "hint": "After First Contact: Janet Wang, in the ECS Constant's living quarters, wants to leave",
         "confidence": "low",
         "source": "manual"
       },
@@ -13445,6 +13514,7 @@
       "errand": true,
       "start": {
         "place": "anywhere",
+        "hint": "Overheard on the ECS Constant after First Contact",
         "confidence": "low",
         "source": "manual"
       },
@@ -14583,6 +14653,7 @@
       "faction": "constellation",
       "start": {
         "place": "hub.new-atlantis",
+        "hint": "At the Lodge, once you join Constellation",
         "confidence": "medium",
         "source": "alias"
       },
@@ -16835,6 +16906,7 @@
       "errand": true,
       "start": {
         "place": "hub.new-homestead",
+        "hint": "Starts when you get near New Homestead on Titan",
         "confidence": "medium",
         "source": "alias"
       },
@@ -18376,6 +18448,7 @@
       "faction": "constellation",
       "start": {
         "place": "anywhere",
+        "hint": "A tutorial: comes up on its own early in the main quest",
         "confidence": "low",
         "source": "manual"
       },
@@ -18422,6 +18495,7 @@
       "faction": "constellation",
       "start": {
         "place": "anywhere",
+        "hint": "A tutorial: comes up on its own after One Small Step",
         "confidence": "low",
         "source": "manual"
       },
@@ -18465,6 +18539,7 @@
       "faction": "constellation",
       "start": {
         "place": "hub.new-atlantis",
+        "hint": "A tutorial: comes up on its own at the Lodge, early in the main quest",
         "confidence": "medium",
         "source": "alias"
       },
@@ -18506,6 +18581,7 @@
       "faction": "constellation",
       "start": {
         "place": "hub.new-atlantis",
+        "hint": "A tutorial: comes up on its own at the Lodge, early in the main quest",
         "confidence": "medium",
         "source": "alias"
       },
@@ -18581,6 +18657,7 @@
       "faction": "constellation",
       "start": {
         "place": "hub.new-atlantis",
+        "hint": "A tutorial: comes up on its own early in the main quest",
         "confidence": "medium",
         "source": "alias"
       },
@@ -23799,6 +23876,7 @@
       "type": "side",
       "start": {
         "place": "hub.new-atlantis",
+        "hint": "Starts after High Price to Pay, for the companion who died",
         "confidence": "medium",
         "source": "alias"
       },
@@ -25321,6 +25399,7 @@
       "type": "side",
       "start": {
         "place": "anywhere",
+        "hint": "Ask Phil Hill at the Broken Spear in Cydonia, on Mars",
         "confidence": "low",
         "source": "manual"
       },
@@ -25547,6 +25626,7 @@
       "type": "activity",
       "start": {
         "place": "anywhere",
+        "hint": "Starts when you take a cargo mission from a mission board",
         "confidence": "low",
         "source": "manual"
       },
@@ -25601,6 +25681,7 @@
       "type": "activity",
       "start": {
         "place": "anywhere",
+        "hint": "Starts when you take a bounty mission from a mission board",
         "confidence": "low",
         "source": "manual"
       },

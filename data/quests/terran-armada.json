@@ -799,6 +799,7 @@
       "type": "side",
       "start": {
         "place": "sys.algorab",
+        "hint": "Delta's second challenge: Roxane, at Anchorpoint, after The New Space Race",
         "confidence": "medium",
         "source": "alias"
       },
@@ -885,7 +886,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "SFBGS050.esm|0x00F9F0",
+          "quest": "SFTER_EC_Robot_Q01",
+          "name": "The New Space Race",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "sfter-ec-robot-q03",
@@ -895,6 +904,7 @@
       "type": "side",
       "start": {
         "place": "sys.algorab",
+        "hint": "Delta's third challenge, after WIN.slate",
         "confidence": "medium",
         "source": "alias"
       },
@@ -1001,7 +1011,15 @@
         "stage": 1000
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "SFBGS050.esm|0x00F9F2",
+          "quest": "SFTER_EC_Robot_Q02",
+          "name": "WIN.slate",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "sfter-ec-robot-q04",
@@ -1011,6 +1029,7 @@
       "type": "side",
       "start": {
         "place": "sys.algorab",
+        "hint": "Delta's last challenge: talk to Roxane after The Instruments of Life",
         "confidence": "medium",
         "source": "alias"
       },
@@ -1120,7 +1139,15 @@
         ]
       },
       "fail": null,
-      "equivalentGroup": null
+      "equivalentGroup": null,
+      "availableAfter": [
+        {
+          "form": "SFBGS050.esm|0x00F9F3",
+          "quest": "SFTER_EC_Robot_Q03",
+          "name": "The Instruments of Life",
+          "stage": 1000
+        }
+      ]
     },
     {
       "id": "sfter-mq01",

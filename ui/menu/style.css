@@ -29,7 +29,7 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 /* Opaque, like the game's menus: textured navy. */
 .app {
   width: 100vw; height: 100vh; position: relative;
-  display: grid; grid-template-columns: 96px 600px 1fr; grid-template-rows: 64px 1fr 76px;
+  display: grid; grid-template-columns: 96px 600px minmax(0, 1fr); grid-template-rows: 64px 1fr 76px;
   background:
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.07 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
     radial-gradient(ellipse at 70% 40%, #2b3d5e 0%, #203152 45%, #18243b 100%);
@@ -96,11 +96,12 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .place.selected.inactive .bar i { background: var(--text); }
 
 /* Right column: category tabs, sort bar, quest list. */
-.detail { grid-column: 3; grid-row: 2; padding: 32px 40px 8px 0; min-height: 0; display: flex; flex-direction: column; }
+.detail { grid-column: 3; grid-row: 2; padding: 32px 40px 8px 0; min-height: 0; min-width: 0; display: flex; flex-direction: column; }
 .tabs { display: flex; gap: 4px; height: 38px; flex-shrink: 0; }
 .tabs .arrow { min-width: 44px; padding: 0 6px; border: 1.5px solid rgba(255, 255, 255, 0.8); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .tabs .arrow kbd { font-family: var(--mono); font-size: 14px; }
-.tabs .tab { flex: 1 0 auto; border: 1px solid var(--edge); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 12px; font-size: 16px; white-space: nowrap; }
+/* Tabs share the width and may shrink: the 1fr column must not grow past the screen with them. */
+.tabs .tab { flex: 1 1 auto; min-width: 0; overflow: hidden; border: 1px solid var(--edge); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 12px; font-size: 16px; white-space: nowrap; }
 .tabs .tab span { font-size: 13px; color: var(--muted); }
 .tabs .tab[aria-selected="true"] { background: var(--light); color: var(--on-light); }
 .tabs .tab[aria-selected="true"] span { color: var(--on-light); }

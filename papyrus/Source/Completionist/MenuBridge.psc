@@ -169,6 +169,11 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
     Quest q = entry.questForm
     Bool wasActive = q.IsActive()
     If !wanted || (q.IsRunning() && !q.IsCompleted())
+      ; One tracked mission at a time: the others, and a Track start marker, stop being tracked.
+      If wanted
+        Tracker().ClearStart()
+        Tracker().UntrackAll()
+      EndIf
       q.SetActive(wanted)
     EndIf
     Bool nowActive = q.IsActive()
@@ -179,6 +184,7 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
     result[2] = wanted
     OSFUI.EmitEvent(ModId, "tracked", result)
     PublishTracked()
+    PublishGuide()
   ElseIf asName == "objectives"
     ; osfui.send("objectives", questId, objective, objective, …): reports each objective as
     ; 0 = not shown, 1 = shown, 2 = completed, 3 = failed, so the menu can list the ones the

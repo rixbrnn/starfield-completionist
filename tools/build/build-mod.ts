@@ -42,8 +42,8 @@ interface Condition {
 }
 
 interface Collection {
-  places?: Array<{ id: string; name: string; parent?: string; location?: string }>;
-  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string; giverForm?: string; giverRef?: string }; complete: Condition; fail?: Condition | null; objectives?: number[]; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; equivalentGroup?: string | null; hidden?: boolean; availableAfter?: Array<{ form: string; name?: string; stage: number; group?: string }>; lead?: { quest?: string; form?: string; location?: string } }>;
+  places?: Array<{ id: string; name: string; kind?: string; parent?: string; location?: string }>;
+  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string; giver?: string; giverForm?: string; giverRef?: string; hint?: string }; complete: Condition; fail?: Condition | null; objectives?: number[]; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; equivalentGroup?: string | null; hidden?: boolean; availableAfter?: Array<{ form: string; name?: string; stage: number; group?: string }>; lead?: { quest?: string; form?: string; location?: string } }>;
 }
 
 /** Stages from a questStage / anyOf-of-questStage condition. */
@@ -66,6 +66,8 @@ const papyrusString = (text: string) => `"${text.replaceAll("\\", "\\\\").replac
 // ---------------------------------------------------------------- quest table
 
 const calls: string[] = [];
+// Track start's objective texts (Completionist_Guide), one per text: quests with the same giver share one.
+const guideTexts: string[] = [];
 const dataDir = join(repo, "data/quests");
 for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort()) {
   const collection = JSON.parse(readFileSync(join(dataDir, file), "utf8")) as Collection;
@@ -86,6 +88,21 @@ for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort(
       names.push(place.name);
     }
     return names.join(" < ");
+  };
+  // What the game shows for Track start: the character to talk to, or the place to go. No quest
+  // name, which may be a spoiler (the menu can hide undiscovered ones).
+  const guideObjective = (quest: Collection["quests"][number]): number => {
+    const { giver, giverForm, giverRef, hint } = quest.start;
+    if (!giverForm && !giverRef) return -1;
+    const chain: Array<{ kind?: string; name: string }> = [];
+    for (let place = places.get(quest.start.place); place; place = place.parent ? places.get(place.parent) : undefined) chain.push(place);
+    const planet = chain.find((p) => p.kind === "planet")?.name;
+    const text = giverForm && giver ? `Talk to ${giver}`
+      : hint?.startsWith("Random encounter when you arrive in orbit") && planet ? `Travel to ${planet} orbit`
+      : chain[0] && chain[0].kind !== "anywhere" ? `Go to ${chain[0].name}`
+      : "Find where the mission starts";
+    if (!guideTexts.includes(text)) guideTexts.push(text);
+    return guideTexts.indexOf(text);
   };
 
   for (const quest of collection.quests) {
@@ -128,6 +145,7 @@ for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort(
       // Who starts it: a unique NPC or a placed reference (Track start in the menu).
       ...formArgs(quest.start.giverForm),
       ...formArgs(quest.start.giverRef),
+      guideObjective(quest),
     ];
     calls.push(`Add(entries, ${args.join(", ")}) ; ${file}`);
   }
@@ -208,6 +226,7 @@ Struct Entry
   Location leadLocation
   Form giver ; who starts the quest: the ActorBase of a unique NPC; None if unknown
   ObjectReference giverRef ; or where it starts when that isn't a character (a map marker, a terminal)
+  Int guideObjective = -1 ; Track start: Completionist_Guide's objective naming the giver or place; -1 = none
 EndStruct
 
 ; Papyrus arrays hold at most 128 elements, so quests come in pages of up to ${PAGE_SIZE}.
@@ -235,7 +254,7 @@ ${pageBlocks}
   Return entries
 EndFunction
 
-Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asChoice1Group, String asChoice1Side, String asChoice2Group, String asChoice2Side, Bool abNgPlusOnly, Int aiObj1, Int aiObj2, Int aiObj3, Int aiObj4, Int aiObj5, Int aiObj6, Int aiObj7, Int aiObj8, Bool abObjectivesMany, String asEquivalent, Bool abHidden, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2, Int aiAfter1, String asAfter1Plugin, Int aiAfter1Stage, Int aiAfter2, String asAfter2Plugin, Int aiAfter2Stage, Int aiAfter3, String asAfter3Plugin, Int aiAfter3Stage, Int aiAfter4, String asAfter4Plugin, Int aiAfter4Stage, String asAfterGroup, Int aiLeadQuest, String asLeadQuestPlugin, Int aiLeadLocation, String asLeadLocationPlugin, Int aiGiver, String asGiverPlugin, Int aiGiverRef, String asGiverRefPlugin) Global
+Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asChoice1Group, String asChoice1Side, String asChoice2Group, String asChoice2Side, Bool abNgPlusOnly, Int aiObj1, Int aiObj2, Int aiObj3, Int aiObj4, Int aiObj5, Int aiObj6, Int aiObj7, Int aiObj8, Bool abObjectivesMany, String asEquivalent, Bool abHidden, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2, Int aiAfter1, String asAfter1Plugin, Int aiAfter1Stage, Int aiAfter2, String asAfter2Plugin, Int aiAfter2Stage, Int aiAfter3, String asAfter3Plugin, Int aiAfter3Stage, Int aiAfter4, String asAfter4Plugin, Int aiAfter4Stage, String asAfterGroup, Int aiLeadQuest, String asLeadQuestPlugin, Int aiLeadLocation, String asLeadLocationPlugin, Int aiGiver, String asGiverPlugin, Int aiGiverRef, String asGiverRefPlugin, Int aiGuideObjective) Global
   Quest found = Game.GetFormFromFile(aiFormID, asPlugin) as Quest
   If found
     Entry entry = new Entry
@@ -299,6 +318,7 @@ Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, Stri
     If aiGiverRef > 0
       entry.giverRef = Game.GetFormFromFile(aiGiverRef, asGiverRefPlugin) as ObjectReference
     EndIf
+    entry.guideObjective = aiGuideObjective
     akEntries.Add(entry)
   EndIf
 EndFunction
@@ -320,9 +340,13 @@ const trackerQuest = record("QUST", OWN | 0x800, [
   subrecord("ANAM", uint32Data(0)),
 ]);
 
-// "Track start" in the menu: an activity whose one objective points at the giver of a quest the
-// player hasn't started (QuestTracker.TrackStart fills the alias). Laid out like the game's own
-// leads (FFNeonGuardPointer_Z02), but not run once, so it can point somewhere else next time.
+// "Track start" in the menu: an activity that points at the giver of a quest the player hasn't
+// started, or the placed reference it starts at (QuestTracker.TrackStart fills the alias). Laid
+// out like the game's own leads (FFNeonGuardPointer_Z02), but not run once, so it can point
+// somewhere else next time. One objective per text ("Talk to Sarah Morgan"), all on the one
+// alias: the text is fixed, since <Alias=Giver> in it showed as "[...]" when the alias is
+// filled after the quest starts.
+if (guideTexts.length > 0xffff) throw new Error("Too many Track start objectives");
 const objectiveTarget = Buffer.alloc(12); // QSTA: alias 0, no flags or conditions
 const guideQuest = record("QUST", OWN | 0x801, [
   subrecord("EDID", zstringData("Completionist_Guide")),
@@ -330,10 +354,11 @@ const guideQuest = record("QUST", OWN | 0x801, [
   subrecord("DNAM", Buffer.from("000000001e00000000000000", "hex")),
   subrecord("QTYP", uint32Data(0x000475f8)), // Starfield.esm's activity quest type
   subrecord("NEXT"),
-  subrecord("QOBJ", Buffer.from([0, 0])),
-  subrecord("FNAM", uint32Data(0)),
-  subrecord("NNAM", zstringData("Find <Alias=Giver> (Completionist)")),
-  subrecord("QSTA", objectiveTarget),
+  ...guideTexts.flatMap((text, index) => {
+    const id = Buffer.alloc(2);
+    id.writeUInt16LE(index);
+    return [subrecord("QOBJ", id), subrecord("FNAM", uint32Data(0)), subrecord("NNAM", zstringData(text)), subrecord("QSTA", objectiveTarget)];
+  }),
   subrecord("ANAM", uint32Data(1)),
   subrecord("ALST", uint32Data(0)),
   subrecord("ALID", zstringData("Giver")),
@@ -370,12 +395,17 @@ const menuPlaces: Record<string, MenuPlace> = {};
 const menuQuests: object[] = [];
 const menuLines = new Map<string, { id: string; name: string; group: string; quests: Array<{ id: string; order: number; file: number }> }>();
 const collectionFiles = readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort((a, b) => (a === "vanilla.json" ? -1 : b === "vanilla.json" ? 1 : a.localeCompare(b)));
+// Completion stages by quest form, so the menu can say "After X" when a quest waits for X to be done.
+const completeStagesOf = new Map<string, number[]>();
+for (const file of collectionFiles) {
+  for (const quest of (JSON.parse(readFileSync(join(dataDir, file), "utf8")) as Collection).quests) completeStagesOf.set(quest.form, stagesOf(quest.complete));
+}
 collectionFiles.forEach((file, fileIndex) => {
   const collection = JSON.parse(readFileSync(join(dataDir, file), "utf8")) as {
     title?: string;
     places?: Array<{ id: string; name: string; kind: string; parent?: string; location?: string }>;
     questlines?: Array<{ id: string; name: string }>;
-    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string; giverForm?: string; giverRef?: string; hint?: string }; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; hidden?: boolean; steps?: Array<{ id: number; text: string; target?: number; tokens?: Array<{ kind: string; alias?: number; form?: string; word: string }> }>; availableAfter?: Array<{ name?: string; stage: number }> }>;
+    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string; giverForm?: string; giverRef?: string; hint?: string }; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; hidden?: boolean; steps?: Array<{ id: number; text: string; target?: number; tokens?: Array<{ kind: string; alias?: number; form?: string; word: string }> }>; availableAfter?: Array<{ form?: string; name?: string; stage: number }> }>;
   };
   const keyOf = new Map((collection.places ?? []).map((p) => [p.id, p.location ?? `${file}:${p.id}`]));
   for (const place of collection.places ?? []) {
@@ -396,7 +426,7 @@ collectionFiles.forEach((file, fileIndex) => {
       errand: quest.errand || undefined,
       giver: quest.start.giver,
       hint: quest.start.hint, // how it starts when no one hands it out (shown with spoilers revealed)
-      guide: quest.start.giverForm ? true : undefined, // Track start can point at the giver
+      guide: quest.start.giverForm || quest.start.giverRef ? true : undefined, // Track start can point at the giver or the place
       found: quest.start.giverForm || quest.start.giverRef ? true : undefined, // Show on map can find where it starts
       place: keyOf.get(quest.start.place) ?? null,
       choices: quest.choices,
@@ -412,7 +442,8 @@ collectionFiles.forEach((file, fileIndex) => {
         })
         : undefined,
       // What makes it available: [name of the quest, true if just starting it is enough].
-      unlock: quest.availableAfter?.length ? [quest.availableAfter.find((a) => a.name)?.name ?? "", quest.availableAfter[0].stage < 0] : undefined,
+      // [name, once it starts, once it's done]
+      unlock: quest.availableAfter?.length ? [quest.availableAfter.find((a) => a.name)?.name ?? "", quest.availableAfter[0].stage < 0, (completeStagesOf.get(quest.availableAfter[0].form ?? "") ?? []).includes(quest.availableAfter[0].stage)] : undefined,
     });
     if (quest.questline) {
       menuLines.get(quest.questline.id)?.quests.push({ id: quest.id, order: quest.questline.order, file: fileIndex });

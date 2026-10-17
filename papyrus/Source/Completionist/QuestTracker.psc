@@ -72,6 +72,9 @@ Int[] overrideValues
 
 ; Track start (the menu): id of the quest whose giver Completionist_Guide points at, or "".
 String guideFor = ""
+; Its objective shown now (one per giver or place, see build-mod.ts). 0 before the first Track
+; start, so a save from when the guide had only objective 0 hides that one.
+Int guideShown = 0
 Int Property GuideQuestID = 0x801 AutoReadOnly ; Completionist_Guide in StarfieldCompletionist.esm
 
 ; Quests whose stage changed or that stopped while a refresh was running: the refresh may have
@@ -618,35 +621,59 @@ EndFunction
 
 ; ---------------------------------------------------------------- Track start
 
-; Points Completionist_Guide's one objective at the giver of quest asId, which the player hasn't
-; started, and makes it the active mission: the game then shows the giver on the compass and map.
-; Returns whether it could (the quest needs a giver, and that character must exist).
+; Points Completionist_Guide at who starts quest asId (its giver, or the placed reference it
+; starts at), which the player hasn't started, and makes it the only tracked mission: the game
+; then shows the target on the compass and map, under an objective that names it ("Talk to
+; Sarah Morgan"). Returns whether it could: the quest needs a giver or a reference, and it must
+; be in the world (a disabled one hasn't been put there yet).
 Bool Function TrackStart(String asId)
   Completionist:QuestData:Entry entry = CurrentEntry(asId)
-  If entry == None || entry.giver == None
+  If entry == None || entry.guideObjective < 0
     Return False
   EndIf
-  ObjectReference target = None
+  ObjectReference target = entry.giverRef
   ActorBase npc = entry.giver as ActorBase
   If npc
     target = npc.GetUniqueActor()
   EndIf
   Quest guide = Game.GetFormFromFile(GuideQuestID, "StarfieldCompletionist.esm") as Quest
-  If target == None || guide == None
-    Debug.TraceUser(LogName, "Track start " + entry.name + ": giver not found")
+  If target == None || target.IsDisabled() || guide == None
+    Debug.TraceUser(LogName, "Track start " + entry.name + ": not in the world (" + target + ")")
     Return False
   EndIf
   If !guide.IsRunning()
     guide.Start()
   EndIf
+  UntrackAll()
   (guide.GetAlias(0) as ReferenceAlias).ForceRefTo(target)
-  ; Shown again so the objective's text picks up the new giver's name.
-  guide.SetObjectiveDisplayed(0, False)
-  guide.SetObjectiveDisplayed(0, True, True)
+  guide.SetObjectiveDisplayed(guideShown, False)
+  guide.SetObjectiveDisplayed(entry.guideObjective, True, True)
+  guideShown = entry.guideObjective
   guide.SetActive(True)
   guideFor = entry.id
-  Debug.TraceUser(LogName, "Track start " + entry.name + ": " + target)
+  Debug.TraceUser(LogName, "Track start " + entry.name + ": " + target + " (objective " + guideShown + ")")
   Return True
+EndFunction
+
+; One tracked mission at a time, as in the game's own Missions menu: SetActive alone adds to
+; the tracked ones. Stops tracking the quests in progress and Track start's marker.
+Function UntrackAll()
+  Int p = 0
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    Int i = 0
+    While entries && i < entries.Length
+      If entries[i].status == kInProgress && entries[i].questForm.IsActive()
+        entries[i].questForm.SetActive(False)
+      EndIf
+      i += 1
+    EndWhile
+    p += 1
+  EndWhile
+  Quest guide = Game.GetFormFromFile(GuideQuestID, "StarfieldCompletionist.esm") as Quest
+  If guide && guide.IsActive()
+    guide.SetActive(False)
+  EndIf
 EndFunction
 
 ; Show on map: where the quest can be picked up now. The giver's current location (people move,
@@ -670,8 +697,9 @@ EndFunction
 Function ClearStart()
   Quest guide = Game.GetFormFromFile(GuideQuestID, "StarfieldCompletionist.esm") as Quest
   If guide && guide.IsRunning()
-    guide.SetObjectiveDisplayed(0, False)
+    guide.SetObjectiveDisplayed(guideShown, False)
     (guide.GetAlias(0) as ReferenceAlias).Clear()
+    guide.SetActive(False)
   EndIf
   guideFor = ""
 EndFunction

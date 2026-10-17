@@ -218,7 +218,7 @@
     bridge.on("startTracked", (event) => {
       const [rawId, ok] = (event && event.args) || [];
       const q = questsById.get(String(rawId).toLowerCase());
-      if (q) showToast(ok ? startMarkedText(q) : "Couldn't find who starts " + q.name + ".");
+      if (q) showToast(ok ? startMarkedText(q) : (q.giver ? q.giver + " isn't in the world yet." : "Couldn't mark where " + q.name + " starts yet."));
     });
     bridge.on("plotFailed", () => showToast("Not on the map yet: the game hasn't placed this objective."));
     bridge.on("noStartLocation", (event) => {
@@ -788,9 +788,9 @@
     const where = placeChain(q.place).map((p) => p.name).join(", ") || "Anywhere";
     const states = objectiveStates.get(q.id);
     const leftSteps = states && q.steps ? q.steps.filter((step) => states.get(step[0]) === 1).length : 0;
-    const status = s === IN_PROGRESS ? (tracked.has(q.id) ? "In progress · tracked" : "In progress")
+    const status = s === IN_PROGRESS ? (isTracked(q) ? "In progress · tracked" : "In progress")
       : s === COMPLETED ? "Completed" : s === FAILED ? "Failed" : s === LOCKED_OUT ? "Not taken: " + lockedReason(q)
-      : s === NOT_AVAILABLE ? "Not available yet. " + unlockText(q) : "Not discovered";
+      : s === NOT_AVAILABLE ? "Not available yet. " + unlockText(q) : isTracked(q) ? "Not discovered · start tracked" : "Not discovered";
     const noun = TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission";
     const fact = (label, text) => [el("div", { class: "kicker", text: label }), el("div", { text })];
     return el("div", { class: "card" },
@@ -890,7 +890,7 @@
     const hide = view.spoilers && isUndiscovered(s);
     const expandable = isExpandable(q);
     const meta = hide ? "" : rowMeta(q, s, options);
-    const cls = "row" + (selected ? " selected" : "") + (tracked.has(q.id) ? " tracked" : "") + (isFinished(s) ? " finished" : "") + (notYetAvailable(q) || s === NOT_AVAILABLE ? " unavailable" : "");
+    const cls = "row" + (selected ? " selected" : "") + (isTracked(q) ? " tracked" : "") + (isFinished(s) ? " finished" : "") + (notYetAvailable(q) || s === NOT_AVAILABLE ? " unavailable" : "");
     // Like the game: clicking a quest opens / closes it (when it has objectives), otherwise selects it.
     return el("div", { class: cls, onclick: () => { selectRow(index); if (expandable) toggleOpen(q); } },
       el("span", { class: "tile" }),
@@ -930,7 +930,11 @@
 
   // ------------------------------------------------------------------ actions (handled by Completionist:MenuBridge)
 
-  // Show on map: the tracker plots a course to where the giver (or the placed object the quest
+  // Tracked as the game shows it (the cyan tile): a quest in progress set as the active mission,
+  // or a quest not started whose start Track start marks.
+  const isTracked = (q) => tracked.has(q.id) || guideFor === q.id;
+
+  // Show on starmap: the tracker plots a course to where the giver (or the placed object the quest
   // starts at) is now, or else to the start place from the data.
   const hasStartLocation = (q) => q.found || placeChain(q.place).some((p) => p.loc);
 
@@ -941,25 +945,32 @@
     return !!place && locationChain.some((id) => matchesLocation(id, place.loc));
   }
 
-  // "Track" sets a started quest as the active mission; "Show on map" plots a course to where it starts.
-  // Track start: for a quest not started yet, the game marks who starts it (on the compass and
-  // map, as a Completionist activity). One at a time; it clears once the quest starts.
+  // "Track" sets a started quest as the active mission; "Show on starmap" plots a course to where
+  // it starts (the game has no way to open the surface map at a place). Track start: for a quest
+  // not started yet, the game marks who starts it, or where, on the compass and surface map (a
+  // Completionist activity). One tracked at a time, either kind; Track start clears once the
+  // quest starts.
   const startMarkedText = (q) => "Marked on your map: " + (q.giver ? q.giver + ", who starts " : "the start of ") + q.name + ".";
 
   function actionsFor(q) {
     const s = statusOf(q);
     const actions = [];
-    if (s === NOT_STARTED && q.guide) {
+    // TRACK on a quest not started marks who starts it (Track start); without anyone or anything
+    // to mark, or before the quest can be found, it stays greyed out and does nothing: the row
+    // already says how to get it (how it starts, or what unlocks it).
+    if (s === NOT_STARTED && q.guide && !notYetAvailable(q)) {
       actions.push(guideFor === q.id
-        ? { id: "untrackStart", label: "STOP TRACKING START", run: () => send("untrackStart", q) }
-        : { id: "trackStart", label: "TRACK START", run: () => send("trackStart", q) });
+        ? { id: "untrackStart", label: "UNTRACK", run: () => send("untrackStart", q) }
+        : { id: "trackStart", label: "TRACK", run: () => send("trackStart", q) });
+    } else if (s === NOT_STARTED || s === NOT_AVAILABLE) {
+      actions.push({ id: "track", label: "TRACK", disabled: true, run: () => {} });
     }
     if (s === IN_PROGRESS) {
       actions.push(tracked.has(q.id)
         ? { id: "untrack", label: "UNTRACK", run: () => send("untrack", q) }
         : { id: "track", label: "TRACK", run: () => send("track", q) });
     }
-    if (!isDone(s) && hasStartLocation(q) && !isAtStart(q)) actions.push({ id: "plot", label: "SHOW ON MAP", run: () => send("plot", q) });
+    if (!isDone(s) && hasStartLocation(q) && !isAtStart(q)) actions.push({ id: "plot", label: "SHOW ON STARMAP", run: () => send("plot", q) });
     actions.push(overrideAction(q));
     return actions;
   }
@@ -994,9 +1005,9 @@
     const [id] = item.step;
     // A on an objective tracks (or stops tracking) its quest: like the game, that tracks all of
     // the quest's objectives at once. X shows this objective on the map.
-    const actions = item.state === 1 ? actionsFor(item.q).filter((a) => a.id === "track" || a.id === "untrack") : [];
+    const actions = item.state === 1 ? actionsFor(item.q).filter((a) => !a.disabled && (a.id === "track" || a.id === "untrack")) : [];
     const alias = mapAlias(item.step);
-    if (item.state === 1 && alias >= 0) actions.push({ id: "plot", label: "SHOW ON MAP", run: () => plotObjective(item.q, id, alias) });
+    if (item.state === 1 && alias >= 0) actions.push({ id: "plot", label: "SHOW ON STARMAP", run: () => plotObjective(item.q, id, alias) });
     return actions;
   }
   const selectedItem = () => (view.focus === "list" ? shownItems[view.row] : undefined);
@@ -1152,9 +1163,9 @@
     if (bridge) bridge.send(action, q.id);
     else {
       console.log("[preview] " + action + " " + q.id);
-      if (action === "track") { tracked.add(q.id); showToast("Now tracking: " + q.name); render(); }
+      if (action === "track") { tracked = new Set([q.id]); guideFor = ""; showToast("Now tracking: " + q.name); render(); }
       if (action === "untrack") { tracked.delete(q.id); showToast("Stopped tracking: " + q.name); render(); }
-      if (action === "trackStart") { guideFor = q.id; showToast(startMarkedText(q)); render(); }
+      if (action === "trackStart") { tracked.clear(); guideFor = q.id; showToast(startMarkedText(q)); render(); }
       if (action === "untrackStart") { guideFor = ""; render(); }
     }
   }
@@ -1173,17 +1184,18 @@
     return "Other path chosen";
   }
 
-  // "Unlocks during Unity" / "After The Empty Nest starts" / "Unlocks later in the story".
+  // "Unlocks during Unity" / "After The Empty Nest starts" / "After WIN.slate" / "Unlocks later in the story".
+  // With no quest to name, a hint on how it starts says more (a home you buy, a companion who
+  // brings their quest up once they like you).
   function unlockText(q) {
-    const [name, starting] = q.unlock || ["", false];
-    if (!name) return "Unlocks later in the story";
-    return starting ? "After " + name + " starts" : "Unlocks during " + name;
+    const [name, starting, done] = q.unlock || ["", false, false];
+    if (!name) return q.hint || "Unlocks later in the story";
+    return starting ? "After " + name + " starts" : done ? "After " + name : "Unlocks during " + name;
   }
 
   function rowMeta(q, s, options) {
     if (notYetAvailable(q)) return "Available in New Game+";
-    // A hint on how it starts says more than "Unlocks later in the story" (a home you buy).
-    if (s === NOT_AVAILABLE) return (!(q.unlock && q.unlock[0]) && q.hint) || unlockText(q);
+    if (s === NOT_AVAILABLE) return unlockText(q);
     if (manual.has(q.id)) return "Marked manually";
     if (s === LOCKED_OUT) return lockedReason(q);
     if (options.meta) return options.meta(q);
@@ -1194,6 +1206,8 @@
 
   function hubName(q) {
     const chain = placeChain(q.place);
+    // No place to name: how it starts says more ("Random encounter when you arrive in orbit").
+    if ((!chain.length || chain[0].kind === "anywhere") && statusOf(q) === NOT_STARTED && q.hint) return q.hint;
     return chain.length ? placeLabel(chain[0].key, chain[0].name) : "Anywhere";
   }
 
@@ -1429,13 +1443,14 @@
     const sideLoc = sideItemLocation(selectedSideItem());
     const expandable = q && isExpandable(q);
     const primary = view.focus === "side" ? "OPEN" : onCard ? "SET COURSE" : expandable ? (view.open.has(q.id) ? "COLLAPSE" : "EXPAND") : item ? (primaryAction(item) || {}).label : null;
+    const primaryGreyed = view.focus === "list" && !expandable && !!item && !!(primaryAction(item) || {}).disabled;
     const canPlot = view.focus === "side" ? !!sideLoc : !onCard && item && itemActions(item).some((a) => a.id === "plot");
     const nowhere = view.tab === "here" && hereLayout === "nowhere";
     const keys = [
-      primary ? key(primary, pad ? "A" : "ENTER", activate) : null,
+      primary ? key(primary, pad ? "A" : "ENTER", activate, primaryGreyed) : null,
       // Always shown on a row (greyed out when there is nothing to show), except when it is
       // already the main action.
-      (view.focus === "side" || item) && primary !== "SHOW ON MAP" ? key(view.focus === "side" ? "SET COURSE" : "SHOW ON MAP", pad ? "X" : "R", plotSelected, !canPlot) : null,
+      (view.focus === "side" || item) && primary !== "SHOW ON STARMAP" ? key(view.focus === "side" ? "SET COURSE" : "SHOW ON STARMAP", pad ? "X" : "R", plotSelected, !canPlot) : null,
       q ? key(overrideAction(q).label, pad ? "RS" : "M", overrideSelected) : null,
       nowhere ? null : key(view.tab === "log" ? "CATEGORY" : "FILTER", pad ? "RS" : "Z / C", () => cycleFilter(1)),
       key("SORT", pad ? "Y" : "T", cycleSort),
@@ -1573,7 +1588,7 @@
     const item = selectedItem();
     if (item && !item.step && isExpandable(item.q)) return toggleOpen(item.q);
     const action = item && primaryAction(item);
-    if (action) action.run();
+    if (action && !action.disabled) action.run();
   }
   function overrideSelected() {
     const item = selectedItem();
