@@ -207,6 +207,14 @@
             "giver": {
               "type": "string"
             },
+            "giverForm": {
+              "type": "string",
+              "description": "Plugin|FormID of the giver: a unique NPC. The menu's Track start points a marker at them."
+            },
+            "giverRef": {
+              "type": "string",
+              "description": "Plugin|FormID of the placed reference the quest starts at when that isn't a character (a map marker, a terminal). Show on map plots a course to where it is."
+            },
             "hint": {
               "type": "string",
               "description": "Written by us. Shown only when spoilers are revealed."

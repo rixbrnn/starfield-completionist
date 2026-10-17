@@ -116,6 +116,7 @@
       "start": {
         "place": "hub.dazra-groat-farms",
         "giver": "Malik Vosh",
+        "giverForm": "ShatteredSpace.esm|0x03AC8B",
         "confidence": "medium",
         "source": "giver"
       },
@@ -213,6 +214,7 @@
       "start": {
         "place": "hub.dazra",
         "giver": "Mila Hohdan",
+        "giverForm": "ShatteredSpace.esm|0x0470EF",
         "confidence": "high",
         "source": "giver"
       },
@@ -281,6 +283,7 @@
       "start": {
         "place": "hub.dazra",
         "giver": "Nalada Bradi",
+        "giverForm": "ShatteredSpace.esm|0x0470E6",
         "confidence": "high",
         "source": "giver"
       },
@@ -402,6 +405,7 @@
       "type": "activity",
       "start": {
         "place": "hub.misthaze-cavern",
+        "giverRef": "ShatteredSpace.esm|0x11CC40",
         "confidence": "medium",
         "source": "giver"
       },
@@ -461,6 +465,7 @@
       "start": {
         "place": "hub.dazra",
         "giver": "Razma Ka'dic",
+        "giverForm": "ShatteredSpace.esm|0x030C48",
         "confidence": "medium",
         "source": "giver"
       },
@@ -550,6 +555,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Andreja",
+        "giverForm": "Starfield.esm|0x0059A7",
         "confidence": "medium",
         "source": "giver"
       },
@@ -867,6 +873,7 @@
       "start": {
         "place": "hub.dazra",
         "giver": "Malibor Dul'kehf",
+        "giverForm": "ShatteredSpace.esm|0x0116C8",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1067,6 +1074,7 @@
       "start": {
         "place": "hub.dazra",
         "giver": "Razma Ka'dic",
+        "giverForm": "ShatteredSpace.esm|0x030C48",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1394,6 +1402,7 @@
       "start": {
         "place": "pl.va-ruun-kai",
         "giver": "Viktor Veth'aal",
+        "giverForm": "ShatteredSpace.esm|0x035E53",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1850,6 +1859,7 @@
       "start": {
         "place": "hub.dazra",
         "giver": "Malibor Dul'kehf",
+        "giverForm": "ShatteredSpace.esm|0x0116C8",
         "confidence": "medium",
         "source": "giver"
       },
@@ -2113,6 +2123,7 @@
       },
       "start": {
         "place": "hub.scaled-citadel",
+        "giverForm": "ShatteredSpace.esm|0x012B17",
         "confidence": "medium",
         "source": "giver"
       },
@@ -2415,6 +2426,7 @@
       "start": {
         "place": "hub.dazra",
         "giver": "Ekris Kaisir",
+        "giverForm": "ShatteredSpace.esm|0x050732",
         "confidence": "medium",
         "source": "giver"
       },
@@ -2549,6 +2561,7 @@
       "start": {
         "place": "hub.dazra",
         "giver": "Qisrani Dul'kehf",
+        "giverForm": "ShatteredSpace.esm|0x011E4C",
         "confidence": "medium",
         "source": "giver"
       },
@@ -3115,6 +3128,7 @@
       "start": {
         "place": "hub.dazra",
         "giver": "Orahim",
+        "giverForm": "ShatteredSpace.esm|0x03E1D9",
         "confidence": "medium",
         "source": "giver"
       },
@@ -3242,6 +3256,7 @@
       "start": {
         "place": "hub.dazra",
         "giver": "Borhal Adlam",
+        "giverForm": "ShatteredSpace.esm|0x05DAF6",
         "confidence": "medium",
         "source": "giver"
       },
@@ -3416,6 +3431,7 @@
       "start": {
         "place": "hub.hamadi-station",
         "giver": "Azad Dubas",
+        "giverForm": "ShatteredSpace.esm|0x040775",
         "confidence": "medium",
         "source": "giver"
       },
@@ -3589,6 +3605,7 @@
       "start": {
         "place": "hub.tomb-of-the-fang",
         "giver": "Maaliya Hajtal",
+        "giverForm": "ShatteredSpace.esm|0x03AD8F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -3686,6 +3703,7 @@
       "start": {
         "place": "hub.wayshrine-of-redemption",
         "giver": "Vijun Ahkmav",
+        "giverForm": "ShatteredSpace.esm|0x07159D",
         "confidence": "medium",
         "source": "giver"
       },
@@ -3788,6 +3806,7 @@
       "start": {
         "place": "hub.dazra",
         "giver": "Lijana Dul'kehf",
+        "giverForm": "ShatteredSpace.esm|0x05FD0F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -3847,6 +3866,7 @@
       "type": "side",
       "start": {
         "place": "hub.dazra",
+        "giverRef": "ShatteredSpace.esm|0x0CA732",
         "confidence": "medium",
         "source": "giver"
       },
@@ -3989,6 +4009,7 @@
       "start": {
         "place": "hub.dazra",
         "giver": "Vassilis Voria",
+        "giverForm": "ShatteredSpace.esm|0x03DD3D",
         "confidence": "medium",
         "source": "giver"
       },

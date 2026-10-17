@@ -369,6 +369,10 @@ function hintedHub(quest: DumpQuest): LocationInfo | undefined {
 interface Start {
   place: ResolvedPlace;
   giver?: string;
+  /** The giver's NPC (unique actor), for pointing a marker at them. */
+  giverForm?: string;
+  /** Or the placed reference the quest starts at (a map marker, a terminal), for Show on map. */
+  giverRef?: string;
   confidence: "high" | "medium" | "low";
   source: "giver" | "alias" | "filter" | "manual";
 }
@@ -391,6 +395,9 @@ function findStart(quest: DumpQuest): Start {
     return {
       place,
       giver: alias.uniqueActor ? actorNames.get(alias.uniqueActor) : undefined,
+      // Only a character: a placed reference here is often a map marker or an object.
+      giverForm: alias.uniqueActor,
+      giverRef: alias.uniqueActor ? undefined : alias.forcedRef,
       confidence: agrees ? "high" : "medium",
       source: "giver",
     };
@@ -506,6 +513,8 @@ for (const [owner, quests] of byOwner) {
       start: {
         place: place.id,
         ...(start.giver ? { giver: start.giver } : {}),
+        ...(start.giverForm ? { giverForm: start.giverForm } : {}),
+        ...(start.giverRef ? { giverRef: start.giverRef } : {}),
         confidence: start.confidence,
         source: start.source,
       },

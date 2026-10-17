@@ -663,6 +663,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Saoirse Bowden",
+        "giverForm": "Starfield.esm|0x262CC5",
         "confidence": "medium",
         "source": "giver"
       },
@@ -849,6 +850,7 @@
       "start": {
         "place": "hub.the-key",
         "giver": "Naeva Mora",
+        "giverForm": "Starfield.esm|0x009138",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1211,6 +1213,7 @@
       "start": {
         "place": "hub.the-key",
         "giver": "Delgado",
+        "giverForm": "Starfield.esm|0x015399",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1577,6 +1580,7 @@
       "start": {
         "place": "hub.the-key",
         "giver": "Delgado",
+        "giverForm": "Starfield.esm|0x015399",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1937,6 +1941,7 @@
       "start": {
         "place": "hub.the-key",
         "giver": "Naeva Mora",
+        "giverForm": "Starfield.esm|0x009138",
         "confidence": "medium",
         "source": "giver"
       },
@@ -2575,6 +2580,7 @@
       "start": {
         "place": "hub.the-key",
         "giver": "Naeva Mora",
+        "giverForm": "Starfield.esm|0x009138",
         "confidence": "medium",
         "source": "giver"
       },
@@ -2805,6 +2811,7 @@
       "start": {
         "place": "hub.the-key",
         "giver": "Delgado",
+        "giverForm": "Starfield.esm|0x015399",
         "confidence": "medium",
         "source": "giver"
       },
@@ -3028,6 +3035,7 @@
       "start": {
         "place": "hub.the-key",
         "giver": "Delgado",
+        "giverForm": "Starfield.esm|0x015399",
         "confidence": "medium",
         "source": "giver"
       },
@@ -3295,6 +3303,7 @@
       "start": {
         "place": "hub.the-key",
         "giver": "Delgado",
+        "giverForm": "Starfield.esm|0x015399",
         "confidence": "medium",
         "source": "giver"
       },
@@ -3534,6 +3543,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Adler Kemp",
+        "giverForm": "Starfield.esm|0x279221",
         "confidence": "medium",
         "source": "giver"
       },
@@ -3666,6 +3676,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Davis Wilson",
+        "giverForm": "Starfield.esm|0x2161AE",
         "confidence": "high",
         "source": "giver"
       },
@@ -3772,6 +3783,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Davis Wilson",
+        "giverForm": "Starfield.esm|0x2161AE",
         "confidence": "high",
         "source": "giver"
       },
@@ -3894,6 +3906,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Davis Wilson",
+        "giverForm": "Starfield.esm|0x2161AE",
         "confidence": "high",
         "source": "giver"
       },
@@ -4001,6 +4014,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Marko Jansen",
+        "giverForm": "Starfield.esm|0x22484A",
         "confidence": "high",
         "source": "giver"
       },
@@ -4079,6 +4093,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Annie Wilcox",
+        "giverForm": "Starfield.esm|0x225488",
         "confidence": "high",
         "source": "giver"
       },
@@ -4147,6 +4162,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Elias Cartwright",
+        "giverForm": "Starfield.esm|0x224859",
         "confidence": "high",
         "source": "giver"
       },
@@ -4230,6 +4246,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Sarah Filburn",
+        "giverForm": "Starfield.esm|0x22547F",
         "confidence": "high",
         "source": "giver"
       },
@@ -4318,6 +4335,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Ngodup Tate",
+        "giverForm": "Starfield.esm|0x09B0FA",
         "confidence": "high",
         "source": "giver"
       },
@@ -4379,6 +4397,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Duncan Lynch",
+        "giverForm": "Starfield.esm|0x22484D",
         "confidence": "high",
         "source": "giver"
       },
@@ -4424,6 +4443,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Leah Casler",
+        "giverForm": "Starfield.esm|0x261A49",
         "confidence": "high",
         "source": "giver"
       },
@@ -4509,6 +4529,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Amira Wolf",
+        "giverForm": "Starfield.esm|0x22547C",
         "confidence": "high",
         "source": "giver"
       },
@@ -4613,6 +4634,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Gilly Seong",
+        "giverForm": "Starfield.esm|0x255D0F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -4690,6 +4712,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Gilly Seong",
+        "giverForm": "Starfield.esm|0x255D0F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -4736,6 +4759,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Trevor Petyarre",
+        "giverForm": "Starfield.esm|0x255D14",
         "confidence": "medium",
         "source": "giver"
       },
@@ -4849,6 +4873,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Trevor Petyarre",
+        "giverForm": "Starfield.esm|0x255D14",
         "confidence": "medium",
         "source": "giver"
       },
@@ -4889,6 +4914,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Saoirse Bowden",
+        "giverForm": "Starfield.esm|0x262CC5",
         "confidence": "medium",
         "source": "giver"
       },
@@ -5042,6 +5068,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "CDR Vincent Woodard",
+        "giverForm": "Starfield.esm|0x255D13",
         "confidence": "medium",
         "source": "giver"
       },
@@ -5097,6 +5124,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Trevor Petyarre",
+        "giverForm": "Starfield.esm|0x255D14",
         "confidence": "medium",
         "source": "giver"
       },
@@ -5239,6 +5267,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Rivkah Ovadia",
+        "giverForm": "Starfield.esm|0x255D09",
         "confidence": "medium",
         "source": "giver"
       },
@@ -5366,6 +5395,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Rivkah Ovadia",
+        "giverForm": "Starfield.esm|0x255D09",
         "confidence": "medium",
         "source": "giver"
       },
@@ -5406,6 +5436,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Jane Weller",
+        "giverForm": "Starfield.esm|0x255D0E",
         "confidence": "medium",
         "source": "giver"
       },
@@ -5509,6 +5540,7 @@
       "start": {
         "place": "hub.the-eleos-retreat",
         "giver": "Greg D'Angelo",
+        "giverForm": "Starfield.esm|0x295351",
         "confidence": "medium",
         "source": "giver"
       },
@@ -5593,6 +5625,7 @@
       "start": {
         "place": "hub.the-eleos-retreat",
         "giver": "Sloan Temitope",
+        "giverForm": "Starfield.esm|0x29534A",
         "confidence": "medium",
         "source": "giver"
       },
@@ -5639,6 +5672,7 @@
       "start": {
         "place": "hub.the-eleos-retreat",
         "giver": "Sloan Temitope",
+        "giverForm": "Starfield.esm|0x29534A",
         "confidence": "medium",
         "source": "giver"
       },
@@ -5744,6 +5778,7 @@
       "start": {
         "place": "hub.the-eleos-retreat",
         "giver": "Sloan Temitope",
+        "giverForm": "Starfield.esm|0x29534A",
         "confidence": "medium",
         "source": "giver"
       },
@@ -5814,6 +5849,7 @@
       "start": {
         "place": "hub.the-eleos-retreat",
         "giver": "Nevan Bohn",
+        "giverForm": "Starfield.esm|0x29534C",
         "confidence": "medium",
         "source": "giver"
       },
@@ -5912,6 +5948,7 @@
       "start": {
         "place": "hub.the-eleos-retreat",
         "giver": "Sloan Temitope",
+        "giverForm": "Starfield.esm|0x29534A",
         "confidence": "medium",
         "source": "giver"
       },
@@ -5958,6 +5995,7 @@
       "start": {
         "place": "hub.gagarin-landing",
         "giver": "Lizzy Ajello",
+        "giverForm": "Starfield.esm|0x265021",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6003,6 +6041,7 @@
       "start": {
         "place": "hub.gagarin-landing",
         "giver": "Helena Strickland",
+        "giverForm": "Starfield.esm|0x265029",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6098,6 +6137,7 @@
       "start": {
         "place": "hub.gagarin-landing",
         "giver": "Zinaida Kuipers",
+        "giverForm": "Starfield.esm|0x265019",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6179,6 +6219,7 @@
       "start": {
         "place": "hub.gagarin-landing",
         "giver": "Helena Strickland",
+        "giverForm": "Starfield.esm|0x265029",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6321,6 +6362,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Keeper Aquilus",
+        "giverForm": "Starfield.esm|0x01E5D6",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6365,6 +6407,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Kelton Frush",
+        "giverForm": "Starfield.esm|0x26B04F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6464,6 +6507,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Kelton Frush",
+        "giverForm": "Starfield.esm|0x26B04F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6498,6 +6542,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Kelton Frush",
+        "giverForm": "Starfield.esm|0x26B04F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6597,6 +6642,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Kelton Frush",
+        "giverForm": "Starfield.esm|0x26B04F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6638,6 +6684,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Kelton Frush",
+        "giverForm": "Starfield.esm|0x26B04F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6773,6 +6820,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Kelton Frush",
+        "giverForm": "Starfield.esm|0x26B04F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6815,6 +6863,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Kelton Frush",
+        "giverForm": "Starfield.esm|0x26B04F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6861,6 +6910,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Sergeant Yumi",
+        "giverForm": "Starfield.esm|0x24C49F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6900,6 +6950,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Nyssa Marcano",
+        "giverForm": "Starfield.esm|0x01E44A",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6946,6 +6997,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Louisa Reyez",
+        "giverForm": "Starfield.esm|0x24F4FF",
         "confidence": "medium",
         "source": "giver"
       },
@@ -6991,6 +7043,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Nyssa Marcano",
+        "giverForm": "Starfield.esm|0x01E44A",
         "confidence": "medium",
         "source": "giver"
       },
@@ -7056,6 +7109,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Nyssa Marcano",
+        "giverForm": "Starfield.esm|0x01E44A",
         "confidence": "medium",
         "source": "giver"
       },
@@ -7157,6 +7211,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Nyssa Marcano",
+        "giverForm": "Starfield.esm|0x01E44A",
         "confidence": "medium",
         "source": "giver"
       },
@@ -7257,6 +7312,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Louisa Reyez",
+        "giverForm": "Starfield.esm|0x24F4FF",
         "confidence": "medium",
         "source": "giver"
       },
@@ -7362,6 +7418,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Louisa Reyez",
+        "giverForm": "Starfield.esm|0x24F4FF",
         "confidence": "medium",
         "source": "giver"
       },
@@ -7528,6 +7585,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Neshar Osmani",
+        "giverForm": "Starfield.esm|0x2387B3",
         "confidence": "high",
         "source": "giver"
       },
@@ -7624,6 +7682,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Yannick Legrande",
+        "giverForm": "Starfield.esm|0x26FDE2",
         "confidence": "high",
         "source": "giver"
       },
@@ -7790,6 +7849,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Yannick Legrande",
+        "giverForm": "Starfield.esm|0x26FDE2",
         "confidence": "high",
         "source": "giver"
       },
@@ -7897,6 +7957,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Yannick Legrande",
+        "giverForm": "Starfield.esm|0x26FDE2",
         "confidence": "high",
         "source": "giver"
       },
@@ -7930,6 +7991,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Digger Zemin",
+        "giverForm": "Starfield.esm|0x216DE5",
         "confidence": "high",
         "source": "giver"
       },
@@ -8003,6 +8065,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Hatchet",
+        "giverForm": "Starfield.esm|0x229E61",
         "confidence": "high",
         "source": "giver"
       },
@@ -8080,6 +8143,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Briggs",
+        "giverForm": "Starfield.esm|0x229E63",
         "confidence": "high",
         "source": "giver"
       },
@@ -8208,6 +8272,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Tony Cowl",
+        "giverForm": "Starfield.esm|0x11370D",
         "confidence": "high",
         "source": "giver"
       },
@@ -8270,6 +8335,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Vicente Salinas",
+        "giverForm": "Starfield.esm|0x1A1C5A",
         "confidence": "high",
         "source": "giver"
       },
@@ -8314,6 +8380,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Warner Connell",
+        "giverForm": "Starfield.esm|0x19A5C4",
         "confidence": "high",
         "source": "giver"
       },
@@ -8355,6 +8422,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Donna Rain",
+        "giverForm": "Starfield.esm|0x113905",
         "confidence": "high",
         "source": "giver"
       },
@@ -8389,6 +8457,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Guillaume DeGarmo",
+        "giverForm": "Starfield.esm|0x0C821B",
         "confidence": "high",
         "source": "giver"
       },
@@ -8431,6 +8500,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Nilesh Sherazi",
+        "giverForm": "Starfield.esm|0x0C5913",
         "confidence": "high",
         "source": "giver"
       },
@@ -8515,6 +8585,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Zawadi Wade",
+        "giverForm": "Starfield.esm|0x0D6ECA",
         "confidence": "high",
         "source": "giver"
       },
@@ -8597,6 +8668,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Nadia Muffaz",
+        "giverForm": "Starfield.esm|0x0124AC",
         "confidence": "high",
         "source": "giver"
       },
@@ -8687,6 +8759,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Talia O'Shea",
+        "giverForm": "Starfield.esm|0x01291E",
         "confidence": "high",
         "source": "giver"
       },
@@ -8738,6 +8811,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Tommy Bitlow",
+        "giverForm": "Starfield.esm|0x1829FC",
         "confidence": "high",
         "source": "giver"
       },
@@ -8891,6 +8965,7 @@
       "type": "side",
       "start": {
         "place": "hub.new-atlantis",
+        "giverRef": "Starfield.esm|0x0CF4CC",
         "confidence": "high",
         "source": "giver"
       },
@@ -8970,6 +9045,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Samson Cebrail",
+        "giverForm": "Starfield.esm|0x113D6F",
         "confidence": "high",
         "source": "giver"
       },
@@ -9012,6 +9088,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Antonio Bianchi",
+        "giverForm": "Starfield.esm|0x012920",
         "confidence": "high",
         "source": "giver"
       },
@@ -9082,6 +9159,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Andy Singh",
+        "giverForm": "Starfield.esm|0x012921",
         "confidence": "high",
         "source": "giver"
       },
@@ -9145,6 +9223,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Andreja",
+        "giverForm": "Starfield.esm|0x0059A7",
         "confidence": "medium",
         "source": "giver"
       },
@@ -9213,6 +9292,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Andreja",
+        "giverForm": "Starfield.esm|0x0059A7",
         "confidence": "medium",
         "source": "giver"
       },
@@ -9523,6 +9603,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Barrett",
+        "giverForm": "Starfield.esm|0x005787",
         "confidence": "medium",
         "source": "giver"
       },
@@ -9699,6 +9780,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Barrett",
+        "giverForm": "Starfield.esm|0x005787",
         "confidence": "medium",
         "source": "giver"
       },
@@ -10343,6 +10425,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Barrett",
+        "giverForm": "Starfield.esm|0x005787",
         "confidence": "medium",
         "source": "giver"
       },
@@ -10744,6 +10827,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Cora Coe",
+        "giverForm": "Starfield.esm|0x00D653",
         "confidence": "medium",
         "source": "giver"
       },
@@ -10824,6 +10908,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Cora Coe",
+        "giverForm": "Starfield.esm|0x00D653",
         "confidence": "medium",
         "source": "giver"
       },
@@ -11040,6 +11125,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Sarah Morgan",
+        "giverForm": "Starfield.esm|0x005983",
         "confidence": "medium",
         "source": "giver"
       },
@@ -11118,6 +11204,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Sarah Morgan",
+        "giverForm": "Starfield.esm|0x005983",
         "confidence": "medium",
         "source": "giver"
       },
@@ -11385,6 +11472,7 @@
       "start": {
         "place": "hub.crucible",
         "giver": "Wyatt Earp",
+        "giverForm": "Starfield.esm|0x299F6C",
         "confidence": "high",
         "source": "giver"
       },
@@ -11466,6 +11554,7 @@
       "errand": true,
       "start": {
         "place": "hub.the-eleos-retreat",
+        "giverRef": "Starfield.esm|0x16E0B3",
         "confidence": "medium",
         "source": "giver"
       },
@@ -11582,6 +11671,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Marshal Daniel Blake",
+        "giverForm": "Starfield.esm|0x29A8EB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -11699,6 +11789,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Emma Wilcox",
+        "giverForm": "Starfield.esm|0x28B4DF",
         "confidence": "medium",
         "source": "giver"
       },
@@ -11926,6 +12017,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Marshal Daniel Blake",
+        "giverForm": "Starfield.esm|0x29A8EB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -12128,6 +12220,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Jaylen Pryce",
+        "giverForm": "Starfield.esm|0x2631AD",
         "confidence": "medium",
         "source": "giver"
       },
@@ -12287,6 +12380,7 @@
       "start": {
         "place": "hub.red-mile",
         "giver": "Autumn MacMillan",
+        "giverForm": "Starfield.esm|0x27AB15",
         "confidence": "medium",
         "source": "giver"
       },
@@ -12465,6 +12559,7 @@
       "start": {
         "place": "hub.the-clinic",
         "giver": "Ben Armistead",
+        "giverForm": "Starfield.esm|0x1F0264",
         "confidence": "medium",
         "source": "giver"
       },
@@ -12687,6 +12782,7 @@
       "start": {
         "place": "hub.akila-city",
         "giver": "Alex Shadid",
+        "giverForm": "Starfield.esm|0x27AB13",
         "confidence": "medium",
         "source": "giver"
       },
@@ -12834,6 +12930,7 @@
       "start": {
         "place": "hub.hopetown",
         "giver": "Ron Hope",
+        "giverForm": "Starfield.esm|0x27A23D",
         "confidence": "medium",
         "source": "giver"
       },
@@ -12930,6 +13027,7 @@
       "start": {
         "place": "hub.the-clinic",
         "giver": "Osian Salvato",
+        "giverForm": "Starfield.esm|0x1C2BD1",
         "confidence": "medium",
         "source": "giver"
       },
@@ -12976,6 +13074,7 @@
       "start": {
         "place": "hub.the-clinic",
         "giver": "Lara Darvish",
+        "giverForm": "Starfield.esm|0x1C2BD2",
         "confidence": "medium",
         "source": "giver"
       },
@@ -13028,6 +13127,7 @@
       "start": {
         "place": "hub.the-clinic",
         "giver": "Rebecca Armistead",
+        "giverForm": "Starfield.esm|0x1C2BD4",
         "confidence": "medium",
         "source": "giver"
       },
@@ -13158,6 +13258,7 @@
       "start": {
         "place": "hub.paradiso",
         "giver": "Oliver Campbell",
+        "giverForm": "Starfield.esm|0x263161",
         "confidence": "medium",
         "source": "giver"
       },
@@ -13442,6 +13543,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Denis Averin",
+        "giverForm": "Starfield.esm|0x255D1E",
         "confidence": "medium",
         "source": "giver"
       },
@@ -13559,6 +13661,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Mitch Benjamin",
+        "giverForm": "Starfield.esm|0x255D20",
         "confidence": "medium",
         "source": "giver"
       },
@@ -13605,6 +13708,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Mitch Benjamin",
+        "giverForm": "Starfield.esm|0x255D20",
         "confidence": "medium",
         "source": "giver"
       },
@@ -13646,6 +13750,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Denis Averin",
+        "giverForm": "Starfield.esm|0x255D1E",
         "confidence": "high",
         "source": "giver"
       },
@@ -13712,6 +13817,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Renee Shelby",
+        "giverForm": "Starfield.esm|0x255D0A",
         "confidence": "high",
         "source": "giver"
       },
@@ -13774,6 +13880,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Renee Shelby",
+        "giverForm": "Starfield.esm|0x255D0A",
         "confidence": "medium",
         "source": "giver"
       },
@@ -13819,6 +13926,7 @@
       "type": "side",
       "start": {
         "place": "hub.cydonia",
+        "giverRef": "Starfield.esm|0x203C1B",
         "confidence": "high",
         "source": "giver"
       },
@@ -13901,6 +14009,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Chris Cullen",
+        "giverForm": "Starfield.esm|0x031AC8",
         "confidence": "high",
         "source": "giver"
       },
@@ -13937,6 +14046,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Laylah Pulaski",
+        "giverForm": "Starfield.esm|0x255D0C",
         "confidence": "high",
         "source": "giver"
       },
@@ -13993,6 +14103,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Laylah Pulaski",
+        "giverForm": "Starfield.esm|0x255D0C",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14039,6 +14150,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Trackers Alliance Agent",
+        "giverForm": "Starfield.esm|0x1D8BDF",
         "confidence": "high",
         "source": "giver"
       },
@@ -14088,6 +14200,7 @@
       "start": {
         "place": "hub.cydonia",
         "giver": "Trackers Alliance Agent",
+        "giverForm": "Starfield.esm|0x1D8BDF",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14134,6 +14247,7 @@
       "start": {
         "place": "hub.the-den",
         "giver": "Orval Romack",
+        "giverForm": "Starfield.esm|0x2A0EE7",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14211,6 +14325,7 @@
       "start": {
         "place": "hub.the-den",
         "giver": "Bastien Graff",
+        "giverForm": "Starfield.esm|0x2A0EA9",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14269,6 +14384,7 @@
       "start": {
         "place": "hub.the-key",
         "giver": "Bog",
+        "giverForm": "Starfield.esm|0x0153A1",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14336,6 +14452,7 @@
       "start": {
         "place": "hub.the-key",
         "giver": "Bog",
+        "giverForm": "Starfield.esm|0x0153A1",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14389,6 +14506,7 @@
       "start": {
         "place": "hub.the-key",
         "giver": "Samina Mizrah",
+        "giverForm": "Starfield.esm|0x22EEEB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14501,6 +14619,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Noel",
+        "giverForm": "Starfield.esm|0x00598C",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14560,6 +14679,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "BorealUS",
+        "giverForm": "Starfield.esm|0x26FDD2",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14607,6 +14727,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Clover MacKenna",
+        "giverForm": "Starfield.esm|0x26FDD0",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14654,6 +14775,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Frank Renick",
+        "giverForm": "Starfield.esm|0x26FDDE",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14701,6 +14823,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "James Newill",
+        "giverForm": "Starfield.esm|0x2C4884",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14748,6 +14871,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Doctor Joseph Manning",
+        "giverForm": "Starfield.esm|0x26FDEE",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14795,6 +14919,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Katherine Luzion",
+        "giverForm": "Starfield.esm|0x26FDC8",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14842,6 +14967,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Saburo Okadigbo",
+        "giverForm": "Starfield.esm|0x26FDE4",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14889,6 +15015,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Tevin Anastas",
+        "giverForm": "Starfield.esm|0x26FDE8",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14936,6 +15063,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Rafiq Hamza",
+        "giverForm": "Starfield.esm|0x03C6C3",
         "confidence": "medium",
         "source": "giver"
       },
@@ -14983,6 +15111,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Manaia Adams",
+        "giverForm": "Starfield.esm|0x2E8339",
         "confidence": "medium",
         "source": "giver"
       },
@@ -15029,6 +15158,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "BorealUS",
+        "giverForm": "Starfield.esm|0x26FDD2",
         "confidence": "high",
         "source": "giver"
       },
@@ -15102,6 +15232,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Clover MacKenna",
+        "giverForm": "Starfield.esm|0x26FDD0",
         "confidence": "high",
         "source": "giver"
       },
@@ -15174,6 +15305,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Frank Renick",
+        "giverForm": "Starfield.esm|0x26FDDE",
         "confidence": "high",
         "source": "giver"
       },
@@ -15242,6 +15374,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "James Newill",
+        "giverForm": "Starfield.esm|0x2C4884",
         "confidence": "high",
         "source": "giver"
       },
@@ -15302,6 +15435,7 @@
       "start": {
         "place": "hub.the-clinic",
         "giver": "Abbie Edding",
+        "giverForm": "Starfield.esm|0x1C2BD3",
         "confidence": "medium",
         "source": "giver"
       },
@@ -15362,6 +15496,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Rusty Becker",
+        "giverForm": "Starfield.esm|0x082D0C",
         "confidence": "high",
         "source": "giver"
       },
@@ -15443,6 +15578,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Saburo Okadigbo",
+        "giverForm": "Starfield.esm|0x26FDE4",
         "confidence": "high",
         "source": "giver"
       },
@@ -15506,6 +15642,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Franchesca Moore",
+        "giverForm": "Starfield.esm|0x19B088",
         "confidence": "high",
         "source": "giver"
       },
@@ -15573,6 +15710,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Huong Le",
+        "giverForm": "Starfield.esm|0x05797C",
         "confidence": "high",
         "source": "giver"
       },
@@ -15651,6 +15789,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Manaia Adams",
+        "giverForm": "Starfield.esm|0x2E8339",
         "confidence": "high",
         "source": "giver"
       },
@@ -15712,6 +15851,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Miguel Rivas",
+        "giverForm": "Starfield.esm|0x2D1804",
         "confidence": "high",
         "source": "giver"
       },
@@ -15808,6 +15948,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Representative Chisolm",
+        "giverForm": "Starfield.esm|0x24C3D4",
         "confidence": "high",
         "source": "giver"
       },
@@ -15898,6 +16039,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Representative Chisolm",
+        "giverForm": "Starfield.esm|0x24C3D4",
         "confidence": "medium",
         "source": "giver"
       },
@@ -15940,6 +16082,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Sergeant Yumi",
+        "giverForm": "Starfield.esm|0x24C49F",
         "confidence": "high",
         "source": "giver"
       },
@@ -15994,6 +16137,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Sergeant Yumi",
+        "giverForm": "Starfield.esm|0x24C49F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -16058,6 +16202,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Sergeant Yumi",
+        "giverForm": "Starfield.esm|0x24C49F",
         "confidence": "high",
         "source": "giver"
       },
@@ -16124,6 +16269,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Sergeant Yumi",
+        "giverForm": "Starfield.esm|0x24C49F",
         "confidence": "high",
         "source": "giver"
       },
@@ -16241,6 +16387,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Sergeant Yumi",
+        "giverForm": "Starfield.esm|0x24C49F",
         "confidence": "high",
         "source": "giver"
       },
@@ -16378,6 +16525,7 @@
       "start": {
         "place": "hub.new-homestead",
         "giver": "Dr. Giuliana Lakota",
+        "giverForm": "Starfield.esm|0x21FEAC",
         "confidence": "medium",
         "source": "giver"
       },
@@ -16427,6 +16575,7 @@
       "start": {
         "place": "hub.new-homestead",
         "giver": "Dr. Giuliana Lakota",
+        "giverForm": "Starfield.esm|0x21FEAC",
         "confidence": "medium",
         "source": "giver"
       },
@@ -16473,6 +16622,7 @@
       "start": {
         "place": "hub.new-homestead",
         "giver": "Joyce Osaka",
+        "giverForm": "Starfield.esm|0x21FEAA",
         "confidence": "medium",
         "source": "giver"
       },
@@ -16537,6 +16687,7 @@
       "start": {
         "place": "hub.new-homestead",
         "giver": "Joyce Osaka",
+        "giverForm": "Starfield.esm|0x21FEAA",
         "confidence": "medium",
         "source": "giver"
       },
@@ -16579,6 +16730,7 @@
       "start": {
         "place": "hub.new-homestead",
         "giver": "Luthor Atlanta",
+        "giverForm": "Starfield.esm|0x21FEA9",
         "confidence": "medium",
         "source": "giver"
       },
@@ -16631,6 +16783,7 @@
       "start": {
         "place": "hub.new-homestead",
         "giver": "Luthor Atlanta",
+        "giverForm": "Starfield.esm|0x21FEA9",
         "confidence": "medium",
         "source": "giver"
       },
@@ -16717,6 +16870,7 @@
       "start": {
         "place": "hub.new-homestead",
         "giver": "Bill Starsap",
+        "giverForm": "Starfield.esm|0x21FEAE",
         "confidence": "high",
         "source": "giver"
       },
@@ -16881,6 +17035,7 @@
       "start": {
         "place": "hub.new-homestead",
         "giver": "Bill Starsap",
+        "giverForm": "Starfield.esm|0x21FEAE",
         "confidence": "medium",
         "source": "giver"
       },
@@ -16927,6 +17082,7 @@
       "start": {
         "place": "hub.paradiso",
         "giver": "Emilian Vasilescu",
+        "giverForm": "Starfield.esm|0x263106",
         "confidence": "high",
         "source": "giver"
       },
@@ -17009,6 +17165,7 @@
       "start": {
         "place": "hub.paradiso",
         "giver": "Emilian Vasilescu",
+        "giverForm": "Starfield.esm|0x263106",
         "confidence": "medium",
         "source": "giver"
       },
@@ -17055,6 +17212,7 @@
       "start": {
         "place": "hub.paradiso",
         "giver": "Dirk Huddleston",
+        "giverForm": "Starfield.esm|0x263104",
         "confidence": "high",
         "source": "giver"
       },
@@ -17131,6 +17289,7 @@
       "start": {
         "place": "hub.paradiso",
         "giver": "Dirk Huddleston",
+        "giverForm": "Starfield.esm|0x263104",
         "confidence": "medium",
         "source": "giver"
       },
@@ -17179,6 +17338,7 @@
       "start": {
         "place": "hub.paradiso",
         "giver": "Kumar Sharma",
+        "giverForm": "Starfield.esm|0x263165",
         "confidence": "high",
         "source": "giver"
       },
@@ -17234,6 +17394,7 @@
       "start": {
         "place": "hub.paradiso",
         "giver": "Kumar Sharma",
+        "giverForm": "Starfield.esm|0x263165",
         "confidence": "medium",
         "source": "giver"
       },
@@ -17280,6 +17441,7 @@
       "start": {
         "place": "hub.paradiso",
         "giver": "Chief Sugiyama",
+        "giverForm": "Starfield.esm|0x263169",
         "confidence": "high",
         "source": "giver"
       },
@@ -17342,6 +17504,7 @@
       "start": {
         "place": "hub.paradiso",
         "giver": "Chief Sugiyama",
+        "giverForm": "Starfield.esm|0x263169",
         "confidence": "medium",
         "source": "giver"
       },
@@ -17388,6 +17551,7 @@
       "start": {
         "place": "hub.red-mile",
         "giver": "Mei Devine",
+        "giverForm": "Starfield.esm|0x2B2BEE",
         "confidence": "medium",
         "source": "giver"
       },
@@ -17444,6 +17608,7 @@
       "start": {
         "place": "hub.red-mile",
         "giver": "Mei Devine",
+        "giverForm": "Starfield.esm|0x2B2BEE",
         "confidence": "medium",
         "source": "giver"
       },
@@ -17497,6 +17662,7 @@
       "errand": true,
       "start": {
         "place": "hub.gagarin-landing",
+        "giverRef": "Starfield.esm|0x1A1C3E",
         "confidence": "medium",
         "source": "giver"
       },
@@ -17535,6 +17701,7 @@
       "start": {
         "place": "hub.hopetown",
         "giver": "Mr. Sood",
+        "giverForm": "Starfield.esm|0x2A80FB",
         "confidence": "high",
         "source": "giver"
       },
@@ -17604,6 +17771,7 @@
       "start": {
         "place": "hub.hopetown",
         "giver": "Adella Faheem",
+        "giverForm": "Starfield.esm|0x2A80F1",
         "confidence": "high",
         "source": "giver"
       },
@@ -18067,6 +18235,7 @@
       "start": {
         "place": "hub.the-eye",
         "giver": "Vladimir Sall",
+        "giverForm": "Starfield.esm|0x0059AA",
         "confidence": "medium",
         "source": "giver"
       },
@@ -18147,6 +18316,7 @@
       "faction": "constellation",
       "start": {
         "place": "hub.new-atlantis",
+        "giverForm": "Starfield.esm|0x05C81C",
         "confidence": "medium",
         "source": "giver"
       },
@@ -18360,6 +18530,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Marika Boros",
+        "giverForm": "Starfield.esm|0x0143A0",
         "confidence": "medium",
         "source": "giver"
       },
@@ -18432,6 +18603,7 @@
       "start": {
         "place": "hub.argos-extractors-mining-outpost",
         "giver": "Supervisor Lin",
+        "giverForm": "Starfield.esm|0x005638",
         "confidence": "medium",
         "source": "giver"
       },
@@ -18871,6 +19043,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Sarah Morgan",
+        "giverForm": "Starfield.esm|0x005983",
         "confidence": "medium",
         "source": "giver"
       },
@@ -19132,6 +19305,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Cora Coe",
+        "giverForm": "Starfield.esm|0x00D653",
         "confidence": "medium",
         "source": "giver"
       },
@@ -19387,6 +19561,7 @@
       "start": {
         "place": "hub.the-eye",
         "giver": "Vladimir Sall",
+        "giverForm": "Starfield.esm|0x0059AA",
         "confidence": "medium",
         "source": "giver"
       },
@@ -19595,6 +19770,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Barrett",
+        "giverForm": "Starfield.esm|0x005787",
         "confidence": "medium",
         "source": "giver"
       },
@@ -19811,6 +19987,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Walter Stroud",
+        "giverForm": "Starfield.esm|0x005996",
         "confidence": "medium",
         "source": "giver"
       },
@@ -20173,6 +20350,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Noel",
+        "giverForm": "Starfield.esm|0x00598C",
         "confidence": "medium",
         "source": "giver"
       },
@@ -20281,6 +20459,7 @@
       "start": {
         "place": "hub.the-eye",
         "giver": "Vladimir Sall",
+        "giverForm": "Starfield.esm|0x0059AA",
         "confidence": "medium",
         "source": "giver"
       },
@@ -20427,6 +20606,7 @@
       "start": {
         "place": "hub.the-eye",
         "giver": "Vladimir Sall",
+        "giverForm": "Starfield.esm|0x0059AA",
         "confidence": "medium",
         "source": "giver"
       },
@@ -20546,6 +20726,7 @@
       "start": {
         "place": "hub.the-eye",
         "giver": "Vladimir Sall",
+        "giverForm": "Starfield.esm|0x0059AA",
         "confidence": "medium",
         "source": "giver"
       },
@@ -20767,6 +20948,7 @@
       },
       "start": {
         "place": "hub.new-atlantis",
+        "giverRef": "Starfield.esm|0x28E588",
         "confidence": "medium",
         "source": "giver"
       },
@@ -21027,6 +21209,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Noel",
+        "giverForm": "Starfield.esm|0x00598C",
         "confidence": "medium",
         "source": "giver"
       },
@@ -21158,6 +21341,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Matteo Khatri",
+        "giverForm": "Starfield.esm|0x00599F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -21332,6 +21516,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Sarah Morgan",
+        "giverForm": "Starfield.esm|0x005983",
         "confidence": "medium",
         "source": "giver"
       },
@@ -21441,6 +21626,7 @@
       "start": {
         "place": "hub.the-eye",
         "giver": "Vladimir Sall",
+        "giverForm": "Starfield.esm|0x0059AA",
         "confidence": "medium",
         "source": "giver"
       },
@@ -21577,6 +21763,7 @@
       "start": {
         "place": "hub.nishina-research-station",
         "giver": "Director Kaia Patel",
+        "giverForm": "Starfield.esm|0x27E28B",
         "confidence": "medium",
         "source": "giver"
       },
@@ -21994,6 +22181,7 @@
       },
       "start": {
         "place": "hub.nasa-launch-tower",
+        "giverRef": "Starfield.esm|0x0B2E10",
         "confidence": "medium",
         "source": "giver"
       },
@@ -22173,6 +22361,7 @@
       "start": {
         "place": "hub.ecliptic-base",
         "giver": "Guardian Musa",
+        "giverForm": "Starfield.esm|0x18AEAF",
         "confidence": "medium",
         "source": "giver"
       },
@@ -22518,6 +22707,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Keeper Aquilus",
+        "giverForm": "Starfield.esm|0x01E5D6",
         "confidence": "medium",
         "source": "giver"
       },
@@ -22601,6 +22791,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Andreja",
+        "giverForm": "Starfield.esm|0x0059A7",
         "confidence": "medium",
         "source": "giver"
       },
@@ -22726,6 +22917,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Vasco",
+        "giverForm": "Starfield.esm|0x0057BB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -22772,6 +22964,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Sarah Morgan",
+        "giverForm": "Starfield.esm|0x005983",
         "confidence": "medium",
         "source": "giver"
       },
@@ -22816,6 +23009,7 @@
       },
       "start": {
         "place": "hub.new-atlantis",
+        "giverRef": "Starfield.esm|0x2953EE",
         "confidence": "medium",
         "source": "giver"
       },
@@ -22861,6 +23055,7 @@
       },
       "start": {
         "place": "hub.new-atlantis",
+        "giverRef": "Starfield.esm|0x2953EE",
         "confidence": "medium",
         "source": "giver"
       },
@@ -22935,6 +23130,7 @@
       },
       "start": {
         "place": "hub.new-atlantis",
+        "giverRef": "Starfield.esm|0x2953EE",
         "confidence": "medium",
         "source": "giver"
       },
@@ -23010,6 +23206,7 @@
       },
       "start": {
         "place": "hub.new-atlantis",
+        "giverRef": "Starfield.esm|0x2953EE",
         "confidence": "medium",
         "source": "giver"
       },
@@ -23067,6 +23264,7 @@
       },
       "start": {
         "place": "hub.new-atlantis",
+        "giverRef": "Starfield.esm|0x2953EE",
         "confidence": "medium",
         "source": "giver"
       },
@@ -23141,6 +23339,7 @@
       },
       "start": {
         "place": "hub.new-atlantis",
+        "giverRef": "Starfield.esm|0x045F81",
         "confidence": "medium",
         "source": "giver"
       },
@@ -23217,6 +23416,7 @@
       },
       "start": {
         "place": "hub.new-atlantis",
+        "giverRef": "Starfield.esm|0x2953EE",
         "confidence": "medium",
         "source": "giver"
       },
@@ -23262,6 +23462,7 @@
       },
       "start": {
         "place": "hub.new-atlantis",
+        "giverRef": "Starfield.esm|0x2953EE",
         "confidence": "medium",
         "source": "giver"
       },
@@ -23316,6 +23517,7 @@
       "start": {
         "place": "hub.the-eye",
         "giver": "Vladimir Sall",
+        "giverForm": "Starfield.esm|0x0059AA",
         "confidence": "medium",
         "source": "giver"
       },
@@ -23474,6 +23676,7 @@
       "start": {
         "place": "hub.the-eye",
         "giver": "Vladimir Sall",
+        "giverForm": "Starfield.esm|0x0059AA",
         "confidence": "medium",
         "source": "giver"
       },
@@ -23547,6 +23750,7 @@
       "faction": "constellation",
       "start": {
         "place": "hub.vlad-s-villa",
+        "giverRef": "Starfield.esm|0x17E112",
         "confidence": "medium",
         "source": "giver"
       },
@@ -23627,6 +23831,7 @@
       "start": {
         "place": "hub.research-outpost-u3-09",
         "giver": "Lieutenant Torres",
+        "giverForm": "Starfield.esm|0x1F3A2D",
         "confidence": "medium",
         "source": "giver"
       },
@@ -23788,6 +23993,7 @@
       "start": {
         "place": "hub.crucible",
         "giver": "Ada Lovelace",
+        "giverForm": "Starfield.esm|0x299F70",
         "confidence": "high",
         "source": "giver"
       },
@@ -24125,6 +24331,7 @@
       "type": "side",
       "start": {
         "place": "hub.neon",
+        "giverRef": "Starfield.esm|0x26FB28",
         "confidence": "medium",
         "source": "giver"
       },
@@ -24262,6 +24469,7 @@
       "type": "side",
       "start": {
         "place": "hub.lair-of-the-mantis",
+        "giverRef": "Starfield.esm|0x18B48D",
         "confidence": "medium",
         "source": "giver"
       },
@@ -24364,6 +24572,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Walter Stroud",
+        "giverForm": "Starfield.esm|0x005996",
         "confidence": "medium",
         "source": "giver"
       },
@@ -24533,6 +24742,7 @@
       "start": {
         "place": "hub.paradiso",
         "giver": "Chief Sugiyama",
+        "giverForm": "Starfield.esm|0x263169",
         "confidence": "medium",
         "source": "giver"
       },
@@ -24890,6 +25100,7 @@
       "errand": true,
       "start": {
         "place": "hub.new-homestead",
+        "giverRef": "Starfield.esm|0x2957BE",
         "confidence": "medium",
         "source": "giver"
       },
@@ -25053,6 +25264,7 @@
       "errand": true,
       "start": {
         "place": "hub.paradiso",
+        "giverRef": "Starfield.esm|0x1A1C3C",
         "confidence": "medium",
         "source": "giver"
       },
@@ -25148,6 +25360,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Nadia Muffaz",
+        "giverForm": "Starfield.esm|0x0124AC",
         "confidence": "medium",
         "source": "giver"
       },
@@ -25409,6 +25622,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Landry Hollifeld",
+        "giverForm": "Starfield.esm|0x2AD368",
         "confidence": "medium",
         "source": "giver"
       },
@@ -25485,6 +25699,7 @@
       "errand": true,
       "start": {
         "place": "hub.red-mile",
+        "giverRef": "Starfield.esm|0x2491DD",
         "confidence": "medium",
         "source": "giver"
       },
@@ -25528,6 +25743,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Imogene Salzo",
+        "giverForm": "Starfield.esm|0x2C9BFB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -25747,6 +25963,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Imogene Salzo",
+        "giverForm": "Starfield.esm|0x2C9BFB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -25899,6 +26116,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Imogene Salzo",
+        "giverForm": "Starfield.esm|0x2C9BFB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -26154,6 +26372,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Dalton Fiennes",
+        "giverForm": "Starfield.esm|0x295EDE",
         "confidence": "medium",
         "source": "giver"
       },
@@ -26358,6 +26577,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Imogene Salzo",
+        "giverForm": "Starfield.esm|0x2C9BFB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -26664,6 +26884,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Masako Imada",
+        "giverForm": "Starfield.esm|0x2BA8B3",
         "confidence": "medium",
         "source": "giver"
       },
@@ -26932,6 +27153,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Alexis Pryce",
+        "giverForm": "Starfield.esm|0x18B63B",
         "confidence": "medium",
         "source": "giver"
       },
@@ -27380,6 +27602,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Masako Imada",
+        "giverForm": "Starfield.esm|0x2BA8B3",
         "confidence": "medium",
         "source": "giver"
       },
@@ -27651,6 +27874,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Masako Imada",
+        "giverForm": "Starfield.esm|0x2BA8B3",
         "confidence": "medium",
         "source": "giver"
       },
@@ -27709,6 +27933,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Imogene Salzo",
+        "giverForm": "Starfield.esm|0x2C9BFB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -27781,6 +28006,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Imogene Salzo",
+        "giverForm": "Starfield.esm|0x2C9BFB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -27858,6 +28084,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Imogene Salzo",
+        "giverForm": "Starfield.esm|0x2C9BFB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -27964,6 +28191,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Imogene Salzo",
+        "giverForm": "Starfield.esm|0x2C9BFB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -28059,6 +28287,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Imogene Salzo",
+        "giverForm": "Starfield.esm|0x2C9BFB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -28158,6 +28387,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Imogene Salzo",
+        "giverForm": "Starfield.esm|0x2C9BFB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -28291,6 +28521,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Yuko Serrano",
+        "giverForm": "Starfield.esm|0x1EDF76",
         "confidence": "medium",
         "source": "giver"
       },
@@ -28339,6 +28570,7 @@
       "start": {
         "place": "hub.neon",
         "giver": "Masako Imada",
+        "giverForm": "Starfield.esm|0x2BA8B3",
         "confidence": "medium",
         "source": "giver"
       },
@@ -28559,6 +28791,7 @@
       "type": "activity",
       "start": {
         "place": "hub.lucky-lu",
+        "giverRef": "Starfield.esm|0x05E744",
         "confidence": "medium",
         "source": "giver"
       },
@@ -28946,6 +29179,7 @@
       "type": "activity",
       "start": {
         "place": "hub.akila-city",
+        "giverForm": "Starfield.esm|0x2A0EA1",
         "confidence": "medium",
         "source": "giver"
       },
@@ -29011,6 +29245,7 @@
       "start": {
         "place": "hub.hopetown",
         "giver": "Chanda Banda",
+        "giverForm": "Starfield.esm|0x1E2718",
         "confidence": "medium",
         "source": "giver"
       },
@@ -29264,6 +29499,7 @@
       "start": {
         "place": "hub.deimos-staryard",
         "giver": "Sandra Fullerton",
+        "giverForm": "Starfield.esm|0x27A991",
         "confidence": "medium",
         "source": "giver"
       },
@@ -29299,6 +29535,7 @@
       "start": {
         "place": "hub.trident-luxury-lines-staryard",
         "giver": "Gladys Coffin",
+        "giverForm": "Starfield.esm|0x2B20C0",
         "confidence": "medium",
         "source": "giver"
       },
@@ -29334,6 +29571,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Landry Hollifeld",
+        "giverForm": "Starfield.esm|0x2AD368",
         "confidence": "medium",
         "source": "giver"
       },
@@ -29402,6 +29640,7 @@
       "start": {
         "place": "hub.gagarin-landing",
         "giver": "Helena Strickland",
+        "giverForm": "Starfield.esm|0x265029",
         "confidence": "medium",
         "source": "giver"
       },
@@ -29444,6 +29683,7 @@
       "start": {
         "place": "hub.gagarin-landing",
         "giver": "Zinaida Kuipers",
+        "giverForm": "Starfield.esm|0x265019",
         "confidence": "medium",
         "source": "giver"
       },
@@ -29570,6 +29810,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Commander John Tuala",
+        "giverForm": "Starfield.esm|0x2846EB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -29774,6 +30015,7 @@
       "faction": "united-colonies",
       "start": {
         "place": "hub.new-atlantis",
+        "giverRef": "Starfield.esm|0x28D7A2",
         "confidence": "medium",
         "source": "giver"
       },
@@ -29864,6 +30106,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Commander John Tuala",
+        "giverForm": "Starfield.esm|0x2846EB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -29902,6 +30145,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Crew Chief Kane Herath",
+        "giverForm": "Starfield.esm|0x2B17E5",
         "confidence": "medium",
         "source": "giver"
       },
@@ -30147,6 +30391,7 @@
       "start": {
         "place": "hub.tau-gourmet-production-center",
         "giver": "Hadrian",
+        "giverForm": "Starfield.esm|0x29C17F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -30483,6 +30728,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Crew Chief Kane Herath",
+        "giverForm": "Starfield.esm|0x2B17E5",
         "confidence": "medium",
         "source": "giver"
       },
@@ -30792,6 +31038,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Deputy Elisabeth MacIntyre",
+        "giverForm": "Starfield.esm|0x2A3960",
         "confidence": "medium",
         "source": "giver"
       },
@@ -31212,6 +31459,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Zora Sangweni",
+        "giverForm": "Starfield.esm|0x1A5287",
         "confidence": "medium",
         "source": "giver"
       },
@@ -31258,6 +31506,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Vae Victis",
+        "giverForm": "Starfield.esm|0x2CE229",
         "confidence": "medium",
         "source": "giver"
       },
@@ -31460,6 +31709,7 @@
       "start": {
         "place": "hub.tau-gourmet-production-center",
         "giver": "Hadrian",
+        "giverForm": "Starfield.esm|0x29C17F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -31795,6 +32045,7 @@
       "start": {
         "place": "hub.tau-gourmet-production-center",
         "giver": "Hadrian",
+        "giverForm": "Starfield.esm|0x29C17F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -32343,6 +32594,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Vae Victis",
+        "giverForm": "Starfield.esm|0x2CE229",
         "confidence": "medium",
         "source": "giver"
       },
@@ -32484,6 +32736,7 @@
       "start": {
         "place": "hub.abandoned-mines",
         "giver": "Dr. Percival Walker",
+        "giverForm": "Starfield.esm|0x29D01D",
         "confidence": "medium",
         "source": "giver"
       },
@@ -32518,6 +32771,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Commander John Tuala",
+        "giverForm": "Starfield.esm|0x2846EB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -32552,6 +32806,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Vae Victis",
+        "giverForm": "Starfield.esm|0x2CE229",
         "confidence": "medium",
         "source": "giver"
       },
@@ -32590,6 +32845,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Commander John Tuala",
+        "giverForm": "Starfield.esm|0x2846EB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -32678,6 +32934,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Commander John Tuala",
+        "giverForm": "Starfield.esm|0x2846EB",
         "confidence": "medium",
         "source": "giver"
       },
@@ -32730,6 +32987,7 @@
       "start": {
         "place": "hub.abandoned-mines",
         "giver": "Dr. Percival Walker",
+        "giverForm": "Starfield.esm|0x29D01D",
         "confidence": "medium",
         "source": "giver"
       },
@@ -32810,6 +33068,7 @@
       "start": {
         "place": "hub.tau-gourmet-production-center",
         "giver": "Hadrian",
+        "giverForm": "Starfield.esm|0x29C17F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -32860,6 +33119,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Vae Victis",
+        "giverForm": "Starfield.esm|0x2CE229",
         "confidence": "medium",
         "source": "giver"
       },

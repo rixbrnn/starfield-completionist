@@ -63,6 +63,7 @@
   let shownCards = []; // systems on the nothing-tracked page
   let hereLayout = "city"; // Here tab: "city", "places" (planet or system) or "nowhere"
   let tracked = new Set(); // ids of quests the player is tracking (the game's "active" quests)
+  let guideFor = ""; // Track start: the quest whose giver the game marks (Completionist_Guide)
   let inSpace = false;
   let survey = -1; // current planet's survey progress, 0-1 (-1 = no planet)
   let statuses = new Map(); // quest id -> status; quests missing here aren't in the player's load order
@@ -212,6 +213,12 @@
       pendingTokens.delete(q.id);
       resolvedTokens.set(q.id, new Map(keys.map((key, i) => [key, [Number(values[i * 2]) || 0, Number(values[i * 2 + 1]) || 0]])));
       queueRender();
+    });
+    bridge.state.on("guide", (id) => { guideFor = String(id || "").toLowerCase(); queueRender(); });
+    bridge.on("startTracked", (event) => {
+      const [rawId, ok] = (event && event.args) || [];
+      const q = questsById.get(String(rawId).toLowerCase());
+      if (q) showToast(ok ? startMarkedText(q) : "Couldn't find who starts " + q.name + ".");
     });
     bridge.on("plotFailed", () => showToast("Not on the map yet: the game hasn't placed this objective."));
     bridge.on("noStartLocation", (event) => {
@@ -922,18 +929,36 @@
 
   // ------------------------------------------------------------------ actions (handled by Completionist:MenuBridge)
 
-  const hasStartLocation = (q) => placeChain(q.place).some((p) => p.loc);
+  // Show on map: the tracker plots a course to where the giver (or the placed object the quest
+  // starts at) is now, or else to the start place from the data.
+  const hasStartLocation = (q) => q.found || placeChain(q.place).some((p) => p.loc);
+
+  // Already at the start: the player is in the quest's start place (a city or somewhere inside
+  // one; the same system or planet isn't there yet), so a course there is no help.
+  function isAtStart(q) {
+    const place = placeChain(q.place).find((p) => p.loc && p.kind !== "system" && p.kind !== "planet");
+    return !!place && locationChain.some((id) => matchesLocation(id, place.loc));
+  }
 
   // "Track" sets a started quest as the active mission; "Show on map" plots a course to where it starts.
+  // Track start: for a quest not started yet, the game marks who starts it (on the compass and
+  // map, as a Completionist activity). One at a time; it clears once the quest starts.
+  const startMarkedText = (q) => "Marked on your map: " + (q.giver ? q.giver + ", who starts " : "the start of ") + q.name + ".";
+
   function actionsFor(q) {
     const s = statusOf(q);
     const actions = [];
+    if (s === NOT_STARTED && q.guide) {
+      actions.push(guideFor === q.id
+        ? { id: "untrackStart", label: "STOP TRACKING START", run: () => send("untrackStart", q) }
+        : { id: "trackStart", label: "TRACK START", run: () => send("trackStart", q) });
+    }
     if (s === IN_PROGRESS) {
       actions.push(tracked.has(q.id)
         ? { id: "untrack", label: "UNTRACK", run: () => send("untrack", q) }
         : { id: "track", label: "TRACK", run: () => send("track", q) });
     }
-    if (!isDone(s) && hasStartLocation(q)) actions.push({ id: "plot", label: "SHOW ON MAP", run: () => send("plot", q) });
+    if (!isDone(s) && hasStartLocation(q) && !isAtStart(q)) actions.push({ id: "plot", label: "SHOW ON MAP", run: () => send("plot", q) });
     actions.push(overrideAction(q));
     return actions;
   }
@@ -1128,6 +1153,8 @@
       console.log("[preview] " + action + " " + q.id);
       if (action === "track") { tracked.add(q.id); showToast("Now tracking: " + q.name); render(); }
       if (action === "untrack") { tracked.delete(q.id); showToast("Stopped tracking: " + q.name); render(); }
+      if (action === "trackStart") { guideFor = q.id; showToast(startMarkedText(q)); render(); }
+      if (action === "untrackStart") { guideFor = ""; render(); }
     }
   }
 
@@ -1157,7 +1184,9 @@
     if (s === NOT_AVAILABLE) return unlockText(q);
     if (manual.has(q.id)) return "Marked manually";
     if (s === LOCKED_OUT) return lockedReason(q);
-    return options.meta ? options.meta(q) : q.giver || "";
+    if (options.meta) return options.meta(q);
+    // No one to point at and no course to plot: at least say it's in this place.
+    return q.giver || (s === NOT_STARTED && isAtStart(q) ? "Somewhere around here" : "");
   }
 
   function hubName(q) {

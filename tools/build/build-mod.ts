@@ -43,7 +43,7 @@ interface Condition {
 
 interface Collection {
   places?: Array<{ id: string; name: string; parent?: string; location?: string }>;
-  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string }; complete: Condition; fail?: Condition | null; objectives?: number[]; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; equivalentGroup?: string | null; hidden?: boolean; availableAfter?: Array<{ form: string; name?: string; stage: number; group?: string }>; lead?: { quest?: string; form?: string; location?: string } }>;
+  quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string; giverForm?: string; giverRef?: string }; complete: Condition; fail?: Condition | null; objectives?: number[]; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; equivalentGroup?: string | null; hidden?: boolean; availableAfter?: Array<{ form: string; name?: string; stage: number; group?: string }>; lead?: { quest?: string; form?: string; location?: string } }>;
 }
 
 /** Stages from a questStage / anyOf-of-questStage condition. */
@@ -125,6 +125,9 @@ for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort(
       // Where an errand leads: a quest (done once it starts) or a place (done once explored).
       ...formArgs(quest.lead?.form),
       ...formArgs(quest.lead?.location),
+      // Who starts it: a unique NPC or a placed reference (Track start in the menu).
+      ...formArgs(quest.start.giverForm),
+      ...formArgs(quest.start.giverRef),
     ];
     calls.push(`Add(entries, ${args.join(", ")}) ; ${file}`);
   }
@@ -203,6 +206,8 @@ Struct Entry
   ; is explored (lead in data/quests). None = not a lead.
   Quest leadQuest
   Location leadLocation
+  Form giver ; who starts the quest: the ActorBase of a unique NPC; None if unknown
+  ObjectReference giverRef ; or where it starts when that isn't a character (a map marker, a terminal)
 EndStruct
 
 ; Papyrus arrays hold at most 128 elements, so quests come in pages of up to ${PAGE_SIZE}.
@@ -230,7 +235,7 @@ ${pageBlocks}
   Return entries
 EndFunction
 
-Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asChoice1Group, String asChoice1Side, String asChoice2Group, String asChoice2Side, Bool abNgPlusOnly, Int aiObj1, Int aiObj2, Int aiObj3, Int aiObj4, Int aiObj5, Int aiObj6, Int aiObj7, Int aiObj8, Bool abObjectivesMany, String asEquivalent, Bool abHidden, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2, Int aiAfter1, String asAfter1Plugin, Int aiAfter1Stage, Int aiAfter2, String asAfter2Plugin, Int aiAfter2Stage, Int aiAfter3, String asAfter3Plugin, Int aiAfter3Stage, Int aiAfter4, String asAfter4Plugin, Int aiAfter4Stage, String asAfterGroup, Int aiLeadQuest, String asLeadQuestPlugin, Int aiLeadLocation, String asLeadLocationPlugin) Global
+Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, String asName, String asPlace, String asHub, Bool abActivity, String asChoice1Group, String asChoice1Side, String asChoice2Group, String asChoice2Side, Bool abNgPlusOnly, Int aiObj1, Int aiObj2, Int aiObj3, Int aiObj4, Int aiObj5, Int aiObj6, Int aiObj7, Int aiObj8, Bool abObjectivesMany, String asEquivalent, Bool abHidden, Int aiLocationID, String asLocationPlugin, Int aiComplete1, Int aiComplete2, Int aiComplete3, Int aiComplete4, Int aiFail1, Int aiFail2, Int aiAfter1, String asAfter1Plugin, Int aiAfter1Stage, Int aiAfter2, String asAfter2Plugin, Int aiAfter2Stage, Int aiAfter3, String asAfter3Plugin, Int aiAfter3Stage, Int aiAfter4, String asAfter4Plugin, Int aiAfter4Stage, String asAfterGroup, Int aiLeadQuest, String asLeadQuestPlugin, Int aiLeadLocation, String asLeadLocationPlugin, Int aiGiver, String asGiverPlugin, Int aiGiverRef, String asGiverRefPlugin) Global
   Quest found = Game.GetFormFromFile(aiFormID, asPlugin) as Quest
   If found
     Entry entry = new Entry
@@ -288,6 +293,12 @@ Function Add(Entry[] akEntries, Int aiFormID, String asPlugin, String asId, Stri
     If aiLeadLocation > 0
       entry.leadLocation = Game.GetFormFromFile(aiLeadLocation, asLeadLocationPlugin) as Location
     EndIf
+    If aiGiver > 0
+      entry.giver = Game.GetFormFromFile(aiGiver, asGiverPlugin)
+    EndIf
+    If aiGiverRef > 0
+      entry.giverRef = Game.GetFormFromFile(aiGiverRef, asGiverRefPlugin) as ObjectReference
+    EndIf
     akEntries.Add(entry)
   EndIf
 EndFunction
@@ -309,10 +320,33 @@ const trackerQuest = record("QUST", OWN | 0x800, [
   subrecord("ANAM", uint32Data(0)),
 ]);
 
+// "Track start" in the menu: an activity whose one objective points at the giver of a quest the
+// player hasn't started (QuestTracker.TrackStart fills the alias). Laid out like the game's own
+// leads (FFNeonGuardPointer_Z02), but not run once, so it can point somewhere else next time.
+const objectiveTarget = Buffer.alloc(12); // QSTA: alias 0, no flags or conditions
+const guideQuest = record("QUST", OWN | 0x801, [
+  subrecord("EDID", zstringData("Completionist_Guide")),
+  subrecord("FULL", zstringData("Completionist")),
+  subrecord("DNAM", Buffer.from("000000001e00000000000000", "hex")),
+  subrecord("QTYP", uint32Data(0x000475f8)), // Starfield.esm's activity quest type
+  subrecord("NEXT"),
+  subrecord("QOBJ", Buffer.from([0, 0])),
+  subrecord("FNAM", uint32Data(0)),
+  subrecord("NNAM", zstringData("Find <Alias=Giver> (Completionist)")),
+  subrecord("QSTA", objectiveTarget),
+  subrecord("ANAM", uint32Data(1)),
+  subrecord("ALST", uint32Data(0)),
+  subrecord("ALID", zstringData("Giver")),
+  subrecord("FNAM", uint32Data(0x2)), // optional: empty until the script fills it
+  subrecord("ALFG", uint32Data(0)),
+  subrecord("VTCK", uint32Data(0)),
+  subrecord("ALED"),
+]);
+
 const esm = pluginFile(
-  { author: "rixbrnn", masters: ["Starfield.esm"], flags: 0x1, nextObjectId: 0x801 },
-  [group("QUST", [trackerQuest])],
-  2, // records + groups
+  { author: "rixbrnn", masters: ["Starfield.esm"], flags: 0x1, nextObjectId: 0x802 },
+  [group("QUST", [trackerQuest, guideQuest])],
+  3, // records + groups
 );
 
 const modDir = join(repo, "build/mod");
@@ -341,7 +375,7 @@ collectionFiles.forEach((file, fileIndex) => {
     title?: string;
     places?: Array<{ id: string; name: string; kind: string; parent?: string; location?: string }>;
     questlines?: Array<{ id: string; name: string }>;
-    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string }; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; hidden?: boolean; steps?: Array<{ id: number; text: string; target?: number; tokens?: Array<{ kind: string; alias?: number; form?: string; word: string }> }>; availableAfter?: Array<{ name?: string; stage: number }> }>;
+    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string; giverForm?: string; giverRef?: string }; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; hidden?: boolean; steps?: Array<{ id: number; text: string; target?: number; tokens?: Array<{ kind: string; alias?: number; form?: string; word: string }> }>; availableAfter?: Array<{ name?: string; stage: number }> }>;
   };
   const keyOf = new Map((collection.places ?? []).map((p) => [p.id, p.location ?? `${file}:${p.id}`]));
   for (const place of collection.places ?? []) {
@@ -361,6 +395,8 @@ collectionFiles.forEach((file, fileIndex) => {
       activity: quest.type === "activity",
       errand: quest.errand || undefined,
       giver: quest.start.giver,
+      guide: quest.start.giverForm ? true : undefined, // Track start can point at the giver
+      found: quest.start.giverForm || quest.start.giverRef ? true : undefined, // Show on map can find where it starts
       place: keyOf.get(quest.start.place) ?? null,
       choices: quest.choices,
       ngPlusOnly: quest.ngPlusOnly || undefined,

@@ -226,6 +226,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giver": "Model G",
+        "giverForm": "SFBGS050.esm|0x08ECA1",
         "confidence": "medium",
         "source": "giver"
       },
@@ -688,6 +689,7 @@
       "type": "side",
       "start": {
         "place": "hub.apollo-landing-site",
+        "giverRef": "Starfield.esm|0x15EB88",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1128,6 +1130,7 @@
       "start": {
         "place": "hub.opulence-of-the-stars",
         "giver": "Agent Yemoja",
+        "giverForm": "SFBGS050.esm|0x005A2C",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1403,6 +1406,7 @@
       "start": {
         "place": "sys.algorab",
         "giver": "Tracy Warren",
+        "giverForm": "SFBGS050.esm|0x0154D4",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1561,6 +1565,7 @@
       "start": {
         "place": "sys.algorab",
         "giver": "Percy Kanu",
+        "giverForm": "SFBGS050.esm|0x0154D3",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1814,6 +1819,7 @@
       "start": {
         "place": "hub.the-unifier",
         "giver": "Admiral Ode Balewa",
+        "giverForm": "SFBGS050.esm|0x02AC27",
         "confidence": "medium",
         "source": "giver"
       },
@@ -2115,6 +2121,7 @@
       "start": {
         "place": "sys.algorab",
         "giver": "Radha Dhawan",
+        "giverForm": "SFBGS050.esm|0x0154D5",
         "confidence": "medium",
         "source": "giver"
       },
@@ -2190,6 +2197,7 @@
       "start": {
         "place": "sys.algorab",
         "giver": "Percy Kanu",
+        "giverForm": "SFBGS050.esm|0x0154D3",
         "confidence": "medium",
         "source": "giver"
       },
@@ -2273,6 +2281,7 @@
       "start": {
         "place": "sys.algorab",
         "giver": "Tracy Warren",
+        "giverForm": "SFBGS050.esm|0x0154D4",
         "confidence": "medium",
         "source": "giver"
       },
@@ -2508,6 +2517,7 @@
       "start": {
         "place": "hub.opulence-of-the-stars",
         "giver": "Agent Yemoja",
+        "giverForm": "SFBGS050.esm|0x005A2C",
         "confidence": "medium",
         "source": "giver"
       },
@@ -2636,6 +2646,7 @@
       "start": {
         "place": "hub.gagarin-landing",
         "giver": "Connor Wallace",
+        "giverForm": "SFBGS050.esm|0x005B34",
         "confidence": "medium",
         "source": "giver"
       },

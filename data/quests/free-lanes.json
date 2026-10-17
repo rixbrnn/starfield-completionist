@@ -78,6 +78,7 @@
       "start": {
         "place": "sys.algorab",
         "giver": "Chan Huang",
+        "giverForm": "SFBGS00D.esm|0x025B91",
         "confidence": "medium",
         "source": "giver"
       },
@@ -125,6 +126,7 @@
       "start": {
         "place": "sys.algorab",
         "giver": "Maddie Wing",
+        "giverForm": "SFBGS00D.esm|0x025B95",
         "confidence": "medium",
         "source": "giver"
       },
@@ -202,6 +204,7 @@
       "start": {
         "place": "sys.algorab",
         "giver": "Cutty",
+        "giverForm": "SFBGS00D.esm|0x025B92",
         "confidence": "medium",
         "source": "giver"
       },
@@ -254,6 +257,7 @@
       "start": {
         "place": "sys.algorab",
         "giver": "Killian Brice",
+        "giverForm": "SFBGS00D.esm|0x025B8F",
         "confidence": "medium",
         "source": "giver"
       },
@@ -339,6 +343,7 @@
       "start": {
         "place": "sys.algorab",
         "giver": "Bernhard Kleiber",
+        "giverForm": "SFBGS00D.esm|0x022089",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1086,6 +1091,7 @@
       "start": {
         "place": "sys.algorab",
         "giver": "Yura",
+        "giverForm": "SFBGS00D.esm|0x0358C5",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1318,6 +1324,7 @@
       "start": {
         "place": "sys.algorab",
         "giver": "Yura",
+        "giverForm": "SFBGS00D.esm|0x0358C5",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1457,6 +1464,7 @@
       "start": {
         "place": "sys.algorab",
         "giver": "The Arbitrator",
+        "giverForm": "SFBGS00D.esm|0x02A442",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1690,6 +1698,7 @@
       "type": "side",
       "start": {
         "place": "hub.new-atlantis",
+        "giverRef": "Starfield.esm|0x023602",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1750,6 +1759,7 @@
       "type": "side",
       "start": {
         "place": "hub.neon",
+        "giverRef": "Starfield.esm|0x26FB28",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1819,6 +1829,7 @@
       "type": "side",
       "start": {
         "place": "hub.new-atlantis",
+        "giverRef": "Starfield.esm|0x023602",
         "confidence": "medium",
         "source": "giver"
       },

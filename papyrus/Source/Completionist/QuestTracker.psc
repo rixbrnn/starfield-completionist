@@ -70,6 +70,10 @@ Int eventsRegistered = 0
 String[] overrideIds
 Int[] overrideValues
 
+; Track start (the menu): id of the quest whose giver Completionist_Guide points at, or "".
+String guideFor = ""
+Int Property GuideQuestID = 0x801 AutoReadOnly ; Completionist_Guide in StarfieldCompletionist.esm
+
 ; Quests whose stage changed or that stopped while a refresh was running: the refresh may have
 ; read them before the change, so QuestChanged handles them once it finishes.
 Quest[] pendingQuests
@@ -517,6 +521,7 @@ Function Settle(Completionist:QuestData:Entry akEntry)
     Apply(akEntry, status, "refresh")
   Else
     akEntry.status = status
+    ClearStartIfFound(akEntry)
   EndIf
 EndFunction
 
@@ -607,7 +612,81 @@ Bool Function Apply(Completionist:QuestData:Entry akEntry, Int aiStatus, String 
   ; and doesn't log it again.
   akEntry.status = aiStatus
   Debug.TraceUser(LogName, akEntry.name + ": " + StatusName(was) + " -> " + StatusName(aiStatus) + " [" + akEntry.place + "] (" + asSource + ")")
+  ClearStartIfFound(akEntry)
   Return True
+EndFunction
+
+; ---------------------------------------------------------------- Track start
+
+; Points Completionist_Guide's one objective at the giver of quest asId, which the player hasn't
+; started, and makes it the active mission: the game then shows the giver on the compass and map.
+; Returns whether it could (the quest needs a giver, and that character must exist).
+Bool Function TrackStart(String asId)
+  Completionist:QuestData:Entry entry = CurrentEntry(asId)
+  If entry == None || entry.giver == None
+    Return False
+  EndIf
+  ObjectReference target = None
+  ActorBase npc = entry.giver as ActorBase
+  If npc
+    target = npc.GetUniqueActor()
+  EndIf
+  Quest guide = Game.GetFormFromFile(GuideQuestID, "StarfieldCompletionist.esm") as Quest
+  If target == None || guide == None
+    Debug.TraceUser(LogName, "Track start " + entry.name + ": giver not found")
+    Return False
+  EndIf
+  If !guide.IsRunning()
+    guide.Start()
+  EndIf
+  (guide.GetAlias(0) as ReferenceAlias).ForceRefTo(target)
+  ; Shown again so the objective's text picks up the new giver's name.
+  guide.SetObjectiveDisplayed(0, False)
+  guide.SetObjectiveDisplayed(0, True, True)
+  guide.SetActive(True)
+  guideFor = entry.id
+  Debug.TraceUser(LogName, "Track start " + entry.name + ": " + target)
+  Return True
+EndFunction
+
+; Show on map: where the quest can be picked up now. The giver's current location (people move,
+; e.g. after another quest) or the placed object's, else the start location from the data. A
+; disabled giver hasn't been put in the world yet: it may sit in a holding cell.
+Location Function WhereItStarts(Completionist:QuestData:Entry akEntry)
+  ObjectReference where = akEntry.giverRef
+  ActorBase npc = akEntry.giver as ActorBase
+  If npc
+    where = npc.GetUniqueActor()
+  EndIf
+  If where && !where.IsDisabled()
+    Location now = where.GetCurrentLocation()
+    If now
+      Return now
+    EndIf
+  EndIf
+  Return akEntry.startLocation
+EndFunction
+
+Function ClearStart()
+  Quest guide = Game.GetFormFromFile(GuideQuestID, "StarfieldCompletionist.esm") as Quest
+  If guide && guide.IsRunning()
+    guide.SetObjectiveDisplayed(0, False)
+    (guide.GetAlias(0) as ReferenceAlias).Clear()
+  EndIf
+  guideFor = ""
+EndFunction
+
+String Function GuideFor()
+  Return guideFor
+EndFunction
+
+; The marker is only needed until the quest is found: once it starts (or is done some other way),
+; it goes away by itself.
+Function ClearStartIfFound(Completionist:QuestData:Entry akEntry)
+  If guideFor != "" && akEntry.id == guideFor && akEntry.status != kNotStarted && akEntry.status != kNotAvailable
+    ClearStart()
+    SendCustomEvent("StatusChanged")
+  EndIf
 EndFunction
 
 ; Status including either/or groups: a quest whose alternative was completed is locked out.
@@ -782,6 +861,7 @@ Function SetOverride(String asId, Int aiValue)
       If entries[i].id == asId
         entries[i].override = aiValue
         entries[i].status = Resolve(entries[i])
+        ClearStartIfFound(entries[i])
         Debug.TraceUser(LogName, entries[i].name + ": manual override " + aiValue + " -> " + StatusName(entries[i].status))
       EndIf
       i += 1

@@ -43,6 +43,8 @@ Function Register()
   OSFUI.RegisterSend(Self, ModId, "log")
   OSFUI.RegisterSend(Self, ModId, "explored")
   OSFUI.RegisterSend(Self, ModId, "resolve")
+  OSFUI.RegisterSend(Self, ModId, "trackStart")
+  OSFUI.RegisterSend(Self, ModId, "untrackStart")
   OSFSettings.RegisterHotkey(Self, ModId, OpenHotkey)
   ; Until the tracker's refresh finishes, statuses are incomplete; StatusChanged publishes them then.
   Completionist:QuestTracker tracker = Tracker()
@@ -51,13 +53,20 @@ Function Register()
     PublishStatus()
     PublishTracked()
   EndIf
+  PublishGuide()
   PublishLocation(Game.GetPlayer().GetCurrentLocation())
 EndFunction
 
 Event Completionist:QuestTracker.StatusChanged(Completionist:QuestTracker akSender, Var[] akArgs)
   PublishStatus()
   PublishTracked()
+  PublishGuide()
 EndEvent
+
+; Which quest's start the guide marker points at ("" = none), for the menu's Track start.
+Function PublishGuide()
+  OSFUI.SetState(ModId, "guide", Tracker().GuideFor())
+EndFunction
 
 Event Completionist:QuestTracker.BuildProgress(Completionist:QuestTracker akSender, Var[] akArgs)
   PublishBuild(akArgs[0] as Bool, akArgs[1] as Int, akArgs[2] as Int)
@@ -126,6 +135,21 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
       i += 1
     EndWhile
     OSFUI.EmitEvent(ModId, "explored", result)
+    Return
+  EndIf
+  ; osfui.send("trackStart", questId): point a marker at who starts this quest. Replies with the
+  ; event "startTracked" [questId, ok]. osfui.send("untrackStart", questId) removes it.
+  If asName == "trackStart"
+    Var[] result = new Var[2]
+    result[0] = akArgs[0]
+    result[1] = Tracker().TrackStart(akArgs[0] as String)
+    OSFUI.EmitEvent(ModId, "startTracked", result)
+    PublishGuide()
+    PublishTracked()
+    Return
+  ElseIf asName == "untrackStart"
+    Tracker().ClearStart()
+    PublishGuide()
     Return
   EndIf
   ; osfui.send("override", questId, value): 0 = automatic, 1 = mark done, 2 = mark not done.
@@ -246,9 +270,11 @@ Function OnOSFUISend(String asName, Var[] akArgs, String asSourceViewId)
       OSFUI.EmitEvent(ModId, "plotFailed", failed)
     EndIf
   ElseIf asName == "plot"
-    If entry.startLocation
+    ; Where the giver (or the object the quest starts at) is now, else where the data says it starts.
+    Location target = Tracker().WhereItStarts(entry)
+    If target
       OSFUI.Close(MenuView)
-      Game.ShowGalaxyStarMapMenuAndPlotToLocation(entry.startLocation)
+      Game.ShowGalaxyStarMapMenuAndPlotToLocation(target)
     Else
       Var[] failed = new Var[1]
       failed[0] = entry.id

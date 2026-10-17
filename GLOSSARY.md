@@ -19,3 +19,17 @@ _Avoid_: Mission list, the list
 **Objective**:
 One step of a quest as the game's mission log shows it, listed under its quest when the quest is open.
 _Avoid_: Sub-objective, sub-quest, sub-mission, task
+
+## Distribution
+
+**Edition**:
+One packaged version of Completionist, defined by the channel it ships through. Every edition tracks quests the same way; editions differ in how they show progress and what they need installed.
+_Avoid_: Version (that's a release number), port, build
+
+**Nexus edition**:
+The edition on Nexus Mods, for PC players with SFSE, OSF UI and OSF Settings, shown in the HTML menu.
+_Avoid_: PC version, full version
+
+**Creations edition**:
+The edition on Bethesda's Creations, for any player without SFSE: Xbox, PS5 and PC (Steam or Game Pass), shown inside the game's own Missions menu.
+_Avoid_: Console version, completionist-console, lite version
