@@ -4,8 +4,18 @@
     {
       "name": "menu-preview",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["tools/dev/serve-menu.ts"],
+      "runtimeArgs": [
+        "tools/dev/serve-menu.ts"
+      ],
       "port": 5173
+    },
+    {
+      "name": "missions-proto-harness",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "ui/missions-menu-prototype/harness/serve.ts"
+      ],
+      "port": 5174
     }
   ]
 }
