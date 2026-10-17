@@ -297,6 +297,7 @@
       "type": "side",
       "start": {
         "place": "anywhere",
+        "hint": "Can happen when you dock with a ship",
         "confidence": "low",
         "source": "manual"
       },
@@ -1357,6 +1358,7 @@
       "type": "side",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "low",
         "source": "manual"
       },
@@ -1541,6 +1543,7 @@
       "type": "side",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "low",
         "source": "manual"
       },
@@ -1622,6 +1625,7 @@
       "type": "side",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "low",
         "source": "manual"
       },
@@ -1660,6 +1664,7 @@
       "type": "side",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "low",
         "source": "manual"
       },
@@ -1699,6 +1704,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giverRef": "Starfield.esm|0x023602",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1760,6 +1766,7 @@
       "start": {
         "place": "hub.neon",
         "giverRef": "Starfield.esm|0x26FB28",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1830,6 +1837,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giverRef": "Starfield.esm|0x023602",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "medium",
         "source": "giver"
       },
@@ -1997,6 +2005,7 @@
       "type": "side",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "low",
         "source": "manual"
       },
@@ -2087,6 +2096,7 @@
       "type": "activity",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "low",
         "source": "manual"
       },
@@ -2141,6 +2151,7 @@
       "type": "side",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "low",
         "source": "manual"
       },

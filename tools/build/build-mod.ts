@@ -375,7 +375,7 @@ collectionFiles.forEach((file, fileIndex) => {
     title?: string;
     places?: Array<{ id: string; name: string; kind: string; parent?: string; location?: string }>;
     questlines?: Array<{ id: string; name: string }>;
-    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string; giverForm?: string; giverRef?: string }; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; hidden?: boolean; steps?: Array<{ id: number; text: string; target?: number; tokens?: Array<{ kind: string; alias?: number; form?: string; word: string }> }>; availableAfter?: Array<{ name?: string; stage: number }> }>;
+    quests: Array<{ id: string; name: string; type: string; errand?: boolean; faction?: string; questline?: { id: string; order: number }; start: { place: string; giver?: string; giverForm?: string; giverRef?: string; hint?: string }; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; hidden?: boolean; steps?: Array<{ id: number; text: string; target?: number; tokens?: Array<{ kind: string; alias?: number; form?: string; word: string }> }>; availableAfter?: Array<{ name?: string; stage: number }> }>;
   };
   const keyOf = new Map((collection.places ?? []).map((p) => [p.id, p.location ?? `${file}:${p.id}`]));
   for (const place of collection.places ?? []) {
@@ -395,6 +395,7 @@ collectionFiles.forEach((file, fileIndex) => {
       activity: quest.type === "activity",
       errand: quest.errand || undefined,
       giver: quest.start.giver,
+      hint: quest.start.hint, // how it starts when no one hands it out (shown with spoilers revealed)
       guide: quest.start.giverForm ? true : undefined, // Track start can point at the giver
       found: quest.start.giverForm || quest.start.giverRef ? true : undefined, // Show on map can find where it starts
       place: keyOf.get(quest.start.place) ?? null,

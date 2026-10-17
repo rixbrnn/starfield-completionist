@@ -406,6 +406,7 @@
       "start": {
         "place": "hub.misthaze-cavern",
         "giverRef": "ShatteredSpace.esm|0x11CC40",
+        "hint": "Overheard in Misthaze Cavern",
         "confidence": "medium",
         "source": "giver"
       },
@@ -4136,6 +4137,7 @@
       "type": "side",
       "start": {
         "place": "hub.deep-gorge-refinery",
+        "hint": "Starts when you reach a certain spot in Deep Gorge Refinery",
         "confidence": "medium",
         "source": "alias"
       },

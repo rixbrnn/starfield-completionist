@@ -52,6 +52,7 @@
       "faction": "trackers-alliance",
       "start": {
         "place": "anywhere",
+        "hint": "Can start when you arrive in New Atlantis, Gagarin Landing, Akila City or 7 other places",
         "confidence": "low",
         "source": "manual"
       },
@@ -178,6 +179,7 @@
       "faction": "trackers-alliance",
       "start": {
         "place": "anywhere",
+        "hint": "Can start when you arrive in New Atlantis, Gagarin Landing, Akila City or 5 other places",
         "confidence": "low",
         "source": "manual"
       },
@@ -304,6 +306,7 @@
       "faction": "trackers-alliance",
       "start": {
         "place": "anywhere",
+        "hint": "Can start when you arrive in New Atlantis, Akila City, Cydonia or Neon",
         "confidence": "low",
         "source": "manual"
       },
@@ -430,6 +433,7 @@
       "faction": "trackers-alliance",
       "start": {
         "place": "anywhere",
+        "hint": "Can start when you arrive in New Atlantis, Akila City or Neon",
         "confidence": "low",
         "source": "manual"
       },
@@ -556,6 +560,7 @@
       "faction": "trackers-alliance",
       "start": {
         "place": "anywhere",
+        "hint": "Can start when you arrive in New Atlantis, Akila City or Neon",
         "confidence": "low",
         "source": "manual"
       },

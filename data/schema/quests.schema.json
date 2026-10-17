@@ -217,7 +217,7 @@
             },
             "hint": {
               "type": "string",
-              "description": "Written by us. Shown only when spoilers are revealed."
+              "description": "How the quest starts when no character hands it out (\"Starts when you pick up …\"): derived from the game data by build:drafts, or hand-written in data/curation.json \"hints\". Shown only when spoilers are revealed."
             },
             "confidence": {
               "enum": [

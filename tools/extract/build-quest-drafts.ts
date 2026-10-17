@@ -41,7 +41,13 @@ interface DumpQuest {
   completeStages: number[];
   failStages: number[];
   aliases: DumpAlias[];
+  /** What starts the quest without anyone handing it out (dump-quests.ts "start triggers"). */
+  starts?: StartTrigger[];
 }
+
+type StartTrigger =
+  | { kind: "event"; event: string; branch: string[]; locations: string[]; after: string[]; random: boolean }
+  | { kind: "object"; record: string; form: string; editorId: string; name: string; script: string; stage: number; item?: string };
 
 // Owning plugin → output file. Unknown plugins fall back to their own name.
 const COLLECTIONS: Record<string, { file: string; id: string; title: string }> = {
@@ -128,6 +134,7 @@ interface Curation {
   names: Record<string, string>;
   equivalents: Record<string, string[]>;
   leads: Record<string, string>;
+  hints: Record<string, string>;
 }
 const curation = JSON.parse(readFileSync(resolve("data/curation.json"), "utf8")) as Curation;
 const excluded = (q: DumpQuest) =>
@@ -224,6 +231,8 @@ for (const quest of candidates) {
     if (alias.uniqueActor) actorBases.add(alias.uniqueActor);
     if (alias.forcedRef) forcedRefs.add(alias.forcedRef);
   }
+  // Triggers that start a quest when you walk into them, to say where they are.
+  for (const start of quest.starts ?? []) if (start.kind === "object" && start.record === "REFR") forcedRefs.add(start.form);
 }
 
 console.log(`Scanning world for ${actorBases.size} quest actors and ${forcedRefs.size} forced references…`);
@@ -417,6 +426,78 @@ function findStart(quest: DumpQuest): Start {
   return { place: {}, confidence: "low", source: "manual" };
 }
 
+// ---------------------------------------------------------------- start hints
+
+// How a quest with no giver starts, in one line, from its start triggers: a book to pick up,
+// a vending machine, arriving somewhere, a random encounter. Hand-written ones in
+// data/curation.json "hints" win. Nothing is said when the data doesn't tell.
+const dumpByForm = new Map(dump.quests.map((q) => [q.form, q]));
+const questName = (form: string) => {
+  const quest = dumpByForm.get(form);
+  return quest && playerFacing(quest) ? (curation.names[quest.editorId] ?? quest.name) : undefined;
+};
+const placeName = (key: string | undefined) => (key ? locations.get(key)?.name || resolvePlace(key, locations).hub?.name : undefined) || undefined;
+
+/** "A", "A and B", "A, B and C", "A, B, C or 2 other places". */
+function listOf(names: string[], last: "and" | "or"): string {
+  if (names.length > 4) return `${names.slice(0, 3).join(", ")} ${last} ${names.length - 3} other places`;
+  return names.length < 2 ? (names[0] ?? "") : `${names.slice(0, -1).join(", ")} ${last} ${names.at(-1)}`;
+}
+
+function objectHint(start: Extract<StartTrigger, { kind: "object" }>): string | undefined {
+  const name = start.record === "BOOK" ? `"${start.name}"` : `the ${start.name}`;
+  if (/VendingMachine/i.test(start.script) && start.item) {
+    const price = /\((\d+) credits\)/i.exec(start.name)?.[1];
+    return `Starts when you buy ${start.item} from a vending machine${price ? ` (${Number(price).toLocaleString("en-US")} credits)` : ""}`;
+  }
+  if (/TriggerEnter|EnterTrigger/i.test(start.script)) {
+    const place = placeName(placementLocation(refPlacements.get(start.form)));
+    return place ? `Starts when you reach a certain spot in ${place}` : undefined;
+  }
+  if (!start.name) return undefined;
+  if (/containerchangedto/i.test(start.script)) return `Starts when you pick up ${name}`;
+  if (/onread/i.test(start.script)) return `Starts when you read ${name}`;
+  if (/onopen/i.test(start.script)) return `Starts when you open ${name}`;
+  if (/onactivate|VendingMachine/i.test(start.script)) return `Starts when you interact with ${name}`;
+  return undefined;
+}
+
+function eventHint(start: Extract<StartTrigger, { kind: "event" }>): string | undefined {
+  const places = [...new Set(start.locations.map(placeName).filter((n): n is string => !!n))];
+  const done = start.after.map(questName).filter((n): n is string => !!n);
+  const after = done.length ? `, after ${listOf(done, "and")}` : "";
+  const may = start.random ? "Can start" : "Starts";
+  if (start.branch.some((n) => /eavesdrop/i.test(n)) && places.length) return `Overheard in ${listOf(places, "or")}${after}`;
+  if (start.event === "CLOC" && places.length) return `${may} when you arrive in ${listOf(places, "or")}${after}`;
+  // Encounters the game rolls for: in orbit (SE_), on a planet's surface (OE_), docking (BE).
+  if (start.branch.some((n) => /^SE_|SpaceChangeLocation/.test(n))) return `Random encounter when you arrive in orbit${after}`;
+  if (start.branch.some((n) => /^OE_/.test(n))) return `Random encounter on a planet's surface${after}`;
+  if (start.branch.some((n) => /^BEDocking/.test(n))) return `Can happen when you dock with a ship${after}`;
+  if (start.event === "CLOC" && done.length) return `Starts the next time you travel somewhere${after}`;
+  return undefined;
+}
+
+function startHint(quest: DumpQuest): string | undefined {
+  const starts = quest.starts ?? [];
+  // Of the objects, only those that set the earliest stage: later ones may need the quest running.
+  const objects = starts.flatMap((s) => (s.kind === "object" ? [s] : []));
+  const first = objects.filter((s) => s.stage === Math.min(...objects.map((o) => o.stage)));
+  const events = starts.flatMap((s) => (s.kind === "event" ? [s] : []));
+  // The same event in several places (Story Manager nodes per city): one hint for all of them.
+  const placed = events.filter((s) => s.locations.length);
+  const arrive = placed.length ? [{ ...placed[0], locations: placed.flatMap((s) => s.locations), random: placed.some((s) => s.random) }] : [];
+  // Something to find (a named object) says most, then a place to arrive in, then an encounter,
+  // then a spot to walk into.
+  const isTrigger = (s: (typeof objects)[number]) => /TriggerEnter|EnterTrigger/i.test(s.script);
+  const hints = [
+    ...first.filter((s) => !isTrigger(s)).map(objectHint),
+    ...arrive.map(eventHint),
+    ...events.filter((s) => !s.locations.length).map(eventHint),
+    ...first.filter(isTrigger).map(objectHint),
+  ];
+  return hints.find((hint) => hint !== undefined);
+}
+
 // ---------------------------------------------------------------- write collections
 
 /** Completion/failure stages as a schema condition: one stage, or anyOf several. */
@@ -452,6 +533,7 @@ for (const quest of candidates) {
 }
 
 const stats = { high: 0, medium: 0, low: 0, unplaced: 0 };
+const hintStats = { hinted: [] as string[], unhinted: [] as string[] };
 const report: string[] = [];
 
 for (const [owner, quests] of byOwner) {
@@ -476,6 +558,10 @@ for (const [owner, quests] of byOwner) {
   const questlines = new Map<string, { id: string; name: string; type: string; faction?: string }>();
   const entries = quests.sort((a, b) => naturalSort(a.editorId, b.editorId)).map((quest) => {
     const start = findStart(quest);
+    // Quests a character hands out are found by Track start; the rest get a line on how they
+    // start (a placed reference is only somewhere to go, and sometimes not even the start).
+    const hint = curation.hints[quest.editorId] ?? (start.giverForm ? undefined : startHint(quest));
+    if (!start.giverForm) hintStats[hint ? "hinted" : "unhinted"].push(quest.editorId);
     let place: PlaceEntry = anywhere;
     if (start.place.system) {
       const system = addPlace(start.place.system, "system");
@@ -515,6 +601,7 @@ for (const [owner, quests] of byOwner) {
         ...(start.giver ? { giver: start.giver } : {}),
         ...(start.giverForm ? { giverForm: start.giverForm } : {}),
         ...(start.giverRef ? { giverRef: start.giverRef } : {}),
+        ...(hint ? { hint } : {}),
         confidence: start.confidence,
         source: start.source,
       },
@@ -638,4 +725,5 @@ const review = [
 ];
 writeFileSync(resolve("docs/quest-review.md"), review.join("\n"));
 console.log(`\nStart places: ${stats.high} high, ${stats.medium} medium, ${stats.low} low (${stats.unplaced} unplaced)`);
+console.log(`Start hints: ${hintStats.hinted.length} of ${hintStats.hinted.length + hintStats.unhinted.length} quests with no giver to track (none for ${hintStats.unhinted.join(", ")})`);
 console.log("Review list: docs/quest-review.md");

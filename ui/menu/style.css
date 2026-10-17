@@ -131,6 +131,8 @@ button:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
 .row .name { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .row .name.hidden { color: var(--muted); font-style: italic; }
 .row .meta { font-family: "Inter", sans-serif; text-transform: none; letter-spacing: 0; font-size: 14px; color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px; }
+/* How a quest starts is a sentence: two lines rather than cut off. */
+.row .meta.hint { white-space: normal; text-align: right; line-height: 1.25; max-height: 2.5em; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .row .caret { width: 26px; height: 26px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; }
 .row.selected .panel { background: var(--light); color: var(--on-light); }
 .row.selected .meta, .row.selected .name.hidden { color: #7d8697; }

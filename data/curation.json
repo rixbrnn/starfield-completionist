@@ -162,6 +162,13 @@
     "City_NA_GuardPointer_NA02": "FFNewAtlantis02",
     "City_Neon_Chem03Misc": "City_Neon_Chem03"
   },
+  "hints": {
+    "$comment": "How a quest with no one to hand it out starts (start.hint, shown when spoilers are revealed). build:drafts writes most of them from the game data (the Story Manager, scripts on books and activators); these are written by hand from what the game's scripts do, and win over the generated ones.",
+    "UC_NA_Home_Well_Misc": "Starts when you buy the apartment in the Well",
+    "UC_NA_Home_Penthouse_Misc": "Starts when you're given the penthouse in New Atlantis",
+    "FC_AC_Home_MidtownHouse_Misc": "Starts when you buy the house in midtown Akila City",
+    "CF_Key_Home_CaptainsQuarters_Misc": "Starts when you're given the captain's quarters in the Key"
+  },
   "choiceGroups": {
     "$comment": "Two-sided choices: completing any quest on one side locks out the unfinished quests on the other side (they count as resolved). lockedLabel is shown on a locked-out quest of that side.",
     "crimson-fleet-ending": {

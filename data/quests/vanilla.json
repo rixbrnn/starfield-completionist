@@ -618,6 +618,7 @@
       "errand": true,
       "start": {
         "place": "hub.the-key",
+        "hint": "Starts when you're given the captain's quarters in the Key",
         "confidence": "medium",
         "source": "alias"
       },
@@ -8867,6 +8868,7 @@
       "type": "side",
       "start": {
         "place": "hub.new-atlantis",
+        "hint": "Starts when you arrive in New Atlantis",
         "confidence": "high",
         "source": "alias"
       },
@@ -8966,6 +8968,7 @@
       "start": {
         "place": "hub.new-atlantis",
         "giverRef": "Starfield.esm|0x0CF4CC",
+        "hint": "Starts when you arrive in New Atlantis",
         "confidence": "high",
         "source": "giver"
       },
@@ -11626,6 +11629,7 @@
       "errand": true,
       "start": {
         "place": "hub.akila-city",
+        "hint": "Starts when you buy the house in midtown Akila City",
         "confidence": "medium",
         "source": "alias"
       },
@@ -13491,6 +13495,7 @@
       "type": "side",
       "start": {
         "place": "hub.new-atlantis",
+        "hint": "Starts when you arrive in New Atlantis, after Eyewitness, Debt Forgiveness and Escape from the Endless Voyage",
         "confidence": "medium",
         "source": "alias"
       },
@@ -17848,6 +17853,7 @@
       "type": "activity",
       "start": {
         "place": "hub.apollo-landing-site",
+        "hint": "Starts when you pick up \"Sir Livingstone's Second Journal\"",
         "confidence": "medium",
         "source": "alias"
       },
@@ -17883,6 +17889,7 @@
       "type": "activity",
       "start": {
         "place": "hub.cairo-landmark",
+        "hint": "Starts when you pick up \"The Ancient Civilization of Egypt\"",
         "confidence": "medium",
         "source": "alias"
       },
@@ -17918,6 +17925,7 @@
       "type": "activity",
       "start": {
         "place": "hub.dubai-landmark",
+        "hint": "Starts when you pick up \"Race to the Heavens\"",
         "confidence": "medium",
         "source": "alias"
       },
@@ -17953,6 +17961,7 @@
       "type": "activity",
       "start": {
         "place": "hub.hong-kong-landmark",
+        "hint": "Starts when you pick up \"Maurice Lyon's Journal\"",
         "confidence": "medium",
         "source": "alias"
       },
@@ -17988,6 +17997,7 @@
       "type": "activity",
       "start": {
         "place": "hub.london-landmark",
+        "hint": "Starts when you pick up \"Oliver Twist\"",
         "confidence": "medium",
         "source": "alias"
       },
@@ -18023,6 +18033,7 @@
       "type": "activity",
       "start": {
         "place": "hub.los-angeles-landmark",
+        "hint": "Starts when you pick up \"Hope Family Tree\"",
         "confidence": "medium",
         "source": "alias"
       },
@@ -18058,6 +18069,7 @@
       "type": "activity",
       "start": {
         "place": "hub.new-york-landmark",
+        "hint": "Starts when you pick up \"Our Lost Heritage\"",
         "confidence": "medium",
         "source": "alias"
       },
@@ -18093,6 +18105,7 @@
       "type": "activity",
       "start": {
         "place": "hub.opportunity-rover",
+        "hint": "Starts when you interact with the MER Program",
         "confidence": "medium",
         "source": "alias"
       },
@@ -18128,6 +18141,7 @@
       "type": "activity",
       "start": {
         "place": "hub.osaka-landmark",
+        "hint": "Starts when you pick up \"Diary of Kyosuke Nagata\"",
         "confidence": "medium",
         "source": "alias"
       },
@@ -18163,6 +18177,7 @@
       "type": "activity",
       "start": {
         "place": "hub.shanghai-landmark",
+        "hint": "Starts when you pick up \"Essentials of Modern Macroeconomics\"",
         "confidence": "medium",
         "source": "alias"
       },
@@ -18198,6 +18213,7 @@
       "type": "activity",
       "start": {
         "place": "hub.st-louis-landmark",
+        "hint": "Starts when you pick up \"The Price of Destiny\"",
         "confidence": "medium",
         "source": "alias"
       },
@@ -24332,6 +24348,7 @@
       "start": {
         "place": "hub.neon",
         "giverRef": "Starfield.esm|0x26FB28",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "medium",
         "source": "giver"
       },
@@ -24470,6 +24487,7 @@
       "start": {
         "place": "hub.lair-of-the-mantis",
         "giverRef": "Starfield.esm|0x18B48D",
+        "hint": "Starts when you pick up \"Secret Outpost!\"",
         "confidence": "medium",
         "source": "giver"
       },
@@ -25138,6 +25156,7 @@
       "type": "side",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter on a planet's surface",
         "confidence": "low",
         "source": "manual"
       },
@@ -28673,6 +28692,7 @@
       "errand": true,
       "start": {
         "place": "anywhere",
+        "hint": "Starts when you pick up \"Vulture's Roost\"",
         "confidence": "low",
         "source": "manual"
       },
@@ -28709,6 +28729,7 @@
       "type": "side",
       "start": {
         "place": "anywhere",
+        "hint": "Starts when you reach a certain spot in Abandoned Griplite Manufacturing Plant",
         "confidence": "low",
         "source": "manual"
       },
@@ -28741,6 +28762,7 @@
       "type": "activity",
       "start": {
         "place": "hub.deserted-trade-authority-starstation",
+        "hint": "Overheard in Deserted Trade Authority Starstation",
         "confidence": "medium",
         "source": "alias"
       },
@@ -28841,6 +28863,7 @@
       "type": "activity",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "low",
         "source": "manual"
       },
@@ -28898,6 +28921,7 @@
       "type": "activity",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "low",
         "source": "manual"
       },
@@ -28940,6 +28964,7 @@
       "type": "activity",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "low",
         "source": "manual"
       },
@@ -28986,6 +29011,7 @@
       "type": "activity",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "low",
         "source": "manual"
       },
@@ -29040,6 +29066,7 @@
       "type": "activity",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "low",
         "source": "manual"
       },
@@ -29096,6 +29123,7 @@
       "type": "activity",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "low",
         "source": "manual"
       },
@@ -29139,6 +29167,7 @@
       "type": "activity",
       "start": {
         "place": "anywhere",
+        "hint": "Random encounter when you arrive in orbit",
         "confidence": "low",
         "source": "manual"
       },
@@ -29725,6 +29754,7 @@
       "errand": true,
       "start": {
         "place": "hub.new-atlantis",
+        "hint": "Starts when you're given the penthouse in New Atlantis",
         "confidence": "medium",
         "source": "alias"
       },
@@ -29765,6 +29795,7 @@
       "errand": true,
       "start": {
         "place": "hub.new-atlantis",
+        "hint": "Starts when you buy the apartment in the Well",
         "confidence": "medium",
         "source": "alias"
       },

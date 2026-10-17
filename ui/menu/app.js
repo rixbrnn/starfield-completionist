@@ -889,6 +889,7 @@
     const s = statusOf(q);
     const hide = view.spoilers && isUndiscovered(s);
     const expandable = isExpandable(q);
+    const meta = hide ? "" : rowMeta(q, s, options);
     const cls = "row" + (selected ? " selected" : "") + (tracked.has(q.id) ? " tracked" : "") + (isFinished(s) ? " finished" : "") + (notYetAvailable(q) || s === NOT_AVAILABLE ? " unavailable" : "");
     // Like the game: clicking a quest opens / closes it (when it has objectives), otherwise selects it.
     return el("div", { class: cls, onclick: () => { selectRow(index); if (expandable) toggleOpen(q); } },
@@ -896,7 +897,7 @@
       el("span", { class: "panel" },
         emblem(iconName(q), 28, isFinished(s)),
         el("span", { class: "name" + (hide ? " hidden" : ""), text: hide ? "Undiscovered " + (TYPE_NOUNS[q.activity ? "activity" : q.type] || "mission") : q.name }),
-        el("span", { class: "meta", text: hide ? "" : rowMeta(q, s, options) }),
+        el("span", { class: "meta" + (meta && meta === q.hint ? " hint" : ""), text: meta }),
         el("span", { class: "caret" + (expandable ? (view.open.has(q.id) ? " open" : " closed") : "") })));
   }
 
@@ -1181,12 +1182,14 @@
 
   function rowMeta(q, s, options) {
     if (notYetAvailable(q)) return "Available in New Game+";
-    if (s === NOT_AVAILABLE) return unlockText(q);
+    // A hint on how it starts says more than "Unlocks later in the story" (a home you buy).
+    if (s === NOT_AVAILABLE) return (!(q.unlock && q.unlock[0]) && q.hint) || unlockText(q);
     if (manual.has(q.id)) return "Marked manually";
     if (s === LOCKED_OUT) return lockedReason(q);
     if (options.meta) return options.meta(q);
-    // No one to point at and no course to plot: at least say it's in this place.
-    return q.giver || (s === NOT_STARTED && isAtStart(q) ? "Somewhere around here" : "");
+    // Who hands it out, or how it starts ("Starts when you pick up …"; rows of quests not started
+    // show no meta while spoilers are hidden), or at least that it's in this place.
+    return q.giver || (s === NOT_STARTED && (q.hint || (isAtStart(q) ? "Somewhere around here" : ""))) || "";
   }
 
   function hubName(q) {
