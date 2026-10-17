@@ -17,7 +17,8 @@
     "preview:menu": "node tools/dev/serve-menu.ts",
     "package": "node tools/build/package-mod.ts",
     "extract:icons": "node tools/extract/extract-icons.ts",
-    "media": "node tools/media/capture-nexus.ts"
+    "media": "node tools/media/capture-nexus.ts",
+    "prototype:missions-menu": "node tools/build/build-missions-menu-prototype.ts"
   },
   "dependencies": {
     "ajv": "^8.20.0"

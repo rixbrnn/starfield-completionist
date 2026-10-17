@@ -1,0 +1,27 @@
+<!doctype html>
+<!-- PROTOTYPE (wayfinder ticket #5): our Missions-menu tab in Ruffle, with a fake menu and fake data. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Missions tab harness</title>
+  <style>
+    body { margin: 0; background: #111; color: #ccc; font: 14px system-ui, sans-serif; }
+    #player { width: 1440px; height: 810px; }
+    p { margin: 8px 12px; }
+  </style>
+  <script src="https://unpkg.com/@ruffle-rs/ruffle@0.6.0/ruffle.js"></script>
+</head>
+<body>
+  <p>Keys: Up/Down, X layout, Y diagnostics, T toggle the tab, N nowhere. Device fonts here; the game uses its own.</p>
+  <div id="player"></div>
+  <script>
+    window.RufflePlayer = window.RufflePlayer || {};
+    window.RufflePlayer.config = { autoplay: "on", unmuteOverlay: "hidden", letterbox: "on", logLevel: "info" };
+    const player = window.RufflePlayer.newest().createPlayer();
+    player.style.width = "1440px";
+    player.style.height = "810px";
+    document.getElementById("player").append(player);
+    player.ruffle().load("harness.swf");
+  </script>
+</body>
+</html>
