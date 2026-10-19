@@ -37,4 +37,8 @@ The version comes from `package.json`; bump it before packaging.
 
 1. Bump `version` in `package.json`.
 2. `npm run build:mod && npm run package`.
-3. On the mod page: Files → upload the new zip, then archive the previous one or keep it as an old version. Add a changelog entry.
+3. On the mod page, **Files** → upload the new zip as a **Main file**. Set its **version** to exactly the `package.json` version (`1.0.5`, never `1.0` or blank), and add a changelog entry.
+4. Move **every** previous main file to **Old versions** (or **Archived**), so only the new one is a main file. Vortex and MO2 look for updates through the file's version and these file categories: leaving old files as main files is the likely reason 1.0.0 installs were never offered an update (Nexus comments, Oct 2026).
+5. Set the mod page **version** (Edit mod → Details) to the same version.
+6. If the description changed, paste `docs/nexus/description.bbcode` again, and check that the **Requirements** section still lists the four mods from step 5 of the first release.
+7. Check: from an older install, Vortex's "Check for updates" offers the new version.

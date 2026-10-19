@@ -27,6 +27,8 @@
 
 Requires [SFSE](https://www.nexusmods.com/starfield/mods/106), [OSF UI](https://www.nexusmods.com/starfield/mods/17711) 2.0+ and OSF Settings 1.1+. Install [from Nexus Mods](https://www.nexusmods.com/starfield/mods/18434) with Vortex or Mod Organizer 2, enable `StarfieldCompletionist.esm`, and start the game through SFSE. The same zip is also on the [GitHub releases page](https://github.com/rixbrnn/starfield-completionist/releases/latest) if Nexus doesn't work for you.
 
+Safe to install mid-playthrough, including on New Game+: progress is read from your save. The first time (and after each update) the menu takes about a minute to build your quest list.
+
 **Open the menu** with **F7** (change it in **Pause menu > Mod Settings > Keybindings**). With a controller, assign a binding there to **Open Completionist**; we recommend **X + A** pressed together. There is no controller binding by default.
 
 **In the menu:** **LB / RB** (Q / E) switch views, a **right-stick flick** (Z / C) switches the category tabs, **A** (Enter) opens a quest and, on an objective, tracks it, **X** (R) shows it on the map, **Y** (T) sorts.
