@@ -16,6 +16,7 @@ import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { resolveGamePath } from "../extract/game.ts";
 import { group, pluginFile, record, subrecord, uint32Data, vmadData, zstringData } from "../esm/writer.ts";
+import { stagesOf, type Condition } from "./conditions.ts";
 
 // Windows bsdtar (System32): Git for Windows puts GNU tar first on PATH, which can't write zips
 // and treats "C:" as a remote host.
@@ -35,23 +36,9 @@ const MAX_OBJECTIVES = 8;
 const PAGE_SIZE = 100;
 const MAX_PAGES = 4;
 
-interface Condition {
-  type: string;
-  stage?: number;
-  conditions?: Condition[];
-}
-
 interface Collection {
   places?: Array<{ id: string; name: string; kind?: string; parent?: string; location?: string }>;
   quests: Array<{ id: string; name: string; form: string; type: string; editorId: string; start: { place: string; giver?: string; giverForm?: string; giverRef?: string; hint?: string }; complete: Condition; fail?: Condition | null; objectives?: number[]; choices?: Array<{ group: string; side: string }>; ngPlusOnly?: boolean; equivalentGroup?: string | null; hidden?: boolean; availableAfter?: Array<{ form: string; name?: string; stage: number; group?: string }>; lead?: { quest?: string; form?: string; location?: string } }>;
-}
-
-/** Stages from a questStage / anyOf-of-questStage condition. */
-function stagesOf(condition: Condition | null | undefined): number[] {
-  if (!condition) return [];
-  if (condition.type === "questStage" && condition.stage !== undefined) return [condition.stage];
-  if (condition.type === "anyOf") return (condition.conditions ?? []).flatMap(stagesOf);
-  return [];
 }
 
 /** A "Plugin|FormID" as (local FormID, plugin) for Game.GetFormFromFile; (0, "") if absent. */

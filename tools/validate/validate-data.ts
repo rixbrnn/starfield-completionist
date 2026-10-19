@@ -7,6 +7,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Ajv2020 } from "ajv/dist/2020.js";
+import { stagesOf, type Condition } from "../build/conditions.ts";
 
 interface Collection {
   id: string;
@@ -25,16 +26,6 @@ interface Collection {
     fail?: Condition | null;
   }>;
 }
-
-interface Condition {
-  type: string;
-  stage?: number;
-  conditions?: Condition[];
-}
-
-/** Every quest stage a completion or failure condition names. */
-const stagesOf = (condition: Condition | null | undefined): number[] =>
-  !condition ? [] : condition.type === "questStage" && condition.stage !== undefined ? [condition.stage] : (condition.conditions ?? []).flatMap(stagesOf);
 
 const repo = fileURLToPath(new URL("../../", import.meta.url));
 const schema = JSON.parse(readFileSync(join(repo, "data/schema/quests.schema.json"), "utf8"));
@@ -147,6 +138,7 @@ for (const group of groups) {
         report(file, `${where} is missable after unknown quest "${quest.missable.after}"`);
       }
       // The tracker checks failure first, so a stage on both sides would always read as failed.
+      // Only the stages it tests count: another quest's stage 100 is not this quest's stage 100.
       const completeStages = stagesOf(quest.complete);
       for (const stage of stagesOf(quest.fail).filter((s) => completeStages.includes(s))) {
         report(file, `${where} has stage ${stage} in both complete and fail`);
