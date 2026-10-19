@@ -64,7 +64,7 @@ The game path is found automatically for default Steam installs; otherwise pass 
 |---|---|
 | `papyrus/Source/Completionist/` | Papyrus scripts: the quest tracker and the bridge to the menu |
 | `ui/menu/` | The menu (HTML/CSS/JS, an [OSF UI](https://www.nexusmods.com/starfield/mods/17711) view) |
-| `settings/` | OSF Settings schema (the F7 hotkey) |
+| `settings/` | OSF Settings schema (the Open hotkey, rebindable in game, and the wheel diagnostics toggle) |
 | `data/quests/`, `data/curation.json` | Quest data per plugin, and the hand-made corrections to it |
 | `data/schema/` | JSON Schema for the quest data |
 | `tools/extract/` | Extract quests, objectives, places, unlocks and icons from the game files |

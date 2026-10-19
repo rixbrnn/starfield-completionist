@@ -6,6 +6,7 @@ script fails to load, and the tracker keeps statuses (and its log) with no way t
 String Property ModId = "completionist" AutoReadOnly
 String Property MenuView = "completionist/menu" AutoReadOnly
 String Property OpenHotkey = "open" AutoReadOnly
+String Property LogWheelSetting = "logWheel" AutoReadOnly
 
 Completionist:QuestTracker Function Tracker()
   Return (Self as Quest) as Completionist:QuestTracker
@@ -46,6 +47,8 @@ Function Register()
   OSFUI.RegisterSend(Self, ModId, "trackStart")
   OSFUI.RegisterSend(Self, ModId, "untrackStart")
   OSFSettings.RegisterHotkey(Self, ModId, OpenHotkey)
+  OSFSettings.RegisterForChanges(Self, ModId)
+  PublishSettings()
   ; Until the tracker's refresh finishes, statuses are incomplete; StatusChanged publishes them then.
   Completionist:QuestTracker tracker = Tracker()
   PublishBuild(tracker.IsBuilding(), tracker.BuildDone(), tracker.BuildTotal())
@@ -62,6 +65,15 @@ Event Completionist:QuestTracker.StatusChanged(Completionist:QuestTracker akSend
   PublishTracked()
   PublishGuide()
 EndEvent
+
+Function OnOSFSettingChanged(String asModId, String asKey)
+  PublishSettings()
+EndFunction
+
+; The menu's own settings from Mod Settings: logWheel turns on its wheel diagnostics.
+Function PublishSettings()
+  OSFUI.SetState(ModId, "logWheel", OSFSettings.GetBool(ModId, LogWheelSetting, False))
+EndFunction
 
 ; Which quest's start the guide marker points at ("" = none), for the menu's Track start.
 Function PublishGuide()

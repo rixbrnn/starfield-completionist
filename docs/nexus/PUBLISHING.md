@@ -15,7 +15,7 @@ Output: `dist/StarfieldCompletionist-<version>.zip`. Its contents mirror the gam
 - `Scripts/Completionist/*.pex`
 - `Scripts/Source/Completionist/*.psc` (sources, with `LICENSE.txt` and `EXCEPTIONS.txt`)
 - `SFSE/Plugins/OSF/UI/views/completionist/menu/` (the menu)
-- `SFSE/Plugins/OSF/Settings/schemas/completionist.json` (the F7 hotkey)
+- `SFSE/Plugins/OSF/Settings/schemas/completionist.json` (the Open hotkey and the wheel diagnostics toggle)
 
 The C++ SFSE plugin (`plugin/`) is **not** part of the release; the mod doesn't use it.
 

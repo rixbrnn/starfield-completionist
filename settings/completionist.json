@@ -2,7 +2,17 @@
   "schemaVersion": 1,
   "id": "completionist",
   "title": "Completionist",
-  "groups": {},
+  "groups": {
+    "Diagnostics": [
+      {
+        "key": "logWheel",
+        "type": "bool",
+        "label": "Log mouse wheel scrolling",
+        "hint": "For bug reports: writes one line per scroll to Logs/Script/User/Completionist.0.log. Needs Papyrus logging on.",
+        "default": false
+      }
+    ]
+  },
   "hotkeys": {
     "open": { "label": "Open Completionist", "default": "F7" }
   }
