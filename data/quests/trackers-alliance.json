@@ -156,17 +156,8 @@
         ]
       },
       "fail": {
-        "type": "anyOf",
-        "conditions": [
-          {
-            "type": "questStage",
-            "stage": 850
-          },
-          {
-            "type": "questStage",
-            "stage": 950
-          }
-        ]
+        "type": "questStage",
+        "stage": 950
       },
       "equivalentGroup": null
     },
@@ -283,17 +274,8 @@
         ]
       },
       "fail": {
-        "type": "anyOf",
-        "conditions": [
-          {
-            "type": "questStage",
-            "stage": 850
-          },
-          {
-            "type": "questStage",
-            "stage": 950
-          }
-        ]
+        "type": "questStage",
+        "stage": 950
       },
       "equivalentGroup": null
     },
@@ -410,17 +392,8 @@
         ]
       },
       "fail": {
-        "type": "anyOf",
-        "conditions": [
-          {
-            "type": "questStage",
-            "stage": 850
-          },
-          {
-            "type": "questStage",
-            "stage": 950
-          }
-        ]
+        "type": "questStage",
+        "stage": 950
       },
       "equivalentGroup": null
     },
@@ -537,17 +510,8 @@
         ]
       },
       "fail": {
-        "type": "anyOf",
-        "conditions": [
-          {
-            "type": "questStage",
-            "stage": 850
-          },
-          {
-            "type": "questStage",
-            "stage": 950
-          }
-        ]
+        "type": "questStage",
+        "stage": 950
       },
       "equivalentGroup": null
     },
@@ -664,17 +628,8 @@
         ]
       },
       "fail": {
-        "type": "anyOf",
-        "conditions": [
-          {
-            "type": "questStage",
-            "stage": 850
-          },
-          {
-            "type": "questStage",
-            "stage": 950
-          }
-        ]
+        "type": "questStage",
+        "stage": 950
       },
       "equivalentGroup": null
     },

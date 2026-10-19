@@ -21,8 +21,20 @@ interface Collection {
     prereqs?: string[];
     choices?: Array<{ group: string; side: string }>;
     missable?: { after: string } | null;
+    complete?: Condition | null;
+    fail?: Condition | null;
   }>;
 }
+
+interface Condition {
+  type: string;
+  stage?: number;
+  conditions?: Condition[];
+}
+
+/** Every quest stage a completion or failure condition names. */
+const stagesOf = (condition: Condition | null | undefined): number[] =>
+  !condition ? [] : condition.type === "questStage" && condition.stage !== undefined ? [condition.stage] : (condition.conditions ?? []).flatMap(stagesOf);
 
 const repo = fileURLToPath(new URL("../../", import.meta.url));
 const schema = JSON.parse(readFileSync(join(repo, "data/schema/quests.schema.json"), "utf8"));
@@ -133,6 +145,11 @@ for (const group of groups) {
       }
       if (quest.missable && !questIds.has(quest.missable.after)) {
         report(file, `${where} is missable after unknown quest "${quest.missable.after}"`);
+      }
+      // The tracker checks failure first, so a stage on both sides would always read as failed.
+      const completeStages = stagesOf(quest.complete);
+      for (const stage of stagesOf(quest.fail).filter((s) => completeStages.includes(s))) {
+        report(file, `${where} has stage ${stage} in both complete and fail`);
       }
     }
   }

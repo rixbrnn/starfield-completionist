@@ -610,7 +610,9 @@ for (const [owner, quests] of byOwner) {
       objectives: [...quest.objectiveIds].sort((a, b) => a - b),
       steps: stepsOf(quest),
       complete: stageCondition(completeStagesOf(quest)) ?? { type: "questCompleted" },
-      fail: stageCondition(quest.failStages) ?? null,
+      // Flags are per log entry: a stage with a completing and a failing entry ends either way
+      // depending on its conditions, which no script can read back. Count it as completed.
+      fail: stageCondition(quest.failStages.filter((stage) => !completeStagesOf(quest).includes(stage))) ?? null,
       ...(choicesOf.has(quest.editorId) ? { choices: choicesOf.get(quest.editorId) } : {}),
       ...(ngPlusOnly.has(quest.editorId) ? { ngPlusOnly: true } : {}),
       equivalentGroup: equivalentOf.get(quest.editorId)?.group ?? null,

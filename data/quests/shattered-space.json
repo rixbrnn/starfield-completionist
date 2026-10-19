@@ -3234,17 +3234,8 @@
         "stage": 1000
       },
       "fail": {
-        "type": "anyOf",
-        "conditions": [
-          {
-            "type": "questStage",
-            "stage": 1000
-          },
-          {
-            "type": "questStage",
-            "stage": 4000
-          }
-        ]
+        "type": "questStage",
+        "stage": 4000
       },
       "equivalentGroup": null
     },
