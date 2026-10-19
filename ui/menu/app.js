@@ -101,7 +101,10 @@
     // Never held back for a scrollbar drag: re-renders keep the list being dragged (see mount).
     setTimeout(() => {
       renderQueued = false;
+      const start = performance.now();
       render();
+      wheelStats.renders++;
+      wheelStats.renderMs = Math.max(wheelStats.renderMs, performance.now() - start);
     }, 0);
   }
 
@@ -585,15 +588,24 @@
     // frame later, and a re-render before it would restore the old position.
     const moveTo = (target) => { jump(scroller, target); remember(); };
     // Mouse wheel: one row per notch, at once. Easing added latency on top of the game's frame
-    // copy and felt laggy there. Fast wheeling batches notches into one event (deltaY 100-500).
+    // copy and felt laggy there. Fast wheeling batches notches into one event (deltaY 100-500);
+    // high-resolution wheels send fractions of a notch (deltaY under 100), so the first event of
+    // a gesture moves a row right away and the rest of that notch is owed back.
     scroller.addEventListener("wheel", (event) => {
       if (event.ctrlKey) return;
       event.preventDefault();
       const dy = event.deltaY;
+      if (!dy) return;
+      noteWheel(event);
       const notches = event.deltaMode === 1 ? dy / 3 : event.deltaMode === 2 ? dy * 4 : dy / 100;
-      if (Math.sign(notches) !== Math.sign(scroller._notches || 0)) scroller._notches = 0;
-      scroller._notches = (scroller._notches || 0) + notches;
-      const rows = Math.trunc(scroller._notches + 1e-6 * Math.sign(notches));
+      const now = performance.now();
+      const fresh = now - (scroller._wheelAt || 0) > WHEEL_GESTURE_GAP || Math.sign(notches) !== scroller._wheelDir;
+      scroller._wheelAt = now;
+      scroller._wheelDir = Math.sign(notches);
+      if (fresh) scroller._notches = 0;
+      scroller._notches += notches;
+      let rows = Math.trunc(scroller._notches + 1e-6 * Math.sign(notches));
+      if (fresh && !rows) rows = Math.sign(notches);
       if (!rows) return;
       scroller._notches -= rows;
       moveTo((scroller._glideTarget !== undefined ? scroller._glideTarget : scroller.scrollTop) + rows * rowStep(scroller));
@@ -693,6 +705,29 @@
 
   // Height of one quest row and its gap: the unit for wheel steps and the reveal margin.
   const ROW_STEP = 59;
+  // A pause this long (ms) between wheel events starts a new gesture.
+  const WHEEL_GESTURE_GAP = 250;
+
+  // Wheel diagnostics: one line per gesture in the mod's user log (Documents/My Games/Starfield/
+  // Logs/Script/User/Completionist.0.log), to see what the game's browser delivers and when.
+  const wheelStats = { events: 0, deltas: [], modes: new Set(), first: 0, last: 0, maxLag: 0, renders: 0, renderMs: 0, timer: 0 };
+  function noteWheel(event) {
+    const now = performance.now();
+    if (!wheelStats.events) { wheelStats.first = now; wheelStats.renders = 0; wheelStats.renderMs = 0; }
+    wheelStats.events++;
+    if (wheelStats.deltas.length < 12) wheelStats.deltas.push(Math.round(event.deltaY));
+    wheelStats.modes.add(event.deltaMode);
+    wheelStats.last = now;
+    // How long the event waited before the page saw it (timeStamp is when the browser made it).
+    if (event.timeStamp > 0 && event.timeStamp <= now) wheelStats.maxLag = Math.max(wheelStats.maxLag, now - event.timeStamp);
+    clearTimeout(wheelStats.timer);
+    wheelStats.timer = setTimeout(() => {
+      const s = wheelStats;
+      if (bridge) bridge.send("log", "wheel: " + s.events + " events in " + Math.round(s.last - s.first) + " ms, deltaY " + s.deltas.join(",") + (s.events > s.deltas.length ? ",…" : "") +
+        ", mode " + [...s.modes].join("/") + ", max lag " + Math.round(s.maxLag) + " ms, " + s.renders + " renders (slowest " + Math.round(s.renderMs) + " ms)");
+      s.events = 0; s.deltas = []; s.modes.clear(); s.maxLag = 0;
+    }, 1000);
+  }
   const nextFrame = (fn) => (document.hasFocus() ? requestAnimationFrame(fn) : setTimeout(() => fn(performance.now()), 16));
 
   // Scrolls to target with an ease-out; a new glide picks up from wherever the last one is.
