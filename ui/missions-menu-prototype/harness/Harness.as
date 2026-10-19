@@ -18,7 +18,7 @@ package
 
       public function Harness()
       {
-         Ui.deviceFonts = true;
+         Ui.useFallback = true; // the game's fonts don't exist here
          graphics.beginFill(0x1B2026);
          graphics.drawRect(0,0,1920,1080);
          graphics.endFill();
@@ -130,17 +130,28 @@ class FakeMenu extends MovieClip
 {
    public var MissionsList_mc:Sprite = new Sprite();
    public var MissionInfo_mc:Sprite = new Sprite();
+   public var TabbedFilterSelection_mc:Sprite = new Sprite();
    public var currentFilterFlag:int = 0;
    public var uiPlatform:uint = 0;
    public var uiController:uint = 0;
 
    public function FakeMenu()
    {
+      // Where the vanilla clips sit in missionmenu.swf (1.16.244).
+      this.MissionsList_mc.x = 848;
+      this.MissionsList_mc.y = 204;
       this.MissionsList_mc.graphics.beginFill(0x334455);
-      this.MissionsList_mc.graphics.drawRect(110,250,760,690);
+      this.MissionsList_mc.graphics.drawRect(0,0,1020,740);
+      this.MissionInfo_mc.x = 110;
+      this.MissionInfo_mc.y = 115;
       this.MissionInfo_mc.graphics.beginFill(0x443344);
-      this.MissionInfo_mc.graphics.drawRect(960,250,860,690);
-      addChild(this.MissionsList_mc);
+      this.MissionInfo_mc.graphics.drawRect(0,0,680,830);
+      this.TabbedFilterSelection_mc.x = 878;
+      this.TabbedFilterSelection_mc.y = 114;
+      this.TabbedFilterSelection_mc.graphics.beginFill(0x666666);
+      this.TabbedFilterSelection_mc.graphics.drawRect(0,0,1000,40);
       addChild(this.MissionInfo_mc);
+      addChild(this.TabbedFilterSelection_mc);
+      addChild(this.MissionsList_mc);
    }
 }

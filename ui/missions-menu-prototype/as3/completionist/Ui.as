@@ -3,6 +3,7 @@ package completionist
 {
    import flash.display.Graphics;
    import flash.display.Sprite;
+   import flash.text.Font;
    import flash.text.TextField;
    import flash.text.TextFieldAutoSize;
    import flash.text.TextFormat;
@@ -13,6 +14,12 @@ package completionist
       public static const BOLD:String = "$MAIN_Font_Bold";
       public static const SEMIBOLD:String = "$NB_Grotesk_Semibold";
       public static const REGULAR:String = "$MAIN_Font";
+      // Built into our SWF (FallbackFont, generated): always available.
+      public static const FALLBACK:String = "CmplRoboto";
+
+      // F key: draw everything in FALLBACK, in case the game's fonts don't reach our SWF.
+      public static var useFallback:Boolean = false;
+      private static var registered:Boolean = false;
 
       public static const WHITE:uint = 0xEDEDED;
       public static const GREY:uint = 0x9A9A9A;
@@ -30,6 +37,15 @@ package completionist
 
       public static function Text(parent:Sprite, x:Number, y:Number, text:String, size:Number, color:uint, font:String = null, width:Number = 0, align:String = "left") : TextField
       {
+         if(!registered)
+         {
+            registered = true;
+            Font.registerFont(FallbackFont.Roboto);
+         }
+         if(useFallback)
+         {
+            font = FALLBACK;
+         }
          var tf:TextField = new TextField();
          var format:TextFormat = new TextFormat(deviceFonts ? "_sans" : (font != null ? font : SEMIBOLD),Math.round(size * scale),color);
          format.align = align;

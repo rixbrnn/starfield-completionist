@@ -5,7 +5,7 @@
 //   OnTab()                 when the category tab changes
 //   ProcessUserEvent(n, d)  before the menu handles input; true = handled
 // Switch layouts with the Set Course key (XButton), mouse click on the layout name, or V.
-// Toggle the diagnostics with Show On Map (YButton), a click on them, or D.
+// Toggle the diagnostics with Show On Map (YButton), a click on them, or D. F: built-in font.
 package completionist
 {
    import flash.display.MovieClip;
@@ -53,8 +53,18 @@ package completionist
          {
          }
          Ui.scale = this.large ? 1.2 : 1;
-         this.listRect = this.Bounds(menu.MissionsList_mc,new Rectangle(110,250,760,680));
-         this.infoRect = this.Bounds(menu.MissionInfo_mc,new Rectangle(960,250,860,680));
+         // The vanilla layout: mission details on the left, the list on the right under the tabs.
+         var top:Number = menu.MissionsList_mc.y + 20;
+         var tabsRight:Number = 1870;
+         try
+         {
+            tabsRight = Math.min(1880,menu.TabbedFilterSelection_mc.getBounds(menu).right);
+         }
+         catch(e:Error)
+         {
+         }
+         this.listRect = new Rectangle(menu.MissionsList_mc.x,top,tabsRight - menu.MissionsList_mc.x,950 - top);
+         this.infoRect = new Rectangle(menu.MissionInfo_mc.x,top,menu.MissionsList_mc.x - 60 - menu.MissionInfo_mc.x,950 - top);
          if(quests != null)
          {
             this.model.Update(quests);
@@ -71,24 +81,6 @@ package completionist
          this.OnTab();
       }
 
-      // A vanilla clip's box on the menu, kept inside the screen; fallback if it looks wrong.
-      private function Bounds(clip:Object, fallback:Rectangle) : Rectangle
-      {
-         try
-         {
-            var r:Rectangle = clip.getBounds(this.menu);
-            if(r.width > 200 && r.height > 200 && r.x >= 0 && r.right <= 1920 && r.y >= 0)
-            {
-               r.bottom = Math.min(r.bottom,960);
-               return r;
-            }
-         }
-         catch(e:Error)
-         {
-         }
-         return fallback;
-      }
-
       public function OnQuestData(quests:Array) : void
       {
          this.model.Update(quests);
@@ -103,6 +95,15 @@ package completionist
          this.active = this.menu != null && this.menu.currentFilterFlag == 0;
          this.menu.MissionsList_mc.visible = !this.active;
          this.menu.MissionInfo_mc.visible = !this.active;
+         // The unnamed sort header above the list ("MISSION" with arrows).
+         for(var i:int = 0; i < this.menu.numChildren; i++)
+         {
+            var child:Object = this.menu.getChildAt(i);
+            if(String(child.name).indexOf("instance") == 0 && Math.abs(child.x - 1359) < 80 && Math.abs(child.y - 186) < 40)
+            {
+               child.visible = !this.active;
+            }
+         }
          this.view.visible = this.active;
          if(this.active)
          {
@@ -174,6 +175,10 @@ package completionist
          {
             this.showDiagnostics = !this.showDiagnostics;
          }
+         else if(event.keyCode == 70)
+         {
+            Ui.useFallback = !Ui.useFallback;
+         }
          this.Render();
       }
 
@@ -186,7 +191,7 @@ package completionist
 
       private function OnClick(event:MouseEvent) : void
       {
-         if(event.stageY < this.listRect.y - 10)
+         if(event.stageY < this.listRect.y)
          {
             this.variant = (this.variant + 1) % Views.NAMES.length;
          }
@@ -205,10 +210,10 @@ package completionist
             this.view.removeChildAt(0);
          }
          this.view.graphics.clear();
-         var area:Rectangle = new Rectangle(this.listRect.x,this.listRect.y,this.infoRect.right - this.listRect.x,Math.max(this.listRect.bottom,this.infoRect.bottom) - this.listRect.y);
+         var area:Rectangle = this.listRect.union(this.infoRect);
          // Hit area for mouse wheel and clicks, and a backdrop like the vanilla panels.
          Ui.Box(this.view.graphics,area.x - 30,area.y - 50,area.width + 60,1040 - area.y,Ui.PANEL,0.55);
-         Ui.Text(this.view,area.right - 600,area.y - 42,"LAYOUT " + Views.NAMES[this.variant] + "   [Set Course / V / click]",14,Ui.GREY,Ui.BOLD,600,"right");
+         Ui.Text(this.view,area.right - 600,area.y - 42,"LAYOUT " + Views.NAMES[this.variant] + "   [Set Course / V / click]   F: font " + (Ui.useFallback ? "built-in" : "game"),14,Ui.GREY,Ui.BOLD,600,"right");
          var body:Rectangle = new Rectangle(area.x,area.y,area.width,area.height - (this.showDiagnostics ? 130 : 0));
          var state:Object = this.states[this.variant];
          if(this.variant == 0)
@@ -252,11 +257,11 @@ package completionist
             "FEED " + (m.feedFound ? "found" : "MISSING") + " · counter " + m.counter + " (seen " + m.countersSeen.join(",") + " over " + m.updates + " QuestData updates) · tracker " + ((m.flags & 1) ? "found" : "missing") + ((m.flags & 2) ? ", ready" : ", not ready") + ((m.flags & 4) ? ", Unity entered" : "") + " · unresolved objectives " + m.feedUnresolved + "/" + m.feedTexts.length,
             "PREFIXES " + prefixes.join("  ") + " · LOCATION " + (chain.length > 0 ? chain.join(">") : "none") + " → here " + (m.here >= 0 ? Model.PlaceName(m.here) : "none"),
             "LOG " + m.logQuests + " quests: " + m.matchedBase + " base + " + m.matchedDlc + " DLC matched by prefix, " + m.matchedDlcByName + " DLC by name (" + m.nameAgrees + " agree), " + m.notInDb + " not in database · STATUS feed " + m.fromFeed + ", log only " + m.fromLog + " · done per feed, not completed in log " + m.doneNotInLog + " · log completed, feed not done " + m.logDoneFeedNot,
-            "INPUT " + this.events.join(" ") + " · FONTS " + this.FontCheck() + " · RAW " + (m.feedTexts.length > 0 ? String(m.feedTexts[0]).substr(0,60) + " | " + String(m.feedTexts[m.feedTexts.length - 1]).substr(0,70) : "-")
+            "AREA list " + this.listRect + " info " + this.infoRect + " · INPUT " + this.events.join(" ") + " · FONTS " + this.FontCheck() + " · RAW " + (m.feedTexts.length > 0 ? String(m.feedTexts[0]).substr(0,60) + " | " + String(m.feedTexts[m.feedTexts.length - 1]).substr(0,70) : "-")
          ];
          for(i = 0; i < lines.length; i++)
          {
-            Ui.Text(this.view,x,y + i * 24,lines[i],13,i == 1 && !m.feedFound ? Ui.RED : Ui.GREY,Ui.REGULAR,w);
+            Ui.Text(this.view,x,y + i * 24,lines[i],13,i == 1 && !m.feedFound ? Ui.RED : Ui.GREY,Ui.FALLBACK,w);
          }
       }
 
@@ -279,7 +284,7 @@ package completionist
          {
             var probe:Sprite = new Sprite();
             var notes:Array = [];
-            for each(var font:String in [Ui.BOLD,Ui.SEMIBOLD,Ui.REGULAR])
+            for each(var font:String in [Ui.BOLD,Ui.SEMIBOLD,Ui.REGULAR,Ui.FALLBACK])
             {
                var tf:TextField = Ui.Text(probe,0,0,"Probe",20,0xFFFFFF,font);
                notes.push(font + (tf.textWidth > 0 ? " ok" : " MISSING"));
