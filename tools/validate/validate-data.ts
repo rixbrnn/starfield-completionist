@@ -7,7 +7,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Ajv2020 } from "ajv/dist/2020.js";
-import { stagesOf, type Condition } from "../build/conditions.ts";
+import { overlappingStages, type Condition } from "../build/conditions.ts";
 
 interface Collection {
   id: string;
@@ -137,10 +137,8 @@ for (const group of groups) {
       if (quest.missable && !questIds.has(quest.missable.after)) {
         report(file, `${where} is missable after unknown quest "${quest.missable.after}"`);
       }
-      // The tracker checks failure first, so a stage on both sides would always read as failed.
-      // Only the stages it tests count: another quest's stage 100 is not this quest's stage 100.
-      const completeStages = stagesOf(quest.complete);
-      for (const stage of stagesOf(quest.fail).filter((s) => completeStages.includes(s))) {
+      // Only the stages the tracker tests count: another quest's stage 100 is not this quest's.
+      for (const stage of overlappingStages(quest.complete, quest.fail)) {
         report(file, `${where} has stage ${stage} in both complete and fail`);
       }
     }

@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 import { resolveGamePath } from "../extract/game.ts";
 import { group, pluginFile, record, subrecord, uint32Data, vmadData, zstringData } from "../esm/writer.ts";
-import { stagesOf, type Condition } from "./conditions.ts";
+import { overlappingStages, stagesOf, type Condition } from "./conditions.ts";
 
 // Windows bsdtar (System32): Git for Windows puts GNU tar first on PATH, which can't write zips
 // and treats "C:" as a remote host.
@@ -98,6 +98,10 @@ for (const file of readdirSync(dataDir).filter((f) => f.endsWith(".json")).sort(
     const fail = stagesOf(quest.fail);
     if (complete.length > MAX_COMPLETE_STAGES || fail.length > MAX_FAIL_STAGES) {
       throw new Error(`${quest.editorId}: too many completion/failure stages for the Papyrus table`);
+    }
+    const overlap = overlappingStages(quest.complete, quest.fail);
+    if (overlap.length > 0) {
+      throw new Error(`${quest.editorId}: stage ${overlap.join(", ")} in both complete and fail`);
     }
     const pad = (stages: number[], size: number) => [...stages, ...Array(size - stages.length).fill(-1)];
     const args = [
