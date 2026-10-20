@@ -392,47 +392,110 @@ Function QuestChangedFrom(Quest akQuest, String asSource)
     EndIf
   EndIf
   ; None when akQuest only makes tracked quests available.
-  Completionist:QuestData:Entry source = None
-  Int p = 0
-  While p < MaxPages
-    Completionist:QuestData:Entry[] entries = GetPage(p)
-    Int i = 0
-    While i < entries.Length
-      If entries[i].questForm == akQuest
-        entries[i].raw = StatusOf(entries[i])
-        source = entries[i]
-      EndIf
-      i += 1
-    EndWhile
-    p += 1
-  EndWhile
-  Bool changed = False
-  p = 0
-  While p < MaxPages
-    Completionist:QuestData:Entry[] entries = GetPage(p)
-    Int i = 0
-    While i < entries.Length
-      If DependsOn(entries[i], akQuest, source)
-        changed = Apply(entries[i], Resolve(entries[i]), asSource) || changed
-      EndIf
-      i += 1
-    EndWhile
-    p += 1
-  EndWhile
+  Completionist:QuestData:Entry source = EntryOf(akQuest)
+  If source
+    source.raw = StatusOf(source)
+  EndIf
+  ; Dependents are looked up with FindStruct, never by walking every entry: quest events come
+  ; mid-conversation (dialogue quests set stages), and a walk over the table takes seconds of the
+  ; game's script time, which holds up the conversation's own scripts.
+  Bool changed = ApplyWhereQuest("questForm", akQuest, asSource)
+  changed = ApplyWhereQuest("after1", akQuest, asSource) || changed
+  changed = ApplyWhereQuest("after2", akQuest, asSource) || changed
+  changed = ApplyWhereQuest("after3", akQuest, asSource) || changed
+  changed = ApplyWhereQuest("after4", akQuest, asSource) || changed
+  changed = ApplyWhereQuest("leadQuest", akQuest, asSource) || changed
+  If source && source.equivalent != ""
+    changed = ApplyWhereString("equivalent", source.equivalent, asSource) || changed
+    changed = ApplyWhereString("afterGroup", source.equivalent, asSource) || changed
+  EndIf
+  ; A choice locks out the other side of its own groups only.
+  If source && source.choice1Group != ""
+    changed = ApplyWhereString("choice1Group", source.choice1Group, asSource) || changed
+    changed = ApplyWhereString("choice2Group", source.choice1Group, asSource) || changed
+  EndIf
+  If source && source.choice2Group != ""
+    changed = ApplyWhereString("choice1Group", source.choice2Group, asSource) || changed
+    changed = ApplyWhereString("choice2Group", source.choice2Group, asSource) || changed
+  EndIf
   If changed
     SendCustomEvent("StatusChanged")
   EndIf
 EndFunction
 
-Bool Function DependsOn(Completionist:QuestData:Entry akEntry, Quest akQuest, Completionist:QuestData:Entry akSource)
-  If akEntry.questForm == akQuest || akEntry.after1 == akQuest || akEntry.after2 == akQuest || akEntry.after3 == akQuest || akEntry.after4 == akQuest || akEntry.leadQuest == akQuest
-    Return True
-  ElseIf akSource == None
-    Return False
-  ElseIf akSource.equivalent != "" && (akEntry.equivalent == akSource.equivalent || akEntry.afterGroup == akSource.equivalent)
-    Return True
+; Resolves and applies every entry whose asField (a Quest field) is akQuest.
+Bool Function ApplyWhereQuest(String asField, Quest akQuest, String asSource)
+  Bool changed = False
+  Int p = 0
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    If entries
+      Int i = FindQuestIn(entries, asField, akQuest, 0)
+      While i >= 0
+        changed = Apply(entries[i], Resolve(entries[i]), asSource) || changed
+        If i + 1 < entries.Length
+          i = FindQuestIn(entries, asField, akQuest, i + 1)
+        Else
+          i = -1
+        EndIf
+      EndWhile
+    EndIf
+    p += 1
+  EndWhile
+  Return changed
+EndFunction
+
+; FindStruct takes the field name only as a literal, hence one call per field.
+Int Function FindQuestIn(Completionist:QuestData:Entry[] akEntries, String asField, Quest akQuest, Int aiStart)
+  If asField == "questForm"
+    Return akEntries.FindStruct("questForm", akQuest, aiStart)
+  ElseIf asField == "after1"
+    Return akEntries.FindStruct("after1", akQuest, aiStart)
+  ElseIf asField == "after2"
+    Return akEntries.FindStruct("after2", akQuest, aiStart)
+  ElseIf asField == "after3"
+    Return akEntries.FindStruct("after3", akQuest, aiStart)
+  ElseIf asField == "after4"
+    Return akEntries.FindStruct("after4", akQuest, aiStart)
+  ElseIf asField == "leadQuest"
+    Return akEntries.FindStruct("leadQuest", akQuest, aiStart)
   EndIf
-  Return akSource.choice1Group != "" && akEntry.choice1Group != ""
+  Return -1
+EndFunction
+
+Int Function FindStringIn(Completionist:QuestData:Entry[] akEntries, String asField, String asValue, Int aiStart)
+  If asField == "equivalent"
+    Return akEntries.FindStruct("equivalent", asValue, aiStart)
+  ElseIf asField == "afterGroup"
+    Return akEntries.FindStruct("afterGroup", asValue, aiStart)
+  ElseIf asField == "choice1Group"
+    Return akEntries.FindStruct("choice1Group", asValue, aiStart)
+  ElseIf asField == "choice2Group"
+    Return akEntries.FindStruct("choice2Group", asValue, aiStart)
+  EndIf
+  Return -1
+EndFunction
+
+; Resolves and applies every entry whose asField (a String field) is asValue.
+Bool Function ApplyWhereString(String asField, String asValue, String asSource)
+  Bool changed = False
+  Int p = 0
+  While p < MaxPages
+    Completionist:QuestData:Entry[] entries = GetPage(p)
+    If entries
+      Int i = FindStringIn(entries, asField, asValue, 0)
+      While i >= 0
+        changed = Apply(entries[i], Resolve(entries[i]), asSource) || changed
+        If i + 1 < entries.Length
+          i = FindStringIn(entries, asField, asValue, i + 1)
+        Else
+          i = -1
+        EndIf
+      EndWhile
+    EndIf
+    p += 1
+  EndWhile
+  Return changed
 EndFunction
 
 Bool Function IsReady()
@@ -808,64 +871,59 @@ Bool Function AfterReached(Quest akQuest, Int aiStage)
 EndFunction
 
 Bool Function GroupCompleted(String asGroup)
-  Int p = 0
-  While p < MaxPages
-    Completionist:QuestData:Entry[] entries = GetPage(p)
-    Int i = 0
-    While i < entries.Length
-      If entries[i].equivalent == asGroup && entries[i].raw == kCompleted
-        Return True
-      EndIf
-      i += 1
-    EndWhile
-    p += 1
-  EndWhile
-  Return False
+  Return CompletedIn("equivalent", asGroup, None)
 EndFunction
 
 ; Equivalent quests are versions of the same content, e.g. the New Game+ variants of
 ; One Small Step (MQ401a-j): completing any of them completes the visible entry.
 Bool Function EquivalentCompleted(Completionist:QuestData:Entry akEntry)
+  Return CompletedIn("equivalent", akEntry.equivalent, akEntry)
+EndFunction
+
+; Whether an entry other than akExcept whose asField is asValue is completed (raw), found with
+; FindStruct; with asSideField set, only entries whose side (asSideField) isn't asSide count.
+Bool Function CompletedIn(String asField, String asValue, Completionist:QuestData:Entry akExcept, String asSideField = "", String asSide = "")
   Int p = 0
   While p < MaxPages
     Completionist:QuestData:Entry[] entries = GetPage(p)
-    Int i = 0
-    While i < entries.Length
-      If entries[i] != akEntry && entries[i].equivalent == akEntry.equivalent && entries[i].raw == kCompleted
-        Return True
-      EndIf
-      i += 1
-    EndWhile
+    If entries
+      Int i = FindStringIn(entries, asField, asValue, 0)
+      While i >= 0
+        Completionist:QuestData:Entry other = entries[i]
+        If other != akExcept && other.raw == kCompleted && (asSideField == "" || SideOf(other, asSideField) != asSide)
+          Return True
+        EndIf
+        If i + 1 < entries.Length
+          i = FindStringIn(entries, asField, asValue, i + 1)
+        Else
+          i = -1
+        EndIf
+      EndWhile
+    EndIf
     p += 1
   EndWhile
   Return False
+EndFunction
+
+String Function SideOf(Completionist:QuestData:Entry akEntry, String asSideField)
+  If asSideField == "choice1Side"
+    Return akEntry.choice1Side
+  EndIf
+  Return akEntry.choice2Side
 EndFunction
 
 ; Locked out when a quest on the other side of one of its choice groups was completed,
 ; e.g. Foreknowledge done -> Short Sighted, No Sudden Moves, ... are skipped.
+; Locked out when a completed quest is on the other side of one of the entry's groups.
 Bool Function LockedByChoice(Completionist:QuestData:Entry akEntry)
-  Int p = 0
-  While p < MaxPages
-    Completionist:QuestData:Entry[] entries = GetPage(p)
-    Int i = 0
-    While i < entries.Length
-      Completionist:QuestData:Entry other = entries[i]
-      If other != akEntry && other.choice1Group != ""
-        If OnOtherSide(other, akEntry.choice1Group, akEntry.choice1Side) || (akEntry.choice2Group != "" && OnOtherSide(other, akEntry.choice2Group, akEntry.choice2Side))
-          If other.raw == kCompleted
-            Return True
-          EndIf
-        EndIf
-      EndIf
-      i += 1
-    EndWhile
-    p += 1
-  EndWhile
-  Return False
+  If LockedIn(akEntry, akEntry.choice1Group, akEntry.choice1Side)
+    Return True
+  EndIf
+  Return akEntry.choice2Group != "" && LockedIn(akEntry, akEntry.choice2Group, akEntry.choice2Side)
 EndFunction
 
-Bool Function OnOtherSide(Completionist:QuestData:Entry akOther, String asGroup, String asSide)
-  Return (akOther.choice1Group == asGroup && akOther.choice1Side != asSide) || (akOther.choice2Group == asGroup && akOther.choice2Side != asSide)
+Bool Function LockedIn(Completionist:QuestData:Entry akEntry, String asGroup, String asSide)
+  Return CompletedIn("choice1Group", asGroup, akEntry, "choice1Side", asSide) || CompletedIn("choice2Group", asGroup, akEntry, "choice2Side", asSide)
 EndFunction
 
 ; Whether an entry counts toward totals: hidden equivalents never do, NG+-only quests
